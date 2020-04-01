@@ -23,3 +23,7 @@ fun EditText.isNullOrEmpty() : Boolean {
 fun EditText.isPasswordValid() : Boolean {
     return if (this.text.length > 8) true else false
 }
+
+fun EditText.isUFValid() : Boolean {
+    return if (this.text.length > 2) true else false
+}

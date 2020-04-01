@@ -154,6 +154,7 @@
                 android:clickable="true"
                 android:focusable="true"
                 android:inputType="date"
+                android:maxLength="10"
                 app:layout_constraintEnd_toEndOf="@+id/edtRegisterPassword"
                 app:layout_constraintStart_toStartOf="@+id/edtRegisterPassword"
                 app:layout_constraintTop_toBottomOf="@+id/labelBirthDate" />
@@ -187,6 +188,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
+                android:maxLength="2"
                 android:backgroundTint="@android:color/black"
                 app:layout_constraintEnd_toEndOf="@+id/edtPostalCode"
                 app:layout_constraintStart_toStartOf="@+id/edtPostalCode"

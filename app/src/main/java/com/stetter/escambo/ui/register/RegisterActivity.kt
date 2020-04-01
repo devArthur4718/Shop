@@ -4,6 +4,7 @@ import android.app.AlertDialog
 import android.content.DialogInterface
 import android.os.Bundle
 import android.widget.EditText
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
@@ -50,14 +51,13 @@ class RegisterActivity : AppCompatActivity() {
 
         viewmodel.showErrorDialog.observe(this, Observer {
             if (it) {
-                var alert =  showErrorDialog()
+                var alert = showErrorDialog()
                 alert.show()
             }
 
         })
 
     }
-
 
     private fun initViews() {
         loadingDialog = LoadingDialog(this)
@@ -68,25 +68,39 @@ class RegisterActivity : AppCompatActivity() {
 
         binding.btnRegister.setOnClickListener {
 
-
-            if(binding.edtFullName.isFullNameValid()){
+            if (binding.edtFullName.isFullNameValid()) {
                 binding.edtFullName.setError("Nome imcompleto")
-            }else if (binding.edtFullName.isNullOrEmpty()){
+                return@setOnClickListener
+            } else if (binding.edtFullName.isNullOrEmpty()) {
                 binding.edtFullName.setError("Nome não pode ser vazio")
-            }else if(binding.edtEmail.isEmailValid()){
+                return@setOnClickListener
+            } else if (binding.edtEmail.isEmailValid()) {
                 binding.edtEmail.setError("E-mail inválido")
-            }else if(binding.edtEmail.isNullOrEmpty()){
+                return@setOnClickListener
+            } else if (binding.edtEmail.isNullOrEmpty()) {
                 binding.edtEmail.setError(("E-mail em branco"))
-            }else if(binding.edtRegisterPassword.isPasswordValid()){
+                return@setOnClickListener
+            } else if (binding.edtRegisterPassword.isPasswordValid()) {
                 binding.edtRegisterPassword.setError("Mínimo de 8 carácteres")
-            }else if(binding.edtRegisterPassword.isNullOrEmpty())
-            {
+                return@setOnClickListener
+            } else if (binding.edtRegisterPassword.isNullOrEmpty()) {
                 binding.edtRegisterPassword.setError("Senha em branco")
+                return@setOnClickListener
+            } else if (binding.edtUF.isUFValid()) {
+                binding.edtUF.setError("UF inválido")
+                return@setOnClickListener
+            } else if (binding.edtUF.isNullOrEmpty()) {
+                binding.edtUF.setError("UF em Branco")
+                return@setOnClickListener
+            } else if (binding.edtCity.isNullOrEmpty()) {
+                binding.edtCity.setError("Cidade em branco")
+            }else{
+                Toast.makeText(this, "Sendo form", Toast.LENGTH_SHORT).show()
             }
 
 
         }
-
+        binding.edtBirthDate.addTextChangedListener(Mask.mask("##/##/####", binding.edtBirthDate))
         binding.edtPostalCode.addTextChangedListener(Mask.mask("#####-###", binding.edtPostalCode))
         binding.edtPostalCode.setOnFocusChangeListener { view, b -> fetchAddress(binding.edtPostalCode) }
     }
