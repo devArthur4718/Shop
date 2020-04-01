@@ -1,11 +1,10 @@
-package com.stetter.escambo.recovery
+package com.stetter.escambo.ui.recovery
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import com.stetter.escambo.R
 import com.stetter.escambo.databinding.ActivityRecoveryPasswordBinding
-import com.stetter.escambo.databinding.ActivityRegisterBinding
 
 class RecoveryPassword : AppCompatActivity() {
 

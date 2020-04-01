@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "292080734230",
+    "firebase_url": "https://escambo-1b51d.firebaseio.com",
+    "project_id": "escambo-1b51d",
+    "storage_bucket": "escambo-1b51d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:292080734230:android:fea9e111126f487abc2537",
+        "android_client_info": {
+          "package_name": "com.stetter.escambo"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "292080734230-686n25bam1ocqmnc05hq53vdrafav3oi.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA8_W54ZBkUXYuvSQ08e9R1j0_kqu7jwu8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "292080734230-686n25bam1ocqmnc05hq53vdrafav3oi.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

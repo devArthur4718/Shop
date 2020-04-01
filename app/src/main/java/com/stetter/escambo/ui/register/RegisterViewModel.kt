@@ -1,4 +1,4 @@
-package com.stetter.escambo.register
+package com.stetter.escambo.ui.register
 
 import androidx.lifecycle.ViewModel
 

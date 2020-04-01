@@ -15,7 +15,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            tools:context=".register.RegisterActivity">
+            tools:context=".ui.register.RegisterActivity">
 
 
             <ImageView
@@ -216,7 +216,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/labelCity" />
 
             <Button
-                android:id="@+id/btnRegister"
+                android:id="@+id/btnLogin"
                 style="@style/greenGradientButton"
                 android:layout_marginTop="16dp"
                 android:text="@string/register"
