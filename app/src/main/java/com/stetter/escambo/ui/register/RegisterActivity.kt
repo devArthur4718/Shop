@@ -1,7 +1,7 @@
 package com.stetter.escambo.ui.register
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProviders
 import com.stetter.escambo.R
@@ -9,8 +9,8 @@ import com.stetter.escambo.databinding.ActivityRegisterBinding
 
 class RegisterActivity : AppCompatActivity() {
 
-    private lateinit var binding : ActivityRegisterBinding
-    private lateinit var viewmodel : RegisterViewModel
+    private lateinit var binding: ActivityRegisterBinding
+    private lateinit var viewmodel: RegisterViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -25,5 +25,14 @@ class RegisterActivity : AppCompatActivity() {
         binding.ivUpRegister.setOnClickListener {
             finish()
         }
+
+        binding.btnRegister.setOnClickListener {
+
+        }
+
+//        binding.edtPostalCode.addTextChangedListener(Mask.mask("#####-###", binding.edtPostalCode))
+//        binding.edtPostalCode.setOnFocusChangeListener { view, b -> fetchAddress(binding.edtPostalCode) }
     }
+
+
 }

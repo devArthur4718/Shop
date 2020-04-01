@@ -15,7 +15,6 @@ class LoginRepository {
     private lateinit var loadingDialog : LoadingDialog
     var loggedUser = Users()
 
-
     fun logInWithEmailAndPassword(email : String = "email", password : String = "password", activity: LoginActivity) : MutableLiveData<Users> {
 
         loadingDialog = LoadingDialog(activity)

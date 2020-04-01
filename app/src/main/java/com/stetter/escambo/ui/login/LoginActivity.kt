@@ -1,18 +1,15 @@
 package com.stetter.escambo.ui.login
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.stetter.escambo.R
 import com.stetter.escambo.databinding.ActivityLoginBinding
 import com.stetter.escambo.extension.clearError
-import com.stetter.escambo.ui.base.BaseActivity
 import com.stetter.escambo.ui.core.CoreActivity
-import com.stetter.escambo.ui.dialog.LoadingDialog
 import com.stetter.escambo.ui.recovery.RecoveryPassword
 import com.stetter.escambo.ui.register.RegisterActivity
 
