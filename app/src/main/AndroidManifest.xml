@@ -9,16 +9,18 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name="com.stetter.escambo.ui.recovery.RecoveryPassword"></activity>
-        <activity android:name="com.stetter.escambo.ui.register.RegisterActivity" />
-        <activity android:name="com.stetter.escambo.ui.login.LoginActivity" />
-        <activity android:name="com.stetter.escambo.ui.splash.SplashActivity">
+        <activity android:name=".ui.core.CoreActivity"></activity>
+        <activity android:name=".ui.recovery.RecoveryPassword" />
+        <activity android:name=".ui.register.RegisterActivity" />
+        <activity android:name=".ui.login.LoginActivity" />
+        <activity android:name=".ui.splash.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".ui.base.BaseActivity" />
     </application>
 
 </manifest>
