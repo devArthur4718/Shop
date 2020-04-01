@@ -10,7 +10,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.stetter.escambo.R
 import com.stetter.escambo.databinding.ActivityRegisterBinding
-import com.stetter.escambo.extension.Mask
+import com.stetter.escambo.extension.*
 import com.stetter.escambo.ui.dialog.LoadingDialog
 import com.stetter.escambo.ui.dialogs.CustomDialog
 
@@ -26,6 +26,8 @@ class RegisterActivity : AppCompatActivity() {
         setContentView(R.layout.activity_register)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_register)
         viewmodel = ViewModelProviders.of(this)[RegisterViewModel::class.java]
+        binding.viewmodel = viewmodel
+        binding.lifecycleOwner = this
         initViews()
         setObservables()
 
@@ -65,7 +67,23 @@ class RegisterActivity : AppCompatActivity() {
         }
 
         binding.btnRegister.setOnClickListener {
-            //TODO: VALIDATE FORM INPUTS
+
+
+            if(binding.edtFullName.isFullNameValid()){
+                binding.edtFullName.setError("Nome imcompleto")
+            }else if (binding.edtFullName.isNullOrEmpty()){
+                binding.edtFullName.setError("Nome não pode ser vazio")
+            }else if(binding.edtEmail.isEmailValid()){
+                binding.edtEmail.setError("E-mail inválido")
+            }else if(binding.edtEmail.isNullOrEmpty()){
+                binding.edtEmail.setError(("E-mail em branco"))
+            }else if(binding.edtRegisterPassword.isPasswordValid()){
+                binding.edtRegisterPassword.setError("Mínimo de 8 carácteres")
+            }else if(binding.edtRegisterPassword.isNullOrEmpty())
+            {
+                binding.edtRegisterPassword.setError("Senha em branco")
+            }
+
 
         }
 

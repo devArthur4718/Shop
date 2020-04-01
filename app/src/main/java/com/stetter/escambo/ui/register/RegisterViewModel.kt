@@ -20,6 +20,10 @@ class RegisterViewModel : ViewModel() {
     private val _showErrorDialog = MutableLiveData<Boolean>()
     val showErrorDialog : LiveData<Boolean> get() = _showErrorDialog
 
+    //form
+    val fullName = MutableLiveData<String>("")
+    val email = MutableLiveData<String>("")
+
     fun getAddress(cep : String){
         _loadingProgress.value =  true
         postalApi.retrofitService.getPostalCodes(cep).enqueue(object : Callback<postalResponse>{
@@ -51,5 +55,7 @@ class RegisterViewModel : ViewModel() {
     fun dismissDialog(){
         _showErrorDialog.value = false
     }
+
+
 
 }
