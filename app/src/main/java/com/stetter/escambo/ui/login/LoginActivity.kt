@@ -9,6 +9,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.stetter.escambo.R
 import com.stetter.escambo.databinding.ActivityLoginBinding
+import com.stetter.escambo.extension.clearError
 import com.stetter.escambo.ui.base.BaseActivity
 import com.stetter.escambo.ui.core.CoreActivity
 import com.stetter.escambo.ui.dialog.LoadingDialog
@@ -61,16 +62,14 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun performLogin(email: String, password: String) {
-        binding.edtLoginPassword.setError(null)
-        binding.edtLoginEmail.setError(null)
+        binding.edtLoginPassword.clearError()
+        binding.edtLoginEmail.clearError()
         if(!email.isNullOrEmpty() && !password.isNullOrEmpty()){
             viewmodel.signInWithEmail(email, password, this )
         }else{
-            binding.edtLoginEmail.setError("")
-            binding.edtLoginPassword.setError("")
+            if(binding.edtLoginEmail.text.isNullOrEmpty()) binding.edtLoginEmail.setError("valor obrigatório")
+            if(binding.edtLoginPassword.text.isNullOrEmpty()) binding.edtLoginPassword.setError("valor obrigatório")
         }
-
-
     }
 
     private fun navigateToRecover() {

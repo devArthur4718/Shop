@@ -1,4 +1,4 @@
-package com.stetter.escambo.net.auth
+package com.stetter.escambo.net.firebase.auth
 
 import android.widget.Toast
 import androidx.lifecycle.MutableLiveData
@@ -6,7 +6,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.stetter.escambo.net.models.Users
 import com.stetter.escambo.ui.dialog.LoadingDialog
 import com.stetter.escambo.ui.login.LoginActivity
-import java.lang.IllegalArgumentException
+import com.stetter.escambo.ui.recovery.RecoveryPassword
 
 class LoginRepository {
 
@@ -60,5 +60,30 @@ class LoginRepository {
         userLiveData.value = null
         auth.signOut()
         return true
+    }
+
+    var recoverStatus : Boolean? = null
+    fun recoverPassword(email : String, activity: RecoveryPassword): Boolean? {
+        loadingDialog = LoadingDialog(activity)
+        loadingDialog.show()
+        auth.sendPasswordResetEmail(email).addOnCompleteListener {task ->
+            if(task.isSuccessful){
+                recoverStatus = true
+                loadingDialog.hide()
+                return@addOnCompleteListener
+            }else{
+                recoverStatus = false
+                loadingDialog.hide()
+                return@addOnCompleteListener
+            }
+
+        }.addOnFailureListener {
+            Toast.makeText(activity,"Error: ${it}", Toast.LENGTH_SHORT).show()
+            recoverStatus = false
+            loadingDialog.hide()
+            return@addOnFailureListener
+        }
+
+        return recoverStatus
     }
 }

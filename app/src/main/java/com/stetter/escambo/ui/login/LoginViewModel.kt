@@ -3,8 +3,9 @@ package com.stetter.escambo.ui.login
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.stetter.escambo.net.auth.LoginRepository
+import com.stetter.escambo.net.firebase.auth.LoginRepository
 import com.stetter.escambo.net.models.Users
+import com.stetter.escambo.ui.recovery.RecoveryPassword
 
 class LoginViewModel : ViewModel() {
 
@@ -33,6 +34,10 @@ class LoginViewModel : ViewModel() {
     fun logoff(): Boolean {
         authRepository.logoffUser()
         return true
+    }
+
+    fun recoveryPassword(email : String, activity : RecoveryPassword) : Boolean?{
+        return authRepository.recoverPassword(email, activity)
     }
 
     fun finishedNavigateToHome() {

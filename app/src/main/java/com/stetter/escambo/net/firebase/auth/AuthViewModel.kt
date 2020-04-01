@@ -1,4 +1,4 @@
-package com.stetter.escambo.net.auth
+package com.stetter.escambo.net.firebase.auth
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
