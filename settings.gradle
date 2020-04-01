@@ -1,0 +1,2 @@
+rootProject.name='Escambo'
+include ':app'
