@@ -1,27 +1,26 @@
-package com.stetter.escambo.register
+package com.stetter.escambo.recovery
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.databinding.DataBindingUtil
-import androidx.lifecycle.ViewModelProviders
 import com.stetter.escambo.R
+import com.stetter.escambo.databinding.ActivityRecoveryPasswordBinding
 import com.stetter.escambo.databinding.ActivityRegisterBinding
 
-class RegisterActivity : AppCompatActivity() {
+class RecoveryPassword : AppCompatActivity() {
 
-    private lateinit var binding : ActivityRegisterBinding
-    private lateinit var viewmodel : RegisterViewModel
+    private lateinit var binding : ActivityRecoveryPasswordBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_register)
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_register)
-        viewmodel = ViewModelProviders.of(this)[RegisterViewModel::class.java]
+        setContentView(R.layout.activity_recovery_password)
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_recovery_password)
+
         initViews()
+
     }
 
     private fun initViews() {
-
         binding.ivUpRegister.setOnClickListener {
             finish()
         }

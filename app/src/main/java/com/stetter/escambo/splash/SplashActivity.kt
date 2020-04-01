@@ -1,9 +1,11 @@
-package com.stetter.escambo
+package com.stetter.escambo.splash
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
+import com.stetter.escambo.BuildConfig
+import com.stetter.escambo.R
 import com.stetter.escambo.login.LoginActivity
 
 class SplashActivity : AppCompatActivity() {

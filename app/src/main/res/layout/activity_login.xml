@@ -26,6 +26,7 @@
                 android:layout_marginStart="170dp"
                 android:adjustViewBounds="true"
                 android:scaleType="fitXY"
+                android:contentDescription="@string/water_mark"
                 android:src="@drawable/shape_1"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.493"
@@ -68,7 +69,7 @@
                 android:backgroundTint="@android:color/black"
                 app:layout_constraintEnd_toEndOf="@+id/tvLoginSubtitle"
                 app:layout_constraintStart_toStartOf="@+id/tvLoginSubtitle"
-                app:layout_constraintTop_toBottomOf="@+id/textView5" />
+                app:layout_constraintTop_toBottomOf="@+id/tvFullName" />
 
             <EditText
                 android:id="@+id/edtLoginPassword"
@@ -82,7 +83,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/textView6" />
 
             <TextView
-                android:id="@+id/textView"
+                android:id="@+id/tvRecoveryPassword"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
@@ -94,12 +95,12 @@
 
             <Button
                 android:id="@+id/button"
-                style="@style/entrarButton"
+                style="@style/greenGradientButton"
                 android:layout_marginTop="16dp"
                 android:text="@string/entrar"
                 app:layout_constraintEnd_toEndOf="@+id/edtLoginPassword"
                 app:layout_constraintStart_toStartOf="@+id/edtLoginPassword"
-                app:layout_constraintTop_toBottomOf="@+id/textView" />
+                app:layout_constraintTop_toBottomOf="@+id/tvRecoveryPassword" />
 
             <TextView
                 android:id="@+id/textView2"
@@ -155,31 +156,30 @@
                 android:fontFamily="@font/ciruclar_std_book"
                 android:text="@string/createaccount"
                 android:textColor="#3E4A59"
-                android:onClick="@{() -> viewmodel.performRegister()}"
                 app:layout_constraintBaseline_toBaselineOf="@+id/tabelCreateAccount"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toEndOf="@+id/tabelCreateAccount" />
 
             <TextView
-                android:id="@+id/textView5"
-                style="@style/eMail"
+                android:id="@+id/tvFullName"
+                style="@style/inputLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
                 android:layout_marginTop="32dp"
-                android:text="E-mail"
+                android:text="@string/e_mail"
                 app:layout_constraintStart_toStartOf="@+id/edtLoginEmail"
                 app:layout_constraintTop_toBottomOf="@+id/tvLoginSubtitle" />
 
             <TextView
                 android:id="@+id/textView6"
-                style="@style/eMail"
+                style="@style/inputLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
                 android:layout_marginTop="32dp"
-                android:text="Senha"
+                android:text="@string/senha"
                 app:layout_constraintStart_toStartOf="@+id/edtLoginPassword"
                 app:layout_constraintTop_toBottomOf="@+id/edtLoginEmail" />
 

@@ -9,7 +9,7 @@
     <string name="app_slide_images">app slide images</string>
     <string name="schedule_service">Schedule</string>
     <string name="login">Login</string>
-    <string name="e_mail">e-mail</string>
+    <string name="e_mail">E-mail</string>
     <string name="Password">Password</string>
     <string name="phone">Phone</string>
     <string name="new_user">Don\'t have an account?</string>
@@ -85,4 +85,17 @@
     <string name="createaccount">Crie agora mesmo</string>
     <string name="nao_tem_conta">Não possui conta no escambo?</string>
     <string name="esqueci_senha">Esqueci minha senha</string>
+    <string name="water_mark">water mark</string>
+    <string name="senha">Senha</string>
+    <string name="register_info">Precisamos de algumas \nalgumas informações suas</string>
+    <string name="cep">CEP</string>
+    <string name="register">Cadastrar</string>
+    <string name="full_name">Nome Completo</string>
+    <string name="birthdate">Data nascimento</string>
+    <string name="uf">Estado</string>
+    <string name="city">Cidade</string>
+    <string name="tip_password">Esqueceu sua senha? \n Tudo bem, isso acontece.</string>
+    <string name="recovery_tip">Nos informe seu e-mail para enviarmos \n uma recuperação de senha</string>
+    <string name="enviar">Enviar</string>
+    <string name="recovery_tip_3">Endereço de email cadastrado</string>
 </resources>

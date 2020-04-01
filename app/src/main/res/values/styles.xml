@@ -23,7 +23,7 @@
         <item name="android:lineSpacingMultiplier">1.13</item>
     </style>
 
-    <style name="eMail">
+    <style name="inputLabel">
         <item name="android:fontFamily">@font/ciruclar_std_book</item>
         <item name="android:textColor">#FF3E4A59</item>
         <item name="android:textSize">12sp</item>
@@ -37,7 +37,7 @@
         <item name="android:lineSpacingMultiplier">1.5</item>
     </style>
 
-    <style name="entrarButton">
+    <style name="greenGradientButton">
         <item name="android:layout_width">0dp</item>
         <item name="android:layout_height">53dp</item>
         <item name="android:layout_marginTop">16dp</item>
@@ -82,6 +82,27 @@
         <item name="android:textColor">#FFFFFFFF</item>
         <item name="android:textSize">14sp</item>
 
+    </style>
+
+    <style name="precisamosDeAlguma">
+        <item name="android:fontFamily">@font/circular_std_bold</item>
+        <item name="android:textColor">#FF1C45AB</item>
+        <item name="android:textSize">24sp</item>
+        <item name="android:lineSpacingMultiplier">1.13</item>
+    </style>
+
+    <style name="esqueceuSuaSenha">
+        <item name="android:fontFamily">@font/circular_std_bold</item>
+        <item name="android:textColor">#FF1C45AB</item>
+        <item name="android:textSize">24sp</item>
+        <item name="android:lineSpacingMultiplier">1.21</item>
+    </style>
+
+    <style name="nosInformeSeuEMa">
+        <item name="android:fontFamily">@font/circular_std_bold</item>
+        <item name="android:textColor">#FF3E4A59</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:lineSpacingMultiplier">1.31</item>
     </style>
 
 
