@@ -10,13 +10,24 @@
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#EBEBF1"
         android:fillViewport="true">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             tools:context=".LoginActivity">
+
+            <ImageView
+                android:layout_width="387dp"
+                android:layout_height="435dp"
+                android:layout_marginStart="170dp"
+                android:adjustViewBounds="true"
+                android:scaleType="fitXY"
+                android:src="@drawable/shape_1"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.493"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <ImageView
                 android:id="@+id/imageView17"
@@ -46,23 +57,25 @@
 
 
             <EditText
-                android:id="@+id/editText"
+                android:id="@+id/edtLoginEmail"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
+                android:inputType="textEmailAddress"
                 android:backgroundTint="@android:color/black"
                 app:layout_constraintEnd_toEndOf="@+id/tvLoginSubtitle"
                 app:layout_constraintStart_toStartOf="@+id/tvLoginSubtitle"
                 app:layout_constraintTop_toBottomOf="@+id/textView5" />
 
             <EditText
-                android:id="@+id/editText2"
+                android:id="@+id/edtLoginPassword"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
+                android:inputType="textPassword"
                 android:backgroundTint="@android:color/black"
-                app:layout_constraintEnd_toEndOf="@+id/editText"
-                app:layout_constraintStart_toStartOf="@+id/editText"
+                app:layout_constraintEnd_toEndOf="@+id/edtLoginEmail"
+                app:layout_constraintStart_toStartOf="@+id/edtLoginEmail"
                 app:layout_constraintTop_toBottomOf="@+id/textView6" />
 
             <TextView
@@ -73,16 +86,16 @@
                 android:fontFamily="@font/circular_std_medium"
                 android:text="@string/esqueci_senha"
                 android:textColor="#3E4A59"
-                app:layout_constraintEnd_toEndOf="@+id/editText2"
-                app:layout_constraintTop_toBottomOf="@+id/editText2" />
+                app:layout_constraintEnd_toEndOf="@+id/edtLoginPassword"
+                app:layout_constraintTop_toBottomOf="@+id/edtLoginPassword" />
 
             <Button
                 android:id="@+id/button"
                 style="@style/entrarButton"
                 android:layout_marginTop="16dp"
                 android:text="@string/entrar"
-                app:layout_constraintEnd_toEndOf="@+id/editText2"
-                app:layout_constraintStart_toStartOf="@+id/editText2"
+                app:layout_constraintEnd_toEndOf="@+id/edtLoginPassword"
+                app:layout_constraintStart_toStartOf="@+id/edtLoginPassword"
                 app:layout_constraintTop_toBottomOf="@+id/textView" />
 
             <TextView
@@ -152,7 +165,7 @@
                 android:layout_marginStart="4dp"
                 android:layout_marginTop="32dp"
                 android:text="E-mail"
-                app:layout_constraintStart_toStartOf="@+id/editText"
+                app:layout_constraintStart_toStartOf="@+id/edtLoginEmail"
                 app:layout_constraintTop_toBottomOf="@+id/tvLoginSubtitle" />
 
             <TextView
@@ -163,8 +176,8 @@
                 android:layout_marginStart="4dp"
                 android:layout_marginTop="32dp"
                 android:text="Senha"
-                app:layout_constraintStart_toStartOf="@+id/editText2"
-                app:layout_constraintTop_toBottomOf="@+id/editText" />
+                app:layout_constraintStart_toStartOf="@+id/edtLoginPassword"
+                app:layout_constraintTop_toBottomOf="@+id/edtLoginEmail" />
 
             <Button
                 android:id="@+id/button4"
