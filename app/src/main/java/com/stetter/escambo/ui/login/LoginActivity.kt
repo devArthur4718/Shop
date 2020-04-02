@@ -1,10 +1,8 @@
 package com.stetter.escambo.ui.login
 
 import android.content.Intent
-import android.content.pm.PackageManager
 import android.os.Bundle
-import android.util.Base64
-import android.util.Log
+import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
@@ -12,7 +10,13 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.facebook.*
 import com.facebook.login.LoginResult
-import com.google.firebase.auth.FacebookAuthProvider
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount
+import com.google.android.gms.auth.api.signin.GoogleSignInClient
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import com.google.android.gms.common.api.ApiException
+import com.google.android.gms.tasks.Task
+import com.google.firebase.auth.GoogleAuthProvider
 import com.stetter.escambo.databinding.ActivityLoginBinding
 import com.stetter.escambo.extension.clearError
 import com.stetter.escambo.ui.core.CoreActivity
@@ -20,12 +24,12 @@ import com.stetter.escambo.ui.dialog.LoadingDialog
 import com.stetter.escambo.ui.recovery.RecoveryPassword
 import com.stetter.escambo.ui.register.RegisterActivity
 import com.stetter.escambo.R
-import java.security.MessageDigest
-import java.security.NoSuchAlgorithmException
 
 
 class LoginActivity : AppCompatActivity() {
 
+    private lateinit var mGoogleSignInClient: GoogleSignInClient
+    private lateinit var gso: GoogleSignInOptions
     private lateinit var binding: ActivityLoginBinding
     private lateinit var viewmodel: LoginViewModel
     private lateinit var loadingDialog: LoadingDialog
@@ -37,7 +41,6 @@ class LoginActivity : AppCompatActivity() {
             R.layout.activity_login
         )
         viewmodel = ViewModelProviders.of(this)[LoginViewModel::class.java]
-        getKeyhash()
         initViews()
         setObservables()
     }
@@ -71,6 +74,7 @@ class LoginActivity : AppCompatActivity() {
     private fun initViews() {
         loadingDialog = LoadingDialog(this)
         setFacebookCallback()
+        setGoogleCallback()
         binding.tvCreateAccout.setOnClickListener {
             navigateToRegister()
         }
@@ -84,9 +88,17 @@ class LoginActivity : AppCompatActivity() {
             binding.loginFacebook.performClick()
         }
         binding.btnPerformGoogleLogin.setOnClickListener {
-            Toast.makeText(this,"Google Login", Toast.LENGTH_SHORT).show()
+            binding.loginGoogle.performClick()
         }
 
+    }
+
+    private fun setGoogleCallback() {
+         gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+            .requestEmail()
+            .build()
+
+        mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
     }
 
     var callbackManager = CallbackManager.Factory.create()
@@ -127,6 +139,11 @@ class LoginActivity : AppCompatActivity() {
         viewmodel.signInWithFacebookCredential(token)
     }
 
+    private fun performLoginWithGoogleToken(completedTask : Task<GoogleSignInAccount>){
+
+
+    }
+
     private fun navigateToRecover() {
         val intent = Intent(this, RecoveryPassword::class.java)
         startActivity(intent)
@@ -137,25 +154,45 @@ class LoginActivity : AppCompatActivity() {
         startActivity(intent)
     }
 
-    private fun getKeyhash(){
-        try {
-            val info = packageManager.getPackageInfo(
-                "com.stetter.escambo",
-                PackageManager.GET_SIGNATURES
-            )
-            for (signature in info.signatures) {
-                val md: MessageDigest = MessageDigest.getInstance("SHA")
-                md.update(signature.toByteArray())
-                Log.d("KeyHash:", Base64.encodeToString(md.digest(), Base64.DEFAULT))
-            }
-        } catch (e: PackageManager.NameNotFoundException) {
-        } catch (e: NoSuchAlgorithmException) {
-        }
-    }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
         callbackManager.onActivityResult(requestCode,resultCode,data)
+
+        // Result returned from launching the Intent from GoogleSignInClient.getSignInIntent(...);
+        // Result returned from launching the Intent from GoogleSignInClient.getSignInIntent(...);
+        if (requestCode === RC_SIGN_IN) { // The Task returned from this call is always completed, no need to attach
+
+            try{
+                val task: Task<GoogleSignInAccount> =
+                    GoogleSignIn.getSignedInAccountFromIntent(data)
+                val account = task.getResult(ApiException::class.java)
+                firebaseAuthWithGoogle(account)
+
+            }catch (e : ApiException){
+                Toast.makeText(this, "Login failed: ${e}", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+
+    private fun firebaseAuthWithGoogle(account: GoogleSignInAccount?) {
+        Toast.makeText(this, "Login sucesso: ${account.toString()}", Toast.LENGTH_SHORT).show()
+    }
+
+    fun onClick(view: View)
+    {
+        when(view.id){
+            R.id.loginGoogle -> handleGoogleSign()
+        }
+    }
+    private fun handleGoogleSign() {
+        val signInIntent = mGoogleSignInClient.signInIntent
+        startActivityForResult(signInIntent, RC_SIGN_IN)
+    }
+
+
+    companion object{
+        const val RC_SIGN_IN = 10
     }
 }

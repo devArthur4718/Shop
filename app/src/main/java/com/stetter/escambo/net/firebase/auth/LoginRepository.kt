@@ -4,11 +4,9 @@ import android.util.Log
 import android.widget.Toast
 import androidx.lifecycle.MutableLiveData
 import com.facebook.AccessToken
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.tasks.Task
-import com.google.firebase.auth.AuthResult
-import com.google.firebase.auth.FacebookAuthCredential
-import com.google.firebase.auth.FacebookAuthProvider
-import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.*
 import com.stetter.escambo.net.models.Users
 import com.stetter.escambo.ui.dialog.LoadingDialog
 import com.stetter.escambo.ui.login.LoginActivity
@@ -20,15 +18,18 @@ class LoginRepository {
     var userLiveData : MutableLiveData<Users> = MutableLiveData()
     private lateinit var loadingDialog : LoadingDialog
 
-
-
-
     fun logInWithEmailAndPassword(email : String = "email", password : String = "password", activity: LoginActivity): Task<AuthResult> {
         return auth.signInWithEmailAndPassword(email,password)
     }
+
     fun logInWithFacebookToken(token : AccessToken): Task<AuthResult> {
-        val crendtial = FacebookAuthProvider.getCredential(token.token)
-        return auth.signInWithCredential(crendtial)
+        val credential = FacebookAuthProvider.getCredential(token.token)
+        return auth.signInWithCredential(credential)
+    }
+
+    fun logWithGoogleToken(completedTask :GoogleSignInAccount): Task<AuthResult> {
+        val credential = GoogleAuthProvider.getCredential(completedTask.idToken, null)
+        return auth.signInWithCredential(credential)
     }
 
     fun logoffUser() : Boolean{

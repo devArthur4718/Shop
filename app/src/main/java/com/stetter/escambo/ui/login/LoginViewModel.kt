@@ -5,6 +5,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.facebook.AccessToken
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount
+import com.google.android.gms.tasks.Task
 import com.stetter.escambo.net.firebase.auth.LoginRepository
 import com.stetter.escambo.net.models.Users
 import com.stetter.escambo.ui.recovery.RecoveryPassword
@@ -64,6 +66,11 @@ class LoginViewModel : ViewModel() {
                 hideLoading()
             }
     }
+    fun signInWithGoogleCredential(completedTask: Task<GoogleSignInAccount>) {
+
+
+    }
+
 
     private fun loginError(msg :String) {
         _loginError.value = msg
@@ -89,6 +96,7 @@ class LoginViewModel : ViewModel() {
     fun hideLoading(){
         _loadingProgress.value = false
     }
+
 
 
 }
