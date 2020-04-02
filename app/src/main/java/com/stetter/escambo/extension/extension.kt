@@ -21,9 +21,17 @@ fun EditText.isNullOrEmpty() : Boolean {
 }
 
 fun EditText.isPasswordValid() : Boolean {
-    return if (this.text.length > 8) true else false
+    return if (this.text.length < 8) false else true
 }
 
 fun EditText.isUFValid() : Boolean {
-    return if (this.text.length > 2) true else false
+    return if (this.text.length < 2) false else true
+}
+
+fun EditText.isPostalCodeValid() : Boolean {
+    return if (Mask.removeMask(this.text.toString()).length < 8) false else true
+}
+
+fun EditText.isBirthDateValid() : Boolean {
+    return if (Mask.removeMask(this.text.toString()).length < 8) false else true
 }

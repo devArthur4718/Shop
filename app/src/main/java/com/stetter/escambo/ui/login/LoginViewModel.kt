@@ -12,23 +12,28 @@ class LoginViewModel : ViewModel() {
     var authRepository = LoginRepository()
     var authenticatedUserLiveData: LiveData<Users>? = null
 
-    private val _navigateToHome = MutableLiveData<Boolean>()
-    val navigateToHome: LiveData<Boolean>
-        get() = _navigateToHome
+    private val _userUID = MutableLiveData<String>()
+    val userUID: LiveData<String> get() = _userUID
 
+    private val _loadingProgress = MutableLiveData<Boolean>()
+    val loadingProgress: LiveData<Boolean> get() = _loadingProgress
 
     fun signInWithEmail(email: String, password: String, activity: LoginActivity) {
-        authenticatedUserLiveData =
-            authRepository.logInWithEmailAndPassword(email, password, activity)
-
-        authenticatedUserLiveData?.let {
-            if( it.value?.logged ?: false){
-                _navigateToHome.value = true
-            }else{
-                _navigateToHome.value = false
+        authRepository.logInWithEmailAndPassword(email, password, activity)
+            .addOnCompleteListener {result ->
+                result.result?.user?.uid?.let {UID ->
+                    sendUserUID(UID)
+                    hideLoading()
+                }
             }
+            .addOnFailureListener {
+                hideLoading()
+                //TODO: Iinform user
+            }
+    }
 
-        }
+    fun sendUserUID(UID : String){
+        _userUID.value = UID
     }
 
     fun logoff(): Boolean {
@@ -40,8 +45,13 @@ class LoginViewModel : ViewModel() {
         return authRepository.recoverPassword(email, activity)
     }
 
-    fun finishedNavigateToHome() {
-        _navigateToHome.value = false
+    fun showLoading(){
+        _loadingProgress.value = true
     }
+
+    fun hideLoading(){
+        _loadingProgress.value = false
+    }
+
 
 }

@@ -9,6 +9,7 @@ import androidx.lifecycle.ViewModelProviders
 import com.stetter.escambo.R
 import com.stetter.escambo.databinding.ActivityLoginBinding
 import com.stetter.escambo.extension.clearError
+import com.stetter.escambo.net.models.Users
 import com.stetter.escambo.ui.core.CoreActivity
 import com.stetter.escambo.ui.recovery.RecoveryPassword
 import com.stetter.escambo.ui.register.RegisterActivity
@@ -31,17 +32,16 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun setObservables() {
-        viewmodel.navigateToHome.observe(this, Observer {
-            if(it){
-                navigateCoreActivity()
+        viewmodel.userUID.observe(this, Observer {userData ->
+            userData?.let {
+                if(it.isNotEmpty()) navigateCoreActivity(userData)
             }
         })
-
     }
 
-    private fun navigateCoreActivity() {
+    private fun navigateCoreActivity(userData : String) {
         val intent = Intent(this, CoreActivity::class.java)
-        viewmodel.finishedNavigateToHome()
+        intent.putExtra("uid", userData)
         finish()
         startActivity(intent)
     }
@@ -62,10 +62,11 @@ class LoginActivity : AppCompatActivity() {
         binding.edtLoginPassword.clearError()
         binding.edtLoginEmail.clearError()
         if(!email.isNullOrEmpty() && !password.isNullOrEmpty()){
+            viewmodel.showLoading()
             viewmodel.signInWithEmail(email, password, this )
         }else{
-            if(binding.edtLoginEmail.text.isNullOrEmpty()) binding.edtLoginEmail.setError("valor obrigatório")
-            if(binding.edtLoginPassword.text.isNullOrEmpty()) binding.edtLoginPassword.setError("valor obrigatório")
+            if(binding.edtLoginEmail.text.isNullOrEmpty()) binding.edtLoginEmail.setError("")
+            if(binding.edtLoginPassword.text.isNullOrEmpty()) binding.edtLoginPassword.setError("")
         }
     }
 

@@ -17,7 +17,14 @@ class CoreActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_core)
         loginvm = ViewModelProviders.of(this)[LoginViewModel::class.java]
+        getBundle()
         initViews()
+    }
+
+    private fun getBundle() {
+        intent?.extras.let {
+            binding.textView5.text =   it?.getString("uid")
+        }
     }
 
     private fun initViews() {

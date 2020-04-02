@@ -12,6 +12,7 @@ import androidx.lifecycle.ViewModelProviders
 import com.stetter.escambo.R
 import com.stetter.escambo.databinding.ActivityRegisterBinding
 import com.stetter.escambo.extension.*
+import com.stetter.escambo.net.models.RegisterUser
 import com.stetter.escambo.ui.dialog.LoadingDialog
 import com.stetter.escambo.ui.dialogs.CustomDialog
 
@@ -57,6 +58,13 @@ class RegisterActivity : AppCompatActivity() {
 
         })
 
+        viewmodel.registerObserver.observe(this, Observer {
+            if(it) {
+                Toast.makeText(this, "Cadastro Enviado", Toast.LENGTH_SHORT).show()
+                finish()
+            }
+        })
+
     }
 
     private fun initViews() {
@@ -68,25 +76,35 @@ class RegisterActivity : AppCompatActivity() {
 
         binding.btnRegister.setOnClickListener {
 
-            if (binding.edtFullName.isFullNameValid()) {
+            if (!binding.edtFullName.isFullNameValid()) {
                 binding.edtFullName.setError("Nome imcompleto")
                 return@setOnClickListener
             } else if (binding.edtFullName.isNullOrEmpty()) {
                 binding.edtFullName.setError("Nome não pode ser vazio")
                 return@setOnClickListener
-            } else if (binding.edtEmail.isEmailValid()) {
+            } else if (!binding.edtEmail.isEmailValid()) {
                 binding.edtEmail.setError("E-mail inválido")
                 return@setOnClickListener
             } else if (binding.edtEmail.isNullOrEmpty()) {
                 binding.edtEmail.setError(("E-mail em branco"))
                 return@setOnClickListener
-            } else if (binding.edtRegisterPassword.isPasswordValid()) {
+            } else if (!binding.edtRegisterPassword.isPasswordValid()) {
                 binding.edtRegisterPassword.setError("Mínimo de 8 carácteres")
                 return@setOnClickListener
             } else if (binding.edtRegisterPassword.isNullOrEmpty()) {
                 binding.edtRegisterPassword.setError("Senha em branco")
                 return@setOnClickListener
-            } else if (binding.edtUF.isUFValid()) {
+            }else if(!binding.edtBirthDate.isBirthDateValid()  ){
+                binding.edtPostalCode.setError("Data inválida")
+            }else if(binding.edtBirthDate.isNullOrEmpty()){
+                binding.edtPostalCode.setError("Data em branco")
+            }
+            else if(!binding.edtPostalCode.isPostalCodeValid()  ){
+                binding.edtPostalCode.setError("Cep inválido")
+            }else if(binding.edtPostalCode.isNullOrEmpty()){
+                binding.edtPostalCode.setError("Cep em branco")
+            }
+            else if (!binding.edtUF.isUFValid()) {
                 binding.edtUF.setError("UF inválido")
                 return@setOnClickListener
             } else if (binding.edtUF.isNullOrEmpty()) {
@@ -94,8 +112,18 @@ class RegisterActivity : AppCompatActivity() {
                 return@setOnClickListener
             } else if (binding.edtCity.isNullOrEmpty()) {
                 binding.edtCity.setError("Cidade em branco")
-            }else{
-                Toast.makeText(this, "Sendo form", Toast.LENGTH_SHORT).show()
+            }
+            else{
+                var senUser = RegisterUser().apply {
+                    this.fullName = binding.edtFullName.text.toString()
+                    this.email = binding.edtEmail.text.toString()
+                    this.password = binding.edtRegisterPassword.text.toString()
+                    this.cep = binding.edtPostalCode.text.toString()
+                    this.uf = binding.edtUF.text.toString()
+                    this.city = binding.edtCity.text.toString()
+                }
+
+                sendForm(senUser)
             }
 
 
@@ -103,6 +131,11 @@ class RegisterActivity : AppCompatActivity() {
         binding.edtBirthDate.addTextChangedListener(Mask.mask("##/##/####", binding.edtBirthDate))
         binding.edtPostalCode.addTextChangedListener(Mask.mask("#####-###", binding.edtPostalCode))
         binding.edtPostalCode.setOnFocusChangeListener { view, b -> fetchAddress(binding.edtPostalCode) }
+    }
+
+    private fun sendForm(sendUser: RegisterUser) {
+        viewmodel.showLoading()
+        viewmodel.registerUser(sendUser)
     }
 
     private fun fetchAddress(edtPostalCode: EditText) {
