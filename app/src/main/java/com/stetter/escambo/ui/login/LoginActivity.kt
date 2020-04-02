@@ -8,7 +8,10 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import com.facebook.*
+import com.facebook.AccessToken
+import com.facebook.CallbackManager
+import com.facebook.FacebookCallback
+import com.facebook.FacebookException
 import com.facebook.login.LoginResult
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
@@ -16,14 +19,13 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.tasks.Task
-import com.google.firebase.auth.GoogleAuthProvider
+import com.stetter.escambo.R
 import com.stetter.escambo.databinding.ActivityLoginBinding
 import com.stetter.escambo.extension.clearError
 import com.stetter.escambo.ui.core.CoreActivity
 import com.stetter.escambo.ui.dialog.LoadingDialog
 import com.stetter.escambo.ui.recovery.RecoveryPassword
 import com.stetter.escambo.ui.register.RegisterActivity
-import com.stetter.escambo.R
 
 
 class LoginActivity : AppCompatActivity() {
@@ -93,6 +95,10 @@ class LoginActivity : AppCompatActivity() {
         binding.btnPerformGoogleLogin.setOnClickListener {
             handleGoogleSign()
         }
+
+
+        binding.edtLoginEmail.setText("devarthur4718@gmail.com")
+        binding.edtLoginPassword.setText("12345678")
 
     }
 

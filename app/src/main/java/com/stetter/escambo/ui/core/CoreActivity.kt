@@ -1,13 +1,13 @@
 package com.stetter.escambo.ui.core
 
-import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.findNavController
+import androidx.navigation.ui.setupWithNavController
 import com.stetter.escambo.R
 import com.stetter.escambo.databinding.ActivityCoreBinding
-import com.stetter.escambo.ui.login.LoginActivity
 import com.stetter.escambo.ui.login.LoginViewModel
 
 class CoreActivity : AppCompatActivity() {
@@ -18,23 +18,23 @@ class CoreActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_core)
+        val navController = findNavController(R.id.nav_host_fragment)
+        binding.navView.setupWithNavController(navController)
         loginvm = ViewModelProviders.of(this)[LoginViewModel::class.java]
         getBundle()
         initViews()
     }
+    override fun onSupportNavigateUp(): Boolean {
+        val navController = this.findNavController(R.id.nav_host_fragment)
+        return navController.navigateUp()
+    }
+
 
     private fun getBundle() {
-        intent?.extras.let {
-            binding.textView5.text =   it?.getString("uid")
-        }
+
     }
 
     private fun initViews() {
-        binding.btnLogoff.setOnClickListener {
-            loginvm.logoff()
-            val intent = Intent(this, LoginActivity::class.java)
-            startActivity(intent)
-            finish()
-        }
+
     }
 }

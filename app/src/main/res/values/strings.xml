@@ -100,4 +100,10 @@
     <string name="recovery_tip">Nos informe seu e-mail para enviarmos \n uma recuperação de senha</string>
     <string name="enviar">Enviar</string>
     <string name="recovery_tip_3">Endereço de email cadastrado</string>
+    <string name="explorar">Explorar</string>
+    <string name="anunciar">Anunciar</string>
+    <string name="chat">Chat</string>
+    <string name="perfil">Perfil</string>
+    <string name="explorer">Explorar</string>
+    <string name="produto">product</string>
 </resources>
