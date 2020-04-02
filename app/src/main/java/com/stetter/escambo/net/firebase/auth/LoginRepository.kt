@@ -3,8 +3,11 @@ package com.stetter.escambo.net.firebase.auth
 import android.util.Log
 import android.widget.Toast
 import androidx.lifecycle.MutableLiveData
+import com.facebook.AccessToken
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.AuthResult
+import com.google.firebase.auth.FacebookAuthCredential
+import com.google.firebase.auth.FacebookAuthProvider
 import com.google.firebase.auth.FirebaseAuth
 import com.stetter.escambo.net.models.Users
 import com.stetter.escambo.ui.dialog.LoadingDialog
@@ -18,8 +21,14 @@ class LoginRepository {
     private lateinit var loadingDialog : LoadingDialog
 
 
+
+
     fun logInWithEmailAndPassword(email : String = "email", password : String = "password", activity: LoginActivity): Task<AuthResult> {
         return auth.signInWithEmailAndPassword(email,password)
+    }
+    fun logInWithFacebookToken(token : AccessToken): Task<AuthResult> {
+        val crendtial = FacebookAuthProvider.getCredential(token.token)
+        return auth.signInWithCredential(crendtial)
     }
 
     fun logoffUser() : Boolean{

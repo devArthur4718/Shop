@@ -1,9 +1,10 @@
 package com.stetter.escambo.ui.login
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
+import com.facebook.AccessToken
 import com.stetter.escambo.net.firebase.auth.LoginRepository
 import com.stetter.escambo.net.models.Users
 import com.stetter.escambo.ui.recovery.RecoveryPassword
@@ -37,6 +38,27 @@ class LoginViewModel : ViewModel() {
                     loginError("Erro ao efetuar login")
                 }
 
+            }
+            .addOnFailureListener {
+                hideLoading()
+            }
+    }
+    fun signInWithFacebookCredential(token : AccessToken){
+        authRepository.logInWithFacebookToken(token)
+            .addOnCompleteListener {task->
+                if (task.isSuccessful) {
+
+                    // Sign in success, update UI with the signed-in user's information
+                    Log.d("facebook", "signInWithCredential:success")
+                    val user =   authRepository.auth.currentUser
+                    hideLoading()
+                    user?.let { it -> sendUserUID(it.uid)  }
+
+                } else {
+                    // If sign in fails, display a message to the user.
+                    hideLoading()
+                    loginError("Erro ao efetuar login")
+                }
             }
             .addOnFailureListener {
                 hideLoading()

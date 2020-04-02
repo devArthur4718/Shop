@@ -1,5 +1,7 @@
 <resources>
     <string name="app_name">Escambo</string>
+    <string name="facebook_app_id">1517678455074025</string>
+    <string name="fb_login_protocol_scheme">fb1517678455074025</string>
     <string name="app_bg">app bg</string>
     <string name="book_now">Book it now</string>
     <string name="title_home">Schedule</string>

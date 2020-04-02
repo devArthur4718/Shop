@@ -71,7 +71,11 @@ dependencies {
 
     //Gson
     implementation 'com.squareup.retrofit2:converter-gson:2.6.0'
-
+    //Http client
     implementation 'com.facebook.stetho:stetho-okhttp3:1.5.1'
+
+    //Facebook Login
+    implementation 'com.facebook.android:facebook-android-sdk:[4,5)'
+
 
 }
