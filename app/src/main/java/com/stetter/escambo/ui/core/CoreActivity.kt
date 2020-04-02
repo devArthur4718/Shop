@@ -1,0 +1,40 @@
+package com.stetter.escambo.ui.core
+
+import android.content.Intent
+import androidx.appcompat.app.AppCompatActivity
+import android.os.Bundle
+import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.ViewModelProviders
+import com.stetter.escambo.R
+import com.stetter.escambo.databinding.ActivityCoreBinding
+import com.stetter.escambo.ui.login.LoginActivity
+import com.stetter.escambo.ui.login.LoginViewModel
+
+class CoreActivity : AppCompatActivity() {
+
+    private lateinit var binding: ActivityCoreBinding
+    private lateinit var loginvm: LoginViewModel
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_core)
+        loginvm = ViewModelProviders.of(this)[LoginViewModel::class.java]
+        getBundle()
+        initViews()
+    }
+
+    private fun getBundle() {
+        intent?.extras.let {
+            binding.textView5.text =   it?.getString("uid")
+        }
+    }
+
+    private fun initViews() {
+        binding.btnLogoff.setOnClickListener {
+            loginvm.logoff()
+            val intent = Intent(this, LoginActivity::class.java)
+            startActivity(intent)
+            finish()
+        }
+    }
+}
