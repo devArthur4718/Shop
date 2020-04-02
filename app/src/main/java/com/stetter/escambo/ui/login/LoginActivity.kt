@@ -2,6 +2,7 @@ package com.stetter.escambo.ui.login
 
 import android.content.Intent
 import android.os.Bundle
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
@@ -11,6 +12,7 @@ import com.stetter.escambo.databinding.ActivityLoginBinding
 import com.stetter.escambo.extension.clearError
 import com.stetter.escambo.net.models.Users
 import com.stetter.escambo.ui.core.CoreActivity
+import com.stetter.escambo.ui.dialog.LoadingDialog
 import com.stetter.escambo.ui.recovery.RecoveryPassword
 import com.stetter.escambo.ui.register.RegisterActivity
 
@@ -18,7 +20,7 @@ class LoginActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityLoginBinding
     private lateinit var viewmodel: LoginViewModel
-
+    private lateinit var loadingDialog: LoadingDialog
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,6 +39,17 @@ class LoginActivity : AppCompatActivity() {
                 if(it.isNotEmpty()) navigateCoreActivity(userData)
             }
         })
+
+        viewmodel.loadingProgress.observe(this, Observer {
+            if (it)
+                loadingDialog.show()
+            else
+                loadingDialog.hide()
+        })
+
+        viewmodel.loginError.observe(this, Observer {
+            Toast.makeText(this, it.toString(), Toast.LENGTH_SHORT).show()
+        })
     }
 
     private fun navigateCoreActivity(userData : String) {
@@ -47,6 +60,7 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun initViews() {
+        loadingDialog = LoadingDialog(this)
         binding.tvCreateAccout.setOnClickListener {
             navigateToRegister()
         }

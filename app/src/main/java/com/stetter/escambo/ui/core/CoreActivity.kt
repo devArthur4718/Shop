@@ -1,11 +1,13 @@
 package com.stetter.escambo.ui.core
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProviders
 import com.stetter.escambo.R
 import com.stetter.escambo.databinding.ActivityCoreBinding
+import com.stetter.escambo.ui.login.LoginActivity
 import com.stetter.escambo.ui.login.LoginViewModel
 
 class CoreActivity : AppCompatActivity() {
@@ -30,6 +32,8 @@ class CoreActivity : AppCompatActivity() {
     private fun initViews() {
         binding.btnLogoff.setOnClickListener {
             loginvm.logoff()
+            val intent = Intent(this, LoginActivity::class.java)
+            startActivity(intent)
             finish()
         }
     }
