@@ -106,4 +106,9 @@
     <string name="perfil">Perfil</string>
     <string name="explorer">Explorar</string>
     <string name="produto">product</string>
+    <string name="top_escambistas">Top escambistas</string>
+    <string name="os_maiores_trocadores_do_escambo">Os maiores trocadores do Escambo</string>
+    <string name="descubra_escambos_por_perto">Descubra escambos por perto</string>
+    <string name="recentes">Recentes</string>
+    <string name="escambos_adicionados_recentemente">Escambos adicionados recentemente</string>
 </resources>
