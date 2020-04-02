@@ -46,9 +46,9 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun setObservables() {
-        viewmodel.userUID.observe(this, Observer {userData ->
+        viewmodel.userUID.observe(this, Observer { userData ->
             userData?.let {
-                if(it.isNotEmpty()) navigateCoreActivity(userData)
+                if (it.isNotEmpty()) navigateCoreActivity(userData)
             }
         })
 
@@ -64,7 +64,7 @@ class LoginActivity : AppCompatActivity() {
         })
     }
 
-    private fun navigateCoreActivity(userData : String) {
+    private fun navigateCoreActivity(userData: String) {
         val intent = Intent(this, CoreActivity::class.java)
         intent.putExtra("uid", userData)
         finish()
@@ -82,19 +82,23 @@ class LoginActivity : AppCompatActivity() {
             navigateToRecover()
         }
         binding.btnLogin.setOnClickListener {
-            performLogin(binding.edtLoginEmail.text.toString(), binding.edtLoginPassword.text.toString())
+            performLogin(
+                binding.edtLoginEmail.text.toString(),
+                binding.edtLoginPassword.text.toString()
+            )
         }
         binding.btnPerformFaceLogin.setOnClickListener {
             binding.loginFacebook.performClick()
         }
         binding.btnPerformGoogleLogin.setOnClickListener {
-            binding.loginGoogle.performClick()
+            handleGoogleSign()
         }
 
     }
 
     private fun setGoogleCallback() {
-         gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+        gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+            .requestIdToken(getString(R.string.default_web_client_id))
             .requestEmail()
             .build()
 
@@ -103,45 +107,47 @@ class LoginActivity : AppCompatActivity() {
 
     var callbackManager = CallbackManager.Factory.create()
     private fun setFacebookCallback() {
-        binding.loginFacebook.registerCallback(callbackManager, object  : FacebookCallback<LoginResult>{
-            override fun onSuccess(result: LoginResult?) {
+        binding.loginFacebook.registerCallback(
+            callbackManager,
+            object : FacebookCallback<LoginResult> {
+                override fun onSuccess(result: LoginResult?) {
 
-                handleFacebookAcesssToken(result?.accessToken)
-            }
+                    handleFacebookAcesssToken(result?.accessToken)
+                }
 
-            override fun onCancel() {
-                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-            }
+                override fun onCancel() {
+                    TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+                }
 
-            override fun onError(error: FacebookException?) {
-                Toast.makeText(this@LoginActivity, "Erro: ${error.toString()}", Toast.LENGTH_SHORT).show()
-            }
-        })
+                override fun onError(error: FacebookException?) {
+                    Toast.makeText(
+                        this@LoginActivity,
+                        "Erro: ${error.toString()}",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+            })
     }
 
     private fun handleFacebookAcesssToken(accessToken: AccessToken?) {
-        accessToken?.let {  performLoginWithFacebookToken(it)  }
+        accessToken?.let { performLoginWithFacebookToken(it) }
     }
 
     private fun performLogin(email: String, password: String) {
         binding.edtLoginPassword.clearError()
         binding.edtLoginEmail.clearError()
-        if(!email.isNullOrEmpty() && !password.isNullOrEmpty()){
+        if (!email.isNullOrEmpty() && !password.isNullOrEmpty()) {
             viewmodel.showLoading()
-            viewmodel.signInWithEmail(email, password, this )
-        }else{
-            if(binding.edtLoginEmail.text.isNullOrEmpty()) binding.edtLoginEmail.setError("")
-            if(binding.edtLoginPassword.text.isNullOrEmpty()) binding.edtLoginPassword.setError("")
+            viewmodel.signInWithEmail(email, password, this)
+        } else {
+            if (binding.edtLoginEmail.text.isNullOrEmpty()) binding.edtLoginEmail.setError("")
+            if (binding.edtLoginPassword.text.isNullOrEmpty()) binding.edtLoginPassword.setError("")
         }
     }
-    private fun performLoginWithFacebookToken(token : AccessToken){
+
+    private fun performLoginWithFacebookToken(token: AccessToken) {
         viewmodel.showLoading()
         viewmodel.signInWithFacebookCredential(token)
-    }
-
-    private fun performLoginWithGoogleToken(completedTask : Task<GoogleSignInAccount>){
-
-
     }
 
     private fun navigateToRecover() {
@@ -158,41 +164,44 @@ class LoginActivity : AppCompatActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
-        callbackManager.onActivityResult(requestCode,resultCode,data)
+        callbackManager.onActivityResult(requestCode, resultCode, data)
 
         // Result returned from launching the Intent from GoogleSignInClient.getSignInIntent(...);
         // Result returned from launching the Intent from GoogleSignInClient.getSignInIntent(...);
         if (requestCode === RC_SIGN_IN) { // The Task returned from this call is always completed, no need to attach
 
-            try{
-                val task: Task<GoogleSignInAccount> =
-                    GoogleSignIn.getSignedInAccountFromIntent(data)
-                val account = task.getResult(ApiException::class.java)
-                firebaseAuthWithGoogle(account)
+            val task: Task<GoogleSignInAccount> =
+                GoogleSignIn.getSignedInAccountFromIntent(data)
+            try {
 
-            }catch (e : ApiException){
+                val account = task.getResult(ApiException::class.java)
+                account?.let { account ->  firebaseAuthWithGoogle(account) }
+
+
+            } catch (e: ApiException) {
                 Toast.makeText(this, "Login failed: ${e}", Toast.LENGTH_SHORT).show()
             }
         }
     }
 
-    private fun firebaseAuthWithGoogle(account: GoogleSignInAccount?) {
-        Toast.makeText(this, "Login sucesso: ${account.toString()}", Toast.LENGTH_SHORT).show()
+    private fun firebaseAuthWithGoogle(account: GoogleSignInAccount) {
+        viewmodel.showLoading()
+        viewmodel.signInWithGoogleCredential(account)
     }
 
-    fun onClick(view: View)
-    {
-        when(view.id){
+    fun onClick(view: View) {
+        when (view.id) {
             R.id.loginGoogle -> handleGoogleSign()
         }
     }
+
     private fun handleGoogleSign() {
         val signInIntent = mGoogleSignInClient.signInIntent
         startActivityForResult(signInIntent, RC_SIGN_IN)
     }
 
 
-    companion object{
+    companion object {
         const val RC_SIGN_IN = 10
     }
 }
