@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "292080734230-fcio578d384uc30lt4chk25lf7b88p4b.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.stetter.escambo",
+            "certificate_hash": "5525a7f7b9a6ab1556cd60e2fd7533293718ac19"
+          }
+        },
+        {
           "client_id": "292080734230-686n25bam1ocqmnc05hq53vdrafav3oi.apps.googleusercontent.com",
           "client_type": 3
         }

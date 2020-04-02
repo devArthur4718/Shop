@@ -33,7 +33,7 @@
 
             <ImageView
                 android:id="@+id/imageView17"
-                android:layout_width="387dp"
+                android:layout_width="0dp"
                 android:layout_height="75dp"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="64dp"
@@ -119,6 +119,8 @@
                 android:background="@drawable/bg_google"
                 android:text="@string/google"
                 android:textAllCaps="false"
+                android:clickable="false"
+                android:focusable="false"
                 android:textColor="@android:color/white"
                 app:layout_constraintEnd_toEndOf="@+id/button2"
                 app:layout_constraintStart_toStartOf="@+id/button2"
@@ -138,6 +140,8 @@
             <TextView
                 android:id="@+id/tabelCreateAccount"
                 style="@style/googleButton"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="24dp"
                 android:text="@string/nao_tem_conta"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/tvCreateAccout"
@@ -244,6 +248,51 @@
                 android:visibility="invisible"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <Button
+                android:id="@+id/btnPerformFaceLogin"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:background="@android:color/transparent"
+                android:elevation="8dp"
+                android:clickable="true"
+                android:focusable="true"
+                app:layout_constraintBottom_toBottomOf="@+id/button2"
+                app:layout_constraintEnd_toEndOf="@+id/button2"
+                app:layout_constraintStart_toStartOf="@+id/button2"
+                app:layout_constraintTop_toTopOf="@+id/button2" />
+
+            <Button
+                android:id="@+id/btnPerformGoogleLogin"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:clickable="true"
+                android:elevation="8dp"
+                android:focusable="true"
+                android:background="@android:color/transparent"
+                app:layout_constraintBottom_toBottomOf="@+id/button3"
+                app:layout_constraintEnd_toEndOf="@+id/button3"
+                app:layout_constraintStart_toStartOf="@+id/button3"
+                app:layout_constraintTop_toTopOf="@+id/button3" />
+
+
+            <com.facebook.login.widget.LoginButton
+                android:id="@+id/loginFacebook"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                android:layout_gravity="center_horizontal"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <com.google.android.gms.common.SignInButton
+                android:id="@+id/loginGoogle"
+                android:visibility="gone"
+                android:onClick="onClick"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
