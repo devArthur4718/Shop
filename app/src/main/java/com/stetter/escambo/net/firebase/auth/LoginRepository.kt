@@ -1,16 +1,12 @@
 package com.stetter.escambo.net.firebase.auth
 
 import android.util.Log
-import android.widget.Toast
 import androidx.lifecycle.MutableLiveData
 import com.facebook.AccessToken
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.*
 import com.stetter.escambo.net.models.Users
-import com.stetter.escambo.ui.dialog.LoadingDialog
-import com.stetter.escambo.ui.login.LoginActivity
-import com.stetter.escambo.ui.recovery.RecoveryPassword
 
 class LoginRepository {
 
@@ -40,7 +36,6 @@ class LoginRepository {
     var recoverStatus : Boolean? = null
     fun recoverPassword(email : String): Boolean? {
 
-
         auth.sendPasswordResetEmail(email).addOnCompleteListener {task ->
             if(task.isSuccessful){
                 recoverStatus = true
@@ -67,4 +62,6 @@ class LoginRepository {
                 Log.d("createUser", "Fail")
             }
     }
+
+
 }

@@ -131,6 +131,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/cardItemName">
 
                 <EditText
+                    android:id="@+id/edtItemDescription"
                     android:hint="@string/description"
                     android:layout_height="match_parent"
                     android:layout_width="match_parent"

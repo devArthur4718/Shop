@@ -15,11 +15,11 @@ import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
-import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.storage.FirebaseStorage
 
 import com.stetter.escambo.R
 import com.stetter.escambo.databinding.AddProductFragmenetBinding
+import com.stetter.escambo.net.models.SendProduct
 import java.util.*
 
 class AddProduct : Fragment() {
@@ -56,6 +56,40 @@ class AddProduct : Fragment() {
     private fun setObserbales() {
         viewModel.listCategorList.observe(viewLifecycleOwner, Observer { onConfigureCategoryAdapter(it) })
         viewModel.pickPhotoFromGallery.observe(viewLifecycleOwner, Observer { onPickDataFromGallery(it) })
+        viewModel.uploadSucess.observe(viewLifecycleOwner, Observer { onImageUploadSucess(it) })
+        viewModel.productPath.observe(viewLifecycleOwner, Observer { onProductPathChange(it) })
+        viewModel.uploadProduct.observe(viewLifecycleOwner, Observer { onProductUpload(it) })
+
+        binding.btnPublishItem.setOnClickListener {
+            val uid = viewModel.getUid()
+            val product = SendProduct(uid,
+                                    productPath,
+                                    binding.edtItemName.text.toString(),
+                                    binding.edtItemDescription.text.toString(),
+                            1, binding.edtItemValue.text.toString().toDouble())
+            viewModel.uploadProductToFirebase(uid,product)
+        }
+    }
+
+    private fun onProductUpload(it: Boolean?) {
+        it?.let {
+            if(it){
+                Toast.makeText(context, "Produto postado", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+
+    var productPath = ""
+    private fun onProductPathChange(path: String?) {
+        path?.let { productPath = it }
+    }
+
+    private fun onImageUploadSucess(status: Boolean?) {
+        status?.let {
+            if(it){
+                Toast.makeText(context, "Foto carregada com sucesso!", Toast.LENGTH_SHORT).show()
+            }
+        }
     }
 
     private fun onPickDataFromGallery(pickAction: Boolean?) {
@@ -82,10 +116,13 @@ class AddProduct : Fragment() {
         when(requestCode){
             RQ_PICK_PHOTO -> {
                 if(resultCode == Activity.RESULT_OK){
+
                     data?.let {
+                        viewModel.onPickPhotoSuccess()
                         selectedPhotoUri = data.data
                         val bitmap = MediaStore.Images.Media.getBitmap(activity?.contentResolver, selectedPhotoUri)
                         val bitmapDrawable = BitmapDrawable(bitmap)
+
                         binding.groupPickPhoto.visibility = View.INVISIBLE
                         binding.lvLoadedProduct.setImageDrawable(bitmapDrawable)
                         sendImageToFirebase()
@@ -98,12 +135,6 @@ class AddProduct : Fragment() {
     private fun sendImageToFirebase() {
         val filename = UUID.randomUUID().toString()
         val ref = FirebaseStorage.getInstance().getReference("/images/$filename")
-        selectedPhotoUri?.let {
-            ref.putFile(it)
-                .addOnSuccessListener {
-                        Toast.makeText(context, "Upload com sucesso: ${it.metadata?.path} ", Toast.LENGTH_SHORT).show()
-                }
-
-        }
+        selectedPhotoUri?.let { viewModel.uploadImageToFirebase(filename, it) }
     }
 }
