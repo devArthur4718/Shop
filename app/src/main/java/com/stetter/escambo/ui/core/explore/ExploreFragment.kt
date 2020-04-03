@@ -45,7 +45,6 @@ class ExploreFragment : Fragment() {
 
         return binding.root
 
-
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -90,13 +89,11 @@ class ExploreFragment : Fragment() {
     }
 
     private fun onProductListRetrieved(productList: List<Product>) {
-
         if(productList.isEmpty()){
             // no itens
         }else{
             productAdapter.data = productList
         }
-
     }
 
 }
