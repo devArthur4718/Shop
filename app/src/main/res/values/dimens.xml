@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="circular_width">39dp</dimen>
+    <dimen name="circular_height">38dp</dimen>
+</resources>
