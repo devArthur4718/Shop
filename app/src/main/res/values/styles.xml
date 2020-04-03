@@ -162,5 +162,20 @@
         <item name="android:focusable">true</item>
     </style>
 
+    <style name="tireUmaFotoOuSel">
+        <item name="android:fontFamily">@font/circular_std_bold</item>
+        <item name="android:textColor">#FF04194D</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:lineSpacingMultiplier">1.19</item>
+    </style>
+
+    <style name="cardEdtStyle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:background">@android:color/transparent</item>
+        <item name="android:fontFamily">@font/ciruclar_std_book</item>
+        <item name="android:paddingStart">14sp</item>
+        <item name="android:textColorHint">#04194D</item>
+    </style>
 
 </resources>
