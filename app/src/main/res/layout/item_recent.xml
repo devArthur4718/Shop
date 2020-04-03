@@ -60,6 +60,7 @@
 
 
                 <TextView
+                    android:id="@+id/tvRecentItemTitle"
                     style="@style/card_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -71,8 +72,8 @@
 
                 <de.hdodenhof.circleimageview.CircleImageView
                     android:id="@+id/ivUserTop"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
+                    android:layout_width="@dimen/smallphoto_with"
+                    android:layout_height="@dimen/smallPhotoHeight"
                     android:layout_marginStart="16dp"
                     android:layout_marginBottom="16dp"
                     android:src="@drawable/img_avatar"

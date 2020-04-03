@@ -6,8 +6,13 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.Observer
 
 import com.stetter.escambo.R
+import com.stetter.escambo.databinding.ChatFragmentBinding
+import com.stetter.escambo.net.models.Product
+import com.stetter.escambo.ui.adapter.RecenteMessageAdapter
 
 class Chat : Fragment() {
 
@@ -15,19 +20,40 @@ class Chat : Fragment() {
         fun newInstance() = Chat()
     }
 
+    private val recentMessageAdapter by lazy { RecenteMessageAdapter() }
+    private lateinit var binding: ChatFragmentBinding
+
     private lateinit var viewModel: ChatViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.chat_fragment, container, false)
+        binding = DataBindingUtil.inflate(inflater, R.layout.chat_fragment, container, false)
+        return binding.root
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProviders.of(this).get(ChatViewModel::class.java)
-        // TODO: Use the ViewModel
+        setAdapters()
+        setObservables()
+    }
+
+    private fun setObservables() {
+        viewModel.listProduct.observe(viewLifecycleOwner, Observer { onProductListReceived(it) })
+    }
+
+    private fun onProductListReceived(productList: List<Product>) {
+        if (productList.isEmpty()) {
+            // no itens
+        } else {
+            recentMessageAdapter.data = productList
+        }
+    }
+
+    private fun setAdapters() {
+        binding.rvMessageList.adapter = recentMessageAdapter
     }
 
 }

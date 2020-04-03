@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".ui.core.explore.filter.FilterActivity">
+
+        <include layout="@layout/top_gradient" />
+
+        <TextView
+            android:id="@+id/textView17"
+            style="@style/titleStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="16dp"
+            android:text="@string/Search"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/textView18"
+            style="@style/subtitleStyle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="@string/search_product_tip"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/textView17"
+            app:layout_constraintTop_toBottomOf="@+id/textView17" />
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/circleImageView3"
+            android:layout_width="39dp"
+            android:layout_height="38dp"
+            android:layout_marginTop="32dp"
+            android:layout_marginEnd="24dp"
+            android:src="@android:color/white"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/btnCloseFilter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="@+id/circleImageView3"
+            app:layout_constraintEnd_toEndOf="@+id/circleImageView3"
+            app:layout_constraintStart_toStartOf="@+id/circleImageView3"
+            app:layout_constraintTop_toTopOf="@+id/circleImageView3"
+            app:srcCompat="@drawable/ic_close_black_24dp" />
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardView"
+            android:layout_width="0dp"
+            android:layout_height="62dp"
+            app:cardCornerRadius="8dp"
+            android:layout_marginStart="24dp"
+            android:layout_marginEnd="24dp"
+            app:layout_constraintBottom_toBottomOf="@+id/imageView6"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/imageView6" >
+
+            <EditText
+                android:hint="Buscar"
+                android:paddingStart="24dp"
+                android:paddingEnd="24dp"
+                style="@style/cardEdtStyle"
+                android:drawableStart="@drawable/ic_search_black"
+                android:inputType="text"
+                android:drawablePadding="4dp"
+                />
+
+
+
+        </androidx.cardview.widget.CardView>
+
+        <LinearLayout
+            android:id="@+id/linearLayout"
+            android:layout_width="0dp"
+            android:layout_height="72dp"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/cardView">
+
+
+            <Button
+                android:id="@+id/btnValue"
+                style="@style/greenGradientButton"
+                android:layout_width="wrap_content"
+                android:layout_height="29dp"
+                android:layout_marginStart="28dp"
+                android:layout_marginEnd="8dp"
+                android:layout_weight="1"
+                android:fontFamily="@font/ciruclar_std_book"
+                android:text="@string/value"
+                android:textAllCaps="false"
+                tools:layout_editor_absoluteX="33dp"
+                tools:layout_editor_absoluteY="8dp" />
+
+            <Button
+                android:id="@+id/btnCategory"
+                style="@style/greenGradientButton"
+                android:layout_width="wrap_content"
+                android:layout_height="29dp"
+                android:layout_marginEnd="8dp"
+                android:layout_weight="1"
+                android:fontFamily="@font/ciruclar_std_book"
+                android:text="@string/category"
+                android:textAllCaps="false"
+                app:layout_constraintBaseline_toBaselineOf="@+id/button6"
+                tools:layout_editor_absoluteX="161dp" />
+
+            <Button
+                android:id="@+id/button8"
+                style="@style/greenGradientButton"
+                android:layout_width="wrap_content"
+                android:layout_height="29dp"
+                android:layout_marginEnd="28dp"
+                android:layout_weight="1"
+                android:fontFamily="@font/ciruclar_std_book"
+                android:text="@string/localization"
+                android:textAllCaps="false"
+                app:layout_constraintBaseline_toBaselineOf="@+id/button7"
+                tools:layout_editor_absoluteX="288dp" />
+
+        </LinearLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="1dp"
+            android:visibility="gone"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout"
+            tools:listitem="@layout/item_recent" />
+
+        <TextView
+            android:id="@+id/tvSad"
+            style="@style/sad"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=":("
+            android:textSize="34sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/recyclerView"
+            app:layout_constraintVertical_bias="0.26" />
+
+        <TextView
+            android:id="@+id/tvNoItemSearch"
+            android:text="@string/nothing_yet"
+            app:layout_constraintEnd_toEndOf="@+id/tvSad"
+            app:layout_constraintStart_toStartOf="@+id/tvSad"
+            app:layout_constraintTop_toBottomOf="@+id/tvSad"
+            style="@style/noItemSearch" />
+
+
+        <TextView
+            android:id="@+id/tvSearchTip"
+            android:text="@string/search_tip2"
+            app:layout_constraintEnd_toEndOf="@+id/tvNoItemSearch"
+            app:layout_constraintStart_toStartOf="@+id/tvNoItemSearch"
+            app:layout_constraintTop_toBottomOf="@+id/tvNoItemSearch"
+            style="@style/search_tip2" />
+
+
+        <androidx.constraintlayout.widget.Group
+            android:id="@+id/gpNoItems"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:constraint_referenced_ids="tvNoItemSearch,tvSad,tvSearchTip"
+            android:visibility="visible"
+            />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
+
+

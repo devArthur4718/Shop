@@ -17,6 +17,69 @@
             android:layout_height="match_parent"
             tools:context=".ui.core.chat.Chat">
 
+            <include
+                android:id="@+id/include"
+                layout="@layout/top_gradient" />
+
+
+            <TextView
+                android:id="@+id/tvMessageLabe"
+                style="@style/titleStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="16dp"
+                android:text="@string/messages"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tvMessageTip"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="@string/message_tip"
+                style="@style/subtitleStyle"
+                android:fontFamily="@font/ciruclar_std_book"
+                app:layout_constraintStart_toStartOf="@+id/tvMessageLabe"
+                app:layout_constraintTop_toBottomOf="@+id/tvMessageLabe" />
+
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/circleImageView4"
+                android:layout_width="@dimen/circular_width"
+                android:layout_height="@dimen/circular_height"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="24dp"
+                android:src="@color/textGreenTitle"
+                app:layout_constraintBottom_toBottomOf="@+id/include"
+                app:layout_constraintEnd_toEndOf="@+id/include"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/btnSearchMessages"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_search_black"
+                android:tint="@android:color/white"
+                android:contentDescription="@string/app_name"
+                app:layout_constraintBottom_toBottomOf="@+id/circleImageView4"
+                app:layout_constraintEnd_toEndOf="@+id/circleImageView4"
+                app:layout_constraintStart_toStartOf="@+id/circleImageView4"
+                app:layout_constraintTop_toTopOf="@+id/circleImageView4" />
+
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvMessageList"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginTop="8dp"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvMessageTip"
+                tools:listitem="@layout/item_product_message" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>

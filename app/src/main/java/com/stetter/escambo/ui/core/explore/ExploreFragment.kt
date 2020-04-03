@@ -1,5 +1,6 @@
 package com.stetter.escambo.ui.core.explore
 
+import android.content.Intent
 import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -17,6 +18,7 @@ import com.stetter.escambo.net.models.TopUser
 import com.stetter.escambo.ui.adapter.ItemProductAdapter
 import com.stetter.escambo.ui.adapter.RecentProductAdapter
 import com.stetter.escambo.ui.adapter.TopUserAdapter
+import com.stetter.escambo.ui.core.explore.filter.FilterActivity
 
 class ExploreFragment : Fragment() {
 
@@ -43,7 +45,6 @@ class ExploreFragment : Fragment() {
 
         return binding.root
 
-
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -63,6 +64,11 @@ class ExploreFragment : Fragment() {
         viewModel.listProduct.observe(viewLifecycleOwner, Observer {  onProductListRetrieved(it)})
         viewModel.listTopUser.observe(viewLifecycleOwner, Observer { onTopUserListRetrieved(it) })
         viewModel.listRecentPost.observe(viewLifecycleOwner, Observer {onRecentPostListRetrieved(it) })
+
+        binding.btnFilter.setOnClickListener {
+            val intent = Intent(context, FilterActivity::class.java)
+            startActivity(intent)
+        }
     }
 
     private fun onRecentPostListRetrieved(recentPostList: List<RecentPost>) {
@@ -83,13 +89,11 @@ class ExploreFragment : Fragment() {
     }
 
     private fun onProductListRetrieved(productList: List<Product>) {
-
         if(productList.isEmpty()){
             // no itens
         }else{
             productAdapter.data = productList
         }
-
     }
 
 }
