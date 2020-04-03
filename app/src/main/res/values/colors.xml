@@ -4,4 +4,8 @@
     <color name="colorPrimaryDark">#000b52</color>
     <color name="colorAccent">#4759af</color>
     <color name="textGreenTitle">#1BCAB1</color>
+
+    <color name="fontColor">#04194D</color>
+    <color name="fontColorBlue">#546780</color>
+    <color name="fontDarkColor">#19CAB1</color>
 </resources>

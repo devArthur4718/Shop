@@ -16,9 +16,8 @@ class LoginRepository {
 
     var auth = FirebaseAuth.getInstance()
     var userLiveData : MutableLiveData<Users> = MutableLiveData()
-    private lateinit var loadingDialog : LoadingDialog
 
-    fun logInWithEmailAndPassword(email : String = "email", password : String = "password", activity: LoginActivity): Task<AuthResult> {
+    fun logInWithEmailAndPassword(email : String = "email", password : String = "password"): Task<AuthResult> {
         return auth.signInWithEmailAndPassword(email,password)
     }
 
@@ -39,24 +38,20 @@ class LoginRepository {
     }
 
     var recoverStatus : Boolean? = null
-    fun recoverPassword(email : String, activity: RecoveryPassword): Boolean? {
-        loadingDialog = LoadingDialog(activity)
-        loadingDialog.show()
+    fun recoverPassword(email : String): Boolean? {
+
+
         auth.sendPasswordResetEmail(email).addOnCompleteListener {task ->
             if(task.isSuccessful){
                 recoverStatus = true
-                loadingDialog.hide()
                 return@addOnCompleteListener
             }else{
                 recoverStatus = false
-                loadingDialog.hide()
                 return@addOnCompleteListener
             }
 
         }.addOnFailureListener {
-            Toast.makeText(activity,"Error: ${it}", Toast.LENGTH_SHORT).show()
             recoverStatus = false
-            loadingDialog.hide()
             return@addOnFailureListener
         }
 

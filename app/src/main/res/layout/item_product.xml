@@ -46,45 +46,25 @@
 
                 <TextView
                     android:id="@+id/textView8"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginEnd="8dp"
-                    android:fontFamily="@font/circular_std_bold"
                     android:text="Ayrton Sennas"
-                    android:textColor="@android:color/white"
-                    android:textSize="14sp"
                     app:layout_constraintBottom_toBottomOf="@+id/circleImageView2"
                     app:layout_constraintEnd_toStartOf="@+id/textView10"
                     app:layout_constraintStart_toEndOf="@+id/circleImageView2"
-                    app:layout_constraintTop_toTopOf="@+id/circleImageView2" />
+                    app:layout_constraintTop_toTopOf="@+id/circleImageView2"
+                    style="@style/card_name" />
 
                 <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="16dp"
-                    android:fontFamily="@font/circular_std_bold"
                     android:text="Adidas Iniki"
-                    android:textColor="@android:color/white"
-                    android:textSize="20sp"
                     app:layout_constraintBottom_toTopOf="@+id/circleImageView2"
-                    app:layout_constraintStart_toStartOf="@+id/circleImageView2" />
+                    app:layout_constraintStart_toStartOf="@+id/circleImageView2"
+                    style="@style/card_title" />
 
                 <TextView
                     android:id="@+id/textView10"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="4dp"
-                    android:layout_marginEnd="16dp"
-                    android:layout_marginBottom="8dp"
-                    android:background="@drawable/capsule_shape"
-                    android:fontFamily="@font/circular_std_bold"
-                    android:padding="4dp"
                     android:text="R$ 280,00"
-                    android:textColor="@android:color/white"
-                    android:textSize="10sp"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent" />
+                    app:layout_constraintEnd_toEndOf="parent"
+                    style="@style/style_capsule" />
 
                 <de.hdodenhof.circleimageview.CircleImageView
                     android:id="@+id/circleImageView2"
