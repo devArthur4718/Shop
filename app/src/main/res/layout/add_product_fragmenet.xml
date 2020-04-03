@@ -1,13 +1,196 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".ui.core.add.AddProduct">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <TextView
+    <data>
+
+        <variable
+            name="viewmodel"
+            type="com.stetter.escambo.ui.core.add.AddProductViewModel" />
+
+    </data>
+
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="Product" />
+        android:fillViewport="true">
 
-</FrameLayout>
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:context=".ui.core.chat.Chat">
+
+            <ImageView
+                android:id="@+id/imageView10"
+                android:layout_width="0dp"
+                android:layout_height="356dp"
+                android:adjustViewBounds="true"
+                android:contentDescription="@string/app_name"
+                android:scaleType="fitXY"
+                android:src="@drawable/bg_shape"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/label_publishItem"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="24dp"
+                android:text="@string/publicar_item"
+                style="@style/titleStyle"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cardTakePhoto"
+                android:layout_width="240dp"
+                android:layout_height="202dp"
+                android:layout_marginTop="32dp"
+                app:cardCornerRadius="8dp"
+                app:layout_constraintStart_toStartOf="@+id/label_publishItem"
+                app:layout_constraintTop_toBottomOf="@+id/label_publishItem">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <ImageView
+                        android:id="@+id/lvLoadedProduct"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:contentDescription="@string/app_name"
+                        android:scaleType="fitXY"
+                        />
+
+                    <TextView
+                        android:id="@+id/labelTakePhoto"
+                        style="@style/tireUmaFotoOuSel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:text="@string/tip_take_a_photo"
+                        android:textAlignment="center"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <ImageView
+                        android:id="@+id/ivPickPhoto"
+                        android:layout_width="65dp"
+                        android:layout_height="64dp"
+                        android:src="@drawable/add_product"
+                        android:onClick="@{() -> viewmodel.pickPhoto()}"
+                        android:contentDescription="@string/app_name"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/labelTakePhoto" />
+
+                    <androidx.constraintlayout.widget.Group
+                        android:id="@+id/groupPickPhoto"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        app:constraint_referenced_ids="ivPickPhoto,labelTakePhoto" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cardItemName"
+                android:layout_width="0dp"
+                android:layout_height="58dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="24dp"
+                app:cardCornerRadius="8dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/cardTakePhoto"
+                app:layout_constraintTop_toBottomOf="@+id/cardTakePhoto">
+
+                <EditText
+                    android:id="@+id/edtItemName"
+                    android:hint="@string/item_name"
+                    android:inputType="text"
+                    style="@style/cardEdtStyle" />
+
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cardDescription"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:minHeight="115dp"
+                android:layout_marginTop="16dp"
+                app:cardCornerRadius="8dp"
+                app:layout_constraintEnd_toEndOf="@+id/cardItemName"
+                app:layout_constraintStart_toStartOf="@+id/cardItemName"
+                app:layout_constraintTop_toBottomOf="@+id/cardItemName">
+
+                <EditText
+                    android:id="@+id/edtItemDescription"
+                    android:hint="@string/description"
+                    android:layout_height="match_parent"
+                    android:layout_width="match_parent"
+                    android:inputType="textMultiLine"
+                    android:maxLines="5"
+                    android:paddingVertical="8dp"
+                    style="@style/cardEdtStyle" />
+
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cardCategory"
+                android:layout_width="0dp"
+                android:layout_height="58dp"
+                android:layout_marginTop="16dp"
+                app:cardCornerRadius="8dp"
+                app:layout_constraintEnd_toEndOf="@+id/cardDescription"
+                app:layout_constraintStart_toStartOf="@+id/cardDescription"
+                app:layout_constraintTop_toBottomOf="@+id/cardDescription">
+
+                <Spinner
+                    android:id="@+id/spCategory"
+                    android:padding="4dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cardItemValue"
+                android:layout_width="0dp"
+                android:layout_height="58dp"
+                android:layout_marginTop="16dp"
+                app:cardCornerRadius="8dp"
+                app:layout_constraintEnd_toEndOf="@+id/cardDescription"
+                app:layout_constraintHorizontal_bias="0.49"
+                app:layout_constraintStart_toStartOf="@+id/cardDescription"
+                app:layout_constraintTop_toBottomOf="@+id/cardCategory" >
+
+                <EditText
+                    android:id="@+id/edtItemValue"
+                    android:hint="@string/value"
+                    android:inputType="numberDecimal"
+                    style="@style/cardEdtStyle" />
+
+            </androidx.cardview.widget.CardView>
+
+            <Button
+                android:id="@+id/btnPublishItem"
+                android:layout_width="0dp"
+                android:layout_height="58dp"
+                android:text="@string/publicar"
+                android:textAllCaps="false"
+                style="@style/greenGradientButton"
+                app:layout_constraintEnd_toEndOf="@+id/cardItemValue"
+                app:layout_constraintStart_toStartOf="@+id/cardItemValue"
+                app:layout_constraintTop_toBottomOf="@+id/cardItemValue" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.core.widget.NestedScrollView>
+</layout>

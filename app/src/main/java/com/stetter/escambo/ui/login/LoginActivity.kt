@@ -157,6 +157,7 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun navigateToRecover() {
+        loadingDialog.hide()
         val intent = Intent(this, RecoveryPassword::class.java)
         startActivity(intent)
     }

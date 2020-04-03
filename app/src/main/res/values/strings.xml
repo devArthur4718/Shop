@@ -112,4 +112,10 @@
     <string name="recentes">Recentes</string>
     <string name="escambos_adicionados_recentemente">Escambos adicionados recentemente</string>
     <string name="no_products">Não há produtos para exibir</string>
+    <string name="publicar_item">Publicar item</string>
+    <string name="tip_take_a_photo">Tire uma foto ou selecione \n uma em sua galeria</string>
+    <string name="item_name">Nome do Item</string>
+    <string name="description">Descrição</string>
+    <string name="publicar">Publicar</string>
+    <string name="value">Valor</string>
 </resources>
