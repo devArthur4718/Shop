@@ -19,6 +19,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.tasks.Task
+import com.stetter.escambo.BuildConfig
 import com.stetter.escambo.R
 import com.stetter.escambo.databinding.ActivityLoginBinding
 import com.stetter.escambo.extension.clearError
@@ -96,9 +97,11 @@ class LoginActivity : AppCompatActivity() {
             handleGoogleSign()
         }
 
+        if(BuildConfig.DEBUG){
+            binding.edtLoginEmail.setText("devarthur4718@gmail.com")
+            binding.edtLoginPassword.setText("12345678")
+        }
 
-        binding.edtLoginEmail.setText("devarthur4718@gmail.com")
-        binding.edtLoginPassword.setText("12345678")
 
     }
 

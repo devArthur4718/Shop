@@ -6,6 +6,7 @@
     <color name="textGreenTitle">#1BCAB1</color>
 
     <color name="fontColor">#04194D</color>
-    <color name="fontColorBlue">#546780</color>
+    <color name="fontColorBlue">#0A2549</color>
     <color name="fontDarkColor">#19CAB1</color>
+    <color name="circleBlue">#004C84</color>
 </resources>

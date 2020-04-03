@@ -49,6 +49,18 @@
         <item name="android:background">@drawable/bg_green</item>
     </style>
 
+    <style name="blueGradientButton">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">53dp</item>
+        <item name="android:layout_marginTop">16dp</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:fontFamily">@font/circular_std_bold</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="android:lineSpacingMultiplier">0.86</item>
+        <item name="android:background">@drawable/gradient_blue</item>
+    </style>
+
     <style name="ouAcesseUtilizando">
         <item name="android:fontFamily">@font/circular_std_medium</item>
         <item name="android:textColor">#FF3E4A59</item>
@@ -108,8 +120,6 @@
     <style name="titleStyle">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_marginStart">24dp</item>
-        <item name="android:layout_marginTop">32dp</item>
         <item name="android:textSize">26sp</item>
         <item name="android:textColor">@android:color/white</item>
         <item name="android:fontFamily">@font/circular_std_bold</item>
@@ -118,7 +128,6 @@
     <style name="subtitleStyle">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_marginTop">8dp</item>
         <item name="android:fontFamily">@font/ciruclar_std_book</item>
         <item name="android:textSize">16sp</item>
         <item name="android:textColor">@android:color/white</item>
@@ -200,4 +209,20 @@
         <item name="android:layout_marginTop">8dp</item>
         <item name="android:fontFamily">@font/ciruclar_std_book</item>
     </style>
+
+    <style name="profileTitle">
+        <item name="android:fontFamily">@font/circular_std_bold</item>
+        <item name="android:textColor">#FF04194D</item>
+        <item name="android:textSize">24sp</item>
+        <item name="android:lineSpacingMultiplier">1.21</item>
+    </style>
+
+    <style name="profileLocation">
+        <item name="android:fontFamily">@font/ciruclar_std_book</item>
+        <item name="android:textColor">#FF0A2549</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:lineSpacingMultiplier">1.19</item>
+    </style>
+
+
 </resources>

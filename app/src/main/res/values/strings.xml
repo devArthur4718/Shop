@@ -79,7 +79,7 @@
     <string name="arriive_on_time">Arrive on time</string>
     <string name="text_presentation_3">Now you are ready to begin.</string>
     <string name="escambo">escambo</string>
-    <string name="login_subtitle">Bem vindo ao escambo,\n seu aplicativo de trocas.</string>
+    <string name="login_subtitle">Bem vindo ao escambo,\nseu aplicativo de trocas.</string>
     <string name="entrar">Entrar</string>
     <string name="acesse_redes_sociais">Ou acesse utilizando suas redes sociais</string>
     <string name="facebook">Entrar com Facebook</string>
@@ -127,4 +127,6 @@
     <string name="message_tip">Aqui ficam as mensagens de quem \n teve interesse por um item seu</string>
     <string name="messages">Mensagens</string>
     <string name="plus_three">+3</string>
+    <string name="title_profile_tip2">Meus itens no Escambo</string>
+    <string name="profile_label_itens">Itens Publicados</string>
 </resources>

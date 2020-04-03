@@ -31,20 +31,22 @@
 
             <TextView
                 android:id="@+id/textView5"
+                style="@style/titleStyle"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="8dp"
                 android:text="@string/explorer"
                 android:textColor="@android:color/white"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                style="@style/titleStyle" />
+                app:layout_constraintTop_toTopOf="parent" />
 
 
             <TextView
                 android:id="@+id/textView7"
+                style="@style/subtitleStyle"
                 android:text="@string/descubra_escambos_por_perto"
                 android:textColor="@android:color/white"
                 app:layout_constraintStart_toStartOf="@+id/textView5"
-                app:layout_constraintTop_toBottomOf="@+id/textView5"
-                style="@style/subtitleStyle" />
+                app:layout_constraintTop_toBottomOf="@+id/textView5" />
 
             <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/circleImageView"
@@ -94,25 +96,23 @@
 
             <TextView
                 android:id="@+id/textView11"
+                style="@style/titleStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
                 android:layout_marginTop="8dp"
                 android:text="@string/top_escambistas"
                 android:textColor="@color/fontColor"
-                style="@style/titleStyle"
-                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/textView5"
                 app:layout_constraintTop_toBottomOf="@+id/rvPostedProducts" />
 
             <TextView
                 android:id="@+id/textView12"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:text="@string/os_maiores_trocadores_do_escambo"
                 android:fontFamily="@font/ciruclar_std_book"
-                android:textSize="14sp"
+                android:text="@string/os_maiores_trocadores_do_escambo"
                 android:textColor="@color/fontColorBlue"
+                android:textSize="14sp"
                 app:layout_constraintStart_toStartOf="@+id/textView11"
                 app:layout_constraintTop_toBottomOf="@+id/textView11" />
 
