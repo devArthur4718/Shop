@@ -12,14 +12,7 @@
         android:layout_height="match_parent"
         tools:context=".ui.core.explore.filter.FilterActivity">
 
-        <ImageView
-            android:id="@+id/imageView6"
-            android:layout_width="0dp"
-            android:layout_height="140dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/gradient_blue" />
+        <include layout="@layout/top_gradient" />
 
         <TextView
             android:id="@+id/textView17"

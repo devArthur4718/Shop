@@ -2,4 +2,6 @@
 <resources>
     <dimen name="circular_width">39dp</dimen>
     <dimen name="circular_height">38dp</dimen>
+    <dimen name="smallphoto_with">24dp</dimen>
+    <dimen name="smallPhotoHeight">24dp</dimen>
 </resources>
