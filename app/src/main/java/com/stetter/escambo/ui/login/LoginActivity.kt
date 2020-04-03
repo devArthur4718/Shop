@@ -144,7 +144,7 @@ class LoginActivity : AppCompatActivity() {
         binding.edtLoginEmail.clearError()
         if (!email.isNullOrEmpty() && !password.isNullOrEmpty()) {
             viewmodel.showLoading()
-            viewmodel.signInWithEmail(email, password, this)
+            viewmodel.signInWithEmail(email, password)
         } else {
             if (binding.edtLoginEmail.text.isNullOrEmpty()) binding.edtLoginEmail.setError("")
             if (binding.edtLoginPassword.text.isNullOrEmpty()) binding.edtLoginPassword.setError("")

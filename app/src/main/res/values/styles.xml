@@ -156,5 +156,11 @@
         <item name="android:textSize">14sp</item>
     </style>
 
+    <style name="rippleEffect">
+        <item name="android:background">?attr/selectableItemBackground</item>
+        <item name="android:clickable">true</item>
+        <item name="android:focusable">true</item>
+    </style>
+
 
 </resources>

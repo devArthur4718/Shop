@@ -35,7 +35,7 @@ class RecoveryPassword : AppCompatActivity() {
 
     private fun recoverUserPassword() {
         if (!binding.edtRecoveryEmail.text.isNullOrEmpty()) {
-            var status = viewmodel.recoveryPassword(binding.edtRecoveryEmail.text.toString(), this)
+            var status = viewmodel.recoveryPassword(binding.edtRecoveryEmail.text.toString())
             Toast.makeText(this,"Enviado para o e-mail cadastrado", Toast.LENGTH_SHORT).show()
             finish()
         }

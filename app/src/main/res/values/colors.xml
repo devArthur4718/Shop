@@ -7,4 +7,5 @@
 
     <color name="fontColor">#04194D</color>
     <color name="fontColorBlue">#546780</color>
+    <color name="fontDarkColor">#19CAB1</color>
 </resources>

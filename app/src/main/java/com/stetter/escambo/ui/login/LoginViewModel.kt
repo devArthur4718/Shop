@@ -15,7 +15,6 @@ import com.stetter.escambo.ui.recovery.RecoveryPassword
 class LoginViewModel : ViewModel() {
 
     var authRepository = LoginRepository()
-    var authenticatedUserLiveData: LiveData<Users>? = null
 
     private val _userUID = MutableLiveData<String>()
     val userUID: LiveData<String> get() = _userUID
@@ -26,8 +25,8 @@ class LoginViewModel : ViewModel() {
     private val _loginError = MutableLiveData<String>()
     val loginError : LiveData<String> get() = _loginError
 
-    fun signInWithEmail(email: String, password: String, activity: LoginActivity) {
-        authRepository.logInWithEmailAndPassword(email, password, activity)
+    fun signInWithEmail(email: String, password: String) {
+        authRepository.logInWithEmailAndPassword(email, password)
             .addOnCompleteListener {result ->
 
                 if(result.isSuccessful){
@@ -102,8 +101,8 @@ class LoginViewModel : ViewModel() {
         return true
     }
 
-    fun recoveryPassword(email : String, activity : RecoveryPassword) : Boolean?{
-        return authRepository.recoverPassword(email, activity)
+    fun recoveryPassword(email : String) : Boolean?{
+        return authRepository.recoverPassword(email)
     }
 
     fun showLoading(){
