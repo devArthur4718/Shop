@@ -3,6 +3,7 @@ package com.stetter.escambo.ui.core.add
 import android.app.Activity
 import android.content.Intent
 import android.graphics.drawable.BitmapDrawable
+import android.net.Uri
 import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.provider.MediaStore
@@ -11,11 +12,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
+import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
+import com.google.android.material.snackbar.Snackbar
+import com.google.firebase.storage.FirebaseStorage
 
 import com.stetter.escambo.R
 import com.stetter.escambo.databinding.AddProductFragmenetBinding
+import java.util.*
 
 class AddProduct : Fragment() {
 
@@ -69,7 +74,7 @@ class AddProduct : Fragment() {
         binding.spCategory.adapter = adapterSpinner
     }
 
-
+    var selectedPhotoUri : Uri? = null
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
@@ -78,14 +83,27 @@ class AddProduct : Fragment() {
             RQ_PICK_PHOTO -> {
                 if(resultCode == Activity.RESULT_OK){
                     data?.let {
-                        val uri = data.data
-                        val bitmap = MediaStore.Images.Media.getBitmap(activity?.contentResolver, uri)
+                        selectedPhotoUri = data.data
+                        val bitmap = MediaStore.Images.Media.getBitmap(activity?.contentResolver, selectedPhotoUri)
                         val bitmapDrawable = BitmapDrawable(bitmap)
                         binding.groupPickPhoto.visibility = View.INVISIBLE
                         binding.lvLoadedProduct.setImageDrawable(bitmapDrawable)
+                        sendImageToFirebase()
                     }
                 }
             }
+        }
+    }
+
+    private fun sendImageToFirebase() {
+        val filename = UUID.randomUUID().toString()
+        val ref = FirebaseStorage.getInstance().getReference("/images/$filename")
+        selectedPhotoUri?.let {
+            ref.putFile(it)
+                .addOnSuccessListener {
+                        Toast.makeText(context, "Upload com sucesso: ${it.metadata?.path} ", Toast.LENGTH_SHORT).show()
+                }
+
         }
     }
 }
