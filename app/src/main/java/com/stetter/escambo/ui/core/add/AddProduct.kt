@@ -8,7 +8,6 @@ import android.net.Uri
 import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.provider.MediaStore
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,15 +15,15 @@ import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
-import com.google.firebase.storage.FirebaseStorage
-
 import com.stetter.escambo.R
 import com.stetter.escambo.databinding.AddProductFragmenetBinding
+import com.stetter.escambo.extension.checkCameraPermissions
 import com.stetter.escambo.extension.showPickImageDialog
 import com.stetter.escambo.net.models.SendProduct
+import com.stetter.escambo.ui.base.BaseFragment
 import java.util.*
 
-class AddProduct : Fragment() {
+class AddProduct : BaseFragment() {
 
     companion object {
         fun newInstance() = AddProduct()
@@ -64,6 +63,7 @@ class AddProduct : Fragment() {
         viewModel.uploadSucess.observe(viewLifecycleOwner, Observer { onImageUploadSucess(it) })
         viewModel.productPath.observe(viewLifecycleOwner, Observer { onProductPathChange(it) })
         viewModel.uploadProduct.observe(viewLifecycleOwner, Observer { onProductUpload(it) })
+        viewModel.loadingProgress.observe(viewLifecycleOwner, Observer { onLoading(it) })
 
         binding.btnPublishItem.setOnClickListener {
             val uid = viewModel.getUid()
@@ -73,6 +73,16 @@ class AddProduct : Fragment() {
                                     binding.edtItemDescription.text.toString(),
                             1, binding.edtItemValue.text.toString().toDouble())
             viewModel.uploadProductToFirebase(uid,product)
+        }
+    }
+
+    private fun onLoading(it: Boolean?) {
+        it?.let {
+            if(it){
+                mainViewModel.showLoading()
+            }else{
+                mainViewModel.hideLoading()
+            }
         }
     }
 
@@ -86,10 +96,12 @@ class AddProduct : Fragment() {
     }
 
     private fun pickFromCamera() {
-        Intent(MediaStore.ACTION_IMAGE_CAPTURE).also { takePictureIntent ->
-            activity?.packageManager?.let {
-                takePictureIntent.resolveActivity(it)?.also {
-                    startActivityForResult(takePictureIntent, RQ_TAKE_PHOTO)
+        if(activity?.checkCameraPermissions() ?: false){
+            Intent(MediaStore.ACTION_IMAGE_CAPTURE).also { takePictureIntent ->
+                activity?.packageManager?.let {
+                    takePictureIntent.resolveActivity(it)?.also {
+                        startActivityForResult(takePictureIntent, RQ_TAKE_PHOTO)
+                    }
                 }
             }
         }
@@ -126,6 +138,7 @@ class AddProduct : Fragment() {
         status?.let {
             if(it){
                 Toast.makeText(context, "Foto carregada com sucesso!", Toast.LENGTH_SHORT).show()
+//                findNavController().navigate(R.id.navigation_explore)
             }
         }
     }
@@ -137,8 +150,6 @@ class AddProduct : Fragment() {
             }
         }
     }
-
-
 
     private fun onConfigureCategoryAdapter(categoryList: List<String>) {
         adapterSpinner = ArrayAdapter(context!!, android.R.layout.simple_list_item_1, categoryList)
@@ -152,7 +163,6 @@ class AddProduct : Fragment() {
         when(requestCode){
             RQ_PICK_PHOTO -> {
                 if(resultCode == Activity.RESULT_OK){
-
                     data?.let {
                         viewModel.onPickPhotoSuccess()
                         viewModel.closePhotoIntent()
@@ -168,8 +178,15 @@ class AddProduct : Fragment() {
 
             RQ_TAKE_PHOTO -> {
                 if(resultCode == Activity.RESULT_OK) {
-                    val imageBitmap = data?.extras?.get("data") as Bitmap
-                    binding.lvLoadedProduct.setImageBitmap(imageBitmap)
+                    data?.let {
+                        viewModel.closeCameraIntent()
+                        selectedPhotoUri = data.data
+                        val imageBitmap = it?.extras?.get("data") as Bitmap
+                        binding.lvLoadedProduct.setImageBitmap(imageBitmap)
+                        binding.groupPickPhoto.visibility = View.INVISIBLE
+                        sendImageToFirebase()
+                    }
+
                 }
             }
         }

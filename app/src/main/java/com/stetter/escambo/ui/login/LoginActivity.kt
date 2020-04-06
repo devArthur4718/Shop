@@ -23,20 +23,19 @@ import com.stetter.escambo.BuildConfig
 import com.stetter.escambo.R
 import com.stetter.escambo.databinding.ActivityLoginBinding
 import com.stetter.escambo.extension.clearError
-import com.stetter.escambo.extension.isNullOrEmpty
+import com.stetter.escambo.ui.base.BaseActivity
 import com.stetter.escambo.ui.core.CoreActivity
 import com.stetter.escambo.ui.dialog.LoadingDialog
 import com.stetter.escambo.ui.recovery.RecoveryPassword
 import com.stetter.escambo.ui.register.RegisterActivity
 
 
-class LoginActivity : AppCompatActivity() {
+class LoginActivity : BaseActivity() {
 
     private lateinit var mGoogleSignInClient: GoogleSignInClient
     private lateinit var gso: GoogleSignInOptions
     private lateinit var binding: ActivityLoginBinding
     private lateinit var viewmodel: LoginViewModel
-    private lateinit var loadingDialog: LoadingDialog
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -58,9 +57,9 @@ class LoginActivity : AppCompatActivity() {
 
         viewmodel.loadingProgress.observe(this, Observer {
             if (it)
-                loadingDialog.show()
+                onStartLoading()
             else
-                loadingDialog.hide()
+                onStopLoading()
         })
 
         viewmodel.loginError.observe(this, Observer {
@@ -76,7 +75,6 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun initViews() {
-        loadingDialog = LoadingDialog(this)
         setFacebookCallback()
         setGoogleCallback()
         binding.tvCreateAccout.setOnClickListener {
@@ -104,8 +102,6 @@ class LoginActivity : AppCompatActivity() {
             binding.inputName.editText?.setText("devarthur4718@gmail.com")
             binding.inputPassword.editText?.setText("12345678")
         }
-
-
     }
 
     private fun setGoogleCallback() {
@@ -126,9 +122,8 @@ class LoginActivity : AppCompatActivity() {
 
                     handleFacebookAcesssToken(result?.accessToken)
                 }
-
                 override fun onCancel() {
-                    TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+
                 }
 
                 override fun onError(error: FacebookException?) {
@@ -163,7 +158,6 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun navigateToRecover() {
-        loadingDialog.hide()
         val intent = Intent(this, RecoveryPassword::class.java)
         startActivity(intent)
     }

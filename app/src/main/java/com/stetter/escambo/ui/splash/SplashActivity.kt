@@ -27,7 +27,6 @@ class SplashActivity : AppCompatActivity() {
     }
 
     private fun initViews() {
-
         Dexter.withActivity(this)
             .withPermission(Manifest.permission.CAMERA)
             .withListener(object : PermissionListener {
@@ -45,8 +44,6 @@ class SplashActivity : AppCompatActivity() {
                 ) { /* ... */
                 }
             }).check()
-
-
     }
 
     private fun openLoginActivity() {

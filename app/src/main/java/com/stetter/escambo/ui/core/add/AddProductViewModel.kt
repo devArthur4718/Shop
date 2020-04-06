@@ -21,12 +21,14 @@ class AddProductViewModel : ViewModel() {
     private val _imagePickIntent = MutableLiveData<Boolean>()
     val imagePickIntent : LiveData<Boolean> get() = _imagePickIntent
 
-
     private val _cameraPickintent = MutableLiveData<Boolean>()
     val cameraPickintent : LiveData<Boolean> get() = _cameraPickintent
 
     private val _uploadSuccess = MutableLiveData<Boolean>()
     val uploadSucess : LiveData<Boolean> get() = _uploadSuccess
+
+    private val _loadingProgress = MutableLiveData<Boolean>()
+    val loadingProgress : LiveData<Boolean> get() = _loadingProgress
 
     private val _productPath = MutableLiveData<String>()
     val productPath : LiveData<String> get() = _productPath
@@ -43,15 +45,17 @@ class AddProductViewModel : ViewModel() {
     }
 
     fun uploadImageToFirebase(filename : String, uri : Uri) {
+        _loadingProgress.value = true
         databaserepository.uploadImageToDatabase(filename).putFile(uri)
             .addOnSuccessListener {
                 _productPath.value = it.metadata?.path
+                _loadingProgress.value = false
                 _uploadSuccess.value = true
             }
             .addOnFailureListener{
                 _uploadSuccess.value = false
+                _loadingProgress.value = false
             }
-
 
     }
 
