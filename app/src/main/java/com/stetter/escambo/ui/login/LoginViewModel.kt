@@ -37,7 +37,7 @@ class LoginViewModel : ViewModel() {
                 }else{
 
                     hideLoading()
-                    loginError("Erro ao efetuar login")
+                    loginError("Usuário ou/senha incorretos")
                 }
 
             }

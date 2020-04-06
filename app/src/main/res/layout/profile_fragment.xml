@@ -1,13 +1,154 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".ui.core.profile.Profile">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <TextView
+    <data>
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="Hello" />
+        tools:context=".ui.core.profile.Profile">
 
-</FrameLayout>
+        <include
+            android:id="@+id/include2"
+            layout="@layout/header_green"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+        <ImageView
+            android:id="@+id/circleImageView5"
+            android:layout_width="@dimen/circular_width"
+            android:layout_height="@dimen/circular_height"
+            android:layout_marginEnd="16dp"
+            android:src="@drawable/circular_gradient_blue"
+            app:layout_constraintBottom_toBottomOf="@+id/include2"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/circleImageView6"
+            android:layout_width="128dp"
+            android:layout_height="128dp"
+            android:src="@drawable/img_avatar"
+            app:layout_constraintBottom_toBottomOf="@+id/include2"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/include2" />
+
+        <ImageView
+            android:id="@+id/imageView11"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_settings"
+            android:tint="@android:color/white"
+            app:layout_constraintBottom_toBottomOf="@+id/circleImageView5"
+            app:layout_constraintEnd_toEndOf="@+id/circleImageView5"
+            app:layout_constraintStart_toStartOf="@+id/circleImageView5"
+            app:layout_constraintTop_toTopOf="@+id/circleImageView5" />
+
+        <ImageView
+            android:id="@+id/ivCloseProfile"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:visibility="gone"
+            android:src="@drawable/ic_arrow_back_black_24dp"
+            android:tint="@android:color/white"
+            app:layout_constraintBottom_toBottomOf="@+id/include2"
+            app:layout_constraintStart_toStartOf="@+id/include2"
+            app:layout_constraintTop_toTopOf="@+id/include2" />
+
+        <TextView
+            android:id="@+id/tvLoggedUserProfile"
+            style="@style/profileTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:text="Ayrton Senna"
+            app:layout_constraintEnd_toEndOf="@+id/circleImageView6"
+            app:layout_constraintStart_toStartOf="@+id/circleImageView6"
+            app:layout_constraintTop_toBottomOf="@+id/circleImageView6" />
+
+        <TextView
+            android:id="@+id/tvLoggedUserLocation"
+            style="@style/profileLocation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="São Paulo/SP"
+            app:layout_constraintEnd_toEndOf="@+id/tvLoggedUserProfile"
+            app:layout_constraintStart_toStartOf="@+id/tvLoggedUserProfile"
+            app:layout_constraintTop_toBottomOf="@+id/tvLoggedUserProfile" />
+
+        <Button
+            android:id="@+id/tvUserMatches"
+            android:text="8 Matches"
+            android:layout_width="wrap_content"
+            android:layout_height="29dp"
+            android:textSize="12sp"
+            style="@style/blueGradientButton"
+            app:layout_constraintEnd_toStartOf="@+id/tvProdutos"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvLoggedUserLocation" />
+
+        <TextView
+            android:id="@+id/tvProdutos"
+            android:layout_width="wrap_content"
+            android:layout_height="29dp"
+            android:layout_marginStart="8dp"
+            android:background="@drawable/gradient_blue"
+            android:text="12 Produtos"
+            android:textSize="12sp"
+            android:layout_marginTop="0dp"
+            android:paddingHorizontal="8dp"
+            style="@style/blueGradientButton"
+            android:gravity="center"
+            app:layout_constraintBottom_toBottomOf="@+id/tvUserMatches"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/tvUserMatches"
+            app:layout_constraintTop_toTopOf="@+id/tvUserMatches" />
+
+        <TextView
+            android:id="@+id/textView22"
+            style="@style/titleStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:text="@string/profile_label_itens"
+            android:textColor="@color/fontDarkColor"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvUserMatches" />
+
+        <TextView
+            android:id="@+id/textView23"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="@string/title_profile_tip2"
+            style="@style/subtitleStyle"
+            android:textColor="@color/fontColorBlue"
+            app:layout_constraintStart_toStartOf="@+id/textView22"
+            app:layout_constraintTop_toBottomOf="@+id/textView22" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="8dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView23" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

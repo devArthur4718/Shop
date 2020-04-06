@@ -18,6 +18,13 @@ class AddProductViewModel : ViewModel() {
     private val _pickFromGalleryObservable = MutableLiveData<Boolean>()
     val pickPhotoFromGallery : LiveData<Boolean> get() = _pickFromGalleryObservable
 
+    private val _imagePickIntent = MutableLiveData<Boolean>()
+    val imagePickIntent : LiveData<Boolean> get() = _imagePickIntent
+
+
+    private val _cameraPickintent = MutableLiveData<Boolean>()
+    val cameraPickintent : LiveData<Boolean> get() = _cameraPickintent
+
     private val _uploadSuccess = MutableLiveData<Boolean>()
     val uploadSucess : LiveData<Boolean> get() = _uploadSuccess
 
@@ -69,6 +76,20 @@ class AddProductViewModel : ViewModel() {
 
     fun onPickPhotoSuccess(){
         _pickFromGalleryObservable.value = false
+    }
+
+    fun openPickPhotoIntent() {
+       _imagePickIntent.value = true
+    }
+    fun closePhotoIntent(){
+        _imagePickIntent.value = false
+    }
+
+    fun openCameraIntent() {
+        _cameraPickintent.value = true
+    }
+    fun closeCameraIntent() {
+        _cameraPickintent.value = false
     }
 
 }

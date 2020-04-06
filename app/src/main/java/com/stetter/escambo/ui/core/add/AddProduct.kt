@@ -2,6 +2,7 @@ package com.stetter.escambo.ui.core.add
 
 import android.app.Activity
 import android.content.Intent
+import android.graphics.Bitmap
 import android.graphics.drawable.BitmapDrawable
 import android.net.Uri
 import androidx.lifecycle.ViewModelProviders
@@ -19,6 +20,7 @@ import com.google.firebase.storage.FirebaseStorage
 
 import com.stetter.escambo.R
 import com.stetter.escambo.databinding.AddProductFragmenetBinding
+import com.stetter.escambo.extension.showPickImageDialog
 import com.stetter.escambo.net.models.SendProduct
 import java.util.*
 
@@ -27,6 +29,7 @@ class AddProduct : Fragment() {
     companion object {
         fun newInstance() = AddProduct()
         const val RQ_PICK_PHOTO = 0
+        const val RQ_TAKE_PHOTO = 1
     }
 
     private lateinit var viewModel: AddProductViewModel
@@ -56,6 +59,8 @@ class AddProduct : Fragment() {
     private fun setObserbales() {
         viewModel.listCategorList.observe(viewLifecycleOwner, Observer { onConfigureCategoryAdapter(it) })
         viewModel.pickPhotoFromGallery.observe(viewLifecycleOwner, Observer { onPickDataFromGallery(it) })
+        viewModel.imagePickIntent.observe(viewLifecycleOwner, Observer { onPickImageIntent(it) })
+        viewModel.cameraPickintent.observe(viewLifecycleOwner, Observer { onCameraIntent(it) })
         viewModel.uploadSucess.observe(viewLifecycleOwner, Observer { onImageUploadSucess(it) })
         viewModel.productPath.observe(viewLifecycleOwner, Observer { onProductPathChange(it) })
         viewModel.uploadProduct.observe(viewLifecycleOwner, Observer { onProductUpload(it) })
@@ -69,6 +74,39 @@ class AddProduct : Fragment() {
                             1, binding.edtItemValue.text.toString().toDouble())
             viewModel.uploadProductToFirebase(uid,product)
         }
+    }
+
+    private fun onCameraIntent(it: Boolean?) {
+        it?.let {
+            if(it){
+                pickFromCamera()
+            }
+        }
+
+    }
+
+    private fun pickFromCamera() {
+        Intent(MediaStore.ACTION_IMAGE_CAPTURE).also { takePictureIntent ->
+            activity?.packageManager?.let {
+                takePictureIntent.resolveActivity(it)?.also {
+                    startActivityForResult(takePictureIntent, RQ_TAKE_PHOTO)
+                }
+            }
+        }
+    }
+
+    private fun pickImage() {
+        val intent = Intent(Intent.ACTION_PICK)
+        intent.type = "image/*"
+        startActivityForResult(intent, RQ_PICK_PHOTO)
+    }
+
+    private fun onPickImageIntent(it: Boolean?) {
+       it?.let {
+           if(it){
+               pickImage()
+           }
+       }
     }
 
     private fun onProductUpload(it: Boolean?) {
@@ -93,15 +131,14 @@ class AddProduct : Fragment() {
     }
 
     private fun onPickDataFromGallery(pickAction: Boolean?) {
-
         pickAction?.let {
             if(it){
-                val intent = Intent(Intent.ACTION_PICK)
-                intent.type = "image/*"
-                startActivityForResult(intent, RQ_PICK_PHOTO)
+                activity?.showPickImageDialog(viewModel)
             }
         }
     }
+
+
 
     private fun onConfigureCategoryAdapter(categoryList: List<String>) {
         adapterSpinner = ArrayAdapter(context!!, android.R.layout.simple_list_item_1, categoryList)
@@ -112,21 +149,27 @@ class AddProduct : Fragment() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
-
         when(requestCode){
             RQ_PICK_PHOTO -> {
                 if(resultCode == Activity.RESULT_OK){
 
                     data?.let {
                         viewModel.onPickPhotoSuccess()
+                        viewModel.closePhotoIntent()
                         selectedPhotoUri = data.data
                         val bitmap = MediaStore.Images.Media.getBitmap(activity?.contentResolver, selectedPhotoUri)
                         val bitmapDrawable = BitmapDrawable(bitmap)
-
                         binding.groupPickPhoto.visibility = View.INVISIBLE
                         binding.lvLoadedProduct.setImageDrawable(bitmapDrawable)
                         sendImageToFirebase()
                     }
+                }
+            }
+
+            RQ_TAKE_PHOTO -> {
+                if(resultCode == Activity.RESULT_OK) {
+                    val imageBitmap = data?.extras?.get("data") as Bitmap
+                    binding.lvLoadedProduct.setImageBitmap(imageBitmap)
                 }
             }
         }
@@ -134,7 +177,6 @@ class AddProduct : Fragment() {
 
     private fun sendImageToFirebase() {
         val filename = UUID.randomUUID().toString()
-        val ref = FirebaseStorage.getInstance().getReference("/images/$filename")
         selectedPhotoUri?.let { viewModel.uploadImageToFirebase(filename, it) }
     }
 }
