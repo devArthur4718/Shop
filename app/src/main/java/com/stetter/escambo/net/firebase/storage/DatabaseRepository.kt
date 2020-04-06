@@ -14,6 +14,7 @@ class DatabaseRepository {
        return FirebaseStorage.getInstance().getReference(if(BuildConfig.DEBUG) "/images/$filename" else "debugimages/$filename")
     }
 
+
     fun updateProductToDabatase(uid : String): DatabaseReference {
         var productUID = UUID.randomUUID().toString()
         return FirebaseDatabase.getInstance().getReference("/products/$productUID")
