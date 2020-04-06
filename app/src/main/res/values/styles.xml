@@ -231,5 +231,12 @@
         <item name="android:lineSpacingMultiplier">1.19</item>
     </style>
 
+    <style name="notificacoes">
+        <item name="android:fontFamily">@font/circular_std_medium</item>
+        <item name="android:textColor">#FF04194D</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:lineSpacingMultiplier">1.21</item>
+    </style>
+
 
 </resources>

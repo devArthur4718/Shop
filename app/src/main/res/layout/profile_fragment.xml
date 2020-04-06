@@ -32,7 +32,7 @@
 
 
         <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/circleImageView6"
+            android:id="@+id/ivProfileImage"
             android:layout_width="128dp"
             android:layout_height="128dp"
             android:src="@drawable/img_avatar"
@@ -42,7 +42,7 @@
             app:layout_constraintTop_toBottomOf="@+id/include2" />
 
         <ImageView
-            android:id="@+id/imageView11"
+            android:id="@+id/ivOpenProfileDetail"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_settings"
@@ -71,9 +71,9 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
             android:text="Ayrton Senna"
-            app:layout_constraintEnd_toEndOf="@+id/circleImageView6"
-            app:layout_constraintStart_toStartOf="@+id/circleImageView6"
-            app:layout_constraintTop_toBottomOf="@+id/circleImageView6" />
+            app:layout_constraintEnd_toEndOf="@+id/ivProfileImage"
+            app:layout_constraintStart_toStartOf="@+id/ivProfileImage"
+            app:layout_constraintTop_toBottomOf="@+id/ivProfileImage" />
 
         <TextView
             android:id="@+id/tvLoggedUserLocation"
@@ -88,7 +88,7 @@
 
         <Button
             android:id="@+id/tvUserMatches"
-            android:text="8 Matches"
+            android:text="0 Matches"
             android:layout_width="wrap_content"
             android:layout_height="29dp"
             android:textSize="12sp"
@@ -105,7 +105,7 @@
             android:layout_height="29dp"
             android:layout_marginStart="8dp"
             android:background="@drawable/gradient_blue"
-            android:text="12 Produtos"
+            android:text="0 Produtos"
             android:textSize="12sp"
             android:layout_marginTop="0dp"
             android:paddingHorizontal="8dp"
@@ -141,9 +141,11 @@
             app:layout_constraintTop_toBottomOf="@+id/textView22" />
 
         <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvMyitens"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_marginTop="8dp"
+            tools:listitem="@layout/item_my_item"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

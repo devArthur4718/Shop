@@ -1,0 +1,234 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true">
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:context=".ui.core.profile.ProfileDetail">
+
+            <include
+                android:id="@+id/include2"
+                layout="@layout/header_green"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/ivDetailProfileImage"
+                android:layout_width="128dp"
+                android:layout_height="128dp"
+                android:src="@drawable/img_avatar"
+                app:layout_constraintBottom_toBottomOf="@+id/include2"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/include2" />
+
+            <ImageView
+                android:id="@+id/ivChangeProfilePhoto"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="@+id/ivDetailProfileImage"
+                app:layout_constraintTop_toTopOf="@+id/ivDetailProfileImage"
+                app:srcCompat="@drawable/cam_icon" />
+
+            <ImageView
+                android:id="@+id/bgFake1"
+                android:layout_width="@dimen/circular_width"
+                android:layout_height="@dimen/circular_height"
+                android:layout_marginEnd="16dp"
+                android:src="@drawable/circular_gradient_blue"
+                app:layout_constraintBottom_toBottomOf="@+id/include2"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/ivLogout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toBottomOf="@+id/bgFake1"
+                app:layout_constraintEnd_toEndOf="@+id/bgFake1"
+                app:layout_constraintStart_toStartOf="@+id/bgFake1"
+                app:layout_constraintTop_toTopOf="@+id/bgFake1"
+                app:srcCompat="@drawable/ic_exit_to_app_black_24dp" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/inputFullName"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/ivDetailProfileImage">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/full_name"
+                    android:inputType="textPersonName"
+                    android:text="Ayrton Senna" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/inputEmail"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                app:layout_constraintEnd_toEndOf="@+id/inputFullName"
+                app:layout_constraintStart_toStartOf="@+id/inputFullName"
+                app:layout_constraintTop_toBottomOf="@+id/inputFullName">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/e_mail"
+                    android:inputType="textEmailAddress"
+                    android:text="ayrton@gmail.com" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/inputPassword"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                app:layout_constraintEnd_toEndOf="@+id/inputEmail"
+                app:layout_constraintStart_toStartOf="@+id/inputEmail"
+                app:layout_constraintTop_toBottomOf="@+id/inputEmail">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/senha"
+                    android:inputType="textPassword"
+                    android:text="123456" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/inputBirthDate"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                app:layout_constraintEnd_toEndOf="@+id/inputPassword"
+                app:layout_constraintStart_toStartOf="@+id/inputPassword"
+                app:layout_constraintTop_toBottomOf="@+id/inputPassword">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/birthdate"
+                    android:inputType="number"
+                    android:text="21/11/1990" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/inputPostalCode"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                app:layout_constraintEnd_toEndOf="@+id/inputBirthDate"
+                app:layout_constraintStart_toStartOf="@+id/inputBirthDate"
+                app:layout_constraintTop_toBottomOf="@+id/inputBirthDate">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/cep"
+                    android:inputType="number"
+                    android:text="02806-000" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/inputUF"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                app:layout_constraintEnd_toEndOf="@+id/inputPostalCode"
+                app:layout_constraintStart_toStartOf="@+id/inputPostalCode"
+                app:layout_constraintTop_toBottomOf="@+id/inputPostalCode">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/uf"
+                    android:maxLength="2"
+                    android:text="SP" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/inputCity"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                app:layout_constraintEnd_toEndOf="@+id/inputUF"
+                app:layout_constraintStart_toStartOf="@+id/inputUF"
+                app:layout_constraintTop_toBottomOf="@+id/inputUF">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/city"
+                    android:text="São Paulo" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+
+            <View
+                android:id="@+id/view2"
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_marginTop="24dp"
+                android:background="#A8ADB4"
+                app:layout_constraintEnd_toEndOf="@+id/inputCity"
+                app:layout_constraintStart_toStartOf="@+id/inputCity"
+                app:layout_constraintTop_toBottomOf="@+id/inputCity" />
+
+            <TextView
+                android:id="@+id/tvLabelNotification"
+                style="@style/notificacoes"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:text="@string/notification"
+                app:layout_constraintStart_toStartOf="@+id/view2"
+                app:layout_constraintTop_toBottomOf="@+id/view2" />
+
+            <Switch
+                android:id="@+id/swNotification"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="true"
+                android:thumbTint="@color/fontDarkColor"
+                app:layout_constraintBaseline_toBaselineOf="@+id/tvLabelNotification"
+                app:layout_constraintEnd_toEndOf="@+id/view2" />
+
+            <Button
+                android:id="@+id/button9"
+                style="@style/greenGradientButton"
+                android:layout_marginTop="24dp"
+                android:layout_marginBottom="24dp"
+                android:text="@string/save_it"
+                android:textAllCaps="false"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@+id/swNotification"
+                app:layout_constraintStart_toStartOf="@+id/tvLabelNotification"
+                app:layout_constraintTop_toBottomOf="@+id/tvLabelNotification" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    </androidx.core.widget.NestedScrollView>
+</layout>
