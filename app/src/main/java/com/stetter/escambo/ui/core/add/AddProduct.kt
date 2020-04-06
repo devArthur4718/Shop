@@ -2,6 +2,7 @@ package com.stetter.escambo.ui.core.add
 
 import android.app.Activity
 import android.content.Intent
+import android.graphics.Bitmap
 import android.graphics.drawable.BitmapDrawable
 import android.net.Uri
 import androidx.lifecycle.ViewModelProviders
@@ -28,6 +29,7 @@ class AddProduct : Fragment() {
     companion object {
         fun newInstance() = AddProduct()
         const val RQ_PICK_PHOTO = 0
+        const val RQ_TAKE_PHOTO = 1
     }
 
     private lateinit var viewModel: AddProductViewModel
@@ -58,6 +60,7 @@ class AddProduct : Fragment() {
         viewModel.listCategorList.observe(viewLifecycleOwner, Observer { onConfigureCategoryAdapter(it) })
         viewModel.pickPhotoFromGallery.observe(viewLifecycleOwner, Observer { onPickDataFromGallery(it) })
         viewModel.imagePickIntent.observe(viewLifecycleOwner, Observer { onPickImageIntent(it) })
+        viewModel.cameraPickintent.observe(viewLifecycleOwner, Observer { onCameraIntent(it) })
         viewModel.uploadSucess.observe(viewLifecycleOwner, Observer { onImageUploadSucess(it) })
         viewModel.productPath.observe(viewLifecycleOwner, Observer { onProductPathChange(it) })
         viewModel.uploadProduct.observe(viewLifecycleOwner, Observer { onProductUpload(it) })
@@ -71,6 +74,31 @@ class AddProduct : Fragment() {
                             1, binding.edtItemValue.text.toString().toDouble())
             viewModel.uploadProductToFirebase(uid,product)
         }
+    }
+
+    private fun onCameraIntent(it: Boolean?) {
+        it?.let {
+            if(it){
+                pickFromCamera()
+            }
+        }
+
+    }
+
+    private fun pickFromCamera() {
+        Intent(MediaStore.ACTION_IMAGE_CAPTURE).also { takePictureIntent ->
+            activity?.packageManager?.let {
+                takePictureIntent.resolveActivity(it)?.also {
+                    startActivityForResult(takePictureIntent, RQ_TAKE_PHOTO)
+                }
+            }
+        }
+    }
+
+    private fun pickImage() {
+        val intent = Intent(Intent.ACTION_PICK)
+        intent.type = "image/*"
+        startActivityForResult(intent, RQ_PICK_PHOTO)
     }
 
     private fun onPickImageIntent(it: Boolean?) {
@@ -110,11 +138,7 @@ class AddProduct : Fragment() {
         }
     }
 
-    private fun pickImage() {
-        val intent = Intent(Intent.ACTION_PICK)
-        intent.type = "image/*"
-        startActivityForResult(intent, RQ_PICK_PHOTO)
-    }
+
 
     private fun onConfigureCategoryAdapter(categoryList: List<String>) {
         adapterSpinner = ArrayAdapter(context!!, android.R.layout.simple_list_item_1, categoryList)
@@ -124,7 +148,6 @@ class AddProduct : Fragment() {
     var selectedPhotoUri : Uri? = null
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-
 
         when(requestCode){
             RQ_PICK_PHOTO -> {
@@ -140,6 +163,13 @@ class AddProduct : Fragment() {
                         binding.lvLoadedProduct.setImageDrawable(bitmapDrawable)
                         sendImageToFirebase()
                     }
+                }
+            }
+
+            RQ_TAKE_PHOTO -> {
+                if(resultCode == Activity.RESULT_OK) {
+                    val imageBitmap = data?.extras?.get("data") as Bitmap
+                    binding.lvLoadedProduct.setImageBitmap(imageBitmap)
                 }
             }
         }
