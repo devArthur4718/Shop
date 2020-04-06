@@ -19,6 +19,7 @@ import com.google.firebase.storage.FirebaseStorage
 
 import com.stetter.escambo.R
 import com.stetter.escambo.databinding.AddProductFragmenetBinding
+import com.stetter.escambo.extension.showPickImageDialog
 import com.stetter.escambo.net.models.SendProduct
 import java.util.*
 
@@ -56,6 +57,7 @@ class AddProduct : Fragment() {
     private fun setObserbales() {
         viewModel.listCategorList.observe(viewLifecycleOwner, Observer { onConfigureCategoryAdapter(it) })
         viewModel.pickPhotoFromGallery.observe(viewLifecycleOwner, Observer { onPickDataFromGallery(it) })
+        viewModel.imagePickIntent.observe(viewLifecycleOwner, Observer { onPickImageIntent(it) })
         viewModel.uploadSucess.observe(viewLifecycleOwner, Observer { onImageUploadSucess(it) })
         viewModel.productPath.observe(viewLifecycleOwner, Observer { onProductPathChange(it) })
         viewModel.uploadProduct.observe(viewLifecycleOwner, Observer { onProductUpload(it) })
@@ -69,6 +71,14 @@ class AddProduct : Fragment() {
                             1, binding.edtItemValue.text.toString().toDouble())
             viewModel.uploadProductToFirebase(uid,product)
         }
+    }
+
+    private fun onPickImageIntent(it: Boolean?) {
+       it?.let {
+           if(it){
+               pickImage()
+           }
+       }
     }
 
     private fun onProductUpload(it: Boolean?) {
@@ -93,14 +103,17 @@ class AddProduct : Fragment() {
     }
 
     private fun onPickDataFromGallery(pickAction: Boolean?) {
-
         pickAction?.let {
             if(it){
-                val intent = Intent(Intent.ACTION_PICK)
-                intent.type = "image/*"
-                startActivityForResult(intent, RQ_PICK_PHOTO)
+                activity?.showPickImageDialog(viewModel)
             }
         }
+    }
+
+    private fun pickImage() {
+        val intent = Intent(Intent.ACTION_PICK)
+        intent.type = "image/*"
+        startActivityForResult(intent, RQ_PICK_PHOTO)
     }
 
     private fun onConfigureCategoryAdapter(categoryList: List<String>) {
@@ -119,10 +132,10 @@ class AddProduct : Fragment() {
 
                     data?.let {
                         viewModel.onPickPhotoSuccess()
+                        viewModel.closePhotoIntent()
                         selectedPhotoUri = data.data
                         val bitmap = MediaStore.Images.Media.getBitmap(activity?.contentResolver, selectedPhotoUri)
                         val bitmapDrawable = BitmapDrawable(bitmap)
-
                         binding.groupPickPhoto.visibility = View.INVISIBLE
                         binding.lvLoadedProduct.setImageDrawable(bitmapDrawable)
                         sendImageToFirebase()
@@ -134,7 +147,6 @@ class AddProduct : Fragment() {
 
     private fun sendImageToFirebase() {
         val filename = UUID.randomUUID().toString()
-        val ref = FirebaseStorage.getInstance().getReference("/images/$filename")
         selectedPhotoUri?.let { viewModel.uploadImageToFirebase(filename, it) }
     }
 }

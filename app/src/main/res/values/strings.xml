@@ -129,4 +129,8 @@
     <string name="plus_three">+3</string>
     <string name="title_profile_tip2">Meus itens no Escambo</string>
     <string name="profile_label_itens">Itens Publicados</string>
+    <string name="filter">Filtrar</string>
+    <string name="select">Selecione</string>
+    <string name="cam">Câmera</string>
+    <string name="gallery">Galeria</string>
 </resources>

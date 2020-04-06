@@ -9,4 +9,5 @@
     <color name="fontColorBlue">#0A2549</color>
     <color name="fontDarkColor">#19CAB1</color>
     <color name="circleBlue">#004C84</color>
+    <color name="grey_white_background">#fefefe</color>
 </resources>

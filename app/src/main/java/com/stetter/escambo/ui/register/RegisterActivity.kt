@@ -97,7 +97,7 @@ class RegisterActivity : AppCompatActivity() {
                 return@setOnClickListener
             }
             else if (!binding.inputPassword.editText?.isPasswordValid()!!) {
-                binding.inputPassword.editText?.setError("Mínimo de 8 carácteres")
+                binding.inputPassword.editText?.setError("Mínimo de 8 caracteres")
                 return@setOnClickListener
             }
             else if (binding.inputPassword?.editText?.isNullOrEmpty()!!) {

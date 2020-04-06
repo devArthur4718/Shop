@@ -27,9 +27,6 @@ class RegisterViewModel : ViewModel() {
     private val _registerObserver = MutableLiveData<Boolean>()
     val registerObserver : LiveData<Boolean> get() = _registerObserver
 
-    //form
-    val fullName = MutableLiveData<String>("")
-    val email = MutableLiveData<String>("")
 
     fun getAddress(cep: String) {
         _loadingProgress.value = true

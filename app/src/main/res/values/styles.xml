@@ -224,5 +224,12 @@
         <item name="android:lineSpacingMultiplier">1.19</item>
     </style>
 
+    <style name="dialogTitle">
+        <item name="android:fontFamily">@font/circular_std_bold</item>
+        <item name="android:textColor">#FF04194D</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:lineSpacingMultiplier">1.19</item>
+    </style>
+
 
 </resources>
