@@ -121,7 +121,7 @@
     <string name="Search">Pesquisar</string>
     <string name="category">Categoria</string>
     <string name="localization">Localização</string>
-    <string name="search_product_tip">Busque por produtos ou filtre\n filter de acordo com seu interesse</string>
+    <string name="search_product_tip">Busque por produtos ou filtre\nde acordo com seu interesse</string>
     <string name="search_tip2">Faça uma pesquisa para\n exibirmos os resultados</string>
     <string name="nothing_yet">Nada Ainda</string>
     <string name="message_tip">Aqui ficam as mensagens de quem \n teve interesse por um item seu</string>

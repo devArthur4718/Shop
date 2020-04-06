@@ -1,7 +1,5 @@
 package com.stetter.escambo.net.retrofit
 
-import com.facebook.stetho.okhttp3.StethoInterceptor
-import okhttp3.OkHttpClient
 import retrofit2.Call
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory

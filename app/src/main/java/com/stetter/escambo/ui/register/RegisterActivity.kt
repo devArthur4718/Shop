@@ -11,6 +11,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.stetter.escambo.R
 import com.stetter.escambo.databinding.ActivityRegisterBinding
+import com.stetter.escambo.databinding.ActivityRegisterNewBinding
 import com.stetter.escambo.extension.*
 import com.stetter.escambo.net.models.RegisterUser
 import com.stetter.escambo.ui.dialog.LoadingDialog
@@ -18,7 +19,7 @@ import com.stetter.escambo.ui.dialogs.CustomDialog
 
 class RegisterActivity : AppCompatActivity() {
 
-    private lateinit var binding: ActivityRegisterBinding
+    private lateinit var binding: ActivityRegisterNewBinding
     private lateinit var viewmodel: RegisterViewModel
     private lateinit var loadingDialog: LoadingDialog
     private lateinit var errorDialog: CustomDialog
@@ -26,9 +27,9 @@ class RegisterActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register)
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_register)
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_register_new)
         viewmodel = ViewModelProviders.of(this)[RegisterViewModel::class.java]
-        binding.viewmodel = viewmodel
+
         binding.lifecycleOwner = this
         initViews()
         setObservables()
@@ -45,8 +46,8 @@ class RegisterActivity : AppCompatActivity() {
 
         viewmodel.addressValue.observe(this, Observer { response ->
             if (response != null) {
-                binding.edtCity.setText(response.localidade)
-                binding.edtUF.setText(response.uf)
+                binding.inputCity.editText?.setText(response.localidade)
+                binding.inputUF.editText?.setText(response.uf)
             }
         })
 
@@ -76,61 +77,73 @@ class RegisterActivity : AppCompatActivity() {
 
         binding.btnRegister.setOnClickListener {
 
-            if (!binding.edtFullName.isFullNameValid()) {
-                binding.edtFullName.setError("Nome imcompleto")
+            binding.inputFullName.editText?.clearError()
+            binding.inputEmail.editText?.clearError()
+            binding.inputPassword.editText?.clearError()
+            binding.inputPostalCode.editText?.clearError()
+            binding.inputUF.editText?.clearError()
+            binding.inputCity.editText?.clearError()
+
+            if (binding.inputFullName.editText!!.isNullOrEmpty()) {
+                binding.inputFullName?.editText?.setError("Nome em branco")
                 return@setOnClickListener
-            } else if (binding.edtFullName.isNullOrEmpty()) {
-                binding.edtFullName.setError("Nome não pode ser vazio")
-                return@setOnClickListener
-            } else if (!binding.edtEmail.isEmailValid()) {
-                binding.edtEmail.setError("E-mail inválido")
-                return@setOnClickListener
-            } else if (binding.edtEmail.isNullOrEmpty()) {
-                binding.edtEmail.setError(("E-mail em branco"))
-                return@setOnClickListener
-            } else if (!binding.edtRegisterPassword.isPasswordValid()) {
-                binding.edtRegisterPassword.setError("Mínimo de 8 carácteres")
-                return@setOnClickListener
-            } else if (binding.edtRegisterPassword.isNullOrEmpty()) {
-                binding.edtRegisterPassword.setError("Senha em branco")
-                return@setOnClickListener
-            }else if(!binding.edtBirthDate.isBirthDateValid()  ){
-                binding.edtPostalCode.setError("Data inválida")
-            }else if(binding.edtBirthDate.isNullOrEmpty()){
-                binding.edtPostalCode.setError("Data em branco")
             }
-            else if(!binding.edtPostalCode.isPostalCodeValid()  ){
-                binding.edtPostalCode.setError("Cep inválido")
-            }else if(binding.edtPostalCode.isNullOrEmpty()){
-                binding.edtPostalCode.setError("Cep em branco")
+            else if (!binding?.inputEmail?.editText?.isEmailValid()!!) {
+                binding.inputEmail?.editText?.setError("E-mail inválido")
+                return@setOnClickListener
             }
-            else if (!binding.edtUF.isUFValid()) {
-                binding.edtUF.setError("UF inválido")
+            else if (binding.inputEmail.editText?.isNullOrEmpty()!!) {
+                binding.inputEmail.editText?.setError(("E-mail em branco"))
                 return@setOnClickListener
-            } else if (binding.edtUF.isNullOrEmpty()) {
-                binding.edtUF.setError("UF em Branco")
+            }
+            else if (!binding.inputPassword.editText?.isPasswordValid()!!) {
+                binding.inputPassword.editText?.setError("Mínimo de 8 carácteres")
                 return@setOnClickListener
-            } else if (binding.edtCity.isNullOrEmpty()) {
-                binding.edtCity.setError("Cidade em branco")
+            }
+            else if (binding.inputPassword?.editText?.isNullOrEmpty()!!) {
+                binding.inputPassword?.editText?.setError("Senha em branco")
+                return@setOnClickListener
+            }
+            else if(!binding.inputBirthDate.editText?.isBirthDateValid()!!){
+                binding.inputBirthDate.editText?.setError("Data inválida")
+            }
+            else if(binding.inputBirthDate.editText?.isNullOrEmpty()!!){
+                binding.inputBirthDate.editText?.setError("Data em branco")
+            }
+            else if(!binding.inputPostalCode.editText?.isPostalCodeValid()!!){
+                binding.inputPostalCode.editText?.setError("Cep inválido")
+            }
+            else if(binding.inputPostalCode.editText?.isNullOrEmpty()!!){
+                binding.inputPostalCode.editText?.setError("Cep em branco")
+            }
+            else if (!binding.inputUF.editText?.isUFValid()!!) {
+                binding.inputUF.editText?.setError("UF inválido")
+                return@setOnClickListener
+            }
+            else if (binding.inputUF.editText?.isNullOrEmpty()!!) {
+                binding.inputUF.editText?.setError("UF em Branco")
+                return@setOnClickListener
+            }
+            else if (binding.inputCity.editText?.isNullOrEmpty()!!) {
+                binding.inputCity.editText?.setError("Cidade em branco")
             }
             else{
                 var senUser = RegisterUser().apply {
-                    this.fullName = binding.edtFullName.text.toString()
-                    this.email = binding.edtEmail.text.toString()
-                    this.password = binding.edtRegisterPassword.text.toString()
-                    this.cep = binding.edtPostalCode.text.toString()
-                    this.uf = binding.edtUF.text.toString()
-                    this.city = binding.edtCity.text.toString()
+                    this.fullName = binding.inputFullName.editText?.text.toString()
+                    this.email = binding.inputEmail.editText?.text.toString()
+                    this.password = binding.inputPassword.editText?.text.toString()
+                    this.cep = binding.inputPostalCode.editText?.text.toString()
+                    this.uf = binding.inputUF.editText?.text.toString()
+                    this.city = binding.inputCity.editText?.text.toString()
                 }
-
                 sendForm(senUser)
             }
 
 
         }
-        binding.edtBirthDate.addTextChangedListener(Mask.mask("##/##/####", binding.edtBirthDate))
-        binding.edtPostalCode.addTextChangedListener(Mask.mask("#####-###", binding.edtPostalCode))
-        binding.edtPostalCode.setOnFocusChangeListener { view, b -> fetchAddress(binding.edtPostalCode) }
+        binding.inputBirthDate.editText?.addTextChangedListener(Mask.mask("##/##/####", binding?.inputBirthDate?.editText!!))
+        binding.inputPostalCode.editText?.addTextChangedListener(Mask.mask("#####-###", binding?.inputPostalCode?.editText!!))
+        binding.inputPostalCode.editText?.setOnFocusChangeListener { view, b -> fetchAddress(binding?.inputPostalCode?.editText!!) }
     }
 
     private fun sendForm(sendUser: RegisterUser) {
@@ -139,8 +152,9 @@ class RegisterActivity : AppCompatActivity() {
     }
 
     private fun fetchAddress(edtPostalCode: EditText) {
-        if (Mask.removeMask(edtPostalCode.text.toString()).length == 8) {
-            viewmodel.getAddress(edtPostalCode.text.toString())
+        val postalCode = Mask.removeMask(edtPostalCode.text.toString())
+        if (postalCode.length == 8) {
+            viewmodel.getAddress(postalCode)
         }
     }
 
@@ -154,13 +168,11 @@ class RegisterActivity : AppCompatActivity() {
                         // User clicked OK button
                     })
 
-                setMessage("CEP não encontrato")
+                setMessage("CEP não encontrado.")
             }
             builder.create()
         }
 
         return alertDialog!!
-
     }
-
 }

@@ -23,6 +23,7 @@ import com.stetter.escambo.BuildConfig
 import com.stetter.escambo.R
 import com.stetter.escambo.databinding.ActivityLoginBinding
 import com.stetter.escambo.extension.clearError
+import com.stetter.escambo.extension.isNullOrEmpty
 import com.stetter.escambo.ui.core.CoreActivity
 import com.stetter.escambo.ui.dialog.LoadingDialog
 import com.stetter.escambo.ui.recovery.RecoveryPassword
@@ -85,9 +86,11 @@ class LoginActivity : AppCompatActivity() {
             navigateToRecover()
         }
         binding.btnLogin.setOnClickListener {
+
+
             performLogin(
-                binding.edtLoginEmail.text.toString(),
-                binding.edtLoginPassword.text.toString()
+                binding.inputName.editText?.text.toString(),
+                binding.inputPassword.editText?.text.toString()
             )
         }
         binding.btnPerformFaceLogin.setOnClickListener {
@@ -98,8 +101,8 @@ class LoginActivity : AppCompatActivity() {
         }
 
         if(BuildConfig.DEBUG){
-            binding.edtLoginEmail.setText("devarthur4718@gmail.com")
-            binding.edtLoginPassword.setText("12345678")
+            binding.inputName.editText?.setText("devarthur4718@gmail.com")
+            binding.inputPassword.editText?.setText("12345678")
         }
 
 
@@ -143,14 +146,14 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun performLogin(email: String, password: String) {
-        binding.edtLoginPassword.clearError()
-        binding.edtLoginEmail.clearError()
+        binding.inputName.editText?.clearError()
+        binding.inputPassword.editText?.clearError()
         if (!email.isNullOrEmpty() && !password.isNullOrEmpty()) {
             viewmodel.showLoading()
             viewmodel.signInWithEmail(email, password)
         } else {
-            if (binding.edtLoginEmail.text.isNullOrEmpty()) binding.edtLoginEmail.setError("")
-            if (binding.edtLoginPassword.text.isNullOrEmpty()) binding.edtLoginPassword.setError("")
+            if (binding.inputName.editText?.text.isNullOrEmpty()) binding.inputName.editText?.setError("")
+            if (binding.inputPassword.editText?.text.isNullOrEmpty()) binding.inputPassword.editText?.setError("")
         }
     }
 

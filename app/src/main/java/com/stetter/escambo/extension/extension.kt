@@ -9,7 +9,7 @@ fun EditText.clearError() {
 }
 
 fun EditText.isEmailValid() : Boolean{
-    return Patterns.EMAIL_ADDRESS.matcher(this.text).matches()
+    return Patterns.EMAIL_ADDRESS.matcher(this.text.toString()).matches()
 }
 
 fun EditText.isFullNameValid() : Boolean {

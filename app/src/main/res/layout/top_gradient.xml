@@ -8,5 +8,5 @@
     app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintTop_toTopOf="parent"
-    app:srcCompat="@drawable/gradient_blue"
+    app:srcCompat="@drawable/gradient_blue_no_corner"
     tools:showIn="@layout/activity_filter" />
