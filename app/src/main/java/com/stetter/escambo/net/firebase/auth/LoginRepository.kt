@@ -1,17 +1,15 @@
 package com.stetter.escambo.net.firebase.auth
 
 import android.util.Log
-import androidx.lifecycle.MutableLiveData
 import com.facebook.AccessToken
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.*
-import com.stetter.escambo.net.models.Users
 
 class LoginRepository {
 
     var auth = FirebaseAuth.getInstance()
-    var userLiveData : MutableLiveData<Users> = MutableLiveData()
+
 
     fun logInWithEmailAndPassword(email : String = "email", password : String = "password"): Task<AuthResult> {
         return auth.signInWithEmailAndPassword(email,password)
@@ -28,7 +26,6 @@ class LoginRepository {
     }
 
     fun logoffUser() : Boolean{
-        userLiveData.value = null
         auth.signOut()
         return true
     }

@@ -24,6 +24,11 @@ class DatabaseRepository {
         return FirebaseDatabase.getInstance().getReference("/users/$uid")
     }
 
+    fun retriveUserData() : DatabaseReference{
+        var uid = getUID()
+        return FirebaseDatabase.getInstance().getReference("/users/$uid")
+    }
+
 
 
     fun getUID() : String{

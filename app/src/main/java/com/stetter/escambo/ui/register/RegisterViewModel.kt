@@ -60,14 +60,12 @@ class RegisterViewModel : ViewModel() {
         })
     }
 
-    fun registerUser(sendUser: RegisterUser)  {
+    fun registerUser(sendUser: RegisterUser, password : String)  {
         showLoading()
-        authRepository.createUser(sendUser.email, sendUser.password)
+        authRepository.createUser(sendUser.email, password)
             .addOnCompleteListener {
                 hideLoading()
                 saveUserToDabase(sendUser,it.result?.user?.uid)
-
-
             }.addOnFailureListener {
                 _registerObserver.value = false
                 hideLoading()
@@ -76,6 +74,7 @@ class RegisterViewModel : ViewModel() {
 
     fun saveUserToDabase(sendUser: RegisterUser ,uid : String?){
         showLoading()
+
         database.saveUserToDabase(uid!!).setValue(sendUser)
             .addOnCompleteListener {
                 hideLoading()
