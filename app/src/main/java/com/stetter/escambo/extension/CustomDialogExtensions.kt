@@ -77,7 +77,7 @@ fun Context.showPickImageProfile(viewModel : UpdateProfileViewModel){
     }
 
     btnPhoto.setOnClickListener {
-        viewModel.openCameraIntent()
+//        viewModel.openCameraIntent()
         dialog.dismiss()
     }
 }

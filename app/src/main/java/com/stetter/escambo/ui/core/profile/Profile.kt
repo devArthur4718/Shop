@@ -8,9 +8,13 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
+import androidx.swiperefreshlayout.widget.CircularProgressDrawable
+import com.google.firebase.storage.FirebaseStorage
 
 import com.stetter.escambo.R
 import com.stetter.escambo.databinding.ProfileFragmentBinding
+import com.stetter.escambo.extension.CircularProgress
+import com.stetter.escambo.glide.GlideApp
 import com.stetter.escambo.net.models.Product
 import com.stetter.escambo.net.models.RegisterUser
 import com.stetter.escambo.ui.adapter.ItemProductAdapter
@@ -60,8 +64,21 @@ class Profile : BaseFragment() {
             //Update UI
             binding.tvLoggedUserProfile.text =  it.fullName
             binding.tvLoggedUserLocation.text = it.city + "/" + it.uf
-        }
+            //Load User profile
+            val storage = FirebaseStorage.getInstance()
 
+            if(it.photoUrl.length > 1){
+                val gsReference = storage.getReferenceFromUrl("gs://escambo-1b51d.appspot.com${it.photoUrl}")
+                GlideApp.with(this)
+                    .load(gsReference)
+                    .placeholder(context?.CircularProgress())
+                    .into(binding.ivProfileImage)
+
+            }else{
+                binding.ivProfileImage.setImageDrawable(resources.getDrawable(R.drawable.ic_young))
+            }
+
+        }
     }
 
     private fun onProductListRetrieved(productList: List<Product>) {

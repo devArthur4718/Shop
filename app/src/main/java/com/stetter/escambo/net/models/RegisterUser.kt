@@ -8,6 +8,7 @@ data class RegisterUser (
                   var city : String = "",
                   var photoUrl : String = "",
                   var birthDate : String = "",
+                  var matches : Int = 0,
+                  var produtos : Int = 0,
                   var receiveNotifications : Boolean = false
-
 )

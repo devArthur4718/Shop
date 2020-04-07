@@ -61,28 +61,27 @@ class RegisterViewModel : ViewModel() {
     }
 
     fun registerUser(sendUser: RegisterUser, password : String)  {
-        showLoading()
+        _loadingProgress.value = true
         authRepository.createUser(sendUser.email, password)
             .addOnCompleteListener {
-                hideLoading()
                 saveUserToDabase(sendUser,it.result?.user?.uid)
             }.addOnFailureListener {
                 _registerObserver.value = false
-                hideLoading()
+                _loadingProgress.value = false
             }
     }
 
     fun saveUserToDabase(sendUser: RegisterUser ,uid : String?){
-        showLoading()
-
         database.saveUserToDabase(uid!!).setValue(sendUser)
             .addOnCompleteListener {
                 hideLoading()
+                _loadingProgress.value = false
                 _registerObserver.value = true
                 Log.d("Register", "Created user $uid")
              }
             .addOnFailureListener {
                 hideLoading()
+                _loadingProgress.value = false
                 _registerObserver.value = false
                 Log.e("Register", "error when creanting user $uid : $it")
             }
