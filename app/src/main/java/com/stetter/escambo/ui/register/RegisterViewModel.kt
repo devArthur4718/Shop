@@ -1,9 +1,11 @@
 package com.stetter.escambo.ui.register
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.stetter.escambo.net.firebase.auth.LoginRepository
+import com.stetter.escambo.net.firebase.storage.DatabaseRepository
 import com.stetter.escambo.net.models.RegisterUser
 import com.stetter.escambo.net.retrofit.postalApi
 import com.stetter.escambo.net.retrofit.postalResponse
@@ -14,6 +16,7 @@ import retrofit2.Response
 class RegisterViewModel : ViewModel() {
 
     var authRepository = LoginRepository()
+    var database = DatabaseRepository()
 
     private val _addressValue = MutableLiveData<postalResponse>()
     val addressValue: LiveData<postalResponse> get() = _addressValue
@@ -58,15 +61,34 @@ class RegisterViewModel : ViewModel() {
     }
 
     fun registerUser(sendUser: RegisterUser)  {
+        showLoading()
         authRepository.createUser(sendUser.email, sendUser.password)
             .addOnCompleteListener {
-                _registerObserver.value = true
                 hideLoading()
+                saveUserToDabase(sendUser,it.result?.user?.uid)
+
+
             }.addOnFailureListener {
                 _registerObserver.value = false
                 hideLoading()
             }
     }
+
+    fun saveUserToDabase(sendUser: RegisterUser ,uid : String?){
+        showLoading()
+        database.saveUserToDabase(uid!!).setValue(sendUser)
+            .addOnCompleteListener {
+                hideLoading()
+                _registerObserver.value = true
+                Log.d("Register", "Created user $uid")
+             }
+            .addOnFailureListener {
+                hideLoading()
+                _registerObserver.value = false
+                Log.e("Register", "error when creanting user $uid : $it")
+            }
+    }
+
     fun showLoading(){
         _loadingProgress.value = true
     }

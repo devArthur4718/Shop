@@ -6,6 +6,7 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.storage.BuildConfig
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
+import com.stetter.escambo.net.models.RegisterUser
 import java.util.*
 
 class DatabaseRepository {
@@ -14,11 +15,16 @@ class DatabaseRepository {
        return FirebaseStorage.getInstance().getReference(if(BuildConfig.DEBUG) "/images/$filename" else "debugimages/$filename")
     }
 
-
     fun updateProductToDabatase(uid : String): DatabaseReference {
         var productUID = UUID.randomUUID().toString()
         return FirebaseDatabase.getInstance().getReference("/products/$productUID")
     }
+
+    fun saveUserToDabase(uid : String): DatabaseReference {
+        return FirebaseDatabase.getInstance().getReference("/users/$uid")
+    }
+
+
 
     fun getUID() : String{
         return FirebaseAuth.getInstance().uid ?: ""

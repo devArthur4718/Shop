@@ -140,4 +140,18 @@
     <string name="until">Até</string>
     <string name="filter_by_category">Filtar pela Categoria</string>
     <string name="filter_by_localization">Filtre pela localização.</string>
+    <string name="blank_name">Nome em branco</string>
+    <string name="invalid_email">E-mail inválido</string>
+    <string name="blank_email">E-mail em branco</string>
+    <string name="password_min">Mínimo de 8 caracteres</string>
+    <string name="blank_pw">Senha em branco</string>
+    <string name="birthdate_invalid">Data inválida</string>
+    <string name="blank_date">Data em branco</string>
+    <string name="invalid_postal_code">Cep inválido</string>
+    <string name="blank_postal_code">Cep em branco</string>
+    <string name="UF_invalid">UF inválido</string>
+    <string name="UF_blank">UF em Branco</string>
+    <string name="blank_city">Cidade em branco</string>
+    <string name="access">Acesse aqui</string>
+    <string name="have_an_account">Já possui conta no escambo?</string>
 </resources>

@@ -62,6 +62,7 @@ class RegisterActivity : AppCompatActivity() {
             if(it) {
                 Toast.makeText(this, "Cadastro Enviado", Toast.LENGTH_SHORT).show()
                 finish()
+
             }
         })
 
@@ -84,47 +85,47 @@ class RegisterActivity : AppCompatActivity() {
             binding.inputCity.editText?.clearError()
 
             if (binding.inputFullName.editText!!.isNullOrEmpty()) {
-                binding.inputFullName?.editText?.setError("Nome em branco")
+                binding.inputFullName?.editText?.setError(getString(R.string.blank_name))
                 return@setOnClickListener
             }
             else if (!binding?.inputEmail?.editText?.isEmailValid()!!) {
-                binding.inputEmail?.editText?.setError("E-mail inválido")
+                binding.inputEmail?.editText?.setError(getString(R.string.invalid_email))
                 return@setOnClickListener
             }
             else if (binding.inputEmail.editText?.isNullOrEmpty()!!) {
-                binding.inputEmail.editText?.setError(("E-mail em branco"))
+                binding.inputEmail.editText?.setError((getString(R.string.blank_email)))
                 return@setOnClickListener
             }
             else if (!binding.inputPassword.editText?.isPasswordValid()!!) {
-                binding.inputPassword.editText?.setError("Mínimo de 8 caracteres")
+                binding.inputPassword.editText?.setError(getString(R.string.password_min))
                 return@setOnClickListener
             }
             else if (binding.inputPassword?.editText?.isNullOrEmpty()!!) {
-                binding.inputPassword?.editText?.setError("Senha em branco")
+                binding.inputPassword?.editText?.setError(getString(R.string.blank_pw))
                 return@setOnClickListener
             }
             else if(!binding.inputBirthDate.editText?.isBirthDateValid()!!){
-                binding.inputBirthDate.editText?.setError("Data inválida")
+                binding.inputBirthDate.editText?.setError(getString(R.string.birthdate_invalid))
             }
             else if(binding.inputBirthDate.editText?.isNullOrEmpty()!!){
-                binding.inputBirthDate.editText?.setError("Data em branco")
+                binding.inputBirthDate.editText?.setError(getString(R.string.blank_date))
             }
             else if(!binding.inputPostalCode.editText?.isPostalCodeValid()!!){
-                binding.inputPostalCode.editText?.setError("Cep inválido")
+                binding.inputPostalCode.editText?.setError(getString(R.string.invalid_postal_code))
             }
             else if(binding.inputPostalCode.editText?.isNullOrEmpty()!!){
-                binding.inputPostalCode.editText?.setError("Cep em branco")
+                binding.inputPostalCode.editText?.setError(getString(R.string.blank_postal_code))
             }
             else if (!binding.inputUF.editText?.isUFValid()!!) {
-                binding.inputUF.editText?.setError("UF inválido")
+                binding.inputUF.editText?.setError(getString(R.string.UF_invalid))
                 return@setOnClickListener
             }
             else if (binding.inputUF.editText?.isNullOrEmpty()!!) {
-                binding.inputUF.editText?.setError("UF em Branco")
+                binding.inputUF.editText?.setError(getString(R.string.UF_blank))
                 return@setOnClickListener
             }
             else if (binding.inputCity.editText?.isNullOrEmpty()!!) {
-                binding.inputCity.editText?.setError("Cidade em branco")
+                binding.inputCity.editText?.setError(getString(R.string.blank_city))
             }
             else{
                 var senUser = RegisterUser().apply {
@@ -147,6 +148,7 @@ class RegisterActivity : AppCompatActivity() {
 
     private fun sendForm(sendUser: RegisterUser) {
         viewmodel.showLoading()
+        //register user
         viewmodel.registerUser(sendUser)
     }
 
