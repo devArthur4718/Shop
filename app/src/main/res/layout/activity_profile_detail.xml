@@ -79,6 +79,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/full_name"
+                    android:enabled="true"
                     android:inputType="textPersonName"
                     android:text="Ayrton Senna" />
             </com.google.android.material.textfield.TextInputLayout>
@@ -96,6 +97,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/e_mail"
+                    android:enabled="true"
                     android:inputType="textEmailAddress"
                     android:text="ayrton@gmail.com" />
             </com.google.android.material.textfield.TextInputLayout>
@@ -113,6 +115,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/senha"
+                    android:enabled="true"
                     android:inputType="textPassword"
                     android:text="123456" />
             </com.google.android.material.textfield.TextInputLayout>
@@ -131,6 +134,7 @@
                     android:layout_height="wrap_content"
                     android:hint="@string/birthdate"
                     android:inputType="number"
+                    android:enabled="true"
                     android:text="21/11/1990" />
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -148,6 +152,7 @@
                     android:layout_height="wrap_content"
                     android:hint="@string/cep"
                     android:inputType="number"
+                    android:enabled="true"
                     android:text="02806-000" />
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -165,6 +170,7 @@
                     android:layout_height="wrap_content"
                     android:hint="@string/uf"
                     android:maxLength="2"
+                    android:enabled="true"
                     android:text="SP" />
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -181,6 +187,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/city"
+                    android:enabled="true"
                     android:text="São Paulo" />
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -215,7 +222,7 @@
                 app:layout_constraintEnd_toEndOf="@+id/view2" />
 
             <Button
-                android:id="@+id/button9"
+                android:id="@+id/btnUpdateProfile"
                 style="@style/greenGradientButton"
                 android:layout_marginTop="24dp"
                 android:layout_marginBottom="24dp"
@@ -226,8 +233,19 @@
                 app:layout_constraintStart_toStartOf="@+id/tvLabelNotification"
                 app:layout_constraintTop_toBottomOf="@+id/tvLabelNotification" />
 
+            <ImageView
+                android:id="@+id/tvCloseProfileDetail"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:tint="@android:color/white"
+                app:layout_constraintBottom_toBottomOf="@+id/include2"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic_arrow_back_black_24dp" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
+
 
 
     </androidx.core.widget.NestedScrollView>

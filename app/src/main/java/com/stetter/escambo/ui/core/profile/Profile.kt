@@ -1,5 +1,6 @@
 package com.stetter.escambo.ui.core.profile
 
+import android.content.Intent
 import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -44,8 +45,10 @@ class Profile : Fragment() {
         viewModel.listProduct.observe(viewLifecycleOwner, Observer {  onProductListRetrieved(it)})
 
         binding.ivOpenProfileDetail.setOnClickListener {
-            //TODO : open detail activity
+            val intent = Intent(activity, ProfileDetail::class.java)
+            startActivity(intent)
         }
+
     }
 
     private fun onProductListRetrieved(productList: List<Product>) {
