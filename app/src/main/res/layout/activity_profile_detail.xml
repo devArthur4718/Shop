@@ -79,7 +79,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/full_name"
-                    android:enabled="true"
+                    android:enabled="false"
                     android:inputType="textPersonName"
                     android:text="Ayrton Senna" />
             </com.google.android.material.textfield.TextInputLayout>
@@ -97,7 +97,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/e_mail"
-                    android:enabled="true"
+                    android:enabled="false"
                     android:inputType="textEmailAddress"
                     android:text="ayrton@gmail.com" />
             </com.google.android.material.textfield.TextInputLayout>
@@ -115,7 +115,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/senha"
-                    android:enabled="true"
+                    android:enabled="false"
                     android:inputType="textPassword"
                     android:text="123456" />
             </com.google.android.material.textfield.TextInputLayout>
@@ -134,7 +134,7 @@
                     android:layout_height="wrap_content"
                     android:hint="@string/birthdate"
                     android:inputType="number"
-                    android:enabled="true"
+                    android:enabled="false"
                     android:text="21/11/1990" />
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -152,7 +152,7 @@
                     android:layout_height="wrap_content"
                     android:hint="@string/cep"
                     android:inputType="number"
-                    android:enabled="true"
+                    android:enabled="false"
                     android:text="02806-000" />
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -170,7 +170,7 @@
                     android:layout_height="wrap_content"
                     android:hint="@string/uf"
                     android:maxLength="2"
-                    android:enabled="true"
+                    android:enabled="false"
                     android:text="SP" />
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -187,7 +187,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/city"
-                    android:enabled="true"
+                    android:enabled="false"
                     android:text="São Paulo" />
             </com.google.android.material.textfield.TextInputLayout>
 
