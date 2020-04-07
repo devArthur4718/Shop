@@ -1,12 +1,14 @@
 package com.stetter.escambo.ui.core.add
 
+import android.graphics.Bitmap
 import android.net.Uri
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.stetter.escambo.net.firebase.storage.DatabaseRepository
+import com.stetter.escambo.net.models.Product
 import com.stetter.escambo.net.models.SendProduct
-import java.net.URI
+import com.stetter.escambo.ui.adapter.ProductCard
 
 class AddProductViewModel : ViewModel() {
 
@@ -21,12 +23,14 @@ class AddProductViewModel : ViewModel() {
     private val _imagePickIntent = MutableLiveData<Boolean>()
     val imagePickIntent : LiveData<Boolean> get() = _imagePickIntent
 
-
     private val _cameraPickintent = MutableLiveData<Boolean>()
     val cameraPickintent : LiveData<Boolean> get() = _cameraPickintent
 
     private val _uploadSuccess = MutableLiveData<Boolean>()
     val uploadSucess : LiveData<Boolean> get() = _uploadSuccess
+
+    private val _loadingProgress = MutableLiveData<Boolean>()
+    val loadingProgress : LiveData<Boolean> get() = _loadingProgress
 
     private val _productPath = MutableLiveData<String>()
     val productPath : LiveData<String> get() = _productPath
@@ -34,35 +38,51 @@ class AddProductViewModel : ViewModel() {
     private val _uploadProduct = MutableLiveData<Boolean>()
     val uploadProduct : LiveData<Boolean> get() = _uploadProduct
 
+    private val _listProduct = MutableLiveData<ArrayList<ProductCard>>()
+    val listProduct : LiveData<ArrayList<ProductCard>> get() = _listProduct
+    var  adapterDummyList = ArrayList<ProductCard>()
+
+    private val _pathLists = MutableLiveData<ArrayList<String>>()
+    var pathLists = ArrayList<String>()
 
     init {
 
-        var dummyList = listOf<String>("Categoria", "Produto 1", "Produto 2", "Produto 3", "Produto 4")
+        var dummyList = listOf("Categoria", "Produto 1", "Produto 2", "Produto 3", "Produto 4")
 
+
+        adapterDummyList.add(ProductCard(null))
+
+        _listProduct.value = adapterDummyList
         _listCategoryProduct.value = dummyList
     }
 
-    fun uploadImageToFirebase(filename : String, uri : Uri) {
-        databaserepository.uploadImageToDatabase(filename).putFile(uri)
+
+    fun uploadImageToFirebase(filename : String, byteArray : ByteArray) {
+        _loadingProgress.value = true
+        databaserepository.uploadImageToDatabase(filename).putBytes(byteArray)
             .addOnSuccessListener {
                 _productPath.value = it.metadata?.path
+                _loadingProgress.value = false
                 _uploadSuccess.value = true
             }
             .addOnFailureListener{
                 _uploadSuccess.value = false
+                _loadingProgress.value = false
             }
-
 
     }
 
     fun uploadProductToFirebase(uid : String , product : SendProduct){
+        _loadingProgress.value = true
         val ref = databaserepository.updateProductToDabatase(uid)
         ref.setValue(product)
             .addOnSuccessListener {
                 _uploadProduct.value = true
+                _loadingProgress.value = false
             }
             .addOnFailureListener {
                 _uploadProduct.value = false
+                _loadingProgress.value = false
             }
     }
 
@@ -90,6 +110,30 @@ class AddProductViewModel : ViewModel() {
     }
     fun closeCameraIntent() {
         _cameraPickintent.value = false
+    }
+    fun doneUploadProduct(){
+        _uploadProduct.value = false
+    }
+
+    fun addItemToUpload(){
+        adapterDummyList.add(ProductCard(null))
+        _listProduct.value = adapterDummyList
+    }
+
+    fun updateItemCard(bitmap: Bitmap){
+        if(adapterDummyList.size == 5) return
+
+
+        adapterDummyList.add(ProductCard(bitmap))
+        _listProduct.value = adapterDummyList
+    }
+
+    fun addPaths(path : String){
+        pathLists.add(path)
+    }
+
+    fun getPaths() : ArrayList<String>{
+        return pathLists
     }
 
 }

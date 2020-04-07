@@ -5,10 +5,8 @@ import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.drawable.BitmapDrawable
 import android.net.Uri
-import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.provider.MediaStore
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,15 +14,22 @@ import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
-import com.google.firebase.storage.FirebaseStorage
-
+import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.fragment.findNavController
 import com.stetter.escambo.R
 import com.stetter.escambo.databinding.AddProductFragmenetBinding
+import com.stetter.escambo.extension.checkCameraPermissions
 import com.stetter.escambo.extension.showPickImageDialog
 import com.stetter.escambo.net.models.SendProduct
+import com.stetter.escambo.ui.adapter.ProductCard
+import com.stetter.escambo.ui.adapter.UploadItemAdapter
+import com.stetter.escambo.ui.base.BaseFragment
+import java.io.ByteArrayOutputStream
 import java.util.*
+import kotlin.collections.ArrayList
 
-class AddProduct : Fragment() {
+
+class AddProduct : BaseFragment() {
 
     companion object {
         fun newInstance() = AddProduct()
@@ -35,6 +40,7 @@ class AddProduct : Fragment() {
     private lateinit var viewModel: AddProductViewModel
     private lateinit var binding : AddProductFragmenetBinding
     private lateinit var adapterSpinner  : ArrayAdapter<String>
+    private val uploadItemAdapter by lazy {UploadItemAdapter()}
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -53,7 +59,13 @@ class AddProduct : Fragment() {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProviders.of(this).get(AddProductViewModel::class.java)
         binding.viewmodel = viewModel
+        setAdapters()
         setObserbales()
+    }
+
+    private fun setAdapters() {
+
+        binding.rvUploadItem.adapter = uploadItemAdapter
     }
 
     private fun setObserbales() {
@@ -64,15 +76,42 @@ class AddProduct : Fragment() {
         viewModel.uploadSucess.observe(viewLifecycleOwner, Observer { onImageUploadSucess(it) })
         viewModel.productPath.observe(viewLifecycleOwner, Observer { onProductPathChange(it) })
         viewModel.uploadProduct.observe(viewLifecycleOwner, Observer { onProductUpload(it) })
+        viewModel.loadingProgress.observe(viewLifecycleOwner, Observer { onLoading(it) })
+        viewModel.listProduct.observe(viewLifecycleOwner, Observer { onProductListReceveived(it) })
 
         binding.btnPublishItem.setOnClickListener {
             val uid = viewModel.getUid()
+            var category = binding.spCategory.selectedItem.toString()
+
             val product = SendProduct(uid,
-                                    productPath,
+                                   viewModel.getPaths(),
                                     binding.edtItemName.text.toString(),
                                     binding.edtItemDescription.text.toString(),
-                            1, binding.edtItemValue.text.toString().toDouble())
+                            category, binding.edtItemValue.text.toString().toDouble())
             viewModel.uploadProductToFirebase(uid,product)
+        }
+
+        binding.labelPublishItem.setOnClickListener {
+            viewModel.addItemToUpload()
+        }
+    }
+
+    private fun onProductListReceveived(listProduct: List<ProductCard>) {
+        if(listProduct.isEmpty()){
+
+        }else{
+            uploadItemAdapter.viewModel = viewModel
+            uploadItemAdapter.data = listProduct
+        }
+    }
+
+    private fun onLoading(it: Boolean?) {
+        it?.let {
+            if(it){
+                mainViewModel.showLoading()
+            }else{
+                mainViewModel.hideLoading()
+            }
         }
     }
 
@@ -82,14 +121,15 @@ class AddProduct : Fragment() {
                 pickFromCamera()
             }
         }
-
     }
 
     private fun pickFromCamera() {
-        Intent(MediaStore.ACTION_IMAGE_CAPTURE).also { takePictureIntent ->
-            activity?.packageManager?.let {
-                takePictureIntent.resolveActivity(it)?.also {
-                    startActivityForResult(takePictureIntent, RQ_TAKE_PHOTO)
+        if(activity?.checkCameraPermissions() ?: false){
+            Intent(MediaStore.ACTION_IMAGE_CAPTURE).also { takePictureIntent ->
+                activity?.packageManager?.let {
+                    takePictureIntent.resolveActivity(it)?.also {
+                        startActivityForResult(takePictureIntent, RQ_TAKE_PHOTO)
+                    }
                 }
             }
         }
@@ -112,20 +152,26 @@ class AddProduct : Fragment() {
     private fun onProductUpload(it: Boolean?) {
         it?.let {
             if(it){
+                viewModel.doneUploadProduct()
                 Toast.makeText(context, "Produto postado", Toast.LENGTH_SHORT).show()
+                findNavController().navigate(R.id.navigation_explore)
             }
         }
     }
 
     var productPath = ""
     private fun onProductPathChange(path: String?) {
-        path?.let { productPath = it }
+        path?.let {
+            productPath = it
+            viewModel.addPaths(productPath)
+        }
     }
 
     private fun onImageUploadSucess(status: Boolean?) {
         status?.let {
             if(it){
                 Toast.makeText(context, "Foto carregada com sucesso!", Toast.LENGTH_SHORT).show()
+                cardbitmap?.let { bitmap -> viewModel.updateItemCard(bitmap) }
             }
         }
     }
@@ -137,8 +183,6 @@ class AddProduct : Fragment() {
             }
         }
     }
-
-
 
     private fun onConfigureCategoryAdapter(categoryList: List<String>) {
         adapterSpinner = ArrayAdapter(context!!, android.R.layout.simple_list_item_1, categoryList)
@@ -152,31 +196,40 @@ class AddProduct : Fragment() {
         when(requestCode){
             RQ_PICK_PHOTO -> {
                 if(resultCode == Activity.RESULT_OK){
-
                     data?.let {
                         viewModel.onPickPhotoSuccess()
                         viewModel.closePhotoIntent()
                         selectedPhotoUri = data.data
                         val bitmap = MediaStore.Images.Media.getBitmap(activity?.contentResolver, selectedPhotoUri)
                         val bitmapDrawable = BitmapDrawable(bitmap)
-                        binding.groupPickPhoto.visibility = View.INVISIBLE
-                        binding.lvLoadedProduct.setImageDrawable(bitmapDrawable)
-                        sendImageToFirebase()
+                        encodeImageAndSaveToFirebase(bitmap)
                     }
                 }
             }
 
             RQ_TAKE_PHOTO -> {
                 if(resultCode == Activity.RESULT_OK) {
-                    val imageBitmap = data?.extras?.get("data") as Bitmap
-                    binding.lvLoadedProduct.setImageBitmap(imageBitmap)
+                    data?.let {
+                        viewModel.closeCameraIntent()
+                        selectedPhotoUri = data.data
+                        val imageBitmap = it?.extras?.get("data") as Bitmap
+                        encodeImageAndSaveToFirebase(imageBitmap)
+                    }
+
                 }
             }
         }
     }
 
-    private fun sendImageToFirebase() {
+    var cardbitmap : Bitmap? = null
+    private fun encodeImageAndSaveToFirebase(bitmap : Bitmap) {
+        val baos = ByteArrayOutputStream()
+        bitmap.compress(Bitmap.CompressFormat.PNG, 50, baos)
+        val imageEncoded = android.util.Base64.encode(baos.toByteArray(), android.util.Base64.DEFAULT)
         val filename = UUID.randomUUID().toString()
-        selectedPhotoUri?.let { viewModel.uploadImageToFirebase(filename, it) }
+        cardbitmap = bitmap
+        viewModel.uploadImageToFirebase(filename, imageEncoded)
+
     }
+
 }

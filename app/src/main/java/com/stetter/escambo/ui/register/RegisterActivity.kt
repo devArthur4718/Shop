@@ -10,7 +10,6 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.stetter.escambo.R
-import com.stetter.escambo.databinding.ActivityRegisterBinding
 import com.stetter.escambo.databinding.ActivityRegisterNewBinding
 import com.stetter.escambo.extension.*
 import com.stetter.escambo.net.models.RegisterUser

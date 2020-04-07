@@ -133,4 +133,6 @@
     <string name="select">Selecione</string>
     <string name="cam">Câmera</string>
     <string name="gallery">Galeria</string>
+    <string name="notification">Notificações</string>
+    <string name="save_it">Salvar</string>
 </resources>

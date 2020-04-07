@@ -7,8 +7,6 @@ open class BaseActivity : AppCompatActivity() {
     private val loadingDialog by lazy { LoadingDialog(this) }
 
 
-
-
     open fun onStartLoading() {
         loadingDialog.show()
     }
