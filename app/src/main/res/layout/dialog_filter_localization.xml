@@ -11,7 +11,7 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="@dimen/dialog_w"
-        android:layout_height="@dimen/dialog_h"
+        android:layout_height="261dp"
         android:layout_gravity="center"
         android:background="@drawable/bg_dialog_custom">
 
@@ -20,54 +20,58 @@
             style="@style/dialogTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
-            android:text="@string/filter_by_value"
+            android:layout_marginTop="32dp"
+            android:text="@string/filter_by_localization"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView
-            android:id="@+id/ivCloseDialog"
+            android:id="@+id/ivCloseDialogLocalization"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
-            app:layout_constraintBottom_toBottomOf="@+id/tvDialogTittle"
+            android:contentDescription="@string/app_name"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/ic_close_black_24dp" />
 
-
-        <EditText
-            android:id="@+id/edtFromDate"
-            android:layout_width="93dp"
-            android:layout_height="51dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp"
-            android:background="@drawable/rounded_lines"
-            android:gravity="center"
-            android:hint="@string/from"
-            app:layout_constraintBottom_toTopOf="@+id/btnFilterDialog"
-            app:layout_constraintEnd_toStartOf="@+id/edtUntilDate"
-            app:layout_constraintHorizontal_bias="0.5"
+        <Spinner
+            android:id="@+id/spnFilterLocalization"
+            android:layout_width="0dp"
+            android:layout_height="38dp"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="24dp"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tvDialogTittle" />
 
-        <EditText
-            android:id="@+id/edtUntilDate"
-            android:layout_width="93dp"
-            android:layout_height="51dp"
-            android:gravity="center"
-            android:hint="@string/until"
-            android:background="@drawable/rounded_lines"
-            app:layout_constraintBaseline_toBaselineOf="@+id/edtFromDate"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/edtFromDate" />
+        <TextView
+            android:id="@+id/textView6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="Ou informe o Raio de busca"
+            style="@style/ouInformeORaioDe"
+            app:layout_constraintEnd_toEndOf="@+id/spnFilterLocalization"
+            app:layout_constraintStart_toStartOf="@+id/spnFilterLocalization"
+            app:layout_constraintTop_toBottomOf="@+id/spnFilterLocalization" />
+
+        <SeekBar
+            android:id="@+id/seekBar"
+            android:layout_width="0dp"
+            android:layout_height="28dp"
+            android:layout_marginTop="16dp"
+            android:thumbTint="@color/textGreenTitle"
+            app:layout_constraintEnd_toEndOf="@+id/spnFilterLocalization"
+            app:layout_constraintStart_toStartOf="@+id/spnFilterLocalization"
+            app:layout_constraintTop_toBottomOf="@+id/textView6" />
 
 
         <Button
-            android:id="@+id/btnFilterDialog"
+            android:id="@+id/btnFilterCategory"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:background="@drawable/dialog_bottom_green"
