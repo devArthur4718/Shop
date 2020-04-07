@@ -135,4 +135,9 @@
     <string name="gallery">Galeria</string>
     <string name="notification">Notificações</string>
     <string name="save_it">Salvar</string>
+    <string name="filter_by_value">Filtrar pelo valor</string>
+    <string name="from">De</string>
+    <string name="until">Até</string>
+    <string name="filter_by_category">Filtar pela Categoria</string>
+    <string name="filter_by_localization">Filtre pela localização.</string>
 </resources>

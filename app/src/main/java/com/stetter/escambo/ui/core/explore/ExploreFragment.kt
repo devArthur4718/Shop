@@ -68,6 +68,8 @@ class ExploreFragment : Fragment() {
             val intent = Intent(context, FilterActivity::class.java)
             startActivity(intent)
         }
+
+
     }
 
     private fun onRecentPostListRetrieved(recentPostList: List<RecentPost>) {

@@ -4,4 +4,6 @@
     <dimen name="circular_height">38dp</dimen>
     <dimen name="smallphoto_with">24dp</dimen>
     <dimen name="smallPhotoHeight">24dp</dimen>
+    <dimen name="dialog_w">270dp</dimen>
+    <dimen name="dialog_h">190dp</dimen>
 </resources>
