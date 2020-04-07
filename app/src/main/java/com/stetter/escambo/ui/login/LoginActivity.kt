@@ -2,6 +2,7 @@ package com.stetter.escambo.ui.login
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -115,11 +116,14 @@ class LoginActivity : BaseActivity() {
 
     var callbackManager = CallbackManager.Factory.create()
     private fun setFacebookCallback() {
+
+        binding.loginFacebook.setReadPermissions("email")
         binding.loginFacebook.registerCallback(
             callbackManager,
             object : FacebookCallback<LoginResult> {
                 override fun onSuccess(result: LoginResult?) {
-
+                    var email = result?.accessToken?.permissions?.contains("email")
+                    Log.d("register", "facebook email")
                     handleFacebookAcesssToken(result?.accessToken)
                 }
                 override fun onCancel() {

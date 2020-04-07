@@ -5,8 +5,10 @@ import android.content.pm.PackageManager
 import android.view.View
 import android.widget.Button
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.ViewModel
 import com.stetter.escambo.R
 import com.stetter.escambo.ui.core.add.AddProductViewModel
+import com.stetter.escambo.ui.core.profile.UpdateProfileViewModel
 import java.util.jar.Manifest
 
 
@@ -59,7 +61,25 @@ fun Context.showPickImageDialog(viewModel: AddProductViewModel) {
         viewModel.openCameraIntent()
         dialog.dismiss()
     }
+}
 
+fun Context.showPickImageProfile(viewModel : UpdateProfileViewModel){
+
+    val dialog = ShowCameraDialog(this)
+    dialog.show()
+
+    var btnPick = dialog.findViewById<Button>(R.id.tvPickFromGallery)
+    var btnPhoto = dialog.findViewById<Button>(R.id.tvPickFromCamera)
+
+    btnPick.setOnClickListener {
+        viewModel.openPickPhotoIntent()
+        dialog.dismiss()
+    }
+
+    btnPhoto.setOnClickListener {
+//        viewModel.openCameraIntent()
+        dialog.dismiss()
+    }
 }
 
 fun Context.showFilterValue(){

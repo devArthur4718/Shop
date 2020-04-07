@@ -14,8 +14,6 @@ import com.stetter.escambo.BuildConfig
 import com.stetter.escambo.R
 import com.stetter.escambo.ui.login.LoginActivity
 
-
-
 class SplashActivity : AppCompatActivity() {
 
     private val SPLASH_TIME_OUT : Long = if(BuildConfig.DEBUG) 0L else 1000L

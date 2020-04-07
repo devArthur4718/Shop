@@ -49,5 +49,6 @@ class CoreActivity : BaseActivity() {
     private fun initViews() {
         loadingDialog = LoadingDialog(this)
 
+
     }
 }

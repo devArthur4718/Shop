@@ -1,13 +1,24 @@
 package com.stetter.escambo.ui.core
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.ValueEventListener
+import com.stetter.escambo.net.firebase.storage.DatabaseRepository
+import com.stetter.escambo.net.models.RegisterUser
 
 class CoreViewModel : ViewModel() {
 
+    val database = DatabaseRepository()
+
     private val _loadingProgress = MutableLiveData<Boolean>()
     val loadingProgress : LiveData<Boolean> get() = _loadingProgress
+
+    private val _userProfileData = MutableLiveData<RegisterUser>()
+    val userProfileData : LiveData<RegisterUser> get() = _userProfileData
 
     fun showLoading(){
         _loadingProgress.value = true
@@ -15,6 +26,30 @@ class CoreViewModel : ViewModel() {
 
     fun  hideLoading(){
         _loadingProgress.value = false
+    }
+
+    //Fetch user data post login
+    fun getUserDataFromDatabase() {
+        showLoading()
+        var user = RegisterUser()
+        database.retriveUserData().addListenerForSingleValueEvent(object  : ValueEventListener{
+            override fun onCancelled(p0: DatabaseError) {
+                hideLoading()
+            }
+
+            override fun onDataChange(p0: DataSnapshot) {
+                try{
+                    _userProfileData.value = p0.getValue(RegisterUser::class.java)!!
+                    hideLoading()
+                }
+                catch (e : KotlinNullPointerException){
+                    hideLoading()
+                }
+
+            }
+
+        })
+
     }
 
 }

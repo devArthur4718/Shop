@@ -6,11 +6,8 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.facebook.AccessToken
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
-import com.google.android.gms.tasks.Task
-import com.google.android.material.snackbar.Snackbar
 import com.stetter.escambo.net.firebase.auth.LoginRepository
-import com.stetter.escambo.net.models.Users
-import com.stetter.escambo.ui.recovery.RecoveryPassword
+
 
 class LoginViewModel : ViewModel() {
 
@@ -46,11 +43,10 @@ class LoginViewModel : ViewModel() {
             }
     }
     fun signInWithFacebookCredential(token : AccessToken){
+        showLoading()
         authRepository.logInWithFacebookToken(token)
             .addOnCompleteListener {task->
                 if (task.isSuccessful) {
-
-                    // Sign in success, update UI with the signed-in user's information
                     Log.d("facebook", "signInWithCredential:success")
                     val user =   authRepository.auth.currentUser
                     hideLoading()
@@ -63,6 +59,7 @@ class LoginViewModel : ViewModel() {
                 }
             }
             .addOnFailureListener {
+                Log.d("facebook", "signInWithCredential:failure : $it")
                 hideLoading()
             }
     }
