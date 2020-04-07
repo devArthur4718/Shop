@@ -11,6 +11,7 @@ class LoginRepository {
     var auth = FirebaseAuth.getInstance()
 
 
+
     fun logInWithEmailAndPassword(email : String = "email", password : String = "password"): Task<AuthResult> {
         return auth.signInWithEmailAndPassword(email,password)
     }
@@ -29,6 +30,7 @@ class LoginRepository {
         auth.signOut()
         return true
     }
+
 
     var recoverStatus : Boolean? = null
     fun recoverPassword(email : String): Boolean? {
@@ -56,7 +58,7 @@ class LoginRepository {
                 Log.d("createUser", "Successs")
 
              }.addOnFailureListener {
-                Log.d("createUser", "Fail")
+                Log.d("createUser", "Fail: $it")
             }
     }
 

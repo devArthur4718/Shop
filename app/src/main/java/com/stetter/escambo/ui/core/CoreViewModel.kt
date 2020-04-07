@@ -17,6 +17,9 @@ class CoreViewModel : ViewModel() {
     private val _loadingProgress = MutableLiveData<Boolean>()
     val loadingProgress : LiveData<Boolean> get() = _loadingProgress
 
+    private val _userProfileData = MutableLiveData<RegisterUser>()
+    val userProfileData : LiveData<RegisterUser> get() = _userProfileData
+
     fun showLoading(){
         _loadingProgress.value = true
     }
@@ -27,14 +30,22 @@ class CoreViewModel : ViewModel() {
 
     //Fetch user data post login
     fun getUserDataFromDatabase() {
+        showLoading()
+        var user = RegisterUser()
         database.retriveUserData().addListenerForSingleValueEvent(object  : ValueEventListener{
             override fun onCancelled(p0: DatabaseError) {
-                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+                hideLoading()
             }
 
             override fun onDataChange(p0: DataSnapshot) {
-                var user = p0.getValue(RegisterUser::class.java)
-                Log.d("retrived", "userdata")
+                try{
+                    _userProfileData.value = p0.getValue(RegisterUser::class.java)!!
+                    hideLoading()
+                }
+                catch (e : KotlinNullPointerException){
+                    hideLoading()
+                }
+
             }
 
         })

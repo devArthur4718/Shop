@@ -6,4 +6,5 @@
     <dimen name="smallPhotoHeight">24dp</dimen>
     <dimen name="dialog_w">270dp</dimen>
     <dimen name="dialog_h">190dp</dimen>
+    <dimen name="edt_h">51dp</dimen>
 </resources>

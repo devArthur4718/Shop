@@ -6,6 +6,8 @@ data class RegisterUser (
                   var cep : String = "",
                   var uf : String = "",
                   var city : String = "",
-                  var photoUrl : String = ""
+                  var photoUrl : String = "",
+                  var birthDate : String = "",
+                  var receiveNotifications : Boolean = false
 
 )

@@ -50,7 +50,5 @@ class CoreActivity : BaseActivity() {
         loadingDialog = LoadingDialog(this)
 
 
-        corevm.getUserDataFromDatabase()
-
     }
 }

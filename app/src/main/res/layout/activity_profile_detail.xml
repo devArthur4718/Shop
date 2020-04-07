@@ -39,6 +39,7 @@
                 android:id="@+id/ivChangeProfilePhoto"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:contentDescription="@string/app_name"
                 app:layout_constraintEnd_toEndOf="@+id/ivDetailProfileImage"
                 app:layout_constraintTop_toTopOf="@+id/ivDetailProfileImage"
                 app:srcCompat="@drawable/cam_icon" />
@@ -77,11 +78,12 @@
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="@dimen/edt_h"
                     android:hint="@string/full_name"
                     android:enabled="false"
                     android:inputType="textPersonName"
-                    android:text="Ayrton Senna" />
+                    android:background="@android:color/transparent"
+                    tools:text="Ayrton Senna" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -95,11 +97,12 @@
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
                     android:hint="@string/e_mail"
                     android:enabled="false"
+                    android:layout_height="@dimen/edt_h"
+                    android:background="@android:color/transparent"
                     android:inputType="textEmailAddress"
-                    android:text="ayrton@gmail.com" />
+                    tools:text="ayrton@gmail.com" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -113,11 +116,12 @@
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="@dimen/edt_h"
+                    android:background="@android:color/transparent"
                     android:hint="@string/senha"
                     android:enabled="false"
                     android:inputType="textPassword"
-                    android:text="123456" />
+                    tools:text="123456" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -131,11 +135,12 @@
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="@dimen/edt_h"
+                    android:background="@android:color/transparent"
                     android:hint="@string/birthdate"
                     android:inputType="number"
                     android:enabled="false"
-                    android:text="21/11/1990" />
+                    tools:text="21/11/1990" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -149,11 +154,12 @@
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="@dimen/edt_h"
+                    android:background="@android:color/transparent"
                     android:hint="@string/cep"
                     android:inputType="number"
                     android:enabled="false"
-                    android:text="02806-000" />
+                    tools:text="02806-000" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -167,11 +173,12 @@
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="@dimen/edt_h"
+                    android:background="@android:color/transparent"
                     android:hint="@string/uf"
                     android:maxLength="2"
                     android:enabled="false"
-                    android:text="SP" />
+                    tools:text="SP" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -185,10 +192,11 @@
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="@dimen/edt_h"
+                    android:background="@android:color/transparent"
                     android:hint="@string/city"
                     android:enabled="false"
-                    android:text="São Paulo" />
+                    tools:text="São Paulo" />
             </com.google.android.material.textfield.TextInputLayout>
 
 
@@ -216,8 +224,7 @@
                 android:id="@+id/swNotification"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:checked="true"
-                android:thumbTint="@color/fontDarkColor"
+                android:checked="false"
                 app:layout_constraintBaseline_toBaselineOf="@+id/tvLabelNotification"
                 app:layout_constraintEnd_toEndOf="@+id/view2" />
 

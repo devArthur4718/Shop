@@ -3,7 +3,6 @@ package com.stetter.escambo.ui.core.profile
 import android.content.Intent
 import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,9 +12,11 @@ import androidx.lifecycle.Observer
 import com.stetter.escambo.R
 import com.stetter.escambo.databinding.ProfileFragmentBinding
 import com.stetter.escambo.net.models.Product
+import com.stetter.escambo.net.models.RegisterUser
 import com.stetter.escambo.ui.adapter.ItemProductAdapter
+import com.stetter.escambo.ui.base.BaseFragment
 
-class Profile : Fragment() {
+class Profile : BaseFragment() {
 
     companion object {
         fun newInstance() = Profile()
@@ -42,11 +43,23 @@ class Profile : Fragment() {
     }
 
     private fun setObservables() {
+        //Retrieve user
+        mainViewModel.getUserDataFromDatabase()
         viewModel.listProduct.observe(viewLifecycleOwner, Observer {  onProductListRetrieved(it)})
+        mainViewModel.userProfileData.observe(viewLifecycleOwner, Observer { onUserDataReceveid(it) })
 
         binding.ivOpenProfileDetail.setOnClickListener {
             val intent = Intent(activity, ProfileDetail::class.java)
             startActivity(intent)
+        }
+
+    }
+
+    private fun onUserDataReceveid(userData: RegisterUser?) {
+        userData?.let {
+            //Update UI
+            binding.tvLoggedUserProfile.text =  it.fullName
+            binding.tvLoggedUserLocation.text = it.city + "/" + it.uf
         }
 
     }

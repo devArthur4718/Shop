@@ -154,4 +154,6 @@
     <string name="blank_city">Cidade em branco</string>
     <string name="access">Acesse aqui</string>
     <string name="have_an_account">Já possui conta no escambo?</string>
+    <string name="dummy_fullname">Ayrton Senna</string>
+    <string name="dummy_location_ful">São Paulo/SP</string>
 </resources>

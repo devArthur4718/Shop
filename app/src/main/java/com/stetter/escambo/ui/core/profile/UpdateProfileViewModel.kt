@@ -16,5 +16,13 @@ class UpdateProfileViewModel  : ViewModel(){
         authRepository.logoffUser()
     }
 
+    fun openPickPhotoIntent() {
+
+    }
+
+    fun openCameraIntent() {
+
+    }
+
 
 }

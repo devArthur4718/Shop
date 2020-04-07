@@ -35,7 +35,7 @@
             android:id="@+id/ivProfileImage"
             android:layout_width="128dp"
             android:layout_height="128dp"
-            android:src="@drawable/img_avatar"
+            android:src="@drawable/ic_young"
             app:layout_constraintBottom_toBottomOf="@+id/include2"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -70,7 +70,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
-            android:text="Ayrton Senna"
+            tools:text="@string/dummy_fullname"
             app:layout_constraintEnd_toEndOf="@+id/ivProfileImage"
             app:layout_constraintStart_toStartOf="@+id/ivProfileImage"
             app:layout_constraintTop_toBottomOf="@+id/ivProfileImage" />
@@ -81,7 +81,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:text="São Paulo/SP"
+            tools:text="@string/dummy_location_ful"
             app:layout_constraintEnd_toEndOf="@+id/tvLoggedUserProfile"
             app:layout_constraintStart_toStartOf="@+id/tvLoggedUserProfile"
             app:layout_constraintTop_toBottomOf="@+id/tvLoggedUserProfile" />
@@ -89,6 +89,7 @@
         <Button
             android:id="@+id/tvUserMatches"
             android:text="0 Matches"
+            tools:text="10 Matches"
             android:layout_width="wrap_content"
             android:layout_height="29dp"
             android:textSize="12sp"
@@ -106,6 +107,7 @@
             android:layout_marginStart="8dp"
             android:background="@drawable/gradient_blue"
             android:text="0 Produtos"
+            tools:text="5 Produtos"
             android:textSize="12sp"
             android:layout_marginTop="0dp"
             android:paddingHorizontal="8dp"

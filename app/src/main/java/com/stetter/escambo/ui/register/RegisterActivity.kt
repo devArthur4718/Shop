@@ -131,7 +131,7 @@ class RegisterActivity : AppCompatActivity() {
                 var senUser = RegisterUser().apply {
                     this.fullName = binding.inputFullName.editText?.text.toString()
                     this.email = binding.inputEmail.editText?.text.toString()
-//                    this.password = binding.inputPassword.editText?.text.toString()
+                    this.birthDate = binding.inputBirthDate?.editText?.text.toString()
                     this.cep = binding.inputPostalCode.editText?.text.toString()
                     this.uf = binding.inputUF.editText?.text.toString()
                     this.city = binding.inputCity.editText?.text.toString()
