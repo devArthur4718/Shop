@@ -16,27 +16,12 @@ class ProfileViewModel : ViewModel() {
 
     val databaserepository = DatabaseRepository()
 
-    private val _listProduct = MutableLiveData<List<Product>>()
-    val listProduct: LiveData<List<Product>> get() = _listProduct
-
-    private val _listRecentPost = MutableLiveData<List<RecentPost>>()
-    val listRecentPost: LiveData<List<RecentPost>> get() = _listRecentPost
-
-
     private val _querryFirebase = MutableLiveData<ArrayList<SendProduct>>()
     val querryFirebase: LiveData<ArrayList<SendProduct>>get() = _querryFirebase
 
 
     init {
-        var dummyRecent = listOf<RecentPost>(
-            RecentPost(""),
-            RecentPost(""),
-            RecentPost(""),
-            RecentPost(""),
-            RecentPost("")
-        )
 
-        _listRecentPost.value = dummyRecent
     }
 
     fun retriveUserPostedProducts() {

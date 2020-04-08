@@ -7,14 +7,18 @@ import com.google.firebase.database.Query
 import com.google.firebase.storage.BuildConfig
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
-import com.stetter.escambo.net.models.RegisterUser
 import java.util.*
 
 class DatabaseRepository {
 
-    fun uploadImageToDatabase(filename: String): StorageReference {
-       return FirebaseStorage.getInstance().getReference(if(BuildConfig.DEBUG) "/images/$filename" else "debugimages/$filename")
+    fun uploadImageToDatabase( byteArray: ByteArray): StorageReference {
+       return FirebaseStorage.getInstance().getReference(if(BuildConfig.DEBUG) "/images/$byteArray" else "debugimages/$byteArray")
     }
+
+    fun uploadImageToDatabase( filename : String): StorageReference {
+        return FirebaseStorage.getInstance().getReference(if(BuildConfig.DEBUG) "/images/$filename" else "debugimages/$filename")
+    }
+
 
     fun updateProductToDabatase(uid : String): DatabaseReference {
         var productUID = UUID.randomUUID().toString()
@@ -26,15 +30,15 @@ class DatabaseRepository {
     }
 
     fun retriveUserProducts(): Query {
-       return FirebaseDatabase.getInstance().getReference("/products").orderByChild("uid").equalTo("J3jxIFsPlLgnHllfb2HBzqXtNTT2")
+       return FirebaseDatabase.getInstance().getReference("/products").orderByChild("uid").equalTo(getCurrentUserUID())
     }
 
     fun retriveUserData() : DatabaseReference{
-        var uid = getUID()
+        var uid = getCurrentUserUID()
         return FirebaseDatabase.getInstance().getReference("/users/$uid")
     }
 
-    fun getUID() : String{
+    fun getCurrentUserUID() : String{
         return FirebaseAuth.getInstance().uid ?: ""
     }
 

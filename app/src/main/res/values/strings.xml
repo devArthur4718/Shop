@@ -160,4 +160,5 @@
     <string name="dummy_valor">R$290,90</string>
     <string name="description">Descrição</string>
     <string name="interest">Interesse em Escambo</string>
+    <string name="no_itens">Não há itens para exibir</string>
 </resources>

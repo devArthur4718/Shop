@@ -3,7 +3,6 @@ package com.stetter.escambo.ui.core.add
 import android.app.Activity
 import android.content.Intent
 import android.graphics.Bitmap
-import android.graphics.drawable.BitmapDrawable
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
@@ -26,15 +25,14 @@ import com.stetter.escambo.ui.adapter.UploadItemAdapter
 import com.stetter.escambo.ui.base.BaseFragment
 import java.io.ByteArrayOutputStream
 import java.util.*
-import kotlin.collections.ArrayList
 
 
 class AddProduct : BaseFragment() {
 
     companion object {
         fun newInstance() = AddProduct()
-        const val RQ_PICK_PHOTO = 0
-        const val RQ_TAKE_PHOTO = 1
+        const val RQ_PICK_FROM_GALLERY = 0
+        const val RQ_PHOTO_FROM_CAMERA = 1
     }
 
     private lateinit var viewModel: AddProductViewModel
@@ -128,7 +126,7 @@ class AddProduct : BaseFragment() {
             Intent(MediaStore.ACTION_IMAGE_CAPTURE).also { takePictureIntent ->
                 activity?.packageManager?.let {
                     takePictureIntent.resolveActivity(it)?.also {
-                        startActivityForResult(takePictureIntent, RQ_TAKE_PHOTO)
+                        startActivityForResult(takePictureIntent, RQ_PHOTO_FROM_CAMERA)
                     }
                 }
             }
@@ -138,7 +136,7 @@ class AddProduct : BaseFragment() {
     private fun pickImage() {
         val intent = Intent(Intent.ACTION_PICK)
         intent.type = "image/*"
-        startActivityForResult(intent, RQ_PICK_PHOTO)
+        startActivityForResult(intent, RQ_PICK_FROM_GALLERY)
     }
 
     private fun onPickImageIntent(it: Boolean?) {
@@ -194,41 +192,37 @@ class AddProduct : BaseFragment() {
         super.onActivityResult(requestCode, resultCode, data)
 
         when(requestCode){
-            RQ_PICK_PHOTO -> {
+            RQ_PICK_FROM_GALLERY -> {
                 if(resultCode == Activity.RESULT_OK){
                     data?.let {
                         viewModel.onPickPhotoSuccess()
                         viewModel.closePhotoIntent()
                         selectedPhotoUri = data.data
                         val bitmap = MediaStore.Images.Media.getBitmap(activity?.contentResolver, selectedPhotoUri)
-                        val bitmapDrawable = BitmapDrawable(bitmap)
-                        encodeImageAndSaveToFirebase(bitmap)
+                        selectedPhotoUri?.let { uri -> encodeImageAndSaveToFirebase(bitmap, uri) }
                     }
                 }
             }
-
-            RQ_TAKE_PHOTO -> {
+            RQ_PHOTO_FROM_CAMERA -> {
                 if(resultCode == Activity.RESULT_OK) {
                     data?.let {
                         viewModel.closeCameraIntent()
                         selectedPhotoUri = data.data
                         val imageBitmap = it?.extras?.get("data") as Bitmap
-                        encodeImageAndSaveToFirebase(imageBitmap)
+                        selectedPhotoUri?.let { uri -> encodeImageAndSaveToFirebase(imageBitmap, uri) }
                     }
-
                 }
             }
         }
     }
 
     var cardbitmap : Bitmap? = null
-    private fun encodeImageAndSaveToFirebase(bitmap : Bitmap) {
+    private fun encodeImageAndSaveToFirebase(bitmap : Bitmap, uri : Uri) {
         val baos = ByteArrayOutputStream()
-        bitmap.compress(Bitmap.CompressFormat.PNG, 50, baos)
-        val imageEncoded = android.util.Base64.encode(baos.toByteArray(), android.util.Base64.DEFAULT)
+        bitmap.compress(Bitmap.CompressFormat.PNG, 20, baos)
         val filename = UUID.randomUUID().toString()
         cardbitmap = bitmap
-        viewModel.uploadImageToFirebase(filename, imageEncoded)
+        viewModel.uploadImageToFirebase(filename,uri)
 
     }
 

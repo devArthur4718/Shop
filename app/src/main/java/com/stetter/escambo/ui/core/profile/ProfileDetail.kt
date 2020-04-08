@@ -2,7 +2,6 @@ package com.stetter.escambo.ui.core.profile
 
 import android.app.Activity
 import android.content.Intent
-import android.graphics.Bitmap
 import android.graphics.drawable.BitmapDrawable
 import android.net.Uri
 import android.os.Bundle
@@ -23,7 +22,6 @@ import com.stetter.escambo.net.models.RegisterUser
 import com.stetter.escambo.ui.base.BaseActivity
 import com.stetter.escambo.ui.core.add.AddProduct
 import com.stetter.escambo.ui.login.LoginActivity
-import java.io.ByteArrayOutputStream
 import java.util.*
 
 class ProfileDetail : BaseActivity() {
@@ -108,7 +106,7 @@ class ProfileDetail : BaseActivity() {
     private fun pickImage() {
         val intent = Intent(Intent.ACTION_PICK)
         intent.type = "image/*"
-        startActivityForResult(intent, AddProduct.RQ_PICK_PHOTO)
+        startActivityForResult(intent, AddProduct.RQ_PICK_FROM_GALLERY)
     }
     companion object {
         fun newInstance() = AddProduct()

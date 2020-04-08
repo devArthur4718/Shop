@@ -3,7 +3,6 @@ package com.stetter.escambo.ui.core.profile
 import android.content.Intent
 import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,13 +13,9 @@ import com.stetter.escambo.R
 import com.stetter.escambo.databinding.ProfileFragmentBinding
 import com.stetter.escambo.extension.CircularProgress
 import com.stetter.escambo.glide.GlideApp
-import com.stetter.escambo.net.models.Product
-import com.stetter.escambo.net.models.RecentPost
 import com.stetter.escambo.net.models.RegisterUser
 import com.stetter.escambo.net.models.SendProduct
-import com.stetter.escambo.ui.adapter.ItemProductAdapter
 import com.stetter.escambo.ui.adapter.MyProductAdapter
-import com.stetter.escambo.ui.adapter.RecentProductAdapter
 import com.stetter.escambo.ui.base.BaseFragment
 
 class Profile : BaseFragment() {
@@ -31,7 +26,6 @@ class Profile : BaseFragment() {
 
     private lateinit var viewModel: ProfileViewModel
     private lateinit var binding : ProfileFragmentBinding
-//    private val recentProduct by lazy { RecentProductAdapter() }
     private val myProductAdapter by lazy { MyProductAdapter() }
 
 
@@ -71,16 +65,15 @@ class Profile : BaseFragment() {
     }
 
     private fun onUserProductListReceived(datalist: ArrayList<SendProduct>?) {
-
         datalist?.let {
             if(it.isEmpty()){
-                //TODO : show label no itens
+                binding.tvNoUserProducts.visibility = View.VISIBLE
             }else{
                 myProductAdapter.data = datalist
+                //Update product count label
+                binding.tvProdutos.text = "${datalist.size} Produtos"
             }
         }
-
-
     }
 
     private fun onUserDataReceveid(userData: RegisterUser?) {
