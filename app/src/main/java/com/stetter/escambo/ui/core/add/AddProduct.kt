@@ -5,6 +5,7 @@ import android.content.Intent
 import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Bundle
+import android.os.Environment
 import android.provider.MediaStore
 import android.view.LayoutInflater
 import android.view.View
@@ -24,6 +25,8 @@ import com.stetter.escambo.ui.adapter.ProductCard
 import com.stetter.escambo.ui.adapter.UploadItemAdapter
 import com.stetter.escambo.ui.base.BaseFragment
 import java.io.ByteArrayOutputStream
+import java.io.File
+import java.text.SimpleDateFormat
 import java.util.*
 
 
@@ -206,6 +209,7 @@ class AddProduct : BaseFragment() {
             RQ_PHOTO_FROM_CAMERA -> {
                 if(resultCode == Activity.RESULT_OK) {
                     data?.let {
+                        //TODO : Save image from camera and send it to firebase
                         viewModel.closeCameraIntent()
                         selectedPhotoUri = data.data
                         val imageBitmap = it?.extras?.get("data") as Bitmap
@@ -225,5 +229,20 @@ class AddProduct : BaseFragment() {
         viewModel.uploadImageToFirebase(filename,uri)
 
     }
+
+//    var currentPhotoPath: String = ""
+//    private fun createImageFile(): File {
+//        // Create an image file name
+//        val timeStamp: String = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
+//        val storageDir: File = activity.getExternalFilesDir(Environment.DIRECTORY_PICTURES)
+//        return File.createTempFile(
+//            "JPEG_${timeStamp}_", /* prefix */
+//            ".jpg", /* suffix */
+//            storageDir /* directory */
+//        ).apply {
+//            // Save a file: path for use with ACTION_VIEW intents
+//            currentPhotoPath = absolutePath
+//        }
+//    }
 
 }
