@@ -244,5 +244,33 @@
         <item name="android:textSize">12sp</item>
     </style>
 
+    <style name="userNameDetail">
+        <item name="android:fontFamily">@font/circular_std_bold</item>
+        <item name="android:textColor">#FF04194D</item>
+        <item name="android:textSize">15.6sp</item>
+        <item name="android:lineSpacingMultiplier">1.22</item>
+    </style>
+
+    <style name="itemDetailDescription">
+        <item name="android:fontFamily">@font/ciruclar_std_book</item>
+        <item name="android:textColor">#FF8894A2</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:lineSpacingMultiplier">1.07</item>
+    </style>
+
+    <style name="subTitleBlue">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:fontFamily">@font/ciruclar_std_book</item>
+        <item name="android:textColor">@color/fontColorBlue</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="detailLocation">
+        <item name="android:fontFamily">@font/circular_std_bold</item>
+        <item name="android:textColor">#FF04194D</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:lineSpacingMultiplier">1.67</item>
+    </style>
 
 </resources>

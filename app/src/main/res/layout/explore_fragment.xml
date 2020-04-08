@@ -108,14 +108,10 @@
 
             <TextView
                 android:id="@+id/textView12"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/ciruclar_std_book"
                 android:text="@string/os_maiores_trocadores_do_escambo"
-                android:textColor="@color/fontColorBlue"
-                android:textSize="14sp"
                 app:layout_constraintStart_toStartOf="@+id/textView11"
-                app:layout_constraintTop_toBottomOf="@+id/textView11" />
+                app:layout_constraintTop_toBottomOf="@+id/textView11"
+                style="@style/subTitleBlue" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rvTopUsers"

@@ -115,7 +115,7 @@
     <string name="publicar_item">Publicar item</string>
     <string name="tip_take_a_photo">Tire uma foto ou selecione \n uma em sua galeria</string>
     <string name="item_name">Nome do Item</string>
-    <string name="description">Descrição</string>
+    <string name="description_2">Descrição</string>
     <string name="publicar">Publicar</string>
     <string name="value">Valor</string>
     <string name="Search">Pesquisar</string>
@@ -156,4 +156,8 @@
     <string name="have_an_account">Já possui conta no escambo?</string>
     <string name="dummy_fullname">Ayrton Senna</string>
     <string name="dummy_location_ful">São Paulo/SP</string>
+    <string name="lorem_ipsum">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque tristique libero sit amet convallis convallis. Nunc dolor libero, dapibus a rhoncus nec, tristique eu orci</string>
+    <string name="dummy_valor">R$290,90</string>
+    <string name="description">Descrição</string>
+    <string name="interest">Interesse em Escambo</string>
 </resources>
