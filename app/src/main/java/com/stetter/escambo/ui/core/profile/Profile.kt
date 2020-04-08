@@ -3,6 +3,7 @@ package com.stetter.escambo.ui.core.profile
 import android.content.Intent
 import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,6 +17,7 @@ import com.stetter.escambo.glide.GlideApp
 import com.stetter.escambo.net.models.Product
 import com.stetter.escambo.net.models.RecentPost
 import com.stetter.escambo.net.models.RegisterUser
+import com.stetter.escambo.net.models.SendProduct
 import com.stetter.escambo.ui.adapter.ItemProductAdapter
 import com.stetter.escambo.ui.adapter.RecentProductAdapter
 import com.stetter.escambo.ui.base.BaseFragment
@@ -56,6 +58,8 @@ class Profile : BaseFragment() {
         mainViewModel.getUserDataFromDatabase()
         mainViewModel.userProfileData.observe(viewLifecycleOwner, Observer { onUserDataReceveid(it) })
         viewModel.listRecentPost.observe(viewLifecycleOwner, Observer {onRecentPostListRetrieved(it) })
+        viewModel.querryFirebase.observe(viewLifecycleOwner, Observer { onUserProductListReceived(it) })
+
         binding.ivOpenProfileDetail.setOnClickListener {
             val intent = Intent(activity, ProfileDetail::class.java)
             startActivity(intent)
@@ -63,6 +67,11 @@ class Profile : BaseFragment() {
 
         viewModel.retriveUserPostedProducts()
 
+    }
+
+    private fun onUserProductListReceived(datalist: ArrayList<SendProduct>?) {
+
+        Log.d("Profile", "datalist $datalist")
     }
 
     private fun onRecentPostListRetrieved(recentPostList: List<RecentPost>) {

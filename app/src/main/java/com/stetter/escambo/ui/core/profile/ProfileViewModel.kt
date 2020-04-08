@@ -1,5 +1,6 @@
 package com.stetter.escambo.ui.core.profile
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -20,6 +21,10 @@ class ProfileViewModel : ViewModel() {
 
     private val _listRecentPost = MutableLiveData<List<RecentPost>>()
     val listRecentPost: LiveData<List<RecentPost>> get() = _listRecentPost
+
+
+    private val _querryFirebase = MutableLiveData<ArrayList<SendProduct>>()
+    val querryFirebase: LiveData<ArrayList<SendProduct>>get() = _querryFirebase
 
 
     init {
@@ -47,11 +52,15 @@ class ProfileViewModel : ViewModel() {
             }
             override fun onChildAdded(p0: DataSnapshot, p1: String?) {
                 var product = p0.getValue(SendProduct::class.java)
+                product?.let { querryList.add(it) }
+
             }
 
             override fun onChildRemoved(p0: DataSnapshot) {
                 var product = p0.getValue(SendProduct::class.java)
             }
+
+
         })
 
     }
