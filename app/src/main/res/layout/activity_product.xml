@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".ui.core.explore.detail.DetailProductActivity">
+
+
+        <ImageView
+            android:id="@+id/imageView9"
+            android:layout_width="0dp"
+            android:layout_height="356dp"
+            android:adjustViewBounds="true"
+            android:contentDescription="@string/app_name"
+            android:scaleType="fitXY"
+            android:src="@drawable/bg_shape"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tvProductTitle"
+            style="@style/titleStyle"
+            android:layout_marginStart="24dp"
+            android:text="Produto"
+            app:layout_constraintBottom_toBottomOf="@+id/circleWhite"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/circleWhite" />
+
+        <ImageView
+            android:id="@+id/circleWhite"
+            android:layout_width="@dimen/circular_width"
+            android:layout_height="@dimen/circular_height"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:contentDescription="@string/app_name"
+            android:src="@drawable/circular_white"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/ivCloseDetail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_close_black_24dp"
+            android:tint="#19CAB1"
+            app:layout_constraintBottom_toBottomOf="@+id/circleWhite"
+            app:layout_constraintEnd_toEndOf="@+id/circleWhite"
+            app:layout_constraintStart_toStartOf="@+id/circleWhite"
+            app:layout_constraintTop_toTopOf="@+id/circleWhite" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_width="0dp"
+            android:layout_height="273dp"
+            android:layout_marginTop="24dp"
+            android:orientation="horizontal"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvProductTitle"
+            tools:listitem="@layout/item_product_photos" />
+
+        <TextView
+            android:id="@+id/textView20"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:text="@string/description"
+            style="@style/subTitleBlue"
+            android:fontFamily="@font/circular_std_bold"
+            android:textSize="16dp"
+            app:layout_constraintStart_toStartOf="@+id/tvProductTitle"
+            app:layout_constraintTop_toBottomOf="@+id/imageView9" />
+
+        <TextView
+            android:id="@+id/textView21"
+            android:layout_width="30dp"
+            android:layout_height="3dp"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/bg_gree_line"
+            app:layout_constraintStart_toStartOf="@+id/textView20"
+            app:layout_constraintTop_toBottomOf="@+id/textView20" />
+
+        <TextView
+            android:id="@+id/tvItemDetailDescription"
+            style="@style/itemDetailDescription"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:layout_marginEnd="16dp"
+            android:text="@string/lorem_ipsum"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@+id/textView21"
+            app:layout_constraintTop_toBottomOf="@+id/textView21" />
+
+        <TextView
+            android:id="@+id/tvProductDetailValue"
+            style="@style/style_capsule"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:text="@string/dummy_valor"
+            android:textSize="16sp"
+            app:layout_constraintStart_toStartOf="@+id/tvItemDetailDescription"
+            app:layout_constraintTop_toBottomOf="@+id/tvItemDetailDescription" />
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/ivUserDetail"
+            android:layout_width="@dimen/smallphoto_with"
+            android:layout_height="@dimen/smallPhotoHeight"
+            android:layout_marginEnd="8dp"
+            android:src="@drawable/img_avatar"
+            app:civ_border_color="#FFFFFF"
+            app:civ_border_width="1dp"
+            app:layout_constraintBottom_toBottomOf="@+id/textView25"
+            app:layout_constraintEnd_toStartOf="@+id/textView25"
+            app:layout_constraintTop_toTopOf="@+id/textView25" />
+
+        <TextView
+            android:id="@+id/textView25"
+            style="@style/userNameDetail"
+            android:layout_width="101dp"
+            android:layout_height="wrap_content"
+            android:text="Ayrton Senna"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="@+id/tvProductDetailValue"
+            app:layout_constraintEnd_toEndOf="@+id/tvItemDetailDescription"
+            app:layout_constraintTop_toTopOf="@+id/tvProductDetailValue" />
+
+        <ImageView
+            android:id="@+id/imageView13"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:src="@drawable/ic_location_on_24px"
+            app:layout_constraintStart_toStartOf="@+id/tvProductDetailValue"
+            app:layout_constraintTop_toBottomOf="@+id/tvProductDetailValue" />
+
+        <TextView
+            android:id="@+id/textView26"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            style="@style/detailLocation"
+            android:text="São Paulo/Sp"
+            app:layout_constraintBottom_toBottomOf="@+id/imageView13"
+            app:layout_constraintStart_toEndOf="@+id/imageView13"
+            app:layout_constraintTop_toTopOf="@+id/imageView13" />
+
+        <Button
+            android:id="@+id/button9"
+            android:layout_width="0dp"
+            android:layout_height="53dp"
+            android:layout_marginBottom="24dp"
+            android:text="@string/interest"
+            android:textAllCaps="false"
+            style="@style/greenGradientButton"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/tvItemDetailDescription"
+            app:layout_constraintStart_toStartOf="@+id/tvItemDetailDescription" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
