@@ -53,14 +53,12 @@ class ProfileViewModel : ViewModel() {
             override fun onChildAdded(p0: DataSnapshot, p1: String?) {
                 var product = p0.getValue(SendProduct::class.java)
                 product?.let { querryList.add(it) }
-
+                _querryFirebase.value = querryList
             }
 
             override fun onChildRemoved(p0: DataSnapshot) {
                 var product = p0.getValue(SendProduct::class.java)
             }
-
-
         })
 
     }

@@ -3,12 +3,13 @@ package com.stetter.escambo.ui.adapter
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.stetter.escambo.databinding.ItemRecentBinding
-import com.stetter.escambo.net.models.RecentPost
+import com.stetter.escambo.databinding.ItemMyItemBinding
+import com.stetter.escambo.net.models.SendProduct
 
-class RecentProductAdapter () : RecyclerView.Adapter<RecentProductAdapter.ViewHolder>()  {
 
-    var data = listOf<RecentPost>()
+class MyProductAdapter () : RecyclerView.Adapter<MyProductAdapter.ViewHolder>(){
+
+    var data = listOf<SendProduct>()
         set(value){
             field = value
             notifyDataSetChanged()
@@ -20,25 +21,25 @@ class RecentProductAdapter () : RecyclerView.Adapter<RecentProductAdapter.ViewHo
 
     override fun getItemCount(): Int  = data.size
 
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val item : RecentPost = data[position]
+    override fun onBindViewHolder(holder: MyProductAdapter.ViewHolder, position: Int) {
+        val item : SendProduct = data[position]
         holder.bind(item)
     }
 
-    class ViewHolder private constructor(val binding : ItemRecentBinding)
+    class ViewHolder private constructor(val binding : ItemMyItemBinding)
         : RecyclerView.ViewHolder(binding.root){
-        fun bind(item : RecentPost){
+        fun bind(item : SendProduct){
+            binding.tvMyitemTitle.text = item.product
 
         }
 
         companion object {
             fun from(parent : ViewGroup) : ViewHolder{
                 val layoutInflater = LayoutInflater.from(parent.context)
-                val binding = ItemRecentBinding.inflate(layoutInflater, parent, false)
+                val binding = ItemMyItemBinding.inflate(layoutInflater, parent, false)
                 return ViewHolder(binding)
             }
         }
     }
-
 
 }
