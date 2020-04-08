@@ -8,16 +8,16 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
-import androidx.swiperefreshlayout.widget.CircularProgressDrawable
 import com.google.firebase.storage.FirebaseStorage
-
 import com.stetter.escambo.R
 import com.stetter.escambo.databinding.ProfileFragmentBinding
 import com.stetter.escambo.extension.CircularProgress
 import com.stetter.escambo.glide.GlideApp
 import com.stetter.escambo.net.models.Product
+import com.stetter.escambo.net.models.RecentPost
 import com.stetter.escambo.net.models.RegisterUser
 import com.stetter.escambo.ui.adapter.ItemProductAdapter
+import com.stetter.escambo.ui.adapter.RecentProductAdapter
 import com.stetter.escambo.ui.base.BaseFragment
 
 class Profile : BaseFragment() {
@@ -28,7 +28,8 @@ class Profile : BaseFragment() {
 
     private lateinit var viewModel: ProfileViewModel
     private lateinit var binding : ProfileFragmentBinding
-    private val productAdapter by lazy { ItemProductAdapter() }
+    private val recentProduct by lazy { RecentProductAdapter() }
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -41,20 +42,34 @@ class Profile : BaseFragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProviders.of(this).get(ProfileViewModel::class.java)
-        setAdapters()
         setObservables()
+        setAdapters()
 
+    }
+
+    private fun setAdapters() {
+        binding.rvRecentPosts.adapter = recentProduct
     }
 
     private fun setObservables() {
         //Retrieve user
         mainViewModel.getUserDataFromDatabase()
-        viewModel.listProduct.observe(viewLifecycleOwner, Observer {  onProductListRetrieved(it)})
         mainViewModel.userProfileData.observe(viewLifecycleOwner, Observer { onUserDataReceveid(it) })
-
+        viewModel.listRecentPost.observe(viewLifecycleOwner, Observer {onRecentPostListRetrieved(it) })
         binding.ivOpenProfileDetail.setOnClickListener {
             val intent = Intent(activity, ProfileDetail::class.java)
             startActivity(intent)
+        }
+
+        viewModel.retriveUserPostedProducts()
+
+    }
+
+    private fun onRecentPostListRetrieved(recentPostList: List<RecentPost>) {
+        if(recentPostList.isEmpty()){
+            //no itens
+        }else{
+            recentProduct.data = recentPostList
         }
 
     }
@@ -66,7 +81,6 @@ class Profile : BaseFragment() {
             binding.tvLoggedUserLocation.text = it.city + "/" + it.uf
             //Load User profile
             val storage = FirebaseStorage.getInstance()
-
             if(it.photoUrl.length > 1){
                 val gsReference = storage.getReferenceFromUrl("gs://escambo-1b51d.appspot.com${it.photoUrl}")
                 GlideApp.with(this)
@@ -80,20 +94,4 @@ class Profile : BaseFragment() {
 
         }
     }
-
-    private fun onProductListRetrieved(productList: List<Product>) {
-        if(productList.isEmpty()){
-            // no itens
-        }else{
-            productAdapter.data = productList
-        }
-
-    }
-    private fun setAdapters() {
-        binding.rvMyitens.adapter = productAdapter
-    }
-
-
-
-
 }

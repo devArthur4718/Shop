@@ -9,4 +9,12 @@ data class SendProduct(
     val description: String = "",
     val category: String = "",
     val value: Double = 0.0
-)
+){
+    constructor() : this("",
+                            emptyList(),
+                      "",
+                    "",
+                      "",
+                        0.0)
+
+}

@@ -1,12 +1,10 @@
 package com.stetter.escambo.ui.core.add
 
 import android.graphics.Bitmap
-import android.net.Uri
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.stetter.escambo.net.firebase.storage.DatabaseRepository
-import com.stetter.escambo.net.models.Product
 import com.stetter.escambo.net.models.SendProduct
 import com.stetter.escambo.ui.adapter.ProductCard
 
