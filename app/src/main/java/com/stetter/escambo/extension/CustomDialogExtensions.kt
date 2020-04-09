@@ -89,7 +89,6 @@ fun Context.showFilterValue(){
 
 
 fun Context.checkCameraPermissions() : Boolean{
-
     if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.CAMERA)
         != PackageManager.PERMISSION_GRANTED) {
         return false
