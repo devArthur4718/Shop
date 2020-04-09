@@ -20,7 +20,7 @@ class DatabaseRepository {
     }
 
 
-    fun updateProductToDabatase(uid : String): DatabaseReference {
+    fun updateProductToDabatase(): DatabaseReference {
         var productUID = UUID.randomUUID().toString()
         return FirebaseDatabase.getInstance().getReference("/products/$productUID")
     }

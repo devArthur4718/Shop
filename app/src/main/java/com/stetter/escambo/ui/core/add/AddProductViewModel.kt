@@ -87,7 +87,7 @@ class AddProductViewModel : ViewModel() {
 
     fun uploadProductToFirebase(uid : String , product : SendProduct){
         _loadingProgress.value = true
-        val ref = databaserepository.updateProductToDabatase(uid)
+        val ref = databaserepository.updateProductToDabatase()
         ref.setValue(product)
             .addOnSuccessListener {
                 _uploadProduct.value = true

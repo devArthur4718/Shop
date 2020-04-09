@@ -27,8 +27,9 @@ class ItemProductAdapter() : RecyclerView.Adapter<ItemProductAdapter.ViewHolder>
 
     class ViewHolder private constructor(val binding : ItemProductBinding)
         : RecyclerView.ViewHolder(binding.root){
-        fun bind(item : Product){
 
+        fun bind(item : Product){
+                item.title
         }
 
         companion object {

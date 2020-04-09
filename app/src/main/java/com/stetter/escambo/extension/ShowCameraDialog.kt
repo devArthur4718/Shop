@@ -11,9 +11,8 @@ class ShowCameraDialog(context : Context) : Dialog(context) {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        context?.let {
-            setContentView(R.layout.dialog_photo_gallery)
-        }
+        setContentView(R.layout.dialog_photo_gallery)
+
     }
 
 }

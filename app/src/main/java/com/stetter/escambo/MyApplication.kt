@@ -9,7 +9,7 @@ class MyApplication: Application() {
     override fun onCreate() {
         super.onCreate()
         Stetho.initializeWithDefaults(this)
-        FacebookSdk.sdkInitialize(getApplicationContext());
+//        FacebookSdk.sdkInitialize(getApplicationContext());
         AppEventsLogger.activateApp(this);
     }
 }
