@@ -1,6 +1,7 @@
 package com.stetter.escambo.ui.core.add
 
 import android.graphics.Bitmap
+import android.net.Uri
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -55,9 +56,9 @@ class AddProductViewModel : ViewModel() {
     }
 
 
-    fun uploadImageToFirebase(filename : String, byteArray : ByteArray) {
+    fun uploadImageToFirebase( byteArray : ByteArray) {
         _loadingProgress.value = true
-        databaserepository.uploadImageToDatabase(filename).putBytes(byteArray)
+        databaserepository.uploadImageToDatabase(byteArray).putBytes(byteArray)
             .addOnSuccessListener {
                 _productPath.value = it.metadata?.path
                 _loadingProgress.value = false
@@ -67,12 +68,26 @@ class AddProductViewModel : ViewModel() {
                 _uploadSuccess.value = false
                 _loadingProgress.value = false
             }
+    }
 
+    fun uploadImageToFirebase(filename : String, uri : Uri) {
+        _loadingProgress.value = true
+        databaserepository.uploadImageToDatabase(filename).putFile(uri)
+            .addOnSuccessListener {
+                _productPath.value = it.metadata?.path
+                _loadingProgress.value = false
+                _uploadSuccess.value = true
+
+            }
+            .addOnFailureListener{
+                _uploadSuccess.value = false
+                _loadingProgress.value = false
+            }
     }
 
     fun uploadProductToFirebase(uid : String , product : SendProduct){
         _loadingProgress.value = true
-        val ref = databaserepository.updateProductToDabatase(uid)
+        val ref = databaserepository.updateProductToDabatase()
         ref.setValue(product)
             .addOnSuccessListener {
                 _uploadProduct.value = true
@@ -85,7 +100,7 @@ class AddProductViewModel : ViewModel() {
     }
 
     fun getUid() : String{
-        return databaserepository.getUID()
+        return databaserepository.getCurrentUserUID()
     }
 
     fun pickPhoto(){

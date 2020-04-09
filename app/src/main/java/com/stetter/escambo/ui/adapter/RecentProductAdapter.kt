@@ -4,8 +4,6 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.stetter.escambo.databinding.ItemRecentBinding
-import com.stetter.escambo.databinding.ItemUserAvatarBinding
-import com.stetter.escambo.net.models.Product
 import com.stetter.escambo.net.models.RecentPost
 
 class RecentProductAdapter () : RecyclerView.Adapter<RecentProductAdapter.ViewHolder>()  {

@@ -43,10 +43,6 @@ class CustomDialog(context: Context, private var customView: View? = null) : Dia
     }
 
 
-    fun showCancelButton(show: Boolean): CustomDialog {
-        return this
-    }
-
     fun setOnConfirmButtonClickListener(listener: (CustomDialog) -> Any): CustomDialog {
         confirmButtonListener = listener
         return this

@@ -36,7 +36,7 @@ class UploadItemAdapter() : RecyclerView.Adapter<UploadItemAdapter.ViewHolder>()
                 vm.pickPhoto()
             }
 
-            item?.bitmap?.let {
+            item.bitmap?.let {
                 binding.lvLoadedProduct.setImageBitmap(it)
                 binding.groupPickPhoto.visibility = View.INVISIBLE
             }

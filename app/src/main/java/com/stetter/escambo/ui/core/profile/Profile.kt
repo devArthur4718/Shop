@@ -13,11 +13,9 @@ import com.stetter.escambo.R
 import com.stetter.escambo.databinding.ProfileFragmentBinding
 import com.stetter.escambo.extension.CircularProgress
 import com.stetter.escambo.glide.GlideApp
-import com.stetter.escambo.net.models.Product
-import com.stetter.escambo.net.models.RecentPost
 import com.stetter.escambo.net.models.RegisterUser
-import com.stetter.escambo.ui.adapter.ItemProductAdapter
-import com.stetter.escambo.ui.adapter.RecentProductAdapter
+import com.stetter.escambo.net.models.SendProduct
+import com.stetter.escambo.ui.adapter.MyProductAdapter
 import com.stetter.escambo.ui.base.BaseFragment
 
 class Profile : BaseFragment() {
@@ -28,7 +26,7 @@ class Profile : BaseFragment() {
 
     private lateinit var viewModel: ProfileViewModel
     private lateinit var binding : ProfileFragmentBinding
-    private val recentProduct by lazy { RecentProductAdapter() }
+    private val myProductAdapter by lazy { MyProductAdapter() }
 
 
     override fun onCreateView(
@@ -48,14 +46,15 @@ class Profile : BaseFragment() {
     }
 
     private fun setAdapters() {
-        binding.rvRecentPosts.adapter = recentProduct
+        binding.rvRecentPosts.adapter = myProductAdapter
     }
 
     private fun setObservables() {
         //Retrieve user
         mainViewModel.getUserDataFromDatabase()
         mainViewModel.userProfileData.observe(viewLifecycleOwner, Observer { onUserDataReceveid(it) })
-        viewModel.listRecentPost.observe(viewLifecycleOwner, Observer {onRecentPostListRetrieved(it) })
+        viewModel.querryFirebase.observe(viewLifecycleOwner, Observer { onUserProductListReceived(it) })
+
         binding.ivOpenProfileDetail.setOnClickListener {
             val intent = Intent(activity, ProfileDetail::class.java)
             startActivity(intent)
@@ -65,13 +64,16 @@ class Profile : BaseFragment() {
 
     }
 
-    private fun onRecentPostListRetrieved(recentPostList: List<RecentPost>) {
-        if(recentPostList.isEmpty()){
-            //no itens
-        }else{
-            recentProduct.data = recentPostList
+    private fun onUserProductListReceived(datalist: ArrayList<SendProduct>?) {
+        datalist?.let {
+            if(it.isEmpty()){
+                binding.tvNoUserProducts.visibility = View.VISIBLE
+            }else{
+                myProductAdapter.data = datalist
+                //Update product count label
+                binding.tvProdutos.text = "${datalist.size} Produtos"
+            }
         }
-
     }
 
     private fun onUserDataReceveid(userData: RegisterUser?) {
