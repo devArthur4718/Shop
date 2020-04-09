@@ -56,9 +56,9 @@ class AddProductViewModel : ViewModel() {
     }
 
 
-    fun uploadImageToFirebase( byteArray : ByteArray) {
+    fun uploadImageToFirebase(filename : String, byteArray : ByteArray) {
         _loadingProgress.value = true
-        databaserepository.uploadImageToDatabase(byteArray).putBytes(byteArray)
+        databaserepository.uploadImageToDatabase(filename).putBytes(byteArray)
             .addOnSuccessListener {
                 _productPath.value = it.metadata?.path
                 _loadingProgress.value = false

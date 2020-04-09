@@ -256,13 +256,20 @@ class AddProduct : BaseFragment() {
         when(type){
             RQ_PICK_FROM_GALLERY -> {
                 val baos = ByteArrayOutputStream()
-                bitmap.compress(Bitmap.CompressFormat.PNG, 10, baos)
+                bitmap.compress(Bitmap.CompressFormat.PNG, 25, baos)
                 val filename = UUID.randomUUID().toString()
+                val data = baos.toByteArray()
                 cardbitmap = bitmap
-                viewModel.uploadImageToFirebase(filename, uri)
+                viewModel.uploadImageToFirebase(filename, data)
 
             }
-            RQ_TAKE_PHOTO -> { 
+            RQ_TAKE_PHOTO -> {
+                val baos = ByteArrayOutputStream()
+                bitmap.compress(Bitmap.CompressFormat.PNG, 25, baos)
+                val filename = UUID.randomUUID().toString()
+                val data = baos.toByteArray()
+                cardbitmap = bitmap
+                viewModel.uploadImageToFirebase(filename, data)
 
             }
         }
