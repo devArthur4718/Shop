@@ -81,18 +81,14 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="16dp"
-                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/tvEditFullName"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/ivDetailProfileImage">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/edt_h"
+                    style="@style/inputStyleMedium"
                     android:hint="@string/full_name"
-                    android:enabled="false"
-                    android:inputType="textPersonName"
-                    android:background="@android:color/transparent"
                     tools:text="Ayrton Senna" />
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -106,12 +102,8 @@
                 app:layout_constraintTop_toBottomOf="@+id/inputFullName">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:layout_width="match_parent"
                     android:hint="@string/e_mail"
-                    android:enabled="false"
-                    android:layout_height="@dimen/edt_h"
-                    android:background="@android:color/transparent"
-                    android:inputType="textEmailAddress"
+                    style="@style/inputStyleMedium"
                     tools:text="ayrton@gmail.com" />
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -125,13 +117,10 @@
                 app:layout_constraintTop_toBottomOf="@+id/inputEmail">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/edt_h"
-                    android:background="@android:color/transparent"
                     android:hint="@string/senha"
-                    android:enabled="false"
                     android:inputType="textPassword"
-                    tools:text="123456" />
+                    style="@style/inputStyleMedium"
+                    tools:text="12345678" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -144,13 +133,11 @@
                 app:layout_constraintTop_toBottomOf="@+id/inputPassword">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/edt_h"
-                    android:background="@android:color/transparent"
                     android:hint="@string/birthdate"
-                    android:inputType="number"
-                    android:enabled="false"
-                    tools:text="21/11/1990" />
+                    style="@style/inputStyleMedium"
+                    tools:text="21/11/1990"
+
+                    />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -163,13 +150,12 @@
                 app:layout_constraintTop_toBottomOf="@+id/inputBirthDate">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/edt_h"
-                    android:background="@android:color/transparent"
                     android:hint="@string/cep"
                     android:inputType="number"
-                    android:enabled="false"
-                    tools:text="02806-000" />
+                    style="@style/inputStyleMedium"
+                    tools:text="02806-000"
+
+                    />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -182,13 +168,12 @@
                 app:layout_constraintTop_toBottomOf="@+id/inputPostalCode">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/edt_h"
-                    android:background="@android:color/transparent"
                     android:hint="@string/uf"
                     android:maxLength="2"
-                    android:enabled="false"
-                    tools:text="SP" />
+                    style="@style/inputStyleMedium"
+                    tools:text="SP"
+
+                    />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -201,12 +186,10 @@
                 app:layout_constraintTop_toBottomOf="@+id/inputUF">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/edt_h"
-                    android:background="@android:color/transparent"
                     android:hint="@string/city"
-                    android:enabled="false"
-                    tools:text="São Paulo" />
+                    style="@style/inputStyleMedium"
+                    tools:text="São Paulo"
+                    />
             </com.google.android.material.textfield.TextInputLayout>
 
 
@@ -215,8 +198,9 @@
                 android:layout_width="0dp"
                 android:layout_height="1dp"
                 android:layout_marginTop="24dp"
+                android:layout_marginEnd="16dp"
                 android:background="#A8ADB4"
-                app:layout_constraintEnd_toEndOf="@+id/inputCity"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="@+id/inputCity"
                 app:layout_constraintTop_toBottomOf="@+id/inputCity" />
 
@@ -260,6 +244,70 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:srcCompat="@drawable/ic_arrow_back_black_24dp" />
+
+            <TextView
+                android:id="@+id/tvEditFullName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                android:text="@string/edit"
+                android:onClick="onEditClick"
+                app:layout_constraintBaseline_toBaselineOf="@+id/inputFullName"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+            <TextView
+                android:id="@+id/tvEditEmail"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/edit"
+                android:onClick="onEditClick"
+                app:layout_constraintBaseline_toBaselineOf="@+id/inputEmail"
+                app:layout_constraintEnd_toEndOf="@+id/tvEditFullName" />
+
+            <TextView
+                android:id="@+id/tvEditPassword"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/edit"
+                android:onClick="onEditClick"
+                app:layout_constraintBaseline_toBaselineOf="@+id/inputPassword"
+                app:layout_constraintEnd_toEndOf="@+id/tvEditEmail" />
+
+            <TextView
+                android:id="@+id/tvEditBirthDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/edit"
+                android:onClick="onEditClick"
+                app:layout_constraintBaseline_toBaselineOf="@+id/inputBirthDate"
+                app:layout_constraintEnd_toEndOf="@+id/tvEditPassword" />
+
+            <TextView
+                android:id="@+id/tvEditPostalCode"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/edit"
+                android:onClick="onEditClick"
+                app:layout_constraintBaseline_toBaselineOf="@+id/inputPostalCode"
+                app:layout_constraintEnd_toEndOf="@+id/tvEditBirthDate" />
+
+            <TextView
+                android:id="@+id/tvEditUF"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/edit"
+                android:onClick="onEditClick"
+                app:layout_constraintBaseline_toBaselineOf="@+id/inputUF"
+                app:layout_constraintEnd_toEndOf="@+id/tvEditPostalCode" />
+
+            <TextView
+                android:id="@+id/tvEditCity"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/edit"
+                android:onClick="onEditClick"
+                app:layout_constraintBaseline_toBaselineOf="@+id/inputCity"
+                app:layout_constraintEnd_toEndOf="@+id/tvEditUF" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
