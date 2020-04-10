@@ -25,7 +25,7 @@ import com.stetter.escambo.extension.checkCameraPermissions
 import com.stetter.escambo.extension.getTimeStamp
 import com.stetter.escambo.extension.showPickImageDialog
 import com.stetter.escambo.extension.watcher.MoneyTextWatcher
-import com.stetter.escambo.net.models.SendProduct
+import com.stetter.escambo.net.models.Product
 import com.stetter.escambo.ui.adapter.ProductCard
 import com.stetter.escambo.ui.adapter.UploadItemAdapter
 import com.stetter.escambo.ui.base.BaseFragment
@@ -91,13 +91,14 @@ class AddProduct : BaseFragment() {
         binding.btnPublishItem.setOnClickListener {
             val uid = viewModel.getUid()
             var category = binding.spCategory.selectedItem.toString()
-            val product = SendProduct(
+            val product = Product(
                 uid,
                 viewModel.getPaths(),
                 binding.edtItemName.text.toString(),
                 binding.edtItemDescription.text.toString(),
                 category, Mask.removeMoneyMask( binding.edtItemValue.text.toString()).toDouble(),
                 Calendar.getInstance().getTimeStamp()
+
             )
             viewModel.uploadProductToFirebase( product )
         }

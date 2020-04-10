@@ -64,5 +64,9 @@ class DatabaseRepository {
 
     fun getCurrentUserUID() : String = auth.uid ?: ""
 
+    fun retrieveRecentPosts() : Query {
+        return  FirebaseDatabase.getInstance().getReference("/products").orderByChild("datePosted")
+    }
+
 
 }

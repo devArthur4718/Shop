@@ -15,7 +15,7 @@ import com.stetter.escambo.databinding.ProfileFragmentBinding
 import com.stetter.escambo.extension.CircularProgress
 import com.stetter.escambo.glide.GlideApp
 import com.stetter.escambo.net.models.RegisterUser
-import com.stetter.escambo.net.models.SendProduct
+import com.stetter.escambo.net.models.Product
 import com.stetter.escambo.ui.adapter.MyProductAdapter
 import com.stetter.escambo.ui.base.BaseFragment
 import com.stetter.escambo.ui.login.LoginActivity
@@ -63,12 +63,12 @@ class Profile : BaseFragment() {
             val intent = Intent(activity, ProfileDetail::class.java)
             startActivityForResult(intent, RC_FINISH_SESSION)
         }
-
+        //Retrieve user posted products
         viewModel.retriveUserPostedProducts()
 
     }
 
-    private fun onUserProductListReceived(datalist: ArrayList<SendProduct>?) {
+    private fun onUserProductListReceived(datalist: ArrayList<Product>?) {
         datalist?.let {
             if(it.isEmpty()){
                 binding.tvNoUserProducts.visibility = View.VISIBLE

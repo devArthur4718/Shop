@@ -12,6 +12,7 @@ import androidx.lifecycle.Observer
 import com.stetter.escambo.R
 import com.stetter.escambo.databinding.ExploreFragmentBinding
 import com.stetter.escambo.net.models.Product
+import com.stetter.escambo.net.models.ProductMock
 import com.stetter.escambo.net.models.RecentPost
 import com.stetter.escambo.net.models.TopUser
 import com.stetter.escambo.ui.adapter.ItemProductAdapter
@@ -56,11 +57,12 @@ class ExploreFragment : Fragment() {
     private fun setAdapters() {
         binding.rvPostedProducts.adapter = productAdapter
         binding.rvTopUsers.adapter = topuserAdapter
+        //TODO: FETCH RECENT PRODUCTS AN ORDER BY TIME STAMP
         binding.rvRecentPosts.adapter = recentProduct
     }
 
     private fun setObservables() {
-        viewModel.listProduct.observe(viewLifecycleOwner, Observer {  onProductListRetrieved(it)})
+        viewModel.listProductMock.observe(viewLifecycleOwner, Observer {  onProductListRetrieved(it)})
         viewModel.listTopUser.observe(viewLifecycleOwner, Observer { onTopUserListRetrieved(it) })
         viewModel.listRecentPost.observe(viewLifecycleOwner, Observer {onRecentPostListRetrieved(it) })
 
@@ -70,11 +72,15 @@ class ExploreFragment : Fragment() {
         }
 
 
+        //Retrieve recent products
+        viewModel.retrieveRecentProducts()
+
     }
 
-    private fun onRecentPostListRetrieved(recentPostList: List<RecentPost>) {
+    private fun onRecentPostListRetrieved(recentPostList: List<Product>) {
         if(recentPostList.isEmpty()){
             //no itens
+
         }else{
             recentProduct.data = recentPostList
         }
@@ -89,11 +95,11 @@ class ExploreFragment : Fragment() {
         }
     }
 
-    private fun onProductListRetrieved(productList: List<Product>) {
-        if(productList.isEmpty()){
+    private fun onProductListRetrieved(productMockList: List<ProductMock>) {
+        if(productMockList.isEmpty()){
             // no itens
         }else{
-            productAdapter.data = productList
+            productAdapter.data = productMockList
         }
     }
 

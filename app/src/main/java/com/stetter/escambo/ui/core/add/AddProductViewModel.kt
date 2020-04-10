@@ -5,11 +5,9 @@ import android.net.Uri
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.stetter.escambo.extension.getTimeStamp
 import com.stetter.escambo.net.firebase.storage.DatabaseRepository
-import com.stetter.escambo.net.models.SendProduct
+import com.stetter.escambo.net.models.Product
 import com.stetter.escambo.ui.adapter.ProductCard
-import java.util.*
 import kotlin.collections.ArrayList
 
 
@@ -89,9 +87,9 @@ class AddProductViewModel : ViewModel() {
             }
     }
 
-    fun uploadProductToFirebase(product: SendProduct) {
+    fun uploadProductToFirebase(product: Product) {
         _loadingProgress.value = true
-
+        //Todo : Send user name
         databaserepository.updateProductToDabatase().ref.setValue(product)
             .addOnSuccessListener {
                 _uploadProduct.value = true
