@@ -61,13 +61,6 @@ class ProfileDetail : BaseActivity() {
         }
 
         binding.btnUpdateProfile.setOnClickListener {
-
-            //TODO : Update da senha via firebase auth
-            //TODO : UPDATE DO USERNAME VIA FIREBASE AUTH E DATABASE
-            //TODO : FETCH CPF
-
-            //TODO : BUG DE LOGOUT
-
             binding.inputFullName.editText?.clearError()
             binding.inputEmail.editText?.clearError()
             binding.inputPassword.editText?.clearError()
@@ -112,7 +105,6 @@ class ProfileDetail : BaseActivity() {
             }
 
         }
-
     }
 
     private fun onUserProfildeUpdated(updated: Boolean?) {
@@ -246,6 +238,5 @@ class ProfileDetail : BaseActivity() {
             textEditLabel.text = getString(R.string.edit)
             hideKeyBoard(view)
         }
-
     }
 }

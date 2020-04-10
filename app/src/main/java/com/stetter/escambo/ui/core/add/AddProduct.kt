@@ -20,8 +20,10 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import com.stetter.escambo.R
 import com.stetter.escambo.databinding.AddProductFragmenetBinding
+import com.stetter.escambo.extension.Mask
 import com.stetter.escambo.extension.checkCameraPermissions
 import com.stetter.escambo.extension.showPickImageDialog
+import com.stetter.escambo.extension.watcher.MoneyTextWatcher
 import com.stetter.escambo.net.models.SendProduct
 import com.stetter.escambo.ui.adapter.ProductCard
 import com.stetter.escambo.ui.adapter.UploadItemAdapter
@@ -97,7 +99,7 @@ class AddProduct : BaseFragment() {
                 viewModel.getPaths(),
                 binding.edtItemName.text.toString(),
                 binding.edtItemDescription.text.toString(),
-                category, binding.edtItemValue.text.toString().toDouble()
+                category, Mask.removeMoneyMask( binding.edtItemValue.text.toString()).toDouble()
             )
             viewModel.uploadProductToFirebase(uid, product)
         }
@@ -105,6 +107,8 @@ class AddProduct : BaseFragment() {
         binding.labelPublishItem.setOnClickListener {
             viewModel.addItemToUpload()
         }
+
+        binding.edtItemValue.addTextChangedListener(MoneyTextWatcher(binding.edtItemValue, Locale("pt", "BR")))
     }
 
     private fun onProductListReceveived(listProduct: List<ProductCard>) {

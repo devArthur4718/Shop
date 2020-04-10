@@ -19,6 +19,8 @@ import com.stetter.escambo.net.models.SendProduct
 import com.stetter.escambo.ui.adapter.MyProductAdapter
 import com.stetter.escambo.ui.base.BaseFragment
 import com.stetter.escambo.ui.login.LoginActivity
+import java.util.*
+import kotlin.collections.ArrayList
 
 class Profile : BaseFragment() {
 
