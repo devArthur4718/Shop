@@ -2,13 +2,13 @@ package com.stetter.escambo.ui.core.profile
 
 import android.app.Activity
 import android.content.Intent
-import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import com.google.firebase.storage.FirebaseStorage
 import com.stetter.escambo.R
 import com.stetter.escambo.databinding.ProfileFragmentBinding
@@ -19,7 +19,6 @@ import com.stetter.escambo.net.models.SendProduct
 import com.stetter.escambo.ui.adapter.MyProductAdapter
 import com.stetter.escambo.ui.base.BaseFragment
 import com.stetter.escambo.ui.login.LoginActivity
-import java.util.*
 import kotlin.collections.ArrayList
 
 class Profile : BaseFragment() {
@@ -44,7 +43,7 @@ class Profile : BaseFragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProviders.of(this).get(ProfileViewModel::class.java)
+        viewModel = ViewModelProvider(this).get(ProfileViewModel::class.java)
         setObservables()
         setAdapters()
 

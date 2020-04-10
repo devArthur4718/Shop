@@ -1,7 +1,5 @@
 package com.stetter.escambo.ui.adapter
 
-
-import android.util.Base64
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -11,9 +9,14 @@ import com.google.firebase.storage.FirebaseStorage
 import com.stetter.escambo.R
 import com.stetter.escambo.databinding.ItemMyItemBinding
 import com.stetter.escambo.extension.CircularProgress
+import com.stetter.escambo.extension.watcher.MoneyTextWatcher
 import com.stetter.escambo.glide.GlideApp
 import com.stetter.escambo.net.models.SendProduct
+import java.lang.Exception
 import java.lang.IndexOutOfBoundsException
+import java.text.DecimalFormat
+import java.text.DecimalFormatSymbols
+import java.util.*
 
 
 class MyProductAdapter () : RecyclerView.Adapter<MyProductAdapter.ViewHolder>(){
@@ -39,7 +42,16 @@ class MyProductAdapter () : RecyclerView.Adapter<MyProductAdapter.ViewHolder>(){
         : RecyclerView.ViewHolder(binding.root){
         fun bind(item : SendProduct){
             binding.tvMyitemTitle.text = item.product
-            binding.tvMyItemValue.text = item.value.toString()
+            var moneytext = item.value.toString().replaceRange(item.value.toString().length  -2, item.value.toString().length, "")
+
+            try{
+                var symbols = DecimalFormatSymbols()
+                symbols.decimalSeparator = ','
+                var moneyFormat = DecimalFormat("R$ ###,###,###,###", symbols)
+                binding.tvMyItemValue.text = moneyFormat.format(moneytext.toDouble()).toString().replace(".", ",")
+            }catch (e : Exception){
+                Log.d("ProductAdapter", "Error: $e")
+            }
 
             //Load image with glide - only the first one
             val storage = FirebaseStorage.getInstance()
