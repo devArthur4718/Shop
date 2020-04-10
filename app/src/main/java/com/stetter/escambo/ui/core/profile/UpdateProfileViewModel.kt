@@ -7,6 +7,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.stetter.escambo.net.firebase.auth.LoginRepository
 import com.stetter.escambo.net.firebase.storage.DatabaseRepository
+import com.stetter.escambo.net.models.RegisterUser
 
 class UpdateProfileViewModel  : ViewModel(){
 
@@ -54,7 +55,6 @@ class UpdateProfileViewModel  : ViewModel(){
         _loadingProgress.value = true
         databaserepository.uploadImageToDatabase(filename).putBytes(byteArray)
             .addOnSuccessListener {
-                //Todo : use url do download image inside circle image view
                 _onPhotoFileReceived.value = it.metadata?.path
                 _loadingProgress.value = false
                 _uploadSuccess.value = true
@@ -78,6 +78,36 @@ class UpdateProfileViewModel  : ViewModel(){
             }
             .addOnFailureListener{
                 _uploadSuccess.value = false
+                _loadingProgress.value = false
+            }
+
+    }
+
+
+    fun updateUser(sendUser: RegisterUser, password: String) {
+        _loadingProgress.value = true
+        databaserepository.updateUserToDabase().setValue(sendUser)
+            .addOnCompleteListener {
+                _loadingProgress.value = false
+                _uploadSuccess.value = true
+                updatePassword(password)
+
+
+            }.addOnFailureListener {
+                _loadingProgress.value = false
+                _uploadSuccess.value = false
+            }
+
+    }
+
+    fun updatePassword(password : String){
+        _loadingProgress.value = true
+        databaserepository.updatePassword(password)
+            ?.addOnCompleteListener {
+                _loadingProgress.value = false
+
+            }
+            ?.addOnFailureListener {
                 _loadingProgress.value = false
             }
 

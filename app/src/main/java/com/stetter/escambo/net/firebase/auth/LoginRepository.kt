@@ -10,8 +10,6 @@ class LoginRepository {
 
     var auth = FirebaseAuth.getInstance()
 
-
-
     fun logInWithEmailAndPassword(email : String = "email", password : String = "password"): Task<AuthResult> {
         return auth.signInWithEmailAndPassword(email,password)
     }
@@ -61,6 +59,8 @@ class LoginRepository {
                 Log.d("createUser", "Fail: $it")
             }
     }
+
+    fun getCurrentUserUID() : String = auth.uid ?: ""
 
 
 }

@@ -1,27 +1,31 @@
 package com.stetter.escambo.ui.core.profile
 
+import android.app.Activity
 import android.content.Intent
-import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import com.google.firebase.storage.FirebaseStorage
 import com.stetter.escambo.R
 import com.stetter.escambo.databinding.ProfileFragmentBinding
 import com.stetter.escambo.extension.CircularProgress
 import com.stetter.escambo.glide.GlideApp
 import com.stetter.escambo.net.models.RegisterUser
-import com.stetter.escambo.net.models.SendProduct
+import com.stetter.escambo.net.models.Product
 import com.stetter.escambo.ui.adapter.MyProductAdapter
 import com.stetter.escambo.ui.base.BaseFragment
+import com.stetter.escambo.ui.login.LoginActivity
+import kotlin.collections.ArrayList
 
 class Profile : BaseFragment() {
 
     companion object {
         fun newInstance() = Profile()
+        const val RC_FINISH_SESSION = 20
     }
 
     private lateinit var viewModel: ProfileViewModel
@@ -39,7 +43,7 @@ class Profile : BaseFragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProviders.of(this).get(ProfileViewModel::class.java)
+        viewModel = ViewModelProvider(this).get(ProfileViewModel::class.java)
         setObservables()
         setAdapters()
 
@@ -57,14 +61,14 @@ class Profile : BaseFragment() {
 
         binding.ivOpenProfileDetail.setOnClickListener {
             val intent = Intent(activity, ProfileDetail::class.java)
-            startActivity(intent)
+            startActivityForResult(intent, RC_FINISH_SESSION)
         }
-
+        //Retrieve user posted products
         viewModel.retriveUserPostedProducts()
 
     }
 
-    private fun onUserProductListReceived(datalist: ArrayList<SendProduct>?) {
+    private fun onUserProductListReceived(datalist: ArrayList<Product>?) {
         datalist?.let {
             if(it.isEmpty()){
                 binding.tvNoUserProducts.visibility = View.VISIBLE
@@ -94,6 +98,19 @@ class Profile : BaseFragment() {
                 binding.ivProfileImage.setImageDrawable(resources.getDrawable(R.drawable.ic_young))
             }
 
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        when(requestCode){
+            RC_FINISH_SESSION -> {
+                if(resultCode == Activity.RESULT_OK){
+                    val intent = Intent(context, LoginActivity::class.java)
+                    startActivity(intent)
+                    activity?.finish()
+                }
+            }
         }
     }
 }

@@ -20,9 +20,12 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import com.stetter.escambo.R
 import com.stetter.escambo.databinding.AddProductFragmenetBinding
+import com.stetter.escambo.extension.Mask
 import com.stetter.escambo.extension.checkCameraPermissions
+import com.stetter.escambo.extension.getTimeStamp
 import com.stetter.escambo.extension.showPickImageDialog
-import com.stetter.escambo.net.models.SendProduct
+import com.stetter.escambo.extension.watcher.MoneyTextWatcher
+import com.stetter.escambo.net.models.Product
 import com.stetter.escambo.ui.adapter.ProductCard
 import com.stetter.escambo.ui.adapter.UploadItemAdapter
 import com.stetter.escambo.ui.base.BaseFragment
@@ -74,12 +77,9 @@ class AddProduct : BaseFragment() {
     }
 
     private fun setObserbales() {
-        viewModel.listCategorList.observe(
-            viewLifecycleOwner,
-            Observer { onConfigureCategoryAdapter(it) })
-        viewModel.pickPhotoFromGallery.observe(
-            viewLifecycleOwner,
-            Observer { onPickDataFromGallery(it) })
+
+        viewModel.listCategorList.observe( viewLifecycleOwner,  Observer { onConfigureCategoryAdapter(it) })
+        viewModel.pickPhotoFromGallery.observe( viewLifecycleOwner,  Observer { onPickDataFromGallery(it) })
         viewModel.imagePickIntent.observe(viewLifecycleOwner, Observer { onPickImageIntent(it) })
         viewModel.cameraPickintent.observe(viewLifecycleOwner, Observer { onCameraIntent(it) })
         viewModel.uploadSucess.observe(viewLifecycleOwner, Observer { onImageUploadSucess(it) })
@@ -91,20 +91,23 @@ class AddProduct : BaseFragment() {
         binding.btnPublishItem.setOnClickListener {
             val uid = viewModel.getUid()
             var category = binding.spCategory.selectedItem.toString()
-
-            val product = SendProduct(
+            val product = Product(
                 uid,
                 viewModel.getPaths(),
                 binding.edtItemName.text.toString(),
                 binding.edtItemDescription.text.toString(),
-                category, binding.edtItemValue.text.toString().toDouble()
+                category, Mask.removeMoneyMask( binding.edtItemValue.text.toString()).toDouble(),
+                Calendar.getInstance().getTimeStamp()
+
             )
-            viewModel.uploadProductToFirebase(uid, product)
+            viewModel.uploadProductToFirebase( product )
         }
 
         binding.labelPublishItem.setOnClickListener {
             viewModel.addItemToUpload()
         }
+
+        binding.edtItemValue.addTextChangedListener(MoneyTextWatcher(binding.edtItemValue, Locale("pt", "BR")))
     }
 
     private fun onProductListReceveived(listProduct: List<ProductCard>) {

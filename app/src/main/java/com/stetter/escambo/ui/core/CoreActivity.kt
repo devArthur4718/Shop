@@ -3,7 +3,7 @@ package com.stetter.escambo.ui.core
 import android.os.Bundle
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
 import com.stetter.escambo.R
@@ -24,11 +24,10 @@ class CoreActivity : BaseActivity() {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_core)
         val navController = findNavController(R.id.nav_host_fragment)
         binding.navView.setupWithNavController(navController)
-        loginvm = ViewModelProviders.of(this)[LoginViewModel::class.java]
-        corevm = ViewModelProviders.of(this)[CoreViewModel::class.java]
+        loginvm = ViewModelProvider(this)[LoginViewModel::class.java]
+        corevm = ViewModelProvider(this)[CoreViewModel::class.java]
         initViews()
         setobservables()
-
     }
 
     private fun setobservables() {
@@ -48,7 +47,6 @@ class CoreActivity : BaseActivity() {
 
     private fun initViews() {
         loadingDialog = LoadingDialog(this)
-
 
     }
 }

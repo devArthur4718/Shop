@@ -11,7 +11,7 @@ import androidx.lifecycle.Observer
 
 import com.stetter.escambo.R
 import com.stetter.escambo.databinding.ChatFragmentBinding
-import com.stetter.escambo.net.models.Product
+import com.stetter.escambo.net.models.ProductMock
 import com.stetter.escambo.ui.adapter.RecenteMessageAdapter
 
 class Chat : Fragment() {
@@ -41,14 +41,14 @@ class Chat : Fragment() {
     }
 
     private fun setObservables() {
-        viewModel.listProduct.observe(viewLifecycleOwner, Observer { onProductListReceived(it) })
+        viewModel.listProductMock.observe(viewLifecycleOwner, Observer { onProductListReceived(it) })
     }
 
-    private fun onProductListReceived(productList: List<Product>) {
-        if (productList.isEmpty()) {
+    private fun onProductListReceived(productMockList: List<ProductMock>) {
+        if (productMockList.isEmpty()) {
             // no itens
         } else {
-            recentMessageAdapter.data = productList
+            recentMessageAdapter.data = productMockList
         }
     }
 

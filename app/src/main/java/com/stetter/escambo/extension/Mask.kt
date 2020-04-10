@@ -3,6 +3,8 @@ package com.stetter.escambo.extension
 import android.text.Editable
 import android.text.TextWatcher
 import android.widget.EditText
+import java.text.NumberFormat
+import java.util.*
 
 class Mask{
     companion object {
@@ -11,6 +13,18 @@ class Mask{
                 .replace("(", "").replace(")", "")
                 .replace("/", "").replace(" ", "")
                 .replace("*", "")
+        }
+
+        fun removeMoneyMask(moneytext : String) : String{
+
+            val replaceable = java.lang.String.format(
+                "[%s,.\\s]",
+                NumberFormat.getCurrencyInstance(Locale("pt", "BR")).getCurrency().getSymbol()
+            )
+
+            return moneytext.replace("R$", "")
+                            .replace(",", "")
+                            .replace(replaceable.toRegex(), "")
         }
 
 

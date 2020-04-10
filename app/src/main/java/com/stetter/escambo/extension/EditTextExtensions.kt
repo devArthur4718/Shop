@@ -2,6 +2,7 @@ package com.stetter.escambo.extension
 
 import android.util.Patterns
 import android.widget.EditText
+import com.google.android.material.textfield.TextInputEditText
 
 
 fun EditText.clearError() {
@@ -35,3 +36,4 @@ fun EditText.isPostalCodeValid() : Boolean {
 fun EditText.isBirthDateValid() : Boolean {
     return if (Mask.removeMask(this.text.toString()).length < 8) false else true
 }
+

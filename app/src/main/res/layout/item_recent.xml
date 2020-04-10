@@ -31,7 +31,7 @@
                 android:layout_height="match_parent">
 
                 <ImageView
-                    android:id="@+id/imageView8"
+                    android:id="@+id/ivProductRecent"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:adjustViewBounds="true"
@@ -48,7 +48,7 @@
                     tools:layout_editor_absoluteY="0dp" />
 
                 <TextView
-                    android:id="@+id/textView15"
+                    android:id="@+id/tvValueRecent"
                     style="@style/style_capsule"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -83,15 +83,16 @@
                     app:layout_constraintStart_toStartOf="parent" />
 
                 <TextView
+                    android:id="@+id/tvRecentUserName"
                     style="@style/card_name"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
                     android:layout_marginEnd="8dp"
-                    android:text="Ayrton Senna"
+                    tools:text="Ayrton Senna"
                     android:textSize="16sp"
                     app:layout_constraintBottom_toBottomOf="@+id/ivUserTop"
-                    app:layout_constraintEnd_toStartOf="@+id/textView15"
+                    app:layout_constraintEnd_toStartOf="@+id/tvValueRecent"
                     app:layout_constraintStart_toEndOf="@+id/ivUserTop"
                     app:layout_constraintTop_toTopOf="@+id/ivUserTop" />
 
