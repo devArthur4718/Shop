@@ -22,10 +22,7 @@ import com.google.firebase.auth.UserProfileChangeRequest
 import com.google.firebase.storage.FirebaseStorage
 import com.stetter.escambo.R
 import com.stetter.escambo.databinding.ActivityProfileDetailBinding
-import com.stetter.escambo.extension.CircularProgress
-import com.stetter.escambo.extension.hideKeyBoard
-import com.stetter.escambo.extension.showKeyboard
-import com.stetter.escambo.extension.showPickImageProfile
+import com.stetter.escambo.extension.*
 import com.stetter.escambo.glide.GlideApp
 import com.stetter.escambo.net.models.RegisterUser
 import com.stetter.escambo.ui.base.BaseActivity
@@ -52,6 +49,7 @@ class ProfileDetail : BaseActivity() {
         mainViewModel.userProfileData.observe(this, Observer { onUserDataReceveid(it) })
         viewmodel.imagePickIntent.observe(this, Observer { onPickImageIntent(it) })
         viewmodel.onPhotoFileReceived.observe(this, Observer { onProfileImageReceived(it) })
+        viewmodel.uploadSucess.observe(this, Observer { onUserProfildeUpdated(it) })
 
         binding.ivLogout.setOnClickListener {
             viewmodel.logout()
@@ -72,25 +70,77 @@ class ProfileDetail : BaseActivity() {
         }
 
         binding.btnUpdateProfile.setOnClickListener {
-            val user = FirebaseAuth.getInstance().currentUser
 
-            val profileUpdates = UserProfileChangeRequest.Builder()
-                .setDisplayName(binding.inputFullName.editText?.text.toString())
-                .build()
+            //TODO : Update da senha via firebase auth
+            //TODO : UPDATE DO USERNAME VIA FIREBASE AUTH E DATABASE
+            //TODO : FETCH CPF
 
-            user?.updateProfile(profileUpdates)
-                ?.addOnCompleteListener { task ->
+            //TODO : BUG DE LOGOUT
 
-                    if (task.isSuccessful) {
-                        Log.d("ProfileDetail", "User profile updated.")
-                    }
+            binding.inputFullName.editText?.clearError()
+            binding.inputEmail.editText?.clearError()
+            binding.inputPassword.editText?.clearError()
+            binding.inputPostalCode.editText?.clearError()
+            binding.inputUF.editText?.clearError()
+            binding.inputCity.editText?.clearError()
+            if (binding.inputFullName.editText!!.isNullOrEmpty()) {
+                binding.inputFullName?.editText?.setError(getString(R.string.blank_name))
+                return@setOnClickListener
+            }
+            else if (!binding?.inputEmail?.editText?.isEmailValid()!!) {
+                binding.inputEmail?.editText?.setError(getString(R.string.invalid_email))
+                return@setOnClickListener
+            }
+            else if (binding.inputEmail.editText?.isNullOrEmpty()!!) {
+                binding.inputEmail.editText?.setError((getString(R.string.blank_email)))
+                return@setOnClickListener
+            }
+            else if(!binding.inputBirthDate.editText?.isBirthDateValid()!!){
+                binding.inputBirthDate.editText?.setError(getString(R.string.birthdate_invalid))
+            }
+            else if(binding.inputBirthDate.editText?.isNullOrEmpty()!!){
+                binding.inputBirthDate.editText?.setError(getString(R.string.blank_date))
+            }
+            else if(!binding.inputPostalCode.editText?.isPostalCodeValid()!!){
+                binding.inputPostalCode.editText?.setError(getString(R.string.invalid_postal_code))
+            }
+            else if(binding.inputPostalCode.editText?.isNullOrEmpty()!!){
+                binding.inputPostalCode.editText?.setError(getString(R.string.blank_postal_code))
+            }
+            else if (!binding.inputUF.editText?.isUFValid()!!) {
+                binding.inputUF.editText?.setError(getString(R.string.UF_invalid))
+                return@setOnClickListener
+            }
+            else if (binding.inputUF.editText?.isNullOrEmpty()!!) {
+                binding.inputUF.editText?.setError(getString(R.string.UF_blank))
+                return@setOnClickListener
+            }
+            else if (binding.inputCity.editText?.isNullOrEmpty()!!) {
+                binding.inputCity.editText?.setError(getString(R.string.blank_city))
+            }
+            else{
+                var sendUser = RegisterUser().apply {
+                    this.fullName = binding.inputFullName.editText?.text.toString()
+                    this.email = binding.inputEmail.editText?.text.toString()
+                    this.birthDate = binding.inputBirthDate?.editText?.text.toString()
+                    this.cep = binding.inputPostalCode.editText?.text.toString()
+                    this.uf = binding.inputUF.editText?.text.toString()
+                    this.city = binding.inputCity.editText?.text.toString()
                 }
-                ?.addOnFailureListener {
-                    Log.e("ProfileDetail", "User profile updated failed : $it")
-                }
+                updateUser(sendUser)
+            }
 
         }
 
+    }
+
+    private fun onUserProfildeUpdated(updated: Boolean?) {
+        updated?.let { updated -> if(updated) finish() }
+    }
+
+    private fun updateUser(sendUser: RegisterUser) {
+        //register user
+        viewmodel.updateUser(sendUser, binding.inputPassword.editText?.text.toString())
     }
 
     private fun onProfileImageReceived(imgUrl: String) {
@@ -126,6 +176,8 @@ class ProfileDetail : BaseActivity() {
         fun newInstance() = AddProduct()
         const val RQ_PICK_PHOTO = 0
         const val RQ_TAKE_PHOTO = 1
+        const val STORAGE_URL = "gs://escambo-1b51d.appspot.com"
+
     }
 
     var selectedPhotoUri: Uri? = null
@@ -188,6 +240,7 @@ class ProfileDetail : BaseActivity() {
             binding.ivDetailProfileImage.setImageDrawable(resources.getDrawable(R.drawable.ic_young))
         }
     }
+
 
 
     fun onEditClick(view: View) {

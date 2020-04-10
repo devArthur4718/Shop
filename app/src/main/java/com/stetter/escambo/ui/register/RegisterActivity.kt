@@ -138,8 +138,6 @@ class RegisterActivity : AppCompatActivity() {
                 }
                 sendForm(senUser)
             }
-
-
         }
         binding.inputBirthDate.editText?.addTextChangedListener(Mask.mask("##/##/####", binding?.inputBirthDate?.editText!!))
         binding.inputPostalCode.editText?.addTextChangedListener(Mask.mask("#####-###", binding?.inputPostalCode?.editText!!))

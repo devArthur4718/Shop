@@ -5,6 +5,7 @@ import com.facebook.AccessToken
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.*
+import com.stetter.escambo.net.models.RegisterUser
 
 class LoginRepository {
 
@@ -60,6 +61,10 @@ class LoginRepository {
              }.addOnFailureListener {
                 Log.d("createUser", "Fail: $it")
             }
+    }
+
+    fun updateUser(user : RegisterUser){
+
     }
 
 

@@ -29,6 +29,12 @@ class DatabaseRepository {
         return FirebaseDatabase.getInstance().getReference("/users/$uid")
     }
 
+    fun updateUserToDabase(): DatabaseReference {
+        var uid = getCurrentUserUID()
+        return FirebaseDatabase.getInstance().getReference("/users").child(uid)
+    }
+
+
     fun retriveUserProducts(): Query {
        return FirebaseDatabase.getInstance().getReference("/products").orderByChild("uid").equalTo(getCurrentUserUID())
     }
