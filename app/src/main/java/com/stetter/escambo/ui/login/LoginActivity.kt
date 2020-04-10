@@ -85,8 +85,6 @@ class LoginActivity : BaseActivity() {
             navigateToRecover()
         }
         binding.btnLogin.setOnClickListener {
-
-
             performLogin(
                 binding.inputName.editText?.text.toString(),
                 binding.inputPassword.editText?.text.toString()

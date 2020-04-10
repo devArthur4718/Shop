@@ -1,24 +1,17 @@
 package com.stetter.escambo.ui.core.profile
 
 import android.app.Activity
-import android.content.Context
 import android.content.Intent
 import android.graphics.drawable.BitmapDrawable
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
-import android.util.Log
 import android.view.View
-import android.view.inputmethod.InputMethodManager
 import android.widget.TextView
-import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
-import com.google.android.material.textfield.TextInputEditText
+import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.textfield.TextInputLayout
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.UserProfileChangeRequest
 import com.google.firebase.storage.FirebaseStorage
 import com.stetter.escambo.R
 import com.stetter.escambo.databinding.ActivityProfileDetailBinding
@@ -39,7 +32,7 @@ class ProfileDetail : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_profile_detail)
-        viewmodel = ViewModelProviders.of(this)[UpdateProfileViewModel::class.java]
+        viewmodel = ViewModelProvider(this)[UpdateProfileViewModel::class.java]
         setObservables()
     }
 
@@ -53,10 +46,8 @@ class ProfileDetail : BaseActivity() {
 
         binding.ivLogout.setOnClickListener {
             viewmodel.logout()
-            var intent = Intent(this, LoginActivity::class.java)
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-                .addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP)
-            startActivity(intent)
+            setResult(Activity.RESULT_OK)
+            finish()
         }
 
 
@@ -86,39 +77,29 @@ class ProfileDetail : BaseActivity() {
             if (binding.inputFullName.editText!!.isNullOrEmpty()) {
                 binding.inputFullName?.editText?.setError(getString(R.string.blank_name))
                 return@setOnClickListener
-            }
-            else if (!binding?.inputEmail?.editText?.isEmailValid()!!) {
+            } else if (!binding?.inputEmail?.editText?.isEmailValid()!!) {
                 binding.inputEmail?.editText?.setError(getString(R.string.invalid_email))
                 return@setOnClickListener
-            }
-            else if (binding.inputEmail.editText?.isNullOrEmpty()!!) {
+            } else if (binding.inputEmail.editText?.isNullOrEmpty()!!) {
                 binding.inputEmail.editText?.setError((getString(R.string.blank_email)))
                 return@setOnClickListener
-            }
-            else if(!binding.inputBirthDate.editText?.isBirthDateValid()!!){
+            } else if (!binding.inputBirthDate.editText?.isBirthDateValid()!!) {
                 binding.inputBirthDate.editText?.setError(getString(R.string.birthdate_invalid))
-            }
-            else if(binding.inputBirthDate.editText?.isNullOrEmpty()!!){
+            } else if (binding.inputBirthDate.editText?.isNullOrEmpty()!!) {
                 binding.inputBirthDate.editText?.setError(getString(R.string.blank_date))
-            }
-            else if(!binding.inputPostalCode.editText?.isPostalCodeValid()!!){
+            } else if (!binding.inputPostalCode.editText?.isPostalCodeValid()!!) {
                 binding.inputPostalCode.editText?.setError(getString(R.string.invalid_postal_code))
-            }
-            else if(binding.inputPostalCode.editText?.isNullOrEmpty()!!){
+            } else if (binding.inputPostalCode.editText?.isNullOrEmpty()!!) {
                 binding.inputPostalCode.editText?.setError(getString(R.string.blank_postal_code))
-            }
-            else if (!binding.inputUF.editText?.isUFValid()!!) {
+            } else if (!binding.inputUF.editText?.isUFValid()!!) {
                 binding.inputUF.editText?.setError(getString(R.string.UF_invalid))
                 return@setOnClickListener
-            }
-            else if (binding.inputUF.editText?.isNullOrEmpty()!!) {
+            } else if (binding.inputUF.editText?.isNullOrEmpty()!!) {
                 binding.inputUF.editText?.setError(getString(R.string.UF_blank))
                 return@setOnClickListener
-            }
-            else if (binding.inputCity.editText?.isNullOrEmpty()!!) {
+            } else if (binding.inputCity.editText?.isNullOrEmpty()!!) {
                 binding.inputCity.editText?.setError(getString(R.string.blank_city))
-            }
-            else{
+            } else {
                 var sendUser = RegisterUser().apply {
                     this.fullName = binding.inputFullName.editText?.text.toString()
                     this.email = binding.inputEmail.editText?.text.toString()
@@ -135,7 +116,7 @@ class ProfileDetail : BaseActivity() {
     }
 
     private fun onUserProfildeUpdated(updated: Boolean?) {
-        updated?.let { updated -> if(updated) finish() }
+        updated?.let { updated -> if (updated) finish() }
     }
 
     private fun updateUser(sendUser: RegisterUser) {
@@ -242,12 +223,11 @@ class ProfileDetail : BaseActivity() {
     }
 
 
-
     fun onEditClick(view: View) {
         when (view.id) {
             R.id.tvEditFullName -> toogleInput(binding.inputFullName, binding.tvEditFullName)
             R.id.tvEditEmail -> toogleInput(binding.inputEmail, binding.tvEditEmail)
-            R.id.tvEditPassword -> toogleInput(binding.inputPassword,binding.tvEditPassword)
+            R.id.tvEditPassword -> toogleInput(binding.inputPassword, binding.tvEditPassword)
             R.id.tvEditBirthDate -> toogleInput(binding.inputBirthDate, binding.tvEditBirthDate)
             R.id.tvEditPostalCode -> toogleInput(binding.inputPostalCode, binding.tvEditPostalCode)
             R.id.tvEditUF -> toogleInput(binding.inputUF, binding.tvEditUF)
@@ -255,16 +235,17 @@ class ProfileDetail : BaseActivity() {
         }
     }
 
-    fun toogleInput(view : TextInputLayout, textEditLabel : TextView){
+    fun toogleInput(view: TextInputLayout, textEditLabel: TextView) {
         view.editText!!.isEnabled = !view.editText!!.isEnabled
         view.editText!!.requestFocus()
         view.editText!!.setSelection(view.editText!!.text.toString().length)
-        if(view.editText!!.isEnabled){
+        if (view.editText!!.isEnabled) {
             showKeyboard()
             textEditLabel.text = getString(R.string.save_it)
-        }else{
+        } else {
             textEditLabel.text = getString(R.string.edit)
             hideKeyBoard(view)
         }
+
     }
 }

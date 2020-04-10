@@ -1,5 +1,6 @@
 package com.stetter.escambo.ui.core.profile
 
+import android.app.Activity
 import android.content.Intent
 import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
@@ -17,11 +18,13 @@ import com.stetter.escambo.net.models.RegisterUser
 import com.stetter.escambo.net.models.SendProduct
 import com.stetter.escambo.ui.adapter.MyProductAdapter
 import com.stetter.escambo.ui.base.BaseFragment
+import com.stetter.escambo.ui.login.LoginActivity
 
 class Profile : BaseFragment() {
 
     companion object {
         fun newInstance() = Profile()
+        const val RC_FINISH_SESSION = 20
     }
 
     private lateinit var viewModel: ProfileViewModel
@@ -57,7 +60,7 @@ class Profile : BaseFragment() {
 
         binding.ivOpenProfileDetail.setOnClickListener {
             val intent = Intent(activity, ProfileDetail::class.java)
-            startActivity(intent)
+            startActivityForResult(intent, RC_FINISH_SESSION)
         }
 
         viewModel.retriveUserPostedProducts()
@@ -94,6 +97,19 @@ class Profile : BaseFragment() {
                 binding.ivProfileImage.setImageDrawable(resources.getDrawable(R.drawable.ic_young))
             }
 
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        when(requestCode){
+            RC_FINISH_SESSION -> {
+                if(resultCode == Activity.RESULT_OK){
+                    val intent = Intent(context, LoginActivity::class.java)
+                    startActivity(intent)
+                    activity?.finish()
+                }
+            }
         }
     }
 }

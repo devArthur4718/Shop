@@ -5,13 +5,10 @@ import com.facebook.AccessToken
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.*
-import com.stetter.escambo.net.models.RegisterUser
 
 class LoginRepository {
 
     var auth = FirebaseAuth.getInstance()
-
-
 
     fun logInWithEmailAndPassword(email : String = "email", password : String = "password"): Task<AuthResult> {
         return auth.signInWithEmailAndPassword(email,password)
@@ -63,9 +60,7 @@ class LoginRepository {
             }
     }
 
-    fun updateUser(user : RegisterUser){
-
-    }
+    fun getCurrentUserUID() : String = auth.uid ?: ""
 
 
 }

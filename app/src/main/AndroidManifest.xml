@@ -20,7 +20,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".ui.core.explore.detail.DetailProductActivity"></activity>
-        <activity android:name=".ui.core.profile.ProfileDetail" />
+        <activity android:name=".ui.core.profile.ProfileDetail" android:parentActivityName=".ui.core.CoreActivity"/>
         <activity android:name=".ui.core.explore.filter.FilterActivity" />
 
         <provider

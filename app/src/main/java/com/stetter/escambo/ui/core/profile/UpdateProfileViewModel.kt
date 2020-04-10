@@ -90,11 +90,25 @@ class UpdateProfileViewModel  : ViewModel(){
             .addOnCompleteListener {
                 _loadingProgress.value = false
                 _uploadSuccess.value = true
+                updatePassword(password)
 
 
             }.addOnFailureListener {
                 _loadingProgress.value = false
                 _uploadSuccess.value = false
+            }
+
+    }
+
+    fun updatePassword(password : String){
+        _loadingProgress.value = true
+        databaserepository.updatePassword(password)
+            ?.addOnCompleteListener {
+                _loadingProgress.value = false
+
+            }
+            ?.addOnFailureListener {
+                _loadingProgress.value = false
             }
 
     }

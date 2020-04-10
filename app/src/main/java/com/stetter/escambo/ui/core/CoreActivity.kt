@@ -28,7 +28,6 @@ class CoreActivity : BaseActivity() {
         corevm = ViewModelProviders.of(this)[CoreViewModel::class.java]
         initViews()
         setobservables()
-
     }
 
     private fun setobservables() {
@@ -48,7 +47,6 @@ class CoreActivity : BaseActivity() {
 
     private fun initViews() {
         loadingDialog = LoadingDialog(this)
-
 
     }
 }
