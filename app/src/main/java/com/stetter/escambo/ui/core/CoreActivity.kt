@@ -38,6 +38,8 @@ class CoreActivity : BaseActivity() {
                 loadingDialog.hide()
             }
         })
+
+        corevm.getUserDataFromDatabase()
     }
 
     override fun onSupportNavigateUp(): Boolean {

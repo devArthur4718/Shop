@@ -26,6 +26,7 @@ import com.stetter.escambo.extension.getTimeStamp
 import com.stetter.escambo.extension.showPickImageDialog
 import com.stetter.escambo.extension.watcher.MoneyTextWatcher
 import com.stetter.escambo.net.models.Product
+import com.stetter.escambo.net.models.RegisterUser
 import com.stetter.escambo.ui.adapter.ProductCard
 import com.stetter.escambo.ui.adapter.UploadItemAdapter
 import com.stetter.escambo.ui.base.BaseFragment
@@ -87,7 +88,7 @@ class AddProduct : BaseFragment() {
         viewModel.uploadProduct.observe(viewLifecycleOwner, Observer { onProductUpload(it) })
         viewModel.loadingProgress.observe(viewLifecycleOwner, Observer { onLoading(it) })
         viewModel.listProduct.observe(viewLifecycleOwner, Observer { onProductListReceveived(it) })
-
+        mainViewModel.userProfileData.observe(viewLifecycleOwner, Observer { onUserDataReceveid(it) })
         binding.btnPublishItem.setOnClickListener {
             val uid = viewModel.getUid()
             var category = binding.spCategory.selectedItem.toString()
@@ -97,7 +98,8 @@ class AddProduct : BaseFragment() {
                 binding.edtItemName.text.toString(),
                 binding.edtItemDescription.text.toString(),
                 category, Mask.removeMoneyMask( binding.edtItemValue.text.toString()).toDouble(),
-                Calendar.getInstance().getTimeStamp()
+                Calendar.getInstance().getTimeStamp(),
+                fullName
 
             )
             viewModel.uploadProductToFirebase( product )
@@ -108,6 +110,13 @@ class AddProduct : BaseFragment() {
         }
 
         binding.edtItemValue.addTextChangedListener(MoneyTextWatcher(binding.edtItemValue, Locale("pt", "BR")))
+    }
+
+    var fullName = ""
+    private fun onUserDataReceveid(it: RegisterUser?) {
+        it?.let {
+            fullName = it.fullName
+        }
     }
 
     private fun onProductListReceveived(listProduct: List<ProductCard>) {

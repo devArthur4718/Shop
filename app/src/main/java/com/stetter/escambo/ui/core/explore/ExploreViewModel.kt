@@ -54,31 +54,18 @@ class ExploreViewModel : ViewModel() {
     }
 
     fun retrieveRecentProducts(){
-
         databaserepository.retrieveRecentPosts().addChildEventListener(object : ChildEventListener{
             var querryList = ArrayList<Product>()
-            override fun onCancelled(p0: DatabaseError) {
-
-            }
-
-            override fun onChildMoved(p0: DataSnapshot, p1: String?) {
-
-            }
-
-            override fun onChildChanged(p0: DataSnapshot, p1: String?) {
-
-            }
-
+            override fun onCancelled(p0: DatabaseError) { }
+            override fun onChildMoved(p0: DataSnapshot, p1: String?) { }
+            override fun onChildChanged(p0: DataSnapshot, p1: String?) {}
             override fun onChildAdded(p0: DataSnapshot, p1: String?) {
                 var product = p0.getValue(Product::class.java)
                 product?.let { querryList.add(it) }
                 _listRecentPost.value = querryList
 
             }
-
-            override fun onChildRemoved(p0: DataSnapshot) {
-
-            }
+            override fun onChildRemoved(p0: DataSnapshot) {}
         } )
     }
 

@@ -3,7 +3,6 @@ package com.stetter.escambo.ui.core.explore
 import android.content.Intent
 import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,16 +10,14 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import com.stetter.escambo.R
 import com.stetter.escambo.databinding.ExploreFragmentBinding
-import com.stetter.escambo.net.models.Product
-import com.stetter.escambo.net.models.ProductMock
-import com.stetter.escambo.net.models.RecentPost
-import com.stetter.escambo.net.models.TopUser
+import com.stetter.escambo.net.models.*
 import com.stetter.escambo.ui.adapter.ItemProductAdapter
 import com.stetter.escambo.ui.adapter.RecentProductAdapter
 import com.stetter.escambo.ui.adapter.TopUserAdapter
+import com.stetter.escambo.ui.base.BaseFragment
 import com.stetter.escambo.ui.core.explore.filter.FilterActivity
 
-class ExploreFragment : Fragment() {
+class ExploreFragment : BaseFragment() {
 
     companion object {
         fun newInstance() = ExploreFragment()
@@ -57,7 +54,6 @@ class ExploreFragment : Fragment() {
     private fun setAdapters() {
         binding.rvPostedProducts.adapter = productAdapter
         binding.rvTopUsers.adapter = topuserAdapter
-        //TODO: FETCH RECENT PRODUCTS AN ORDER BY TIME STAMP
         binding.rvRecentPosts.adapter = recentProduct
     }
 
