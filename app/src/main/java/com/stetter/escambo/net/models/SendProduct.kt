@@ -8,13 +8,16 @@ data class SendProduct(
     val product: String = "",
     val description: String = "",
     val category: String = "",
-    val value: Double = 0.0
+    val value: Double = 0.0,
+    var datePosted : Long = 0L
 ){
     constructor() : this("",
                             emptyList(),
                       "",
                     "",
                       "",
-                        0.0)
+                        0.0,
+                    0L
+    )
 
 }
