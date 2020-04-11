@@ -12,6 +12,7 @@ import com.stetter.escambo.extension.CircularProgress
 import com.stetter.escambo.glide.GlideApp
 import com.stetter.escambo.net.models.Product
 import java.lang.Exception
+import java.lang.IllegalArgumentException
 import java.lang.IndexOutOfBoundsException
 import java.text.DecimalFormat
 import java.text.DecimalFormatSymbols
@@ -56,18 +57,29 @@ class RecentProductAdapter () : RecyclerView.Adapter<RecentProductAdapter.ViewHo
 
             try{
                 if(item.productUrl[0].length > 1){
-                    val gsReference = storage.getReferenceFromUrl("gs://escambo-1b51d.appspot.com/${item.productUrl[0]}")
-                    GlideApp.with(itemView.context)
-                        .asDrawable()
-                        .load(gsReference)
-                        .placeholder(itemView.context?.CircularProgress())
-                        .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
-                        .into(binding.ivProductRecent)
+                    try{
+                        val gsReference = storage.getReferenceFromUrl("gs://escambo-1b51d.appspot.com/${item.productUrl[0]}")
+                        GlideApp.with(itemView.context)
+                            .asDrawable()
+                            .load(gsReference)
+                            .placeholder(itemView.context?.CircularProgress())
+                            .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
+                            .into(binding.ivProductRecent)
 
+                        val gsReferencePhoto = storage.getReferenceFromUrl("gs://escambo-1b51d.appspot.com/${item.userPhoto}")
+                        GlideApp.with(itemView.context)
+                            .asDrawable()
+                            .load(gsReferencePhoto)
+                            .placeholder(itemView.context?.CircularProgress())
+                            .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
+                            .into(binding.ivUserTop)
+
+                    }catch (e : IllegalArgumentException){
+                        Log.e("Recent Post", "Error $e")
+                    }
                 }else{
                     binding.ivProductRecent.setImageDrawable(itemView.context.resources.getDrawable(R.drawable.ic_young))
                 }
-
             }catch (e : IndexOutOfBoundsException){
                 Log.e("MyProduct", "Failed fetching product image: $e")
             }

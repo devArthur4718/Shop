@@ -65,6 +65,7 @@ class DatabaseRepository {
     fun getCurrentUserUID() : String = auth.uid ?: ""
 
     fun retrieveRecentPosts() : Query {
+        //Dont have to order by time stamp, the dabase already is ordening each one
         return  FirebaseDatabase.getInstance().getReference("/products").orderByChild("datePosted")
     }
 

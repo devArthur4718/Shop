@@ -100,8 +100,8 @@ class AddProduct : BaseFragment() {
                 binding.edtItemDescription.text.toString(),
                 category, Mask.removeMoneyMask( binding.edtItemValue.text.toString()).toDouble(),
                 Calendar.getInstance().getTimeStamp(),
-                fullName
-
+                fullName,
+                userPhotoUrl
             )
             viewModel.uploadProductToFirebase( product )
         }
@@ -114,9 +114,11 @@ class AddProduct : BaseFragment() {
     }
 
     var fullName = ""
+    var userPhotoUrl = ""
     private fun onUserDataReceveid(it: RegisterUser?) {
         it?.let {
             fullName = it.fullName
+            userPhotoUrl = it.photoUrl
         }
     }
 

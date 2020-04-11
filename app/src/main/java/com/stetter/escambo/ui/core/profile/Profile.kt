@@ -100,7 +100,7 @@ class Profile : BaseFragment() {
 
                 }
                 catch (e : IllegalArgumentException){
-                    Log.e("Profile", "Error : $e")
+                    Log.e("PROFILE", "Error : $e")
                 }
 
 

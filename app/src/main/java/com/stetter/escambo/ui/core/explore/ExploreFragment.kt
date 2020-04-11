@@ -1,13 +1,13 @@
 package com.stetter.escambo.ui.core.explore
 
 import android.content.Intent
-import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import com.stetter.escambo.R
 import com.stetter.escambo.databinding.ExploreFragmentBinding
 import com.stetter.escambo.net.models.*
@@ -46,7 +46,7 @@ class ExploreFragment : BaseFragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProviders.of(this).get(ExploreViewModel::class.java)
+        viewModel = ViewModelProvider(this).get(ExploreViewModel::class.java)
         setAdapters()
         setObservables()
     }
@@ -78,7 +78,8 @@ class ExploreFragment : BaseFragment() {
             //no itens
 
         }else{
-            recentProduct.data = recentPostList
+
+            recentProduct.data = recentPostList.reversed()
         }
 
     }

@@ -9,7 +9,8 @@ data class Product(
     val category: String = "",
     val value: Double = 0.0,
     var datePosted : Long = 0L,
-    val username : String = ""
+    val username : String = "",
+    var userPhoto : String = ""
 ){
     constructor() : this("",
                             emptyList(),
@@ -18,6 +19,7 @@ data class Product(
                       "",
                         0.0,
                     0L,
+                    "",
                     ""
     )
 
