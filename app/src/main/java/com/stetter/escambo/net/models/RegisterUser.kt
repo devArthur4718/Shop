@@ -10,5 +10,8 @@ data class RegisterUser (
     var birthDate : String = "",
     var matches : Int = 0,
     var products : Int = 0,
-    var receiveNotifications : Boolean = false
+    var receiveNotifications : Boolean = false,
+    var lat : Double = 0.0,
+    var lng : Double = 0.0
+
 )

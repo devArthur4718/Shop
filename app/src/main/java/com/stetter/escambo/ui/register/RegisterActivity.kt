@@ -2,19 +2,25 @@ package com.stetter.escambo.ui.register
 
 import android.app.AlertDialog
 import android.content.DialogInterface
+import android.location.Geocoder
 import android.os.Bundle
+import android.util.Log
 import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import com.google.type.LatLng
 import com.stetter.escambo.R
 import com.stetter.escambo.databinding.ActivityRegisterNewBinding
 import com.stetter.escambo.extension.*
 import com.stetter.escambo.net.models.RegisterUser
+import com.stetter.escambo.net.retrofit.postalResponse
 import com.stetter.escambo.ui.dialog.LoadingDialog
 import com.stetter.escambo.ui.dialogs.CustomDialog
+import java.io.IOException
+
 
 class RegisterActivity : AppCompatActivity() {
 
@@ -22,7 +28,8 @@ class RegisterActivity : AppCompatActivity() {
     private lateinit var viewmodel: RegisterViewModel
     private lateinit var loadingDialog: LoadingDialog
     private lateinit var errorDialog: CustomDialog
-
+    var latitude  = 0.0
+    var longitute = 0.0
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register)
@@ -43,12 +50,7 @@ class RegisterActivity : AppCompatActivity() {
                 loadingDialog.hide()
         })
 
-        viewmodel.addressValue.observe(this, Observer { response ->
-            if (response != null) {
-                binding.inputCity.editText?.setText(response.localidade)
-                binding.inputUF.editText?.setText(response.uf)
-            }
-        })
+        viewmodel.addressValue.observe(this, Observer { response -> onAddressReceived(response) })
 
         viewmodel.showErrorDialog.observe(this, Observer {
             if (it) {
@@ -68,6 +70,32 @@ class RegisterActivity : AppCompatActivity() {
             }
         })
 
+    }
+
+    private fun onAddressReceived(response: postalResponse) {
+        if (response != null) {
+            binding.inputCity.editText?.setText(response.localidade)
+            binding.inputUF.editText?.setText(response.uf)
+            //Lat long ref
+            //Todo : Register every product with lat long
+            //Todo : Order by mais próximo da sua localização cadastrada!
+            if (Geocoder.isPresent()) {
+                try {
+                    var location = binding.inputCity.editText!!.text.toString()
+                    var gc = Geocoder(this)
+                    var address = gc.getFromLocationName(location, 5)
+                    address.forEach {
+                        if (it.hasLatitude() && it.hasLongitude()) {
+                            latitude = it.latitude
+                            longitute = it.longitude
+                        }
+                    }
+
+                } catch (e: IOException) {
+                    Log.e("Register", "Error : $e")
+                }
+            }
+        }
     }
 
     private fun initViews() {
@@ -125,6 +153,8 @@ class RegisterActivity : AppCompatActivity() {
                     this.cep = binding.inputPostalCode.editText?.text.toString()
                     this.uf = binding.inputUF.editText?.text.toString()
                     this.city = binding.inputCity.editText?.text.toString()
+                    this.lat = latitude
+                    this.lng = longitute
                 }
                 sendForm(senUser)
             }

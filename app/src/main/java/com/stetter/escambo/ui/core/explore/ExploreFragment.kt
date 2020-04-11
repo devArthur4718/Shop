@@ -1,6 +1,7 @@
 package com.stetter.escambo.ui.core.explore
 
 import android.content.Intent
+import android.location.Geocoder
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
