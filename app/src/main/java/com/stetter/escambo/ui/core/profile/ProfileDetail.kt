@@ -100,6 +100,7 @@ class ProfileDetail : BaseActivity() {
                     this.cep = binding.inputPostalCode.editText?.text.toString()
                     this.uf = binding.inputUF.editText?.text.toString()
                     this.city = binding.inputCity.editText?.text.toString()
+                    this.photoUrl = profileImage
                 }
                 updateUser(sendUser)
             }
@@ -116,9 +117,11 @@ class ProfileDetail : BaseActivity() {
         viewmodel.updateUser(sendUser, binding.inputPassword.editText?.text.toString())
     }
 
+    var profileImage = ""
     private fun onProfileImageReceived(imgUrl: String) {
         val storage = FirebaseStorage.getInstance()
         if (imgUrl.length > 1) {
+            profileImage = imgUrl
             val gsReference =
                 storage.getReferenceFromUrl("gs://escambo-1b51d.appspot.com/${imgUrl}")
             GlideApp.with(this)

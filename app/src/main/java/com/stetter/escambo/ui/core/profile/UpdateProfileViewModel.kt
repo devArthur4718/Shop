@@ -73,12 +73,12 @@ class UpdateProfileViewModel  : ViewModel(){
             .addOnSuccessListener {
                 _onPhotoFileReceived.value = it.metadata?.path
                 _loadingProgress.value = false
-                _uploadSuccess.value = true
+//                _uploadSuccess.value = true
 
             }
             .addOnFailureListener{
                 _uploadSuccess.value = false
-                _loadingProgress.value = false
+//                _loadingProgress.value = false
             }
 
     }

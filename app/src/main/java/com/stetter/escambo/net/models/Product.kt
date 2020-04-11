@@ -1,6 +1,5 @@
 package com.stetter.escambo.net.models
 
-import com.stetter.escambo.ui.adapter.ProductCard
 
 data class Product(
     val uid: String = "",

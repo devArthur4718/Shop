@@ -3,6 +3,7 @@ package com.stetter.escambo.ui.core.profile
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -19,6 +20,7 @@ import com.stetter.escambo.net.models.Product
 import com.stetter.escambo.ui.adapter.MyProductAdapter
 import com.stetter.escambo.ui.base.BaseFragment
 import com.stetter.escambo.ui.login.LoginActivity
+import java.lang.IllegalArgumentException
 import kotlin.collections.ArrayList
 
 class Profile : BaseFragment() {
@@ -85,14 +87,23 @@ class Profile : BaseFragment() {
             //Update UI
             binding.tvLoggedUserProfile.text =  it.fullName
             binding.tvLoggedUserLocation.text = it.city + "/" + it.uf
+            binding.tvUserMatches.text = "${it.matches} Matches"
             //Load User profile
             val storage = FirebaseStorage.getInstance()
             if(it.photoUrl.length > 1){
-                val gsReference = storage.getReferenceFromUrl("gs://escambo-1b51d.appspot.com${it.photoUrl}")
-                GlideApp.with(this)
-                    .load(gsReference)
-                    .placeholder(context?.CircularProgress())
-                    .into(binding.ivProfileImage)
+                try{
+                    val gsReference = storage.getReferenceFromUrl("gs://escambo-1b51d.appspot.com/${it.photoUrl}")
+                    GlideApp.with(this)
+                        .load(gsReference)
+                        .placeholder(context?.CircularProgress())
+                        .into(binding.ivProfileImage)
+
+                }
+                catch (e : IllegalArgumentException){
+                    Log.e("Profile", "Error : $e")
+                }
+
+
 
             }else{
                 binding.ivProfileImage.setImageDrawable(resources.getDrawable(R.drawable.ic_young))

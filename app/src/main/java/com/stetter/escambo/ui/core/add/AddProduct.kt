@@ -92,6 +92,7 @@ class AddProduct : BaseFragment() {
         binding.btnPublishItem.setOnClickListener {
             val uid = viewModel.getUid()
             var category = binding.spCategory.selectedItem.toString()
+
             val product = Product(
                 uid,
                 viewModel.getPaths(),
