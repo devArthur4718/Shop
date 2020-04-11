@@ -59,7 +59,7 @@ class ExploreFragment : BaseFragment() {
 
     private fun setObservables() {
         viewModel.listProductMock.observe(viewLifecycleOwner, Observer {  onProductListRetrieved(it)})
-        viewModel.listTopUser.observe(viewLifecycleOwner, Observer { onTopUserListRetrieved(it) })
+        viewModel.topUsersList.observe(viewLifecycleOwner, Observer { onTopUserListRetrieved(it) })
         viewModel.listRecentPost.observe(viewLifecycleOwner, Observer {onRecentPostListRetrieved(it) })
 
         binding.btnFilter.setOnClickListener {
@@ -67,9 +67,9 @@ class ExploreFragment : BaseFragment() {
             startActivity(intent)
         }
 
-
         //Retrieve recent products
         viewModel.retrieveRecentProducts()
+        viewModel.retrieveTopUsers()
 
     }
 
@@ -78,17 +78,16 @@ class ExploreFragment : BaseFragment() {
             //no itens
 
         }else{
-
             recentProduct.data = recentPostList.reversed()
         }
 
     }
 
-    private fun onTopUserListRetrieved(topUserList: List<TopUser>) {
+    private fun onTopUserListRetrieved(topUserList: List<RegisterUser>) {
         if(topUserList.isEmpty()){
             //no itens
         }else{
-            topuserAdapter.data = topUserList
+            topuserAdapter.data = topUserList.reversed()
         }
     }
 

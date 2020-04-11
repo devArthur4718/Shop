@@ -206,7 +206,7 @@ class ProfileDetail : BaseActivity() {
         val storage = FirebaseStorage.getInstance()
         if (userdata!!.photoUrl.length > 1) {
             val gsReference =
-                storage.getReferenceFromUrl("gs://escambo-1b51d.appspot.com${userdata.photoUrl}")
+                storage.getReferenceFromUrl("gs://escambo-1b51d.appspot.com/${userdata.photoUrl}")
             GlideApp.with(this)
                 .load(gsReference)
                 .placeholder(this?.CircularProgress())

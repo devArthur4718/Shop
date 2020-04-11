@@ -1,6 +1,5 @@
 package com.stetter.escambo.net.firebase.storage
 
-import android.util.Log
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.UserProfileChangeRequest
@@ -10,7 +9,6 @@ import com.google.firebase.database.Query
 import com.google.firebase.storage.BuildConfig
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
-import com.stetter.escambo.net.models.RegisterUser
 import java.util.*
 
 class DatabaseRepository {
@@ -67,6 +65,10 @@ class DatabaseRepository {
     fun retrieveRecentPosts() : Query {
         //Dont have to order by time stamp, the dabase already is ordening each one
         return  FirebaseDatabase.getInstance().getReference("/products").orderByChild("datePosted")
+    }
+
+    fun receiveTopUsers() : Query{
+        return FirebaseDatabase.getInstance().getReference("/users").orderByChild("matches")
     }
 
 
