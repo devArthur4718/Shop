@@ -3,6 +3,7 @@ package com.stetter.escambo.ui.adapter
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.google.firebase.storage.FirebaseStorage
@@ -56,6 +57,20 @@ class RecentProductAdapter () : RecyclerView.Adapter<RecentProductAdapter.ViewHo
             val storage = FirebaseStorage.getInstance()
 
             try{
+                if(item.userPhoto.length > 0){
+
+                    val gsReferencePhoto = storage.getReferenceFromUrl("gs://escambo-1b51d.appspot.com/${item.userPhoto}")
+                    GlideApp.with(itemView.context)
+                        .asDrawable()
+                        .load(gsReferencePhoto)
+                        .placeholder(itemView.context?.CircularProgress())
+                        .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
+                        .into(binding.ivUserTop)
+
+                }
+                else{
+                    binding.ivUserTop.setImageDrawable(ContextCompat.getDrawable(itemView.context, R.drawable.ic_young))
+                }
                 if(item.productUrl[0].length > 1){
                     try{
                         val gsReference = storage.getReferenceFromUrl("gs://escambo-1b51d.appspot.com/${item.productUrl[0]}")
@@ -66,19 +81,10 @@ class RecentProductAdapter () : RecyclerView.Adapter<RecentProductAdapter.ViewHo
                             .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
                             .into(binding.ivProductRecent)
 
-                        val gsReferencePhoto = storage.getReferenceFromUrl("gs://escambo-1b51d.appspot.com/${item.userPhoto}")
-                        GlideApp.with(itemView.context)
-                            .asDrawable()
-                            .load(gsReferencePhoto)
-                            .placeholder(itemView.context?.CircularProgress())
-                            .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
-                            .into(binding.ivUserTop)
 
                     }catch (e : IllegalArgumentException){
                         Log.e("Recent Post", "Error $e")
                     }
-                }else{
-                    binding.ivProductRecent.setImageDrawable(itemView.context.resources.getDrawable(R.drawable.ic_young))
                 }
             }catch (e : IndexOutOfBoundsException){
                 Log.e("MyProduct", "Failed fetching product image: $e")

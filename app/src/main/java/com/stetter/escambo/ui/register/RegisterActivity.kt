@@ -196,6 +196,4 @@ class RegisterActivity : AppCompatActivity() {
         }
         return alertDialog!!
     }
-
-
 }

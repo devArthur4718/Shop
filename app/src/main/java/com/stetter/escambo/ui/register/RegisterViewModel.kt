@@ -69,6 +69,7 @@ class RegisterViewModel : ViewModel() {
         _loadingProgress.value = true
         authRepository.createUser(sendUser.email, password)
             .addOnCompleteListener {task ->
+                _loadingProgress.value = false
                 if(task.isSuccessful){
                     saveUserToDabase(sendUser,task.result?.user?.uid)
                 }else{
