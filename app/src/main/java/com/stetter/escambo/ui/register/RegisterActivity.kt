@@ -8,7 +8,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import com.stetter.escambo.R
 import com.stetter.escambo.databinding.ActivityRegisterNewBinding
 import com.stetter.escambo.extension.*
@@ -27,7 +27,7 @@ class RegisterActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_register_new)
-        viewmodel = ViewModelProviders.of(this)[RegisterViewModel::class.java]
+        viewmodel = ViewModelProvider(this)[RegisterViewModel::class.java]
 
         binding.lifecycleOwner = this
         initViews()
@@ -58,8 +58,10 @@ class RegisterActivity : AppCompatActivity() {
 
         })
 
+        viewmodel.showRegisterError.observe(this, Observer { onRegisterError(it) })
+
         viewmodel.registerObserver.observe(this, Observer {
-            if(it) {
+            if (it) {
                 Toast.makeText(this, "Cadastro Enviado", Toast.LENGTH_SHORT).show()
                 finish()
 
@@ -87,47 +89,35 @@ class RegisterActivity : AppCompatActivity() {
             if (binding.inputFullName.editText!!.isNullOrEmpty()) {
                 binding.inputFullName?.editText?.setError(getString(R.string.blank_name))
                 return@setOnClickListener
-            }
-            else if (!binding?.inputEmail?.editText?.isEmailValid()!!) {
+            } else if (!binding?.inputEmail?.editText?.isEmailValid()!!) {
                 binding.inputEmail?.editText?.setError(getString(R.string.invalid_email))
                 return@setOnClickListener
-            }
-            else if (binding.inputEmail.editText?.isNullOrEmpty()!!) {
+            } else if (binding.inputEmail.editText?.isNullOrEmpty()!!) {
                 binding.inputEmail.editText?.setError((getString(R.string.blank_email)))
                 return@setOnClickListener
-            }
-            else if (!binding.inputPassword.editText?.isPasswordValid()!!) {
+            } else if (!binding.inputPassword.editText?.isPasswordValid()!!) {
                 binding.inputPassword.editText?.setError(getString(R.string.password_min))
                 return@setOnClickListener
-            }
-            else if (binding.inputPassword?.editText?.isNullOrEmpty()!!) {
+            } else if (binding.inputPassword?.editText?.isNullOrEmpty()!!) {
                 binding.inputPassword?.editText?.setError(getString(R.string.blank_pw))
                 return@setOnClickListener
-            }
-            else if(!binding.inputBirthDate.editText?.isBirthDateValid()!!){
+            } else if (!binding.inputBirthDate.editText?.isBirthDateValid()!!) {
                 binding.inputBirthDate.editText?.setError(getString(R.string.birthdate_invalid))
-            }
-            else if(binding.inputBirthDate.editText?.isNullOrEmpty()!!){
+            } else if (binding.inputBirthDate.editText?.isNullOrEmpty()!!) {
                 binding.inputBirthDate.editText?.setError(getString(R.string.blank_date))
-            }
-            else if(!binding.inputPostalCode.editText?.isPostalCodeValid()!!){
+            } else if (!binding.inputPostalCode.editText?.isPostalCodeValid()!!) {
                 binding.inputPostalCode.editText?.setError(getString(R.string.invalid_postal_code))
-            }
-            else if(binding.inputPostalCode.editText?.isNullOrEmpty()!!){
+            } else if (binding.inputPostalCode.editText?.isNullOrEmpty()!!) {
                 binding.inputPostalCode.editText?.setError(getString(R.string.blank_postal_code))
-            }
-            else if (!binding.inputUF.editText?.isUFValid()!!) {
+            } else if (!binding.inputUF.editText?.isUFValid()!!) {
                 binding.inputUF.editText?.setError(getString(R.string.UF_invalid))
                 return@setOnClickListener
-            }
-            else if (binding.inputUF.editText?.isNullOrEmpty()!!) {
+            } else if (binding.inputUF.editText?.isNullOrEmpty()!!) {
                 binding.inputUF.editText?.setError(getString(R.string.UF_blank))
                 return@setOnClickListener
-            }
-            else if (binding.inputCity.editText?.isNullOrEmpty()!!) {
+            } else if (binding.inputCity.editText?.isNullOrEmpty()!!) {
                 binding.inputCity.editText?.setError(getString(R.string.blank_city))
-            }
-            else{
+            } else {
                 var senUser = RegisterUser().apply {
                     this.fullName = binding.inputFullName.editText?.text.toString()
                     this.email = binding.inputEmail.editText?.text.toString()
@@ -139,8 +129,18 @@ class RegisterActivity : AppCompatActivity() {
                 sendForm(senUser)
             }
         }
-        binding.inputBirthDate.editText?.addTextChangedListener(Mask.mask("##/##/####", binding?.inputBirthDate?.editText!!))
-        binding.inputPostalCode.editText?.addTextChangedListener(Mask.mask("#####-###", binding?.inputPostalCode?.editText!!))
+        binding.inputBirthDate.editText?.addTextChangedListener(
+            Mask.mask(
+                "##/##/####",
+                binding?.inputBirthDate?.editText!!
+            )
+        )
+        binding.inputPostalCode.editText?.addTextChangedListener(
+            Mask.mask(
+                "#####-###",
+                binding?.inputPostalCode?.editText!!
+            )
+        )
         binding.inputPostalCode.editText?.setOnFocusChangeListener { view, b -> fetchAddress(binding?.inputPostalCode?.editText!!) }
     }
 
@@ -170,7 +170,32 @@ class RegisterActivity : AppCompatActivity() {
             }
             builder.create()
         }
-
         return alertDialog!!
     }
+
+    private fun onRegisterError(errorMessage: String?) {
+        if (!errorMessage.isNullOrEmpty()) {
+            var alert = showErrorDialog(errorMessage)
+            alert.show()
+        }
+    }
+
+    private fun showErrorDialog(text: String): AlertDialog {
+        val alertDialog: AlertDialog? = this?.let {
+            val builder = AlertDialog.Builder(it)
+            builder.apply {
+                setPositiveButton(
+                    "OK",
+                    DialogInterface.OnClickListener { dialog, id ->
+                        // User clicked OK button
+                    })
+
+                setMessage(text)
+            }
+            builder.create()
+        }
+        return alertDialog!!
+    }
+
+
 }
