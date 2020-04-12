@@ -6,7 +6,6 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.storage.FirebaseStorage
-import com.stetter.escambo.databinding.ItemProductImageBinding
 import com.stetter.escambo.databinding.ItemUserAvatarBinding
 import com.stetter.escambo.extension.CircularProgress
 import com.stetter.escambo.glide.GlideApp
@@ -22,7 +21,6 @@ class TopUserAdapter() : RecyclerView.Adapter<TopUserAdapter.ViewHolder>() {
             notifyDataSetChanged()
         }
 
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder.from(parent)
     }
@@ -33,8 +31,6 @@ class TopUserAdapter() : RecyclerView.Adapter<TopUserAdapter.ViewHolder>() {
         val item : RegisterUser = data[position]
         holder.bind(item)
     }
-
-
 
     class ViewHolder private constructor(val binding : ItemUserAvatarBinding)
         : RecyclerView.ViewHolder(binding.root){
@@ -55,14 +51,11 @@ class TopUserAdapter() : RecyclerView.Adapter<TopUserAdapter.ViewHolder>() {
                     Log.e("UserAdapter", "Error : $e")
                 }
             }
-            //TODO : on click pass user profile as bundle through an intent an open a detail page.
+
             binding.ivUserPhoto.setOnClickListener {
                 var intent = Intent(itemView.context, OtherUser::class.java)
                 intent.putExtra("user", item)
                 itemView.context.startActivity(intent)
-
-
-
             }
         }
 
