@@ -2,7 +2,6 @@ package com.stetter.escambo.ui.core.profile
 
 import android.app.Activity
 import android.content.Intent
-import android.graphics.drawable.BitmapDrawable
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
@@ -25,8 +24,6 @@ import java.util.*
 
 class ProfileDetail : BaseActivity() {
 
-    private var lng: Double = 0.0
-    private var lat: Double = 0.0
     private lateinit var binding: ActivityProfileDetailBinding
     private lateinit var viewmodel: UpdateProfileViewModel
 

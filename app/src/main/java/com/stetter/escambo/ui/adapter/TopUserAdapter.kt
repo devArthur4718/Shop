@@ -1,5 +1,6 @@
 package com.stetter.escambo.ui.adapter
 
+import android.content.Intent
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -10,6 +11,7 @@ import com.stetter.escambo.databinding.ItemUserAvatarBinding
 import com.stetter.escambo.extension.CircularProgress
 import com.stetter.escambo.glide.GlideApp
 import com.stetter.escambo.net.models.RegisterUser
+import com.stetter.escambo.ui.core.profile.OtherUser
 import java.lang.IllegalArgumentException
 
 class TopUserAdapter() : RecyclerView.Adapter<TopUserAdapter.ViewHolder>() {
@@ -37,7 +39,7 @@ class TopUserAdapter() : RecyclerView.Adapter<TopUserAdapter.ViewHolder>() {
     class ViewHolder private constructor(val binding : ItemUserAvatarBinding)
         : RecyclerView.ViewHolder(binding.root){
         fun bind(item : RegisterUser){
-            //TODO : on click pass user profile as bundle through an intent an open a detail page.
+
             //Load User profile
             val storage = FirebaseStorage.getInstance()
 
@@ -52,6 +54,15 @@ class TopUserAdapter() : RecyclerView.Adapter<TopUserAdapter.ViewHolder>() {
                 }catch (e : IllegalArgumentException){
                     Log.e("UserAdapter", "Error : $e")
                 }
+            }
+            //TODO : on click pass user profile as bundle through an intent an open a detail page.
+            binding.ivUserPhoto.setOnClickListener {
+                var intent = Intent(itemView.context, OtherUser::class.java)
+                intent.putExtra("user", item)
+                itemView.context.startActivity(intent)
+
+
+
             }
         }
 

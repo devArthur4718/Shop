@@ -1,5 +1,7 @@
 package com.stetter.escambo.net.models
 
+import java.io.Serializable
+
 data class RegisterUser (
     var fullName : String = "",
     var email : String = "",
@@ -14,4 +16,20 @@ data class RegisterUser (
     var lat : Double = 0.0,
     var lng : Double = 0.0
 
-)
+) : Serializable{
+    constructor( ) : this(
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        0,
+        0,
+        false,
+        0.0,
+        0.0
+
+    )
+}
