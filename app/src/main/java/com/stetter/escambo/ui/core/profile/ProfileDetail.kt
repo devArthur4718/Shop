@@ -2,7 +2,6 @@ package com.stetter.escambo.ui.core.profile
 
 import android.app.Activity
 import android.content.Intent
-import android.graphics.drawable.BitmapDrawable
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
@@ -25,8 +24,6 @@ import java.util.*
 
 class ProfileDetail : BaseActivity() {
 
-    private var lng: Double = 0.0
-    private var lat: Double = 0.0
     private lateinit var binding: ActivityProfileDetailBinding
     private lateinit var viewmodel: UpdateProfileViewModel
 
@@ -35,6 +32,11 @@ class ProfileDetail : BaseActivity() {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_profile_detail)
         viewmodel = ViewModelProvider(this)[UpdateProfileViewModel::class.java]
         setObservables()
+    }
+
+    companion object {
+        const val RQ_PICK_PHOTO = 0
+        const val RQ_TAKE_PHOTO = 1
     }
 
     private fun setObservables() {
@@ -152,13 +154,6 @@ class ProfileDetail : BaseActivity() {
         startActivityForResult(intent, AddProduct.RQ_PICK_FROM_GALLERY)
     }
 
-    companion object {
-        fun newInstance() = AddProduct()
-        const val RQ_PICK_PHOTO = 0
-        const val RQ_TAKE_PHOTO = 1
-        const val STORAGE_URL = "gs://escambo-1b51d.appspot.com"
-
-    }
 
     var selectedPhotoUri: Uri? = null
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -219,7 +214,6 @@ class ProfileDetail : BaseActivity() {
             binding.ivDetailProfileImage.setImageDrawable(resources.getDrawable(R.drawable.ic_young))
         }
     }
-
 
     fun onEditClick(view: View) {
         when (view.id) {

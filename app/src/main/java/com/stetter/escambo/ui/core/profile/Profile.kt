@@ -102,9 +102,6 @@ class Profile : BaseFragment() {
                 catch (e : IllegalArgumentException){
                     Log.e("PROFILE", "Error : $e")
                 }
-
-
-
             }else{
                 binding.ivProfileImage.setImageDrawable(resources.getDrawable(R.drawable.ic_young))
             }

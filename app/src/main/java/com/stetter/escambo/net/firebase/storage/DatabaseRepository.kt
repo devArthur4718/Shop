@@ -49,6 +49,10 @@ class DatabaseRepository {
         return FirebaseDatabase.getInstance().getReference("/products").orderByChild("uid").equalTo(getCurrentUserUID())
     }
 
+    fun retriveUserProductsByName(username : String): Query {
+        return FirebaseDatabase.getInstance().getReference("/products").orderByChild("username").equalTo(username)
+    }
+
     fun retrieveRecentPosts() : Query {
         //Firebase always order um asc order, in order to return desc order we need to reverse the list in the UI
         return  FirebaseDatabase.getInstance().getReference("/products").orderByChild("datePosted")

@@ -23,7 +23,7 @@ class Mask{
             )
 
             return moneytext.replace("R$", "")
-                            .replace(",", "")
+                            .replace(",", ".")
                             .replace(replaceable.toRegex(), "")
         }
 

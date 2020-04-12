@@ -1,5 +1,7 @@
 package com.stetter.escambo.net.models
 
+import java.io.Serializable
+
 data class ProductByLocation(
     val uid: String = "",
     val productUrl: List<String>,
@@ -12,8 +14,10 @@ data class ProductByLocation(
     var userPhoto: String = "",
     var lat: Double = 0.0,
     var lng: Double = 0.0,
-    var distance: Float = 0f
-) {
+    var distance: Float = 0f,
+    var uf : String = "",
+    var city : String = ""
+) : Serializable {
     constructor() : this(
         "",
         emptyList(),
@@ -26,7 +30,9 @@ data class ProductByLocation(
         "",
         0.0,
         0.0,
-        0f
+        0f,
+        "",
+        ""
     )
 
 }

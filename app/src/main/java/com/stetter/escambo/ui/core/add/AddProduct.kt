@@ -96,12 +96,15 @@ class AddProduct : BaseFragment() {
                 viewModel.getPaths(),
                 binding.edtItemName.text.toString(),
                 binding.edtItemDescription.text.toString(),
-                category, Mask.removeMoneyMask( binding.edtItemValue.text.toString()).toDouble(),
+                category,
+                Mask.removeMoneyMask( binding.edtItemValue.text.toString()).toDouble(),
                 Calendar.getInstance().getTimeStamp(),
                 fullName,
                 userPhotoUrl,
                 lat,
-                lng
+                lng,
+                uf,
+                city
             )
             viewModel.uploadProductToFirebase( product )
         }
@@ -117,12 +120,17 @@ class AddProduct : BaseFragment() {
     var userPhotoUrl = ""
     var lat = 0.0
     var lng = 0.0
+    var uf = ""
+    var city = ""
+
     private fun onUserDataReceveid(it: RegisterUser?) {
         it?.let {
             fullName = it.fullName
             userPhotoUrl = it.photoUrl
             lat = it.lat
             lng = it.lng
+            uf = it.uf
+            city = it.city
         }
     }
 

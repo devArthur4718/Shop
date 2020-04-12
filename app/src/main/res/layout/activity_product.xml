@@ -30,10 +30,10 @@
             android:id="@+id/tvProductTitle"
             style="@style/titleStyle"
             android:layout_marginStart="24dp"
-            android:text="Produto"
             app:layout_constraintBottom_toBottomOf="@+id/circleWhite"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/circleWhite" />
+            app:layout_constraintTop_toTopOf="@+id/circleWhite"
+            tools:text="Produto" />
 
         <ImageView
             android:id="@+id/circleWhite"
@@ -58,6 +58,7 @@
             app:layout_constraintTop_toTopOf="@+id/circleWhite" />
 
         <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvProductImages"
             android:layout_width="0dp"
             android:layout_height="273dp"
             android:layout_marginTop="24dp"
@@ -70,12 +71,12 @@
 
         <TextView
             android:id="@+id/textView20"
+            style="@style/subTitleBlue"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="32dp"
-            android:text="@string/description"
-            style="@style/subTitleBlue"
             android:fontFamily="@font/circular_std_bold"
+            android:text="@string/description"
             android:textSize="16dp"
             app:layout_constraintStart_toStartOf="@+id/tvProductTitle"
             app:layout_constraintTop_toBottomOf="@+id/imageView9" />
@@ -121,49 +122,50 @@
             android:src="@drawable/img_avatar"
             app:civ_border_color="#FFFFFF"
             app:civ_border_width="1dp"
-            app:layout_constraintBottom_toBottomOf="@+id/textView25"
-            app:layout_constraintEnd_toStartOf="@+id/textView25"
-            app:layout_constraintTop_toTopOf="@+id/textView25" />
+            app:layout_constraintBottom_toBottomOf="@+id/tvDetailAuthor"
+            app:layout_constraintEnd_toStartOf="@+id/tvDetailAuthor"
+            app:layout_constraintTop_toTopOf="@+id/tvDetailAuthor" />
 
         <TextView
-            android:id="@+id/textView25"
+            android:id="@+id/tvDetailAuthor"
             style="@style/userNameDetail"
-            android:layout_width="101dp"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="Ayrton Senna"
+            tools:text="Ayrton Senna"
             android:textSize="16sp"
-            app:layout_constraintBottom_toBottomOf="@+id/tvProductDetailValue"
-            app:layout_constraintEnd_toEndOf="@+id/tvItemDetailDescription"
-            app:layout_constraintTop_toTopOf="@+id/tvProductDetailValue" />
+            app:layout_constraintBaseline_toBaselineOf="@+id/tvProductDetailValue"
+            app:layout_constraintEnd_toEndOf="@+id/tvItemDetailDescription" />
 
         <ImageView
             android:id="@+id/imageView13"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
+            android:layout_marginTop="8dp"
             android:src="@drawable/ic_location_on_24px"
+            app:layout_constraintBottom_toTopOf="@+id/button9"
             app:layout_constraintStart_toStartOf="@+id/tvProductDetailValue"
-            app:layout_constraintTop_toBottomOf="@+id/tvProductDetailValue" />
+            app:layout_constraintTop_toBottomOf="@+id/tvProductDetailValue"
+            app:layout_constraintVertical_bias="0.110000014" />
 
         <TextView
-            android:id="@+id/textView26"
+            android:id="@+id/tvLocale"
+            style="@style/detailLocation"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            style="@style/detailLocation"
-            android:text="São Paulo/Sp"
             app:layout_constraintBottom_toBottomOf="@+id/imageView13"
             app:layout_constraintStart_toEndOf="@+id/imageView13"
-            app:layout_constraintTop_toTopOf="@+id/imageView13" />
+            app:layout_constraintTop_toTopOf="@+id/imageView13"
+            tools:text="São Paulo/Sp" />
 
         <Button
             android:id="@+id/button9"
+            style="@style/greenGradientButton"
             android:layout_width="0dp"
             android:layout_height="53dp"
             android:layout_marginBottom="24dp"
             android:text="@string/interest"
             android:textAllCaps="false"
-            style="@style/greenGradientButton"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@+id/tvItemDetailDescription"
             app:layout_constraintStart_toStartOf="@+id/tvItemDetailDescription" />

@@ -1,5 +1,6 @@
 package com.stetter.escambo.ui.adapter
 
+import android.content.Intent
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -12,6 +13,7 @@ import com.stetter.escambo.databinding.ItemRecentBinding
 import com.stetter.escambo.extension.CircularProgress
 import com.stetter.escambo.glide.GlideApp
 import com.stetter.escambo.net.models.Product
+import com.stetter.escambo.ui.core.explore.detail.DetailProductActivity
 import java.lang.Exception
 import java.lang.IllegalArgumentException
 import java.lang.IndexOutOfBoundsException
@@ -89,7 +91,11 @@ class RecentProductAdapter () : RecyclerView.Adapter<RecentProductAdapter.ViewHo
             }catch (e : IndexOutOfBoundsException){
                 Log.e("MyProduct", "Failed fetching product image: $e")
             }
-
+            binding.ivProductRecent.setOnClickListener {
+                val intent = Intent(itemView.context, DetailProductActivity::class.java)
+                intent.putExtra("productList", item)
+                itemView.context.startActivity(intent)
+            }
         }
 
         companion object {
