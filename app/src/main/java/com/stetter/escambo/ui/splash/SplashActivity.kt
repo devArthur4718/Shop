@@ -28,6 +28,7 @@ class SplashActivity : AppCompatActivity() {
         Dexter.withActivity(this)
             .withPermissions(
                 Manifest.permission.CAMERA,
+                Manifest.permission.ACCESS_COARSE_LOCATION,
                 Manifest.permission.WRITE_EXTERNAL_STORAGE,
                 Manifest.permission.READ_EXTERNAL_STORAGE
             ).withListener(object : MultiplePermissionsListener {

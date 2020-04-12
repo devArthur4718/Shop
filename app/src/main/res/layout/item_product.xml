@@ -27,7 +27,7 @@
 
 
                 <ImageView
-                    android:id="@+id/imageView7"
+                    android:id="@+id/ivNextProductImage"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:adjustViewBounds="true"
@@ -45,34 +45,35 @@
                     tools:layout_editor_absoluteY="0dp" />
 
                 <TextView
-                    android:id="@+id/textView8"
-                    android:text="Ayrton Sennas"
-                    app:layout_constraintBottom_toBottomOf="@+id/circleImageView2"
-                    app:layout_constraintEnd_toStartOf="@+id/textView10"
-                    app:layout_constraintStart_toEndOf="@+id/circleImageView2"
-                    app:layout_constraintTop_toTopOf="@+id/circleImageView2"
+                    android:id="@+id/tvNextProductAuthor"
+                    tools:text="Ayrton Sennas"
+                    app:layout_constraintBottom_toBottomOf="@+id/ivAuthorImage"
+                    app:layout_constraintEnd_toStartOf="@+id/tvNextProductValue"
+                    app:layout_constraintStart_toEndOf="@+id/ivAuthorImage"
+                    app:layout_constraintTop_toTopOf="@+id/ivAuthorImage"
                     style="@style/card_name" />
 
                 <TextView
-                    android:text="Adidas Iniki"
-                    app:layout_constraintBottom_toTopOf="@+id/circleImageView2"
-                    app:layout_constraintStart_toStartOf="@+id/circleImageView2"
+                    android:id="@+id/tvNextProduct"
+                    tools:text="Adidas Iniki"
+                    app:layout_constraintBottom_toTopOf="@+id/ivAuthorImage"
+                    app:layout_constraintStart_toStartOf="@+id/ivAuthorImage"
                     style="@style/card_title" />
 
                 <TextView
-                    android:id="@+id/textView10"
-                    android:text="R$ 280,00"
+                    android:id="@+id/tvNextProductValue"
+                    tools:text="R$ 280,00"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     style="@style/style_capsule" />
 
                 <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/circleImageView2"
+                    android:id="@+id/ivAuthorImage"
                     android:layout_width="24dp"
                     android:layout_height="24dp"
                     android:layout_marginStart="16dp"
                     android:layout_marginBottom="8dp"
-                    android:src="@drawable/img_avatar"
+                    android:src="@drawable/ic_young"
                     app:civ_border_color="#FFFFFF"
                     app:civ_border_width="1dp"
                     app:layout_constraintBottom_toBottomOf="parent"

@@ -1,6 +1,5 @@
 package com.stetter.escambo.ui.core.chat
 
-import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -8,7 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
-
+import androidx.lifecycle.ViewModelProvider
 import com.stetter.escambo.R
 import com.stetter.escambo.databinding.ChatFragmentBinding
 import com.stetter.escambo.net.models.ProductMock
@@ -35,7 +34,7 @@ class Chat : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProviders.of(this).get(ChatViewModel::class.java)
+        viewModel = ViewModelProvider(this).get(ChatViewModel::class.java)
         setAdapters()
         setObservables()
     }

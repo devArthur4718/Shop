@@ -1,7 +1,5 @@
 package com.stetter.escambo.net.models
 
-import com.stetter.escambo.ui.adapter.ProductCard
-
 data class Product(
     val uid: String = "",
     val productUrl: List<String>,
@@ -10,7 +8,10 @@ data class Product(
     val category: String = "",
     val value: Double = 0.0,
     var datePosted : Long = 0L,
-    val username : String = ""
+    val username : String = "",
+    var userPhoto : String = "",
+    var lat : Double = 0.0,
+    var lng : Double = 0.0
 ){
     constructor() : this("",
                             emptyList(),
@@ -19,7 +20,10 @@ data class Product(
                       "",
                         0.0,
                     0L,
-                    ""
+                    "",
+                    "",
+                    0.0,
+                    0.0
     )
 
 }

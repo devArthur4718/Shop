@@ -3,6 +3,7 @@ package com.stetter.escambo.ui.adapter
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.google.firebase.storage.FirebaseStorage
@@ -12,6 +13,7 @@ import com.stetter.escambo.extension.CircularProgress
 import com.stetter.escambo.glide.GlideApp
 import com.stetter.escambo.net.models.Product
 import java.lang.Exception
+import java.lang.IllegalArgumentException
 import java.lang.IndexOutOfBoundsException
 import java.text.DecimalFormat
 import java.text.DecimalFormatSymbols
@@ -55,19 +57,35 @@ class RecentProductAdapter () : RecyclerView.Adapter<RecentProductAdapter.ViewHo
             val storage = FirebaseStorage.getInstance()
 
             try{
-                if(item.productUrl[0].length > 1){
-                    val gsReference = storage.getReferenceFromUrl("gs://escambo-1b51d.appspot.com/${item.productUrl[0]}")
+                if(item.userPhoto.length > 0){
+
+                    val gsReferencePhoto = storage.getReferenceFromUrl("gs://escambo-1b51d.appspot.com/${item.userPhoto}")
                     GlideApp.with(itemView.context)
                         .asDrawable()
-                        .load(gsReference)
+                        .load(gsReferencePhoto)
                         .placeholder(itemView.context?.CircularProgress())
                         .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
-                        .into(binding.ivProductRecent)
+                        .into(binding.ivUserTop)
 
-                }else{
-                    binding.ivProductRecent.setImageDrawable(itemView.context.resources.getDrawable(R.drawable.ic_young))
                 }
+                else{
+                    binding.ivUserTop.setImageDrawable(ContextCompat.getDrawable(itemView.context, R.drawable.ic_young))
+                }
+                if(item.productUrl[0].length > 1){
+                    try{
+                        val gsReference = storage.getReferenceFromUrl("gs://escambo-1b51d.appspot.com/${item.productUrl[0]}")
+                        GlideApp.with(itemView.context)
+                            .asDrawable()
+                            .load(gsReference)
+                            .placeholder(itemView.context?.CircularProgress())
+                            .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
+                            .into(binding.ivProductRecent)
 
+
+                    }catch (e : IllegalArgumentException){
+                        Log.e("Recent Post", "Error $e")
+                    }
+                }
             }catch (e : IndexOutOfBoundsException){
                 Log.e("MyProduct", "Failed fetching product image: $e")
             }

@@ -20,12 +20,10 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import com.stetter.escambo.R
 import com.stetter.escambo.databinding.AddProductFragmenetBinding
-import com.stetter.escambo.extension.Mask
-import com.stetter.escambo.extension.checkCameraPermissions
-import com.stetter.escambo.extension.getTimeStamp
-import com.stetter.escambo.extension.showPickImageDialog
+import com.stetter.escambo.extension.*
 import com.stetter.escambo.extension.watcher.MoneyTextWatcher
 import com.stetter.escambo.net.models.Product
+import com.stetter.escambo.net.models.RegisterUser
 import com.stetter.escambo.ui.adapter.ProductCard
 import com.stetter.escambo.ui.adapter.UploadItemAdapter
 import com.stetter.escambo.ui.base.BaseFragment
@@ -34,6 +32,7 @@ import java.io.File
 import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.math.ln
 
 
 class AddProduct : BaseFragment() {
@@ -87,18 +86,22 @@ class AddProduct : BaseFragment() {
         viewModel.uploadProduct.observe(viewLifecycleOwner, Observer { onProductUpload(it) })
         viewModel.loadingProgress.observe(viewLifecycleOwner, Observer { onLoading(it) })
         viewModel.listProduct.observe(viewLifecycleOwner, Observer { onProductListReceveived(it) })
-
+        mainViewModel.userProfileData.observe(viewLifecycleOwner, Observer { onUserDataReceveid(it) })
         binding.btnPublishItem.setOnClickListener {
             val uid = viewModel.getUid()
             var category = binding.spCategory.selectedItem.toString()
+
             val product = Product(
                 uid,
                 viewModel.getPaths(),
                 binding.edtItemName.text.toString(),
                 binding.edtItemDescription.text.toString(),
                 category, Mask.removeMoneyMask( binding.edtItemValue.text.toString()).toDouble(),
-                Calendar.getInstance().getTimeStamp()
-
+                Calendar.getInstance().getTimeStamp(),
+                fullName,
+                userPhotoUrl,
+                lat,
+                lng
             )
             viewModel.uploadProductToFirebase( product )
         }
@@ -108,6 +111,19 @@ class AddProduct : BaseFragment() {
         }
 
         binding.edtItemValue.addTextChangedListener(MoneyTextWatcher(binding.edtItemValue, Locale("pt", "BR")))
+    }
+
+    var fullName = ""
+    var userPhotoUrl = ""
+    var lat = 0.0
+    var lng = 0.0
+    private fun onUserDataReceveid(it: RegisterUser?) {
+        it?.let {
+            fullName = it.fullName
+            userPhotoUrl = it.photoUrl
+            lat = it.lat
+            lng = it.lng
+        }
     }
 
     private fun onProductListReceveived(listProduct: List<ProductCard>) {

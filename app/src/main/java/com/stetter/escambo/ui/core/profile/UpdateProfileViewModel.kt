@@ -73,7 +73,7 @@ class UpdateProfileViewModel  : ViewModel(){
             .addOnSuccessListener {
                 _onPhotoFileReceived.value = it.metadata?.path
                 _loadingProgress.value = false
-                _uploadSuccess.value = true
+//                _uploadSuccess.value = true
 
             }
             .addOnFailureListener{
@@ -90,7 +90,8 @@ class UpdateProfileViewModel  : ViewModel(){
             .addOnCompleteListener {
                 _loadingProgress.value = false
                 _uploadSuccess.value = true
-                updatePassword(password)
+                //TODO: Open a new activity to update password and confirm it
+//                updatePassword(password)
 
 
             }.addOnFailureListener {
