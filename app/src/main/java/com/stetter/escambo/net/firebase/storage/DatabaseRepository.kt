@@ -37,9 +37,6 @@ class DatabaseRepository {
         return user?.updatePassword(password)
     }
 
-    fun retriveUserProducts(): Query {
-       return FirebaseDatabase.getInstance().getReference("/products").orderByChild("uid").equalTo(getCurrentUserUID())
-    }
 
     fun retriveUserData() : DatabaseReference{
         var uid = getCurrentUserUID()
@@ -47,6 +44,10 @@ class DatabaseRepository {
     }
 
     fun getCurrentUserUID() : String = auth.uid ?: ""
+
+    fun retriveUserProducts(): Query {
+        return FirebaseDatabase.getInstance().getReference("/products").orderByChild("uid").equalTo(getCurrentUserUID())
+    }
 
     fun retrieveRecentPosts() : Query {
         //Firebase always order um asc order, in order to return desc order we need to reverse the list in the UI
@@ -56,5 +57,9 @@ class DatabaseRepository {
     fun receiveTopUsers() : Query{
         //Firebase always order um asc order, in order to return desc order we need to reverse the list in the UI
         return FirebaseDatabase.getInstance().getReference("/users").orderByChild("matches")
+    }
+
+    fun receiveProductsCloseToMe(): Query {
+        return  FirebaseDatabase.getInstance().getReference("/products").limitToFirst(5)
     }
 }

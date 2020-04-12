@@ -77,8 +77,6 @@ class RegisterActivity : AppCompatActivity() {
             binding.inputCity.editText?.setText(response.localidade)
             binding.inputUF.editText?.setText(response.uf)
             //Lat long ref
-            //Todo : Register every product with lat long
-            //Todo : Order by mais próximo da sua localização cadastrada!
 
             if (Geocoder.isPresent()) {
                 try {

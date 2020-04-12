@@ -1,8 +1,9 @@
 package com.stetter.escambo.ui.core.explore
 
 import android.content.Intent
-import android.location.Geocoder
+import android.location.Location
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,6 +12,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.stetter.escambo.R
 import com.stetter.escambo.databinding.ExploreFragmentBinding
+import com.stetter.escambo.extension.metersToKM
 import com.stetter.escambo.net.models.*
 import com.stetter.escambo.ui.adapter.ItemProductAdapter
 import com.stetter.escambo.ui.adapter.RecentProductAdapter
@@ -25,10 +27,10 @@ class ExploreFragment : BaseFragment() {
     }
 
     private lateinit var viewModel: ExploreViewModel
-    private lateinit var binding : ExploreFragmentBinding
-    private val productAdapter by lazy {ItemProductAdapter()}
-    private val recentProduct by lazy {RecentProductAdapter()}
-    private val topuserAdapter by lazy {TopUserAdapter()}
+    private lateinit var binding: ExploreFragmentBinding
+    private val productAdapter by lazy { ItemProductAdapter() }
+    private val recentProduct by lazy { RecentProductAdapter() }
+    private val topuserAdapter by lazy { TopUserAdapter() }
 
 
     override fun onCreateView(
@@ -39,7 +41,8 @@ class ExploreFragment : BaseFragment() {
             inflater,
             R.layout.explore_fragment,
             container,
-            false)
+            false
+        )
 
         return binding.root
 
@@ -53,15 +56,27 @@ class ExploreFragment : BaseFragment() {
     }
 
     private fun setAdapters() {
-        binding.rvPostedProducts.adapter = productAdapter
+        binding.rvNextProducts.adapter = productAdapter
         binding.rvTopUsers.adapter = topuserAdapter
         binding.rvRecentPosts.adapter = recentProduct
+
+//        var locationA = Location("Point A")
+//        locationA.latitude = -46.633309399999995
+//        locationA.longitude = -23.550519899999998
+
+//        var locationB = Location("Point B")
+//        locationB.latitude = -51.2176986
+//        locationB.longitude = -30.0346316
+//
+//        var distance = locationA.distanceTo(locationB)
+//        Log.d("Explore", "Distance: ${distance.metersToKM()} Meters")
+
     }
 
     private fun setObservables() {
-        viewModel.listProductMock.observe(viewLifecycleOwner, Observer {  onProductListRetrieved(it)})
+        viewModel.listNextProducts.observe( viewLifecycleOwner, Observer { onProductListRetrieved(it) })
         viewModel.topUsersList.observe(viewLifecycleOwner, Observer { onTopUserListRetrieved(it) })
-        viewModel.listRecentPost.observe(viewLifecycleOwner, Observer {onRecentPostListRetrieved(it) })
+        viewModel.listRecentPost.observe(  viewLifecycleOwner,Observer { onRecentPostListRetrieved(it) })
 
         binding.btnFilter.setOnClickListener {
             val intent = Intent(context, FilterActivity::class.java)
@@ -71,32 +86,42 @@ class ExploreFragment : BaseFragment() {
         //Retrieve recent products
         viewModel.retrieveRecentProducts()
         viewModel.retrieveTopUsers()
+        viewModel.retrieveProductsCloseToMe()
 
     }
 
     private fun onRecentPostListRetrieved(recentPostList: List<Product>) {
-        if(recentPostList.isEmpty()){
+        if (recentPostList.isEmpty()) {
             //no itens
 
-        }else{
+        } else {
             recentProduct.data = recentPostList.reversed()
         }
 
     }
 
     private fun onTopUserListRetrieved(topUserList: List<RegisterUser>) {
-        if(topUserList.isEmpty()){
+        if (topUserList.isEmpty()) {
             //no itens
-        }else{
+        } else {
             topuserAdapter.data = topUserList.reversed()
         }
     }
 
-    private fun onProductListRetrieved(productMockList: List<ProductMock>) {
-        if(productMockList.isEmpty()){
+    private fun onProductListRetrieved(recentProductList: List<ProductByLocation>) {
+        if (recentProductList.isEmpty()) {
             // no itens
-        }else{
-            productAdapter.data = productMockList
+        } else {
+
+//            var locationA = Location("Point A")
+//            locationA.latitude = 0.0
+//            locationA.longitude = 0.0
+//
+//            var locationB = Location("Point B")
+//            locationB.latitude = 0.0
+//            locationB.longitude = 0.0
+
+            productAdapter.data = recentProductList
         }
     }
 

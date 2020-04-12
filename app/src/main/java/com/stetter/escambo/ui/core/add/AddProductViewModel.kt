@@ -89,7 +89,6 @@ class AddProductViewModel : ViewModel() {
 
     fun uploadProductToFirebase(product: Product) {
         _loadingProgress.value = true
-        //Todo : Send user name
         databaserepository.updateProductToDabatase().ref.setValue(product)
             .addOnSuccessListener {
                 _uploadProduct.value = true

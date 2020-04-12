@@ -40,3 +40,6 @@ fun Context.GeocoderLocation(location : String) : Pair<Double,Double>{
     }
     return Pair(latitude,longitute)
 }
+
+
+fun Float.metersToKM(): Long = Math.round(this/1000.0)

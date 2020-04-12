@@ -7,44 +7,23 @@ import com.google.firebase.database.ChildEventListener
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.stetter.escambo.net.firebase.storage.DatabaseRepository
-import com.stetter.escambo.net.models.ProductMock
 import com.stetter.escambo.net.models.Product
+import com.stetter.escambo.net.models.ProductByLocation
 import com.stetter.escambo.net.models.RegisterUser
-import com.stetter.escambo.net.models.TopUser
+
 
 class ExploreViewModel : ViewModel() {
 
     val databaserepository = DatabaseRepository()
 
-    private val _listProduct = MutableLiveData<List<ProductMock>>()
-    val listProductMock : LiveData<List<ProductMock>> get() = _listProduct
+    private val _listNextProducts = MutableLiveData<List<ProductByLocation>>()
+    val listNextProducts : LiveData<List<ProductByLocation>> get() = _listNextProducts
 
     private val _listRecentPost =MutableLiveData<ArrayList<Product>>()
     val listRecentPost : LiveData<ArrayList<Product>>get()  = _listRecentPost
 
     private val _topUserLists = MutableLiveData<ArrayList<RegisterUser>>()
     val topUsersList : LiveData<ArrayList<RegisterUser>> get() = _topUserLists
-
-
-
-
-    init {
-
-        var dummyProduct = listOf<ProductMock>(
-            ProductMock(""),
-            ProductMock(""),
-            ProductMock(""),
-            ProductMock(""),
-            ProductMock(""),
-            ProductMock(""),
-            ProductMock(""),
-            ProductMock("")
-            )
-
-        _listProduct.value = dummyProduct
-
-
-    }
 
     fun retrieveRecentProducts(){
         databaserepository.retrieveRecentPosts().addChildEventListener(object : ChildEventListener{
@@ -75,6 +54,21 @@ class ExploreViewModel : ViewModel() {
             }
             override fun onChildRemoved(p0: DataSnapshot) { }
 
+        })
+    }
+
+    fun retrieveProductsCloseToMe(){
+        databaserepository.receiveProductsCloseToMe().addChildEventListener(object  : ChildEventListener{
+            var querryList = ArrayList<ProductByLocation>()
+            override fun onCancelled(p0: DatabaseError) { }
+            override fun onChildMoved(p0: DataSnapshot, p1: String?) { }
+            override fun onChildChanged(p0: DataSnapshot, p1: String?) { }
+            override fun onChildAdded(dataSnapshot: DataSnapshot, p1: String?) {
+               val productsClose = dataSnapshot.getValue(ProductByLocation::class.java)
+                productsClose?.let { data -> querryList.add(data) }
+                _listNextProducts.value = querryList
+            }
+            override fun onChildRemoved(p0: DataSnapshot) { }
         })
     }
 

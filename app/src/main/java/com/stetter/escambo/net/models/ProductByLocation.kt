@@ -1,6 +1,6 @@
 package com.stetter.escambo.net.models
 
-data class Product(
+data class ProductByLocation (
     val uid: String = "",
     val productUrl: List<String>,
     val product: String = "",
@@ -11,19 +11,20 @@ data class Product(
     val username : String = "",
     var userPhoto : String = "",
     var lat : Double = 0.0,
-    var lng : Double = 0.0
+    var lng : Double = 0.0,
+    var distance : Double = 0.0
 ){
     constructor() : this("",
-                            emptyList(),
-                      "",
-                    "",
-                      "",
-                        0.0,
-                    0L,
-                    "",
-                    "",
-                    0.0,
-                    0.0
+        emptyList(),
+        "",
+        "",
+        "",
+        0.0,
+        0L,
+        "",
+        "",
+        0.0,
+        0.0
     )
 
 }
