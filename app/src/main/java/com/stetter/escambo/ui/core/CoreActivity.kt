@@ -43,7 +43,7 @@ class CoreActivity : BaseActivity() {
 
     }
 
-    fun retriverLastKnowLocation(): Task<Location> {
+    fun retrieveUserLocation(): Task<Location> {
       return fusedLocationClient.lastLocation
     }
 

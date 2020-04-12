@@ -10,6 +10,8 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationServices
 import com.stetter.escambo.R
 import com.stetter.escambo.databinding.ExploreFragmentBinding
 import com.stetter.escambo.extension.metersToKM
@@ -19,6 +21,7 @@ import com.stetter.escambo.ui.adapter.RecentProductAdapter
 import com.stetter.escambo.ui.adapter.TopUserAdapter
 import com.stetter.escambo.ui.base.BaseFragment
 import com.stetter.escambo.ui.core.explore.filter.FilterActivity
+import java.util.*
 
 class ExploreFragment : BaseFragment() {
 
@@ -60,23 +63,16 @@ class ExploreFragment : BaseFragment() {
         binding.rvTopUsers.adapter = topuserAdapter
         binding.rvRecentPosts.adapter = recentProduct
 
-//        var locationA = Location("Point A")
-//        locationA.latitude = -46.633309399999995
-//        locationA.longitude = -23.550519899999998
-
-//        var locationB = Location("Point B")
-//        locationB.latitude = -51.2176986
-//        locationB.longitude = -30.0346316
-//
-//        var distance = locationA.distanceTo(locationB)
-//        Log.d("Explore", "Distance: ${distance.metersToKM()} Meters")
-
     }
 
     private fun setObservables() {
-        viewModel.listNextProducts.observe( viewLifecycleOwner, Observer { onProductListRetrieved(it) })
+        viewModel.listNextProducts.observe(
+            viewLifecycleOwner,
+            Observer { onProductListRetrieved(it) })
         viewModel.topUsersList.observe(viewLifecycleOwner, Observer { onTopUserListRetrieved(it) })
-        viewModel.listRecentPost.observe(  viewLifecycleOwner,Observer { onRecentPostListRetrieved(it) })
+        viewModel.listRecentPost.observe(
+            viewLifecycleOwner,
+            Observer { onRecentPostListRetrieved(it) })
 
         binding.btnFilter.setOnClickListener {
             val intent = Intent(context, FilterActivity::class.java)
@@ -104,25 +100,58 @@ class ExploreFragment : BaseFragment() {
         if (topUserList.isEmpty()) {
             //no itens
         } else {
-            topuserAdapter.data = topUserList.reversed()
+            //Filter user with no matches
+            var filteredList = topUserList.filter { it.matches > 0 }
+            topuserAdapter.data = filteredList.reversed()
         }
     }
 
+    lateinit var fusedLocationClient: FusedLocationProviderClient
     private fun onProductListRetrieved(recentProductList: List<ProductByLocation>) {
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(context!!)
+        var currentLat: Double? = null
+        var currentLng: Double? = null
+
+        fusedLocationClient.lastLocation
+            .addOnSuccessListener { location: Location? ->
+                // Got last known location. In some rare situations this can be null.
+                currentLat = location?.latitude
+                currentLng = location?.longitude
+            }.addOnFailureListener { error ->
+                Log.e("Explore", "Error: $error")
+            }
+
         if (recentProductList.isEmpty()) {
             // no itens
         } else {
 
-//            var locationA = Location("Point A")
-//            locationA.latitude = 0.0
-//            locationA.longitude = 0.0
-//
-//            var locationB = Location("Point B")
-//            locationB.latitude = 0.0
-//            locationB.longitude = 0.0
+            //Show only products that are not mine.
+            var filteredProducts = recentProductList.filter {it.uid != viewModel.retrieveUserUID()  }
 
-            productAdapter.data = recentProductList
+            filteredProducts.forEach {
+                it.distance = distanceBetween(currentLat, currentLng, it.lat, it.lng )
+            }
+            //Sort by the clossest
+            productAdapter.data = filteredProducts.sortedBy { it.distance }
         }
     }
 
+    private fun distanceBetween(lat1: Double?, lng1: Double?, lat2: Double?, lng2: Double?): Float {
+        var locationA = Location("PointA")
+        if (lat1 != null) {
+            locationA.latitude = lat1
+        }
+        if (lng1 != null) {
+            locationA.longitude = lng1
+        }
+        var locationB = Location("PointB")
+        if (lat2 != null) {
+            locationB.latitude = lat2
+        }
+        if (lng2 != null) {
+            locationB.longitude = lng2
+        }
+        var distance = locationA.distanceTo(locationB)
+        return distance.metersToKM().toFloat()
+    }
 }

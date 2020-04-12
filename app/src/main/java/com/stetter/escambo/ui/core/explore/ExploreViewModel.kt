@@ -72,4 +72,6 @@ class ExploreViewModel : ViewModel() {
         })
     }
 
+    fun retrieveUserUID(): String = databaserepository.getCurrentUserUID()
+
 }
