@@ -117,12 +117,17 @@ class AddProduct : BaseFragment() {
     var userPhotoUrl = ""
     var lat = 0.0
     var lng = 0.0
+    var uf = ""
+    var city = ""
+
     private fun onUserDataReceveid(it: RegisterUser?) {
         it?.let {
             fullName = it.fullName
             userPhotoUrl = it.photoUrl
             lat = it.lat
             lng = it.lng
+            uf = it.uf
+            city = it.city
         }
     }
 

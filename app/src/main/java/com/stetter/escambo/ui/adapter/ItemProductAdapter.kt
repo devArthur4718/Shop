@@ -1,9 +1,12 @@
 package com.stetter.escambo.ui.adapter
 
+import android.content.Intent
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
+import androidx.core.content.IntentCompat
+import androidx.core.os.bundleOf
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.google.firebase.storage.FirebaseStorage
@@ -12,6 +15,7 @@ import com.stetter.escambo.databinding.ItemProductBinding
 import com.stetter.escambo.extension.CircularProgress
 import com.stetter.escambo.glide.GlideApp
 import com.stetter.escambo.net.models.ProductByLocation
+import com.stetter.escambo.ui.core.explore.detail.DetailProductActivity
 import java.lang.Exception
 import java.lang.IllegalArgumentException
 import java.lang.IndexOutOfBoundsException
@@ -41,7 +45,7 @@ class ItemProductAdapter : RecyclerView.Adapter<ItemProductAdapter.ViewHolder>()
         : RecyclerView.ViewHolder(binding.root){
 
         fun bind(item : ProductByLocation){
-            //TODO : Fill adapter
+
             binding.tvNextProductAuthor.text = item.username
             binding.tvNextProduct.text = item.product
             var moneytext = item.value.toString().replaceRange(item.value.toString().length  -2, item.value.toString().length, "")
@@ -97,8 +101,14 @@ class ItemProductAdapter : RecyclerView.Adapter<ItemProductAdapter.ViewHolder>()
 
             }
 
-
             //Todo: On click, pass product details through intent
+            binding.ivNextProductImage.setOnClickListener {
+
+                val intent = Intent(itemView.context, DetailProductActivity::class.java)
+                intent.putExtra("product", item)
+                itemView.context.startActivity(intent)
+
+            }
 
 
         }
