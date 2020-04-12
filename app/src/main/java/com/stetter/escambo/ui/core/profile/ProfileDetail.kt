@@ -20,12 +20,13 @@ import com.stetter.escambo.glide.GlideApp
 import com.stetter.escambo.net.models.RegisterUser
 import com.stetter.escambo.ui.base.BaseActivity
 import com.stetter.escambo.ui.core.add.AddProduct
-import com.stetter.escambo.ui.login.LoginActivity
 import java.util.*
 
 
 class ProfileDetail : BaseActivity() {
 
+    private var lng: Double = 0.0
+    private var lat: Double = 0.0
     private lateinit var binding: ActivityProfileDetailBinding
     private lateinit var viewmodel: UpdateProfileViewModel
 
@@ -100,7 +101,9 @@ class ProfileDetail : BaseActivity() {
                     this.cep = binding.inputPostalCode.editText?.text.toString()
                     this.uf = binding.inputUF.editText?.text.toString()
                     this.city = binding.inputCity.editText?.text.toString()
-                    this.photoUrl = profileImage
+                    this.photoUrl = userProfilePhoto
+                    this.lng = GeocoderLocation(binding.inputUF.editText?.text.toString()).first
+                    this.lat = GeocoderLocation(binding.inputUF.editText?.text.toString()).second
                 }
                 updateUser(sendUser)
             }
@@ -122,6 +125,7 @@ class ProfileDetail : BaseActivity() {
         val storage = FirebaseStorage.getInstance()
         if (imgUrl.length > 1) {
             profileImage = imgUrl
+            userProfilePhoto = imgUrl
             val gsReference =
                 storage.getReferenceFromUrl("gs://escambo-1b51d.appspot.com/${imgUrl}")
             GlideApp.with(this)
@@ -171,7 +175,6 @@ class ProfileDetail : BaseActivity() {
                             this?.contentResolver,
                             selectedPhotoUri
                         )
-                        val bitmapDrawable = BitmapDrawable(bitmap)
                         sendImageToFirebase(selectedPhotoUri)
                     }
                 }

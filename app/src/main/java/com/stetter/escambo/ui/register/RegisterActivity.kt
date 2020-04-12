@@ -79,17 +79,11 @@ class RegisterActivity : AppCompatActivity() {
             //Lat long ref
             //Todo : Register every product with lat long
             //Todo : Order by mais próximo da sua localização cadastrada!
+
             if (Geocoder.isPresent()) {
                 try {
-                    var location = binding.inputCity.editText!!.text.toString()
-                    var gc = Geocoder(this)
-                    var address = gc.getFromLocationName(location, 5)
-                    address.forEach {
-                        if (it.hasLatitude() && it.hasLongitude()) {
-                            latitude = it.latitude
-                            longitute = it.longitude
-                        }
-                    }
+                    latitude = GeocoderLocation(binding.inputCity.editText!!.text.toString()).first
+                    longitute = GeocoderLocation(binding.inputCity.editText!!.text.toString()).second
 
                 } catch (e: IOException) {
                     Log.e("Register", "Error : $e")

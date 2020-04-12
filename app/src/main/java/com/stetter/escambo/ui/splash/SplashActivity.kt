@@ -31,7 +31,7 @@ class SplashActivity : AppCompatActivity() {
                 Manifest.permission.ACCESS_COARSE_LOCATION,
                 Manifest.permission.WRITE_EXTERNAL_STORAGE,
                 Manifest.permission.READ_EXTERNAL_STORAGE
-            ).withListener(object : MultiplePermissionsListener {           
+            ).withListener(object : MultiplePermissionsListener {
                 override fun onPermissionsChecked(report: MultiplePermissionsReport) { /* ... */
                     if(report.areAllPermissionsGranted()){
                         openLoginActivity()

@@ -20,10 +20,7 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import com.stetter.escambo.R
 import com.stetter.escambo.databinding.AddProductFragmenetBinding
-import com.stetter.escambo.extension.Mask
-import com.stetter.escambo.extension.checkCameraPermissions
-import com.stetter.escambo.extension.getTimeStamp
-import com.stetter.escambo.extension.showPickImageDialog
+import com.stetter.escambo.extension.*
 import com.stetter.escambo.extension.watcher.MoneyTextWatcher
 import com.stetter.escambo.net.models.Product
 import com.stetter.escambo.net.models.RegisterUser
@@ -35,6 +32,7 @@ import java.io.File
 import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.math.ln
 
 
 class AddProduct : BaseFragment() {
@@ -101,7 +99,9 @@ class AddProduct : BaseFragment() {
                 category, Mask.removeMoneyMask( binding.edtItemValue.text.toString()).toDouble(),
                 Calendar.getInstance().getTimeStamp(),
                 fullName,
-                userPhotoUrl
+                userPhotoUrl,
+                lat,
+                lng
             )
             viewModel.uploadProductToFirebase( product )
         }
@@ -115,10 +115,14 @@ class AddProduct : BaseFragment() {
 
     var fullName = ""
     var userPhotoUrl = ""
+    var lat = 0.0
+    var lng = 0.0
     private fun onUserDataReceveid(it: RegisterUser?) {
         it?.let {
             fullName = it.fullName
             userPhotoUrl = it.photoUrl
+            lat = it.lat
+            lng = it.lng
         }
     }
 

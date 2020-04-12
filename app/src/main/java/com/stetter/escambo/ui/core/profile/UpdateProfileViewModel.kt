@@ -78,7 +78,7 @@ class UpdateProfileViewModel  : ViewModel(){
             }
             .addOnFailureListener{
                 _uploadSuccess.value = false
-//                _loadingProgress.value = false
+                _loadingProgress.value = false
             }
 
     }
@@ -90,7 +90,8 @@ class UpdateProfileViewModel  : ViewModel(){
             .addOnCompleteListener {
                 _loadingProgress.value = false
                 _uploadSuccess.value = true
-                updatePassword(password)
+                //TODO: Open a new activity to update password and confirm it
+//                updatePassword(password)
 
 
             }.addOnFailureListener {

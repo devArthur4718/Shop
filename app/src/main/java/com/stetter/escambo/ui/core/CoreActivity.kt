@@ -1,11 +1,17 @@
 package com.stetter.escambo.ui.core
 
+import android.location.Location
 import android.os.Bundle
+import android.util.Log
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationServices
+import com.google.android.gms.tasks.Task
+
 import com.stetter.escambo.R
 import com.stetter.escambo.databinding.ActivityCoreBinding
 import com.stetter.escambo.ui.base.BaseActivity
@@ -18,6 +24,7 @@ class CoreActivity : BaseActivity() {
     private lateinit var loginvm: LoginViewModel
     private lateinit var corevm : CoreViewModel
     private lateinit var loadingDialog: LoadingDialog
+    lateinit var fusedLocationClient: FusedLocationProviderClient
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,6 +35,16 @@ class CoreActivity : BaseActivity() {
         corevm = ViewModelProvider(this)[CoreViewModel::class.java]
         initViews()
         setobservables()
+        lastknowLocationService()
+    }
+
+    private fun lastknowLocationService() {
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
+
+    }
+
+    fun retriverLastKnowLocation(): Task<Location> {
+      return fusedLocationClient.lastLocation
     }
 
     private fun setobservables() {
