@@ -10,13 +10,12 @@ import com.karumi.dexter.MultiplePermissionsReport
 import com.karumi.dexter.PermissionToken
 import com.karumi.dexter.listener.PermissionRequest
 import com.karumi.dexter.listener.multi.MultiplePermissionsListener
-import com.stetter.escambo.BuildConfig
 import com.stetter.escambo.R
 import com.stetter.escambo.ui.login.LoginActivity
 
 class SplashActivity : AppCompatActivity() {
 
-    private val SPLASH_TIME_OUT : Long = if(BuildConfig.DEBUG) 0L else 1000L
+    private val SPLASH_TIME_OUT : Long =  1000L
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

@@ -102,11 +102,9 @@ class ItemProductAdapter : RecyclerView.Adapter<ItemProductAdapter.ViewHolder>()
             }
 
             binding.ivNextProductImage.setOnClickListener {
-
                 val intent = Intent(itemView.context, DetailProductActivity::class.java)
                 intent.putExtra("product", item)
                 itemView.context.startActivity(intent)
-
             }
         }
 
