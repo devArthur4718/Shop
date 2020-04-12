@@ -101,7 +101,9 @@ class AddProduct : BaseFragment() {
                 fullName,
                 userPhotoUrl,
                 lat,
-                lng
+                lng,
+                uf,
+                city
             )
             viewModel.uploadProductToFirebase( product )
         }

@@ -37,6 +37,11 @@ class ProfileDetail : BaseActivity() {
         setObservables()
     }
 
+    companion object {
+        const val RQ_PICK_PHOTO = 0
+        const val RQ_TAKE_PHOTO = 1
+    }
+
     private fun setObservables() {
 
         mainViewModel.getUserDataFromDatabase()
@@ -152,13 +157,6 @@ class ProfileDetail : BaseActivity() {
         startActivityForResult(intent, AddProduct.RQ_PICK_FROM_GALLERY)
     }
 
-    companion object {
-        fun newInstance() = AddProduct()
-        const val RQ_PICK_PHOTO = 0
-        const val RQ_TAKE_PHOTO = 1
-        const val STORAGE_URL = "gs://escambo-1b51d.appspot.com"
-
-    }
 
     var selectedPhotoUri: Uri? = null
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -219,7 +217,6 @@ class ProfileDetail : BaseActivity() {
             binding.ivDetailProfileImage.setImageDrawable(resources.getDrawable(R.drawable.ic_young))
         }
     }
-
 
     fun onEditClick(view: View) {
         when (view.id) {

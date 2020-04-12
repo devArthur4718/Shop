@@ -101,7 +101,6 @@ class ItemProductAdapter : RecyclerView.Adapter<ItemProductAdapter.ViewHolder>()
 
             }
 
-            //Todo: On click, pass product details through intent
             binding.ivNextProductImage.setOnClickListener {
 
                 val intent = Intent(itemView.context, DetailProductActivity::class.java)
@@ -109,8 +108,6 @@ class ItemProductAdapter : RecyclerView.Adapter<ItemProductAdapter.ViewHolder>()
                 itemView.context.startActivity(intent)
 
             }
-
-
         }
 
         companion object {

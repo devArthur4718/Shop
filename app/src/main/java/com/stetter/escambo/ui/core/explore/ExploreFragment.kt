@@ -21,7 +21,6 @@ import com.stetter.escambo.ui.adapter.RecentProductAdapter
 import com.stetter.escambo.ui.adapter.TopUserAdapter
 import com.stetter.escambo.ui.base.BaseFragment
 import com.stetter.escambo.ui.core.explore.filter.FilterActivity
-import java.util.*
 
 class ExploreFragment : BaseFragment() {
 
@@ -35,7 +34,6 @@ class ExploreFragment : BaseFragment() {
     private val recentProduct by lazy { RecentProductAdapter() }
     private val topuserAdapter by lazy { TopUserAdapter() }
 
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -46,9 +44,7 @@ class ExploreFragment : BaseFragment() {
             container,
             false
         )
-
         return binding.root
-
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -62,38 +58,29 @@ class ExploreFragment : BaseFragment() {
         binding.rvNextProducts.adapter = productAdapter
         binding.rvTopUsers.adapter = topuserAdapter
         binding.rvRecentPosts.adapter = recentProduct
-
     }
 
     private fun setObservables() {
-        viewModel.listNextProducts.observe(
-            viewLifecycleOwner,
-            Observer { onProductListRetrieved(it) })
+        viewModel.listNextProducts.observe(viewLifecycleOwner,  Observer { onProductListRetrieved(it) })
         viewModel.topUsersList.observe(viewLifecycleOwner, Observer { onTopUserListRetrieved(it) })
-        viewModel.listRecentPost.observe(
-            viewLifecycleOwner,
-            Observer { onRecentPostListRetrieved(it) })
+        viewModel.listRecentPost.observe( viewLifecycleOwner,  Observer { onRecentPostListRetrieved(it) })
+        //Retrieve data from firebase
+        viewModel.retrieveRecentProducts()
+        viewModel.retrieveTopUsers()
+        viewModel.retrieveProductsCloseToMe()
 
         binding.btnFilter.setOnClickListener {
             val intent = Intent(context, FilterActivity::class.java)
             startActivity(intent)
         }
-
-        //Retrieve recent products
-        viewModel.retrieveRecentProducts()
-        viewModel.retrieveTopUsers()
-        viewModel.retrieveProductsCloseToMe()
-
     }
 
     private fun onRecentPostListRetrieved(recentPostList: List<Product>) {
         if (recentPostList.isEmpty()) {
             //no itens
-
         } else {
             recentProduct.data = recentPostList.reversed()
         }
-
     }
 
     private fun onTopUserListRetrieved(topUserList: List<RegisterUser>) {
@@ -124,7 +111,6 @@ class ExploreFragment : BaseFragment() {
         if (recentProductList.isEmpty()) {
             // no itens
         } else {
-
             //Show only products that are not mine.
             var filteredProducts = recentProductList.filter {it.uid != viewModel.retrieveUserUID()  }
 
@@ -135,7 +121,6 @@ class ExploreFragment : BaseFragment() {
             productAdapter.data = filteredProducts.sortedBy { it.distance }
         }
     }
-
     private fun distanceBetween(lat1: Double?, lng1: Double?, lat2: Double?, lng2: Double?): Float {
         var locationA = Location("PointA")
         if (lat1 != null) {
