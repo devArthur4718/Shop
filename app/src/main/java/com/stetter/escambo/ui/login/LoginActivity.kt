@@ -83,10 +83,7 @@ class LoginActivity : BaseActivity() {
             navigateToRecover()
         }
         binding.btnLogin.setOnClickListener {
-            performLogin(
-                binding.inputName.editText?.text.toString(),
-                binding.inputPassword.editText?.text.toString()
-            )
+            performLogin(binding.inputName.editText?.text.toString(),   binding.inputPassword.editText?.text.toString())
         }
         binding.btnPerformFaceLogin.setOnClickListener {
             binding.loginFacebook.performClick()
@@ -175,7 +172,7 @@ class LoginActivity : BaseActivity() {
 
         // Result returned from launching the Intent from GoogleSignInClient.getSignInIntent(...);
         // Result returned from launching the Intent from GoogleSignInClient.getSignInIntent(...);
-        if (requestCode === RC_SIGN_IN) { // The Task returned from this call is always completed, no need to attach
+        if (requestCode == RC_SIGN_IN) { // The Task returned from this call is always completed, no need to attach
 
             val task: Task<GoogleSignInAccount> =
                 GoogleSignIn.getSignedInAccountFromIntent(data)
