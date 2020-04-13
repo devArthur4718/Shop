@@ -2,6 +2,7 @@ package com.stetter.escambo.ui.adapter
 
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.storage.FirebaseStorage
@@ -10,7 +11,7 @@ import com.stetter.escambo.extension.CircularProgress
 import com.stetter.escambo.glide.GlideApp
 import java.lang.IllegalArgumentException
 
-class ProductPhotoAdapter() : RecyclerView.Adapter<ProductPhotoAdapter.ViewHolder>() {
+class ProductPhotoAdapter(val clickListener : PhotoListener?) : RecyclerView.Adapter<ProductPhotoAdapter.ViewHolder>() {
 
     var data = listOf<String>()
         set(value){
@@ -27,13 +28,18 @@ class ProductPhotoAdapter() : RecyclerView.Adapter<ProductPhotoAdapter.ViewHolde
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item : String = data[position]
-        holder.bind(item)
+        holder.bind(item,clickListener!!)
     }
 
     class ViewHolder private constructor(val binding : ItemProductImageBinding)
         : RecyclerView.ViewHolder(binding.root){
-        fun bind(item : String){
+        fun bind(item : String, clickListener: PhotoListener){
             //Load User profile
+            binding.photoUrl = itemView
+            binding.clickListener = clickListener
+            binding.executePendingBindings()
+
+
             val storage = FirebaseStorage.getInstance()
             if(item.length > 1){
                 try{
@@ -47,6 +53,9 @@ class ProductPhotoAdapter() : RecyclerView.Adapter<ProductPhotoAdapter.ViewHolde
                     Log.e("UserAdapter", "Error : $e")
                 }
             }
+
+            //Todo : Create on click callback
+
         }
 
         companion object {
@@ -57,5 +66,12 @@ class ProductPhotoAdapter() : RecyclerView.Adapter<ProductPhotoAdapter.ViewHolde
             }
         }
     }
+
+    class PhotoListener(val clickListener: (photoView: View) -> Unit) {
+        fun onClick(photo: View) = clickListener(photo)
+    }
+
+
+
 
 }

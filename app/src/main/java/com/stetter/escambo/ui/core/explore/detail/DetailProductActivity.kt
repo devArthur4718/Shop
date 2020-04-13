@@ -1,9 +1,11 @@
 package com.stetter.escambo.ui.core.explore.detail
 
 import android.annotation.SuppressLint
+import android.app.ActivityOptions
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -19,14 +21,15 @@ import com.stetter.escambo.net.models.RegisterUser
 import com.stetter.escambo.ui.adapter.ProductPhotoAdapter
 import com.stetter.escambo.ui.base.BaseActivity
 import com.stetter.escambo.ui.core.profile.OtherUser
+import com.stetter.escambo.ui.zoom.ZoomPichActivity
 import java.lang.Exception
 import java.text.DecimalFormat
 import java.text.DecimalFormatSymbols
-
 class DetailProductActivity : BaseActivity() {
 
     private lateinit var binding: ActivityProductBinding
-    private val adapter by lazy { ProductPhotoAdapter() }
+//    private val adapter by lazy { ProductPhotoAdapter( null) }
+    private lateinit var adapter : ProductPhotoAdapter
     private lateinit var viewmodel : DetailProductViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -52,7 +55,7 @@ class DetailProductActivity : BaseActivity() {
     }
 
     private fun setAdapters() {
-        binding.rvProductImages.adapter = adapter
+
     }
 
     private fun getDataFromBundle() {
@@ -100,7 +103,12 @@ class DetailProductActivity : BaseActivity() {
                 //Fetch user and then open an intent
                 viewmodel.retrieveUserInformation(data.uid)
             }
+            var adapter = ProductPhotoAdapter(ProductPhotoAdapter.PhotoListener {
+                Toast.makeText(this, "Photo clicked", Toast.LENGTH_SHORT).show()
+            })
             adapter.data = data.productUrl
+            binding.rvProductImages.adapter = adapter
+//            adapter.data = data.productUrl
         }
     }
 
@@ -136,7 +144,12 @@ class DetailProductActivity : BaseActivity() {
                 //Fetch user and then open an intent
                 viewmodel.retrieveUserInformation(data.uid)
             }
+            var adapter = ProductPhotoAdapter(ProductPhotoAdapter.PhotoListener {
+
+                Toast.makeText(this, "Photo clicked", Toast.LENGTH_SHORT).show()
+            })
             adapter.data = data.productUrl
+            binding.rvProductImages.adapter = adapter
         }
     }
 
