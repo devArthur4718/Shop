@@ -30,6 +30,7 @@ import com.stetter.escambo.ui.base.BaseFragment
 import java.io.ByteArrayOutputStream
 import java.io.File
 import java.io.IOException
+import java.lang.Exception
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -84,7 +85,10 @@ class AddProduct : BaseFragment() {
         viewModel.uploadProduct.observe(viewLifecycleOwner, Observer { onProductUpload(it) })
         viewModel.loadingProgress.observe(viewLifecycleOwner, Observer { onLoading(it) })
         viewModel.listProduct.observe(viewLifecycleOwner, Observer { onProductListReceveived(it) })
+        viewModel.loadingPhotoProgress.observe(viewLifecycleOwner, Observer { onLoadingPhotoProgress(it) })
         mainViewModel.userProfileData.observe(viewLifecycleOwner, Observer { onUserDataReceveid(it) })
+
+
         binding.btnPublishItem.setOnClickListener {
             val uid = viewModel.getUid()
             var category = binding.spCategory.selectedItem.toString()
@@ -113,6 +117,17 @@ class AddProduct : BaseFragment() {
         }
 
         binding.edtItemValue.addTextChangedListener(MoneyTextWatcher(binding.edtItemValue, Locale("pt", "BR")))
+    }
+
+    private fun onLoadingPhotoProgress(it: Boolean?) {
+        it?.let {
+            if(it){
+                binding.progressBar3.visibility = View.VISIBLE
+            }else{
+                binding.progressBar3.visibility = View.GONE
+            }
+        }
+
     }
 
     var fullName = ""
@@ -231,13 +246,19 @@ class AddProduct : BaseFragment() {
             if (it) {
                 Toast.makeText(context, "Foto carregada com sucesso!", Toast.LENGTH_SHORT).show()
                 cardbitmap?.let { bitmap -> viewModel.updateItemCard(bitmap) }
+                try{
+                    binding.rvUploadItem.smoothScrollToPosition(uploadItemAdapter.itemCount - 1)
+                }catch (e : Exception){
+                    Log.e("AddProduct", "Error: $e")
+                }
+
             }
         }
     }
 
     private fun onPickDataFromGallery(pickAction: Boolean?) {
         pickAction?.let {
-            if (it) { 
+            if (it) {
                 activity?.showPickImageDialog(viewModel)
             }
         }
