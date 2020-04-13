@@ -5,10 +5,9 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import com.facebook.AccessToken
 import com.facebook.CallbackManager
 import com.facebook.FacebookCallback
@@ -26,7 +25,6 @@ import com.stetter.escambo.databinding.ActivityLoginBinding
 import com.stetter.escambo.extension.clearError
 import com.stetter.escambo.ui.base.BaseActivity
 import com.stetter.escambo.ui.core.CoreActivity
-import com.stetter.escambo.ui.dialog.LoadingDialog
 import com.stetter.escambo.ui.recovery.RecoveryPassword
 import com.stetter.escambo.ui.register.RegisterActivity
 
@@ -44,7 +42,7 @@ class LoginActivity : BaseActivity() {
             this,
             R.layout.activity_login
         )
-        viewmodel = ViewModelProviders.of(this)[LoginViewModel::class.java]
+        viewmodel = ViewModelProvider(this)[LoginViewModel::class.java]
         initViews()
         setObservables()
     }
