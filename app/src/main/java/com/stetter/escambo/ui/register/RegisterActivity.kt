@@ -70,6 +70,13 @@ class RegisterActivity : AppCompatActivity() {
             }
         })
 
+        binding.tvFinishIt.setOnClickListener {
+            finish()
+        }
+        binding.tvLabelHasAccount.setOnClickListener {
+            binding.tvFinishIt.performClick()
+        }
+
     }
 
     private fun onAddressReceived(response: postalResponse) {
