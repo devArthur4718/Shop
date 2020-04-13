@@ -43,8 +43,16 @@ class ProfileDetail : BaseActivity() {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_profile_detail)
         viewmodel = ViewModelProvider(this)[UpdateProfileViewModel::class.java]
+        getFromBundle()
         initViews()
         setObservables()
+    }
+
+    var productCount = 0
+    private fun getFromBundle() {
+        if(intent.hasExtra("productCount")){
+            productCount = intent.getIntExtra("productCount", 0)
+        }
     }
 
     private fun initViews() {
@@ -156,6 +164,7 @@ class ProfileDetail : BaseActivity() {
                     this.photoUrl = userProfilePhoto
                     this.lng = GeocoderLocation(binding.inputUF.editText?.text.toString()).first
                     this.lat = GeocoderLocation(binding.inputUF.editText?.text.toString()).second
+                    this.products = productCount
                 }
                 updateUser(sendUser)
             }

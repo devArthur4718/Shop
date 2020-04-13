@@ -45,7 +45,7 @@ class ItemProductNextToMeAdapter : RecyclerView.Adapter<ItemProductNextToMeAdapt
         fun bind(item : ProductByLocation){
 
             binding.tvNextProductAuthor.text = item.username
-            binding.tvNextProduct.text =  item.distance.toString()
+            binding.tvNextProduct.text = item.product
             var moneytext = item.value.toString().replaceRange(item.value.toString().length  -2, item.value.toString().length, "")
 
             try{

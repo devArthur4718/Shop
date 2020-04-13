@@ -262,6 +262,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/edit"
                 android:onClick="onEditClick"
+                android:visibility="gone"
                 app:layout_constraintBaseline_toBaselineOf="@+id/inputEmail"
                 app:layout_constraintEnd_toEndOf="@+id/tvEditFullName" />
 

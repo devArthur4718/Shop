@@ -92,11 +92,6 @@ class ExploreFragment : BaseFragment() {
         }
     }
 
-//    private fun onLocationReceived(location: Location) {
-//        currentLat = location.latitude
-//        currentLng = location.longitude
-//        viewModel.retrieveProductsCloseToMe()
-//    }
 
     private fun onRecentPostListRetrieved(recentPostList: List<Product>) {
         if (recentPostList.isEmpty()) {
