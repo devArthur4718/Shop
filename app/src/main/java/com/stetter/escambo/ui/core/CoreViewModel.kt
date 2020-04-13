@@ -1,5 +1,6 @@
 package com.stetter.escambo.ui.core
 
+import android.location.Location
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -26,6 +27,12 @@ class CoreViewModel : ViewModel() {
     private val _userLng = MutableLiveData<Double>()
     val userLng : LiveData<Double> get() = _userLng
 
+    private val _dialogMessage = MutableLiveData<String>()
+    val dialogMessage : LiveData<String> get() = _dialogMessage
+
+    private val _onLocationReceived = MutableLiveData<Location>()
+    val onLocationReceived : LiveData<Location> get() = _onLocationReceived
+
 
     fun showLoading(){
         _loadingProgress.value = true
@@ -35,6 +42,13 @@ class CoreViewModel : ViewModel() {
         _loadingProgress.value = false
     }
 
+    fun showActivityDialog(text : String){
+        _dialogMessage.value = text
+    }
+
+    fun setLocation(location : Location){
+        _onLocationReceived.value = location
+    }
     //Fetch user data post login
     fun getUserDataFromDatabase() {
         showLoading()
@@ -56,7 +70,16 @@ class CoreViewModel : ViewModel() {
 
 
         })
+    }
 
+    private val _retrieveUserLocation = MutableLiveData<Boolean>()
+    val retrieveUserLocation : LiveData<Boolean> get() = _retrieveUserLocation
+
+    fun retrieveUserLocation(){
+        _retrieveUserLocation.value = true
+    }
+    fun doneRetrieveUserLocation () {
+        _retrieveUserLocation.value = false
     }
 
 }

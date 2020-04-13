@@ -1,9 +1,13 @@
 package com.stetter.escambo.extension
 
+import android.Manifest
 import android.content.Context
+import android.content.pm.PackageManager
 import android.location.Geocoder
+import android.location.LocationManager
 import android.view.View
 import android.view.inputmethod.InputMethodManager
+import androidx.core.app.ActivityCompat
 import java.util.*
 
 
@@ -43,3 +47,12 @@ fun Context.GeocoderLocation(location : String) : Pair<Double,Double>{
 
 
 fun Float.metersToKM(): Long = Math.round(this/1000.0)
+
+fun Context.isGPsEnabled() : Boolean{
+    var lm = this.getSystemService(Context.LOCATION_SERVICE) as LocationManager
+    return lm.isProviderEnabled(LocationManager.GPS_PROVIDER)
+}
+//
+//fun Context.hasGpsPermission() : Boolean{
+//    if(ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && )
+//}
