@@ -3,20 +3,21 @@ package com.stetter.escambo.ui.core.explore
 import android.content.Intent
 import android.location.Location
 import android.os.Bundle
+import android.os.Looper
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import com.google.android.gms.location.FusedLocationProviderClient
-import com.google.android.gms.location.LocationServices
+import com.google.android.gms.location.*
 import com.stetter.escambo.R
 import com.stetter.escambo.databinding.ExploreFragmentBinding
 import com.stetter.escambo.extension.metersToKM
 import com.stetter.escambo.net.models.*
-import com.stetter.escambo.ui.adapter.ItemProductAdapter
+import com.stetter.escambo.ui.adapter.ItemProductNextToMeAdapter
 import com.stetter.escambo.ui.adapter.RecentProductAdapter
 import com.stetter.escambo.ui.adapter.TopUserAdapter
 import com.stetter.escambo.ui.base.BaseFragment
@@ -30,7 +31,7 @@ class ExploreFragment : BaseFragment() {
 
     private lateinit var viewModel: ExploreViewModel
     private lateinit var binding: ExploreFragmentBinding
-    private val productAdapter by lazy { ItemProductAdapter() }
+    private val productNextToMeAdapter by lazy { ItemProductNextToMeAdapter() }
     private val recentProduct by lazy { RecentProductAdapter() }
     private val topuserAdapter by lazy { TopUserAdapter() }
 
@@ -56,7 +57,7 @@ class ExploreFragment : BaseFragment() {
     }
 
     private fun setAdapters() {
-        binding.rvNextProducts.adapter = productAdapter
+        binding.rvNextProducts.adapter = productNextToMeAdapter
         binding.rvTopUsers.adapter = topuserAdapter
         binding.rvRecentPosts.adapter = recentProduct
     }
@@ -100,17 +101,48 @@ class ExploreFragment : BaseFragment() {
     var currentLng: Double? = null
     fun locationService(){
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(context!!)
-
         fusedLocationClient.lastLocation
             .addOnSuccessListener { location: Location? ->
-                // Got last known location. In some rare situations this can be null.
-                currentLat = location?.latitude
-                currentLng = location?.longitude
+                // Got last known location. In some rare situations this can be null.\
+
+                //Todo : Check if gps still active
+
+                //Todo: Check again for user peermission to use location
+
+                if(location == null){
+                    updateUserLocation()
+                }else{
+                    currentLat = location?.latitude
+                    currentLng = location?.longitude
+                }
             }.addOnFailureListener { error ->
                 Log.e("Explore", "Error: $error")
             }
     }
 
+    private lateinit var locationCallback: LocationCallback
+    private fun updateUserLocation() {
+
+        val locationRequest = LocationRequest()
+        fusedLocationClient.requestLocationUpdates(locationRequest,
+            locationCallback,
+            Looper.getMainLooper())
+
+        locationCallback = object  : LocationCallback(){
+            override fun onLocationResult(locationResult: LocationResult?) {
+                locationResult ?: return
+                for(location in locationResult.locations){
+                    //Save location
+                    currentLat = location.latitude
+                    currentLng = location.longitude
+                }
+            }
+        }
+
+
+    }
+
+    //Products next to me
     private fun onProductListRetrieved(recentProductList: List<ProductByLocation>) {
         if (recentProductList.isEmpty()) {
             // no itens
@@ -127,7 +159,7 @@ class ExploreFragment : BaseFragment() {
                 it.distance = distanceBetween(currentLat, currentLng, it.lat, it.lng )
             }
             //Sort by the clossest
-            productAdapter.data = filteredProducts.sortedBy { it.distance }
+            productNextToMeAdapter.data = filteredProducts.sortedBy { it.distance }
         }
     }
     private fun distanceBetween(lat1: Double?, lng1: Double?, lat2: Double?, lng2: Double?): Float {

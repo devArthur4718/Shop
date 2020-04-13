@@ -73,6 +73,6 @@ class DatabaseRepository {
     }
 
     fun receiveProductsCloseToMe(): Query {
-        return  FirebaseDatabase.getInstance().getReference("/products").limitToFirst(5)
+        return  FirebaseDatabase.getInstance().getReference("/products")
     }
 }

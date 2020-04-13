@@ -20,7 +20,7 @@ import java.lang.IndexOutOfBoundsException
 import java.text.DecimalFormat
 import java.text.DecimalFormatSymbols
 
-class ItemProductAdapter : RecyclerView.Adapter<ItemProductAdapter.ViewHolder>() {
+class ItemProductNextToMeAdapter : RecyclerView.Adapter<ItemProductNextToMeAdapter.ViewHolder>() {
 
     var data = listOf<ProductByLocation>()
         set(value){
@@ -45,7 +45,7 @@ class ItemProductAdapter : RecyclerView.Adapter<ItemProductAdapter.ViewHolder>()
         fun bind(item : ProductByLocation){
 
             binding.tvNextProductAuthor.text = item.username
-            binding.tvNextProduct.text =  item.product
+            binding.tvNextProduct.text =  item.distance.toString()
             var moneytext = item.value.toString().replaceRange(item.value.toString().length  -2, item.value.toString().length, "")
 
             try{

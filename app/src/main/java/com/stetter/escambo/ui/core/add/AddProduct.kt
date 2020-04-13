@@ -237,7 +237,7 @@ class AddProduct : BaseFragment() {
 
     private fun onPickDataFromGallery(pickAction: Boolean?) {
         pickAction?.let {
-            if (it) {
+            if (it) { 
                 activity?.showPickImageDialog(viewModel)
             }
         }
