@@ -25,18 +25,15 @@ class LoginViewModel : ViewModel() {
     fun signInWithEmail(email: String, password: String) {
         authRepository.logInWithEmailAndPassword(email, password)
             .addOnCompleteListener {result ->
-
                 if(result.isSuccessful){
                     result.result?.user?.uid?.let {UID ->
                         hideLoading()
                         sendUserUID(UID)
                     }
                 }else{
-
                     hideLoading()
-                    loginError("Usuário ou/senha incorretos")
+                    loginError("Usuário e/ou senha incorretos")
                 }
-
             }
             .addOnFailureListener {
                 hideLoading()
@@ -91,11 +88,6 @@ class LoginViewModel : ViewModel() {
 
     fun sendUserUID(UID : String){
         _userUID.value = UID
-    }
-
-    fun logoff(): Boolean {
-        authRepository.logoffUser()
-        return true
     }
 
     fun recoveryPassword(email : String) : Boolean?{

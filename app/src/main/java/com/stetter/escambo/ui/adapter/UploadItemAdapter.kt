@@ -1,6 +1,6 @@
 package com.stetter.escambo.ui.adapter
 
-import android.graphics.Bitmap
+
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -25,13 +25,14 @@ class UploadItemAdapter() : RecyclerView.Adapter<UploadItemAdapter.ViewHolder>()
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item  : ProductCard =  data[position]
-        holder.bind(item,viewModel)
+        holder.bind(item,viewModel, position)
     }
 
 
     class ViewHolder private constructor(val binding : ItemUploadProductBinding)
         : RecyclerView.ViewHolder(binding.root){
-        fun bind(item : ProductCard, vm : AddProductViewModel){
+        fun bind(item : ProductCard, vm : AddProductViewModel, position : Int){
+
             binding.ivPickPhoto.setOnClickListener {
                 vm.pickPhoto()
             }

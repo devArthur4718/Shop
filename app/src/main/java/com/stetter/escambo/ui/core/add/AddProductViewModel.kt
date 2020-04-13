@@ -58,16 +58,30 @@ class AddProductViewModel : ViewModel() {
     }
 
 
+    private val _loadingPhotoProgress = MutableLiveData<Boolean>()
+    val loadingPhotoProgress: LiveData<Boolean> get() = _loadingPhotoProgress
+
     fun uploadImageToFirebase(filename: String, byteArray: ByteArray) {
-        _loadingProgress.value = true
+        _loadingPhotoProgress.value = true
         databaserepository.uploadImageToDatabase(filename).putBytes(byteArray)
             .addOnSuccessListener {
                 _productPath.value = it.metadata?.path
-                _loadingProgress.value = false
+                _loadingPhotoProgress.value = false
                 _uploadSuccess.value = true
             }
             .addOnFailureListener {
                 _uploadSuccess.value = false
+                _loadingPhotoProgress.value = false
+            }
+    }
+    fun updateProductCount(count : Int){
+        _loadingProgress.value = true
+        databaserepository.updateProductCount(count)
+            .addOnCompleteListener {
+                _loadingProgress.value = false
+
+            }.addOnFailureListener {
+
                 _loadingProgress.value = false
             }
     }
@@ -139,8 +153,6 @@ class AddProductViewModel : ViewModel() {
 
     fun updateItemCard(bitmap: Bitmap) {
         if (adapterDummyList.size == 5) return
-
-
         adapterDummyList.add(ProductCard(bitmap))
         _listProduct.value = adapterDummyList
     }

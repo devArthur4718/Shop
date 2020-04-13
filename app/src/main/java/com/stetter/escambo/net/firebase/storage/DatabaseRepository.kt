@@ -27,6 +27,11 @@ class DatabaseRepository {
         return FirebaseDatabase.getInstance().getReference("/users/$uid")
     }
 
+    fun updateProductCount(count : Int): Task<Void> {
+        var uid = getCurrentUserUID()
+        return FirebaseDatabase.getInstance().getReference("/users/$uid").child("products").setValue(count)
+    }
+
     fun updateUserToDabase(): DatabaseReference {
         var uid = getCurrentUserUID()
         return FirebaseDatabase.getInstance().getReference("/users").child(uid)
@@ -40,6 +45,10 @@ class DatabaseRepository {
 
     fun retriveUserData() : DatabaseReference{
         var uid = getCurrentUserUID()
+        return FirebaseDatabase.getInstance().getReference("/users/$uid")
+    }
+
+    fun retrieveAnotherUser(uid : String) : DatabaseReference{
         return FirebaseDatabase.getInstance().getReference("/users/$uid")
     }
 
@@ -64,6 +73,6 @@ class DatabaseRepository {
     }
 
     fun receiveProductsCloseToMe(): Query {
-        return  FirebaseDatabase.getInstance().getReference("/products").limitToFirst(5)
+        return  FirebaseDatabase.getInstance().getReference("/products")
     }
 }

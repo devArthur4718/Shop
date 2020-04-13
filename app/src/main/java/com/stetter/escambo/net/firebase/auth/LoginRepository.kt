@@ -29,6 +29,7 @@ class LoginRepository {
         return true
     }
 
+    fun isUserLogged() : Boolean =  if(auth.currentUser != null) true else false
 
     var recoverStatus : Boolean? = null
     fun recoverPassword(email : String): Boolean? {

@@ -85,4 +85,5 @@
     <string name="edit">Editar</string>
     <string name="save_item">Salvar</string>
     <string name="separator">/</string>
+    <string name="location_error">Alguns serviços não estarão disponíveis com a localização desligada. Por favor, ative seu serviço de localização</string>
 </resources>

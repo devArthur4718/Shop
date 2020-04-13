@@ -140,6 +140,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="number"
+                    android:imeOptions="actionDone"
                     android:hint="@string/cep" />
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -155,6 +156,7 @@
                 <com.google.android.material.textfield.TextInputEditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:enabled="false"
                     android:maxLength="2"
                     android:hint="@string/uf" />
             </com.google.android.material.textfield.TextInputLayout>
@@ -171,6 +173,7 @@
                 <com.google.android.material.textfield.TextInputEditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:enabled="false"
                     android:hint="@string/city" />
             </com.google.android.material.textfield.TextInputLayout>
 

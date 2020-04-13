@@ -1,11 +1,16 @@
 package com.stetter.escambo.ui.core.profile
 
 import android.app.Activity
+import android.app.AlertDialog
+import android.content.DialogInterface
 import android.content.Intent
+import android.location.Geocoder
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
+import android.util.Log
 import android.view.View
+import android.widget.EditText
 import android.widget.TextView
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
@@ -17,21 +22,63 @@ import com.stetter.escambo.databinding.ActivityProfileDetailBinding
 import com.stetter.escambo.extension.*
 import com.stetter.escambo.glide.GlideApp
 import com.stetter.escambo.net.models.RegisterUser
+import com.stetter.escambo.net.retrofit.postalResponse
 import com.stetter.escambo.ui.base.BaseActivity
 import com.stetter.escambo.ui.core.add.AddProduct
+import java.io.IOException
 import java.util.*
+
 
 
 class ProfileDetail : BaseActivity() {
 
     private lateinit var binding: ActivityProfileDetailBinding
     private lateinit var viewmodel: UpdateProfileViewModel
+    var latitude  = 0.0
+    var longitute = 0.0
+
+    //Todo: persit product count
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_profile_detail)
         viewmodel = ViewModelProvider(this)[UpdateProfileViewModel::class.java]
+        getFromBundle()
+        initViews()
         setObservables()
+    }
+
+    var productCount = 0
+    private fun getFromBundle() {
+        if(intent.hasExtra("productCount")){
+            productCount = intent.getIntExtra("productCount", 0)
+        }
+    }
+
+    private fun initViews() {
+        binding.inputBirthDate.editText?.addTextChangedListener(
+            Mask.mask(
+                "##/##/####",
+                binding?.inputBirthDate?.editText!!
+            )
+        )
+
+        binding.inputPostalCode.editText?.addTextChangedListener(
+            Mask.mask(
+                "#####-###",
+                binding?.inputPostalCode?.editText!!
+            )
+        )
+
+        binding.inputPostalCode.editText?.setOnFocusChangeListener { view, b -> fetchAddress(binding?.inputPostalCode?.editText!!) }
+    }
+
+    private fun fetchAddress(editText: EditText) {
+
+        val postalCode = Mask.removeMask(binding.inputPostalCode.editText!!.text.toString())
+        if (postalCode.length == 8) {
+            viewmodel.getAddress(postalCode)
+        }
     }
 
     companion object {
@@ -46,6 +93,15 @@ class ProfileDetail : BaseActivity() {
         viewmodel.imagePickIntent.observe(this, Observer { onPickImageIntent(it) })
         viewmodel.onPhotoFileReceived.observe(this, Observer { onProfileImageReceived(it) })
         viewmodel.uploadSucess.observe(this, Observer { onUserProfildeUpdated(it) })
+        viewmodel.addressValue.observe(this, Observer { response -> onAddressReceived(response) })
+
+        viewmodel.showErrorDialog.observe(this, Observer {
+            if (it) {
+                var alert = showErrorDialog()
+                alert.show()
+            }
+
+        })
 
         binding.ivLogout.setOnClickListener {
             viewmodel.logout()
@@ -57,6 +113,8 @@ class ProfileDetail : BaseActivity() {
         binding.tvCloseProfileDetail.setOnClickListener {
             finish()
         }
+
+
 
         binding.ivChangeProfilePhoto.setOnClickListener {
             //Update photo
@@ -106,6 +164,7 @@ class ProfileDetail : BaseActivity() {
                     this.photoUrl = userProfilePhoto
                     this.lng = GeocoderLocation(binding.inputUF.editText?.text.toString()).first
                     this.lat = GeocoderLocation(binding.inputUF.editText?.text.toString()).second
+                    this.products = productCount
                 }
                 updateUser(sendUser)
             }
@@ -238,5 +297,39 @@ class ProfileDetail : BaseActivity() {
             textEditLabel.text = getString(R.string.edit)
             hideKeyBoard(view)
         }
+    }
+
+    private fun onAddressReceived(response: postalResponse) {
+        if (response != null) {
+            binding.inputCity.editText?.setText(response.localidade)
+            binding.inputUF.editText?.setText(response.uf)
+            //Lat long ref
+
+            if (Geocoder.isPresent()) {
+                try {
+                    latitude = GeocoderLocation(binding.inputCity.editText!!.text.toString()).first
+                    longitute = GeocoderLocation(binding.inputCity.editText!!.text.toString()).second
+
+                } catch (e: IOException) {
+                    Log.e("Register", "Error : $e")
+                }
+            }
+        }
+    }
+    private fun showErrorDialog(): AlertDialog {
+        val alertDialog: AlertDialog? = this?.let {
+            val builder = AlertDialog.Builder(it)
+            builder.apply {
+                setPositiveButton(
+                    "OK",
+                    DialogInterface.OnClickListener { dialog, id ->
+                        // User clicked OK button
+                    })
+
+                setMessage("CEP não encontrado.")
+            }
+            builder.create()
+        }
+        return alertDialog!!
     }
 }

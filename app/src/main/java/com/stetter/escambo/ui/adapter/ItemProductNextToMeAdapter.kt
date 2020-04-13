@@ -5,8 +5,6 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
-import androidx.core.content.IntentCompat
-import androidx.core.os.bundleOf
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.google.firebase.storage.FirebaseStorage
@@ -22,7 +20,7 @@ import java.lang.IndexOutOfBoundsException
 import java.text.DecimalFormat
 import java.text.DecimalFormatSymbols
 
-class ItemProductAdapter : RecyclerView.Adapter<ItemProductAdapter.ViewHolder>() {
+class ItemProductNextToMeAdapter : RecyclerView.Adapter<ItemProductNextToMeAdapter.ViewHolder>() {
 
     var data = listOf<ProductByLocation>()
         set(value){

@@ -30,9 +30,9 @@ import com.stetter.escambo.ui.base.BaseFragment
 import java.io.ByteArrayOutputStream
 import java.io.File
 import java.io.IOException
+import java.lang.Exception
 import java.text.SimpleDateFormat
 import java.util.*
-import kotlin.math.ln
 
 
 class AddProduct : BaseFragment() {
@@ -76,7 +76,6 @@ class AddProduct : BaseFragment() {
     }
 
     private fun setObserbales() {
-
         viewModel.listCategorList.observe( viewLifecycleOwner,  Observer { onConfigureCategoryAdapter(it) })
         viewModel.pickPhotoFromGallery.observe( viewLifecycleOwner,  Observer { onPickDataFromGallery(it) })
         viewModel.imagePickIntent.observe(viewLifecycleOwner, Observer { onPickImageIntent(it) })
@@ -86,7 +85,10 @@ class AddProduct : BaseFragment() {
         viewModel.uploadProduct.observe(viewLifecycleOwner, Observer { onProductUpload(it) })
         viewModel.loadingProgress.observe(viewLifecycleOwner, Observer { onLoading(it) })
         viewModel.listProduct.observe(viewLifecycleOwner, Observer { onProductListReceveived(it) })
+        viewModel.loadingPhotoProgress.observe(viewLifecycleOwner, Observer { onLoadingPhotoProgress(it) })
         mainViewModel.userProfileData.observe(viewLifecycleOwner, Observer { onUserDataReceveid(it) })
+
+
         binding.btnPublishItem.setOnClickListener {
             val uid = viewModel.getUid()
             var category = binding.spCategory.selectedItem.toString()
@@ -107,6 +109,7 @@ class AddProduct : BaseFragment() {
                 city
             )
             viewModel.uploadProductToFirebase( product )
+            //upload user product count
         }
 
         binding.labelPublishItem.setOnClickListener {
@@ -116,12 +119,24 @@ class AddProduct : BaseFragment() {
         binding.edtItemValue.addTextChangedListener(MoneyTextWatcher(binding.edtItemValue, Locale("pt", "BR")))
     }
 
+    private fun onLoadingPhotoProgress(it: Boolean?) {
+        it?.let {
+            if(it){
+                binding.progressBar3.visibility = View.VISIBLE
+            }else{
+                binding.progressBar3.visibility = View.GONE
+            }
+        }
+
+    }
+
     var fullName = ""
     var userPhotoUrl = ""
     var lat = 0.0
     var lng = 0.0
     var uf = ""
     var city = ""
+    var productCount = 0
 
     private fun onUserDataReceveid(it: RegisterUser?) {
         it?.let {
@@ -131,6 +146,7 @@ class AddProduct : BaseFragment() {
             lng = it.lng
             uf = it.uf
             city = it.city
+            productCount = it.products
         }
     }
 
@@ -208,6 +224,9 @@ class AddProduct : BaseFragment() {
         it?.let {
             if (it) {
                 viewModel.doneUploadProduct()
+                productCount += 1
+                //Todo: update user profile count
+                viewModel.updateProductCount(productCount)
                 Toast.makeText(context, "Produto postado", Toast.LENGTH_SHORT).show()
                 findNavController().navigate(R.id.navigation_explore)
             }
@@ -227,6 +246,12 @@ class AddProduct : BaseFragment() {
             if (it) {
                 Toast.makeText(context, "Foto carregada com sucesso!", Toast.LENGTH_SHORT).show()
                 cardbitmap?.let { bitmap -> viewModel.updateItemCard(bitmap) }
+                try{
+                    binding.rvUploadItem.smoothScrollToPosition(uploadItemAdapter.itemCount - 1)
+                }catch (e : Exception){
+                    Log.e("AddProduct", "Error: $e")
+                }
+
             }
         }
     }

@@ -5,6 +5,7 @@ import android.content.DialogInterface
 import android.location.Geocoder
 import android.os.Bundle
 import android.util.Log
+import android.view.inputmethod.EditorInfo
 import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -70,9 +71,17 @@ class RegisterActivity : AppCompatActivity() {
             }
         })
 
+        binding.tvFinishIt.setOnClickListener {
+            finish()
+        }
+        binding.tvLabelHasAccount.setOnClickListener {
+            binding.tvFinishIt.performClick()
+        }
+
     }
 
     private fun onAddressReceived(response: postalResponse) {
+        hideKeyBoard(binding.inputPostalCode)
         if (response != null) {
             binding.inputCity.editText?.setText(response.localidade)
             binding.inputUF.editText?.setText(response.uf)
@@ -164,6 +173,17 @@ class RegisterActivity : AppCompatActivity() {
             )
         )
         binding.inputPostalCode.editText?.setOnFocusChangeListener { view, b -> fetchAddress(binding?.inputPostalCode?.editText!!) }
+        binding.inputPostalCode.editText?.setOnEditorActionListener { v, actionId, event ->
+
+            if(actionId == EditorInfo.IME_ACTION_DONE){
+                fetchAddress(binding?.inputPostalCode?.editText!!)
+                true
+            }else
+                false
+
+
+
+        }
     }
 
     private fun sendForm(sendUser: RegisterUser) {

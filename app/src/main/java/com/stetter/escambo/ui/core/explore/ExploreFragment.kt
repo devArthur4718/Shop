@@ -1,22 +1,24 @@
 package com.stetter.escambo.ui.core.explore
 
+import android.app.Activity
 import android.content.Intent
 import android.location.Location
 import android.os.Bundle
+import android.os.Looper
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import com.google.android.gms.location.FusedLocationProviderClient
-import com.google.android.gms.location.LocationServices
+import com.google.android.gms.location.*
 import com.stetter.escambo.R
 import com.stetter.escambo.databinding.ExploreFragmentBinding
 import com.stetter.escambo.extension.metersToKM
 import com.stetter.escambo.net.models.*
-import com.stetter.escambo.ui.adapter.ItemProductAdapter
+import com.stetter.escambo.ui.adapter.ItemProductNextToMeAdapter
 import com.stetter.escambo.ui.adapter.RecentProductAdapter
 import com.stetter.escambo.ui.adapter.TopUserAdapter
 import com.stetter.escambo.ui.base.BaseFragment
@@ -30,7 +32,7 @@ class ExploreFragment : BaseFragment() {
 
     private lateinit var viewModel: ExploreViewModel
     private lateinit var binding: ExploreFragmentBinding
-    private val productAdapter by lazy { ItemProductAdapter() }
+    private val productNextToMeAdapter by lazy { ItemProductNextToMeAdapter() }
     private val recentProduct by lazy { RecentProductAdapter() }
     private val topuserAdapter by lazy { TopUserAdapter() }
 
@@ -54,26 +56,42 @@ class ExploreFragment : BaseFragment() {
         setObservables()
     }
 
+
     private fun setAdapters() {
-        binding.rvNextProducts.adapter = productAdapter
+        binding.rvNextProducts.adapter = productNextToMeAdapter
         binding.rvTopUsers.adapter = topuserAdapter
         binding.rvRecentPosts.adapter = recentProduct
     }
 
+    var currentLat: Double? = null
+    var currentLng: Double? = null
     private fun setObservables() {
         viewModel.listNextProducts.observe(viewLifecycleOwner,  Observer { onProductListRetrieved(it) })
         viewModel.topUsersList.observe(viewLifecycleOwner, Observer { onTopUserListRetrieved(it) })
         viewModel.listRecentPost.observe( viewLifecycleOwner,  Observer { onRecentPostListRetrieved(it) })
+        mainViewModel.onLocationReceived.observe(viewLifecycleOwner, Observer { onLocationReceived(it) })
+
+
         //Retrieve data from firebase
+        mainViewModel.retrieveUserLocation()
         viewModel.retrieveRecentProducts()
         viewModel.retrieveTopUsers()
-        viewModel.retrieveProductsCloseToMe()
+
 
         binding.btnFilter.setOnClickListener {
             val intent = Intent(context, FilterActivity::class.java)
             startActivity(intent)
         }
     }
+
+    private fun onLocationReceived(location: Location) {
+        location?.let {
+            currentLat = location.latitude
+            currentLng = location.longitude
+            viewModel.retrieveProductsCloseToMe()
+        }
+    }
+
 
     private fun onRecentPostListRetrieved(recentPostList: List<Product>) {
         if (recentPostList.isEmpty()) {
@@ -88,37 +106,69 @@ class ExploreFragment : BaseFragment() {
             //no itens
         } else {
             //Filter user with no matches
-            var filteredList = topUserList.filter { it.matches > 0 }
+            var filteredList = topUserList.sortedBy { it.products }
+            //Order by desc by reversing int
             topuserAdapter.data = filteredList.reversed()
         }
     }
 
     lateinit var fusedLocationClient: FusedLocationProviderClient
+//    fun locationService(){
+//        //Todo: Check again for user permission to use location
+//        fusedLocationClient = LocationServices.getFusedLocationProviderClient(context!!)
+//        fusedLocationClient.lastLocation
+//            .addOnSuccessListener { location: Location? ->
+//                // Got last known location. In some rare situations this can be null.\
+//                if(location == null){
+//                    mainViewModel.showActivityDialog(getString(R.string.location_error))
+//                }else{
+//                    currentLat = location?.latitude
+//                    currentLng = location?.longitude
+//                    if(currentLat!= null && currentLng != null)  viewModel.retrieveProductsCloseToMe()
+//
+//                }
+//            }.addOnFailureListener { error ->
+//                Log.e("Explore", "Error: $error")
+//            }
+//    }
+
+    private lateinit var locationCallback: LocationCallback
+//    private fun updateUserLocation() {
+//
+//        fusedLocationClient = LocationServices.getFusedLocationProviderClient(context!!)
+//        val locationRequest = LocationRequest()
+//        locationCallback = object  : LocationCallback(){
+//            override fun onLocationResult(locationResult: LocationResult?) {
+//                if(locationResult != null){
+//                    for(location in locationResult.locations){
+//                        //Save location
+//                        currentLat = location.latitude
+//                        currentLng = location.longitude
+//                    }
+//                }else{
+//                    mainViewModel.showActivityDialog("Alguns serviços não estarão disponíveis com a localização desligada. Por favor, ative seu serviço de localização")
+//                }
+//            }
+//        }
+//
+//        fusedLocationClient.requestLocationUpdates(locationRequest,
+//            locationCallback,
+//            Looper.getMainLooper())
+//
+//    }
+
+    //Products next to me
     private fun onProductListRetrieved(recentProductList: List<ProductByLocation>) {
-        fusedLocationClient = LocationServices.getFusedLocationProviderClient(context!!)
-        var currentLat: Double? = null
-        var currentLng: Double? = null
-
-        fusedLocationClient.lastLocation
-            .addOnSuccessListener { location: Location? ->
-                // Got last known location. In some rare situations this can be null.
-                currentLat = location?.latitude
-                currentLng = location?.longitude
-            }.addOnFailureListener { error ->
-                Log.e("Explore", "Error: $error")
-            }
-
         if (recentProductList.isEmpty()) {
             // no itens
         } else {
             //Show only products that are not mine.
             var filteredProducts = recentProductList.filter {it.uid != viewModel.retrieveUserUID()  }
-
             filteredProducts.forEach {
                 it.distance = distanceBetween(currentLat, currentLng, it.lat, it.lng )
             }
             //Sort by the clossest
-            productAdapter.data = filteredProducts.sortedBy { it.distance }
+            productNextToMeAdapter.data = filteredProducts.sortedBy { it.distance }
         }
     }
     private fun distanceBetween(lat1: Double?, lng1: Double?, lat2: Double?, lng2: Double?): Float {

@@ -63,6 +63,7 @@ class Profile : BaseFragment() {
 
         binding.ivOpenProfileDetail.setOnClickListener {
             val intent = Intent(activity, ProfileDetail::class.java)
+            intent.putExtra("productCount", productCount)
             startActivityForResult(intent, RC_FINISH_SESSION)
         }
         //Retrieve user posted products
@@ -70,6 +71,7 @@ class Profile : BaseFragment() {
 
     }
 
+    var productCount = 0
     private fun onUserProductListReceived(datalist: ArrayList<Product>?) {
         datalist?.let {
             if(it.isEmpty()){
@@ -77,6 +79,7 @@ class Profile : BaseFragment() {
             }else{
                 myProductAdapter.data = datalist
                 //Update product count label
+                productCount = datalist.size
                 binding.tvProdutos.text = "${datalist.size} Produtos"
             }
         }

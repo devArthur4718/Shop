@@ -1,5 +1,6 @@
 package com.stetter.escambo.ui.core.explore
 
+import android.location.Location
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -24,6 +25,8 @@ class ExploreViewModel : ViewModel() {
 
     private val _topUserLists = MutableLiveData<ArrayList<RegisterUser>>()
     val topUsersList : LiveData<ArrayList<RegisterUser>> get() = _topUserLists
+
+
 
     fun retrieveRecentProducts(){
         databaserepository.retrieveRecentPosts().addChildEventListener(object : ChildEventListener{
