@@ -71,6 +71,17 @@ class AddProductViewModel : ViewModel() {
                 _loadingProgress.value = false
             }
     }
+    fun updateProductCount(count : Int){
+        _loadingProgress.value = true
+        databaserepository.updateProductCount(count)
+            .addOnCompleteListener {
+                _loadingProgress.value = false
+
+            }.addOnFailureListener {
+
+                _loadingProgress.value = false
+            }
+    }
 
     fun uploadImageToFirebase(filename: String, uri: Uri) {
         _loadingProgress.value = true

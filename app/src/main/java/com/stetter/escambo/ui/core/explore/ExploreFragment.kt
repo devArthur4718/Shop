@@ -49,6 +49,7 @@ class ExploreFragment : BaseFragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+        locationService()
         viewModel = ViewModelProvider(this).get(ExploreViewModel::class.java)
         setAdapters()
         setObservables()
@@ -88,16 +89,17 @@ class ExploreFragment : BaseFragment() {
             //no itens
         } else {
             //Filter user with no matches
-            var filteredList = topUserList.filter { it.matches > 0 }
+            var filteredList = topUserList.sortedBy { it.products }
+            //Order by desc by reversing int
             topuserAdapter.data = filteredList.reversed()
         }
     }
 
     lateinit var fusedLocationClient: FusedLocationProviderClient
-    private fun onProductListRetrieved(recentProductList: List<ProductByLocation>) {
+    var currentLat: Double? = null
+    var currentLng: Double? = null
+    fun locationService(){
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(context!!)
-        var currentLat: Double? = null
-        var currentLng: Double? = null
 
         fusedLocationClient.lastLocation
             .addOnSuccessListener { location: Location? ->
@@ -107,13 +109,20 @@ class ExploreFragment : BaseFragment() {
             }.addOnFailureListener { error ->
                 Log.e("Explore", "Error: $error")
             }
+    }
 
+    private fun onProductListRetrieved(recentProductList: List<ProductByLocation>) {
         if (recentProductList.isEmpty()) {
             // no itens
         } else {
             //Show only products that are not mine.
             var filteredProducts = recentProductList.filter {it.uid != viewModel.retrieveUserUID()  }
-
+            if(currentLat == null ){
+                locationService()
+            }
+            if(currentLng == null){
+                locationService()
+            }
             filteredProducts.forEach {
                 it.distance = distanceBetween(currentLat, currentLng, it.lat, it.lng )
             }

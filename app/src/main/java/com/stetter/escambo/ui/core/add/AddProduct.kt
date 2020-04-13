@@ -32,7 +32,6 @@ import java.io.File
 import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.*
-import kotlin.math.ln
 
 
 class AddProduct : BaseFragment() {
@@ -76,7 +75,6 @@ class AddProduct : BaseFragment() {
     }
 
     private fun setObserbales() {
-
         viewModel.listCategorList.observe( viewLifecycleOwner,  Observer { onConfigureCategoryAdapter(it) })
         viewModel.pickPhotoFromGallery.observe( viewLifecycleOwner,  Observer { onPickDataFromGallery(it) })
         viewModel.imagePickIntent.observe(viewLifecycleOwner, Observer { onPickImageIntent(it) })
@@ -107,6 +105,7 @@ class AddProduct : BaseFragment() {
                 city
             )
             viewModel.uploadProductToFirebase( product )
+            //upload user product count
         }
 
         binding.labelPublishItem.setOnClickListener {
@@ -122,6 +121,7 @@ class AddProduct : BaseFragment() {
     var lng = 0.0
     var uf = ""
     var city = ""
+    var productCount = 0
 
     private fun onUserDataReceveid(it: RegisterUser?) {
         it?.let {
@@ -131,6 +131,7 @@ class AddProduct : BaseFragment() {
             lng = it.lng
             uf = it.uf
             city = it.city
+            productCount = it.products
         }
     }
 
@@ -208,6 +209,9 @@ class AddProduct : BaseFragment() {
         it?.let {
             if (it) {
                 viewModel.doneUploadProduct()
+                productCount += 1
+                //Todo: update user profile count
+                viewModel.updateProductCount(productCount)
                 Toast.makeText(context, "Produto postado", Toast.LENGTH_SHORT).show()
                 findNavController().navigate(R.id.navigation_explore)
             }

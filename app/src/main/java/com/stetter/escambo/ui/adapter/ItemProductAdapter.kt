@@ -5,8 +5,6 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
-import androidx.core.content.IntentCompat
-import androidx.core.os.bundleOf
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.google.firebase.storage.FirebaseStorage
@@ -47,7 +45,7 @@ class ItemProductAdapter : RecyclerView.Adapter<ItemProductAdapter.ViewHolder>()
         fun bind(item : ProductByLocation){
 
             binding.tvNextProductAuthor.text = item.username
-            binding.tvNextProduct.text = item.product
+            binding.tvNextProduct.text =  item.product
             var moneytext = item.value.toString().replaceRange(item.value.toString().length  -2, item.value.toString().length, "")
 
             try{

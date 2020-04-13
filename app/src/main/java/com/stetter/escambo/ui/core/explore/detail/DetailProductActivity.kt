@@ -1,9 +1,12 @@
 package com.stetter.escambo.ui.core.explore.detail
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.google.firebase.storage.FirebaseStorage
 import com.stetter.escambo.R
@@ -12,8 +15,10 @@ import com.stetter.escambo.extension.CircularProgress
 import com.stetter.escambo.glide.GlideApp
 import com.stetter.escambo.net.models.Product
 import com.stetter.escambo.net.models.ProductByLocation
+import com.stetter.escambo.net.models.RegisterUser
 import com.stetter.escambo.ui.adapter.ProductPhotoAdapter
 import com.stetter.escambo.ui.base.BaseActivity
+import com.stetter.escambo.ui.core.profile.OtherUser
 import java.lang.Exception
 import java.text.DecimalFormat
 import java.text.DecimalFormatSymbols
@@ -22,14 +27,28 @@ class DetailProductActivity : BaseActivity() {
 
     private lateinit var binding: ActivityProductBinding
     private val adapter by lazy { ProductPhotoAdapter() }
-
+    private lateinit var viewmodel : DetailProductViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_product)
+        viewmodel = ViewModelProvider(this)[DetailProductViewModel::class.java]
         setAdapters()
+        setObservables()
         getDataFromBundle()
         setViews()
+    }
+
+    private fun setObservables() {
+        viewmodel.querryProgress.observe(this, Observer { onUserDataReceived(it) })
+    }
+
+    private fun onUserDataReceived(user: RegisterUser?) {
+        user?.let {item ->
+            var intent = Intent(this, OtherUser::class.java)
+            intent.putExtra("user", item)
+            startActivity(intent)
+        }
     }
 
     private fun setAdapters() {
@@ -74,9 +93,13 @@ class DetailProductActivity : BaseActivity() {
                     .load(gsReferencePhoto)
                     .placeholder(CircularProgress())
                     .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
-                    .into(binding.ivUserDetail)
+                    .into(binding.ivUserDetail) //Todo: Open user detail profile on click
             }
 
+            binding.ivUserDetail.setOnClickListener {
+                //Fetch user and then open an intent
+                viewmodel.retrieveUserInformation(data.uid)
+            }
             adapter.data = data.productUrl
         }
     }
@@ -109,7 +132,10 @@ class DetailProductActivity : BaseActivity() {
                     .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
                     .into(binding.ivUserDetail)
             }
-
+            binding.ivUserDetail.setOnClickListener {
+                //Fetch user and then open an intent
+                viewmodel.retrieveUserInformation(data.uid)
+            }
             adapter.data = data.productUrl
         }
     }

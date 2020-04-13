@@ -2,7 +2,6 @@ package com.stetter.escambo.ui.core
 
 import android.location.Location
 import android.os.Bundle
-import android.util.Log
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
