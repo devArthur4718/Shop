@@ -21,6 +21,8 @@ import androidx.navigation.fragment.findNavController
 import com.stetter.escambo.R
 import com.stetter.escambo.databinding.AddProductFragmenetBinding
 import com.stetter.escambo.extension.*
+import com.stetter.escambo.extension.dialogs.checkCameraPermissions
+import com.stetter.escambo.extension.dialogs.showPickImageDialog
 import com.stetter.escambo.extension.watcher.MoneyTextWatcher
 import com.stetter.escambo.net.models.Product
 import com.stetter.escambo.net.models.RegisterUser

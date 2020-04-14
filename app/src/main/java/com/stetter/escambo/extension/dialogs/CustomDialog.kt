@@ -1,4 +1,4 @@
-package com.stetter.escambo.extension
+package com.stetter.escambo.extension.dialogs
 
 import android.app.Dialog
 import android.content.Context
@@ -8,6 +8,7 @@ import android.os.Bundle
 import android.view.View
 import android.view.WindowManager
 import com.stetter.escambo.R
+import com.stetter.escambo.extension.StringUtil
 import kotlinx.android.synthetic.main.dialog_photo_gallery.*
 
 class CustomDialog(context: Context, private var customView: View? = null) : Dialog(context) {
@@ -36,9 +37,7 @@ class CustomDialog(context: Context, private var customView: View? = null) : Dia
         if (!StringUtil.isNullOrEmpty(confirmText)) tvPickFromCamera?.text = confirmText
         if (!StringUtil.isNullOrEmpty(cancelText)) tvPickFromGallery?.text = cancelText
 
-        ivCloseDialog.setOnClickListener {
 
-        }
 
     }
 

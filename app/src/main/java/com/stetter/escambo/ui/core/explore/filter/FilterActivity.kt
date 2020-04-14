@@ -9,7 +9,10 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.stetter.escambo.R
 import com.stetter.escambo.databinding.ActivityFilterBinding
+import com.stetter.escambo.extension.dialogs.showFilterCategory
+import com.stetter.escambo.extension.dialogs.showFilterLocalization
 import com.stetter.escambo.extension.hideKeyBoard
+import com.stetter.escambo.extension.dialogs.showFilterValue
 import com.stetter.escambo.net.models.Product
 import com.stetter.escambo.ui.adapter.RecentProductAdapter
 
@@ -48,6 +51,11 @@ class FilterActivity : AppCompatActivity() {
                 false
 
         }
+
+        binding.btnValue.setOnClickListener {   showFilterValue(viewmodel)  }
+        binding.btnCategory.setOnClickListener { showFilterCategory(viewmodel) }
+        binding.btnLocalization.setOnClickListener { showFilterLocalization(viewmodel) }
+
     }
 
     private fun onLoading(loading: Boolean?) = loading?.let { loading ->

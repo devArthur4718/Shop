@@ -1,19 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    android:layout_width="@dimen/dialog_w"
+    android:layout_height="@dimen/dialog_h"
+    android:layout_gravity="center"
+    android:background="@drawable/bg_dialog_custom"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:gravity="center"
-    android:focusable="false"
-    android:focusableInTouchMode="false">
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="@dimen/dialog_w"
-        android:layout_height="@dimen/dialog_h"
-        android:layout_gravity="center"
-        android:background="@drawable/bg_dialog_custom">
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
         <TextView
             android:id="@+id/tvDialogTittle"
@@ -27,11 +19,12 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView
-            android:id="@+id/ivCloseDialog"
+            android:id="@+id/tvCloseImageDialog"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
+            android:contentDescription="@string/app_name"
             app:layout_constraintBottom_toBottomOf="@+id/tvDialogTittle"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -47,6 +40,7 @@
             android:background="@drawable/rounded_lines"
             android:gravity="center"
             android:hint="@string/from"
+            android:inputType="number"
             app:layout_constraintBottom_toTopOf="@+id/btnFilterDialog"
             app:layout_constraintEnd_toStartOf="@+id/edtUntilDate"
             app:layout_constraintHorizontal_bias="0.5"
@@ -59,6 +53,7 @@
             android:layout_height="51dp"
             android:gravity="center"
             android:hint="@string/until"
+            android:inputType="number"
             android:background="@drawable/rounded_lines"
             app:layout_constraintBaseline_toBaselineOf="@+id/edtFromDate"
             app:layout_constraintEnd_toEndOf="parent"
@@ -82,5 +77,3 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-
-</FrameLayout>

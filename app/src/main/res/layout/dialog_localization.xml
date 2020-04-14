@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="@dimen/dialog_w"
+    android:layout_height="@dimen/dialog_big_h"
+    android:layout_gravity="center"
+    android:background="@drawable/bg_dialog_custom"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <TextView
+        android:id="@+id/tvDialogTittle"
+        style="@style/dialogTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:text="@string/filter_by_localization"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/tvCloseDialogLocalization"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:contentDescription="@string/app_name"
+        app:layout_constraintBottom_toBottomOf="@+id/tvDialogTittle"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_close_black_24dp" />
+
+    <Spinner
+        android:id="@+id/spCity"
+        android:layout_width="0dp"
+        android:layout_height="38dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="24dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvDialogTittle" />
+
+
+    <TextView
+        android:id="@+id/textView5"
+        style="@style/dialog_search_sub"
+        android:layout_marginTop="16dp"
+        android:text="@string/dialog_search_sub"
+        app:layout_constraintEnd_toEndOf="@+id/spCity"
+        app:layout_constraintStart_toStartOf="@+id/spCity"
+        app:layout_constraintTop_toBottomOf="@+id/spCity" />
+
+    <Button
+        android:id="@+id/btnFilterDialog"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/dialog_bottom_green"
+        android:text="@string/filter"
+        android:textAllCaps="false"
+        android:visibility="visible"
+        android:textColor="@android:color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <SeekBar
+        android:id="@+id/seekBar"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:max="100"
+        android:thumbTint="@color/textGreenTitle"
+        app:layout_constraintBottom_toTopOf="@+id/btnFilterDialog"
+        app:layout_constraintEnd_toEndOf="@+id/spCity"
+        app:layout_constraintStart_toStartOf="@+id/spCity"
+        app:layout_constraintTop_toBottomOf="@+id/textView5"
+        app:layout_constraintVertical_bias="0.19" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

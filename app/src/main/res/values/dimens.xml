@@ -9,4 +9,9 @@
     <dimen name="edt_h">51dp</dimen>
     <dimen name="pic_profile_w">128dp</dimen>
     <dimen name="pic_profile_h">128dp</dimen>
+    <dimen name="bottom_dialog_left_radius">16dp</dimen>
+    <dimen name="bottom_dialog_right_radius">16dp</dimen>
+    <dimen name="top_dialog_left_radius">16dp</dimen>
+    <dimen name="top_dialog_right_radius">16dp</dimen>
+    <dimen name="dialog_big_h">261dp</dimen>
 </resources>

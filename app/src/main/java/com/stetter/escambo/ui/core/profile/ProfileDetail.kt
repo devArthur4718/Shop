@@ -20,6 +20,7 @@ import com.google.firebase.storage.FirebaseStorage
 import com.stetter.escambo.R
 import com.stetter.escambo.databinding.ActivityProfileDetailBinding
 import com.stetter.escambo.extension.*
+import com.stetter.escambo.extension.dialogs.showPickImageProfile
 import com.stetter.escambo.glide.GlideApp
 import com.stetter.escambo.net.models.RegisterUser
 import com.stetter.escambo.net.retrofit.postalResponse

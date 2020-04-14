@@ -1,15 +1,17 @@
-package com.stetter.escambo.extension
+package com.stetter.escambo.extension.dialogs
 
 import android.content.Context
 import android.content.pm.PackageManager
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.view.View
 import android.widget.Button
+import android.widget.ImageView
 import androidx.core.content.ContextCompat
-import androidx.lifecycle.ViewModel
 import com.stetter.escambo.R
 import com.stetter.escambo.ui.core.add.AddProductViewModel
+import com.stetter.escambo.ui.core.explore.filter.FilterViewModel
 import com.stetter.escambo.ui.core.profile.UpdateProfileViewModel
-import java.util.jar.Manifest
 
 
 fun Context.showDialog(
@@ -22,7 +24,10 @@ fun Context.showDialog(
     canceledOnTouchTouchOutside: Boolean? = false,
     view: View? = null
 ) {
-    val dialog = CustomDialog(this, customView = view)
+    val dialog = CustomDialog(
+        this,
+        customView = view
+    )
     dialog.title = title
     dialog.message = message
     dialog.confirmText = yes
@@ -64,9 +69,14 @@ fun Context.showPickImageDialog(viewModel: AddProductViewModel) {
 }
 
 fun Context.showPickImageProfile(viewModel : UpdateProfileViewModel){
-
     val dialog = ShowCameraDialog(this)
+    dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
     dialog.show()
+
+    val close = dialog.findViewById<ImageView>(R.id.ivClosePickCam)
+    close.setOnClickListener {
+        dialog.dismiss()
+    }
 
     var btnPick = dialog.findViewById<Button>(R.id.tvPickFromGallery)
     var btnPhoto = dialog.findViewById<Button>(R.id.tvPickFromCamera)
@@ -82,9 +92,27 @@ fun Context.showPickImageProfile(viewModel : UpdateProfileViewModel){
     }
 }
 
-fun Context.showFilterValue(){
+fun Context.showFilterValue(viewmodel : FilterViewModel){
+    val dialog = ShowFilterDialog(this)
+    dialog.show()
 
+    val close = dialog.findViewById<ImageView>(R.id.tvCloseImageDialog)
+    close.setOnClickListener {
+        dialog.dismiss()
+    }
+    //Add money mask
+}
 
+fun Context.showFilterCategory(viewmodel: FilterViewModel){
+
+    val dialog = ShowCategoryDialog(this)
+    dialog.show()
+}
+
+fun Context.showFilterLocalization(viewmodel: FilterViewModel){
+
+    val dialog = ShowLocalizationDialog(this)
+    dialog.show()
 }
 
 
@@ -95,5 +123,16 @@ fun Context.checkCameraPermissions() : Boolean{
     }
     return true
 }
+
+fun Context.checkGpsPermission() : Boolean{
+    if ((ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION)
+        != PackageManager.PERMISSION_GRANTED) &&  (ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) ) {
+        return false
+    }
+    return true
+}
+
+
+
 
 

@@ -87,4 +87,7 @@
     <string name="separator">/</string>
     <string name="location_error">Alguns serviços não estarão disponíveis com a localização desligada. Por favor, ative seu serviço de localização</string>
     <string name="buscar">Buscar</string>
+    <string name="filter_by_category">Filtre pela Categoria</string>
+    <string name="filter_by_localization">Filtre pela localização</string>
+    <string name="dialog_search_sub">ou informe o Raio de busca</string>
 </resources>

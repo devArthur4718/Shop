@@ -128,7 +128,7 @@
                 tools:layout_editor_absoluteX="161dp" />
 
             <Button
-                android:id="@+id/button8"
+                android:id="@+id/btnLocalization"
                 style="@style/greenGradientButton"
                 android:layout_width="wrap_content"
                 android:layout_height="29dp"
