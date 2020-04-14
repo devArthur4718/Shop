@@ -118,28 +118,11 @@ class ExploreFragment : BaseFragment() {
             //Show only products that are not mine.
             var filteredProducts = recentProductList.filter {it.uid != viewModel.retrieveUserUID()  }
             filteredProducts.forEach {
-                it.distance = distanceBetween(currentLat, currentLng, it.lat, it.lng )
+                it.distance = it.distanceBetween(currentLat, currentLng, it.lat, it.lng )
             }
             //Sort by the clossest
             productNextToMeAdapter.data = filteredProducts.sortedBy { it.distance }
         }
     }
-    private fun distanceBetween(lat1: Double?, lng1: Double?, lat2: Double?, lng2: Double?): Float {
-        var locationA = Location("PointA")
-        if (lat1 != null) {
-            locationA.latitude = lat1
-        }
-        if (lng1 != null) {
-            locationA.longitude = lng1
-        }
-        var locationB = Location("PointB")
-        if (lat2 != null) {
-            locationB.latitude = lat2
-        }
-        if (lng2 != null) {
-            locationB.longitude = lng2
-        }
-        var distance = locationA.distanceTo(locationB)
-        return distance.metersToKM().toFloat()
-    }
+
 }

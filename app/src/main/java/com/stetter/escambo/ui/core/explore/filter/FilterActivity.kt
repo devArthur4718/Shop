@@ -15,8 +15,9 @@ import com.stetter.escambo.extension.hideKeyBoard
 import com.stetter.escambo.extension.dialogs.showFilterValue
 import com.stetter.escambo.net.models.Product
 import com.stetter.escambo.ui.adapter.RecentProductAdapter
+import com.stetter.escambo.ui.base.BaseActivity
 
-class FilterActivity : AppCompatActivity() {
+class FilterActivity : BaseActivity() {
 
     private lateinit var binding: ActivityFilterBinding
     private lateinit var viewmodel: FilterViewModel
@@ -32,9 +33,12 @@ class FilterActivity : AppCompatActivity() {
 
     }
     private fun setObservables() {
+        mainViewModel.retrieveUserLocation()
         viewmodel.querryByName.observe(this, Observer { onSearchProductResponse(it) })
+        viewmodel.queryByValues.observe(this, Observer { onSearchValuesResponse(it) })
         viewmodel.loadingProgress.observe(this, Observer { onLoading(it) })
     }
+
 
     var productNameSearch = ""
     private fun initView() {
@@ -71,14 +75,30 @@ class FilterActivity : AppCompatActivity() {
         if (data.isEmpty()) {
             //no ITEM found
             // prompt user
-            binding.rvQuerrySearchResult.visibility = View.GONE
-            binding.gpNoItems.visibility = View.VISIBLE
+            toggleViews(true)
+
         } else {
-            binding.rvQuerrySearchResult.visibility = View.VISIBLE
-            binding.gpNoItems.visibility = View.GONE
+            toggleViews(false)
             searchProductAdapter.data =  data.filter { it.product.toLowerCase().contains(productNameSearch) }
 
         }
     }
 
+    private fun onSearchValuesResponse(productList: ArrayList<Product>) {
+        viewmodel.hideProgress()
+        if(productList.isEmpty()){
+            //no ITEM found
+            // prompt user
+            toggleViews(true)
+        }else{
+            toggleViews(false)
+            searchProductAdapter.data = productList
+        }
+
+    }
+
+    private fun toggleViews(isEmpty : Boolean){
+        binding.rvQuerrySearchResult.visibility = if(isEmpty) View.GONE else View.VISIBLE
+        binding.gpNoItems.visibility = if(isEmpty) View.VISIBLE else View.GONE
+    }
 }

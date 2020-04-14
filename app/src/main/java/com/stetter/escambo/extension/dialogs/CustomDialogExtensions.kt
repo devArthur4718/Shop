@@ -100,7 +100,13 @@ fun Context.showFilterValue(viewmodel : FilterViewModel){
     close.setOnClickListener {
         dialog.dismiss()
     }
-    //Todo:  Add money mask
+
+    val confirmButton = dialog.findViewById<Button>(R.id.btnFilterDialog).setOnClickListener {
+        //Todo: Filter min and max in the returned collectino
+        viewmodel.searchByValue()
+        dialog.dismiss()
+    }
+
 }
 
 fun Context.showFilterCategory(viewmodel: FilterViewModel){
