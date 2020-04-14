@@ -9,6 +9,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.stetter.escambo.R
 import com.stetter.escambo.databinding.ActivityFilterBinding
+import com.stetter.escambo.extension.hideKeyBoard
 import com.stetter.escambo.net.models.Product
 import com.stetter.escambo.ui.adapter.RecentProductAdapter
 
@@ -39,6 +40,7 @@ class FilterActivity : AppCompatActivity() {
         }
         binding.edSearchItem.setOnEditorActionListener { v, actionId, event ->
             if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                hideKeyBoard(v)
                 productNameSearch = binding.edSearchItem.text.toString()
                 viewmodel.searchProduct()
                 true
@@ -49,22 +51,23 @@ class FilterActivity : AppCompatActivity() {
     }
 
     private fun onLoading(loading: Boolean?) = loading?.let { loading ->
-        binding.progressBar4.visibility = if (loading) View.VISIBLE else View.GONE
+        binding.pbQuerry.visibility = if (loading) View.VISIBLE else View.GONE
     }
 
     private fun setAdapters() {
-        binding.recyclerView.adapter = searchProductAdapter
+        binding.rvQuerrySearchResult.adapter = searchProductAdapter
     }
 
     private fun onSearchProductResponse(data: ArrayList<Product>) {
+        viewmodel.hideProgress()
         if (data.isEmpty()) {
             //no ITEM found
             // prompt user
-            binding.recyclerView.visibility = View.GONE
+            binding.rvQuerrySearchResult.visibility = View.GONE
             binding.gpNoItems.visibility = View.VISIBLE
         } else {
-            viewmodel.hideProgress()
-            binding.recyclerView.visibility = View.VISIBLE
+            binding.rvQuerrySearchResult.visibility = View.VISIBLE
+            binding.gpNoItems.visibility = View.GONE
             searchProductAdapter.data =  data.filter { it.product.toLowerCase().contains(productNameSearch) }
 
         }

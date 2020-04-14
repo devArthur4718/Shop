@@ -32,7 +32,6 @@ class FilterViewModel : ViewModel(){
                 var product = p0.getValue(Product::class.java)
                 product?.let { querryList.add(it) }
                 _querryByName.value = querryList
-                _loadingProgress.value = true
             }
 
             override fun onChildRemoved(p0: DataSnapshot) { }
