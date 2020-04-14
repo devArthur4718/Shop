@@ -100,19 +100,29 @@ fun Context.showFilterValue(viewmodel : FilterViewModel){
     close.setOnClickListener {
         dialog.dismiss()
     }
-    //Add money mask
+    //Todo:  Add money mask
 }
 
 fun Context.showFilterCategory(viewmodel: FilterViewModel){
-
+    //Todo : Pass category list from server
     val dialog = ShowCategoryDialog(this)
     dialog.show()
+
+    val close = dialog.findViewById<ImageView>(R.id.tvCloseCategoryDialog)
+    close.setOnClickListener {
+        dialog.dismiss()
+    }
 }
 
 fun Context.showFilterLocalization(viewmodel: FilterViewModel){
 
     val dialog = ShowLocalizationDialog(this)
     dialog.show()
+
+    val close = dialog.findViewById<ImageView>(R.id.tvCloseDialogLocalization)
+    close.setOnClickListener {
+        dialog.dismiss()
+    }
 }
 
 

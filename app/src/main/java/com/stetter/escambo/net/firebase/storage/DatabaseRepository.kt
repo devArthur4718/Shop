@@ -79,4 +79,8 @@ class DatabaseRepository {
     fun receiveProductsCloseToMe(): Query {
         return  FirebaseDatabase.getInstance().getReference("/products")
     }
+
+    fun receiveCategories(): DatabaseReference {
+        return FirebaseDatabase.getInstance().getReference("/categories")
+    }
 }
