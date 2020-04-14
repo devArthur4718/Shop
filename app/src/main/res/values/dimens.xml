@@ -13,5 +13,5 @@
     <dimen name="bottom_dialog_right_radius">16dp</dimen>
     <dimen name="top_dialog_left_radius">16dp</dimen>
     <dimen name="top_dialog_right_radius">16dp</dimen>
-    <dimen name="dialog_big_h">261dp</dimen>
+    <dimen name="dialog_big_h">331dp</dimen>
 </resources>

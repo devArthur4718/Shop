@@ -45,6 +45,7 @@
 
     <Spinner
         android:id="@+id/spFilterCategory"
+        android:background="@drawable/bg_spinner"
         android:layout_width="0dp"
         android:layout_height="38dp"
         android:layout_marginStart="24dp"

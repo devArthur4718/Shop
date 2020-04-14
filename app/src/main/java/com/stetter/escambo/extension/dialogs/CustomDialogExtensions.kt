@@ -5,10 +5,7 @@ import android.content.pm.PackageManager
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.view.View
-import android.widget.ArrayAdapter
-import android.widget.Button
-import android.widget.ImageView
-import android.widget.Spinner
+import android.widget.*
 import androidx.core.content.ContextCompat
 import com.stetter.escambo.R
 import com.stetter.escambo.ui.core.add.AddProductViewModel
@@ -140,6 +137,19 @@ fun Context.showFilterLocalization(viewmodel: FilterViewModel){
     val close = dialog.findViewById<ImageView>(R.id.tvCloseDialogLocalization)
     close.setOnClickListener {
         dialog.dismiss()
+    }
+    val rangeText = dialog.findViewById<TextView>(R.id.tvRangeLocalization)
+    val rangeValue = dialog.findViewById<SeekBar>(R.id.sbRangeLocation)
+    rangeValue.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener{
+        override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
+            rangeText.text = "Raio: $progress Km"
+        }
+        override fun onStartTrackingTouch(seekBar: SeekBar?) { }
+        override fun onStopTrackingTouch(seekBar: SeekBar?) { }
+    })
+
+    val btnFilter = dialog.findViewById<Button>(R.id.btnFilterDialog).setOnClickListener {
+        viewmodel.searchByLocalization()
     }
 }
 

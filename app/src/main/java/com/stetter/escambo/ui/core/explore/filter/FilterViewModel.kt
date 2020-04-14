@@ -100,4 +100,10 @@ class FilterViewModel : ViewModel(){
         })
     }
 
+    fun searchByLocalization() {
+        _loadingProgress.value = true
+        //TODO : retrieve an filter by localization
+
+    }
+
 }

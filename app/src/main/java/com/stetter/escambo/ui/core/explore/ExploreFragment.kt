@@ -33,6 +33,8 @@ class ExploreFragment : BaseFragment() {
     private val productNextToMeAdapter by lazy { ItemProductNextToMeAdapter() }
     private val recentProduct by lazy { RecentProductAdapter() }
     private val topuserAdapter by lazy { TopUserAdapter() }
+    var currentLat: Double? = null
+    var currentLng: Double? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -61,8 +63,9 @@ class ExploreFragment : BaseFragment() {
         binding.rvRecentPosts.adapter = recentProduct
     }
 
-    var currentLat: Double? = null
-    var currentLng: Double? = null
+
+
+
     private fun setObservables() {
         viewModel.listNextProducts.observe(viewLifecycleOwner,  Observer { onProductListRetrieved(it) })
         viewModel.topUsersList.observe(viewLifecycleOwner, Observer { onTopUserListRetrieved(it) })
