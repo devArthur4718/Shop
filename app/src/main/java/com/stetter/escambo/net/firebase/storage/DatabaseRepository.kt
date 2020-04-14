@@ -94,5 +94,9 @@ class DatabaseRepository {
         return FirebaseDatabase.getInstance().getReference(PATH_CATEGORIES)
     }
 
+    fun retrievebyCategories(): Query {
+        return FirebaseDatabase.getInstance().getReference(PATH_PRODUCTS).orderByChild("category")
+    }
+
 
 }

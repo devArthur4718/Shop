@@ -5,8 +5,10 @@ import android.content.pm.PackageManager
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.view.View
+import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.ImageView
+import android.widget.Spinner
 import androidx.core.content.ContextCompat
 import com.stetter.escambo.R
 import com.stetter.escambo.ui.core.add.AddProductViewModel
@@ -109,15 +111,25 @@ fun Context.showFilterValue(viewmodel : FilterViewModel){
 
 }
 
-fun Context.showFilterCategory(viewmodel: FilterViewModel){
-    //Todo : Pass category list from server
+fun Context.showFilterCategory(
+    viewmodel: FilterViewModel,
+    adapterSpinner: ArrayAdapter<String>
+){
     val dialog = ShowCategoryDialog(this)
     dialog.show()
 
-    val close = dialog.findViewById<ImageView>(R.id.tvCloseCategoryDialog)
-    close.setOnClickListener {
+    val close = dialog.findViewById<ImageView>(R.id.tvCloseCategoryDialog).setOnClickListener {
         dialog.dismiss()
     }
+
+    val spCategory = dialog.findViewById<Spinner>(R.id.spFilterCategory)
+    spCategory.adapter = adapterSpinner
+    //Todo: Fetch data using selected item as parameter
+    val btnFilter = dialog.findViewById<Button>(R.id.btnFilterDialog).setOnClickListener {
+        viewmodel.searchByCategory()
+        dialog.dismiss()
+    }
+
 }
 
 fun Context.showFilterLocalization(viewmodel: FilterViewModel){

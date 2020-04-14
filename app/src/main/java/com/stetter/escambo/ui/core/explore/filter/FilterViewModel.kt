@@ -16,8 +16,14 @@ class FilterViewModel : ViewModel(){
     private val _querryByName = MutableLiveData<ArrayList<Product>>()
     val querryByName: LiveData<ArrayList<Product>>   get() = _querryByName
 
+    private val _querryByCategories = MutableLiveData<ArrayList<Product>>()
+    val querryCategories: LiveData<ArrayList<Product>>   get() = _querryByCategories
+
     private val _loadingProgress = MutableLiveData<Boolean>()
     val loadingProgress: LiveData<Boolean>   get() = _loadingProgress
+
+    private val _listCategoryProduct = MutableLiveData<List<String>>()
+    val listCategoryList: LiveData<List<String>> get() = _listCategoryProduct
 
     fun searchProduct(){
         _loadingProgress.value = true
@@ -57,12 +63,41 @@ class FilterViewModel : ViewModel(){
         })
     }
 
-    fun searchByProximity(){
+    fun hideProgress(){
+        _loadingProgress.value = false
+    }
+
+    fun fetchCategories() {
+        database.receiveCategories().addChildEventListener(object  : ChildEventListener{
+            var categoriesList = ArrayList<String>()
+            override fun onCancelled(p0: DatabaseError) {}
+            override fun onChildMoved(p0: DataSnapshot, p1: String?) {}
+            override fun onChildChanged(p0: DataSnapshot, p1: String?) {}
+            override fun onChildAdded(p0: DataSnapshot, p1: String?) {
+                var text = p0.getValue(String::class.java)
+                text?.let { categoriesList.add(it) }
+                _listCategoryProduct.value  = categoriesList
+            }
+            override fun onChildRemoved(p0: DataSnapshot) { }
+        })
 
     }
 
-    fun hideProgress(){
-        _loadingProgress.value = false
+    fun searchByCategory() {
+        _loadingProgress.value = true
+        database.retrievebyCategories().addChildEventListener(object : ChildEventListener{
+            var querryList = ArrayList<Product>()
+            override fun onCancelled(p0: DatabaseError) { }
+            override fun onChildMoved(p0: DataSnapshot, p1: String?) { }
+            override fun onChildChanged(p0: DataSnapshot, p1: String?) { }
+            override fun onChildAdded(p0: DataSnapshot, p1: String?) {
+                _loadingProgress.value = false
+                var product = p0.getValue(Product::class.java)
+                product?.let { querryList.add(it) }
+                _querryByCategories.value = querryList
+            }
+            override fun onChildRemoved(p0: DataSnapshot) { }
+        })
     }
 
 }
