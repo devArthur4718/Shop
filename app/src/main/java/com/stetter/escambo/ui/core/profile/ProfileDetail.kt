@@ -23,7 +23,7 @@ import com.stetter.escambo.extension.*
 import com.stetter.escambo.extension.dialogs.showPickImageProfile
 import com.stetter.escambo.glide.GlideApp
 import com.stetter.escambo.net.models.RegisterUser
-import com.stetter.escambo.net.retrofit.postalResponse
+import com.stetter.escambo.net.retrofit.responses.postalResponse
 import com.stetter.escambo.ui.base.BaseActivity
 import com.stetter.escambo.ui.core.add.AddProduct
 import java.io.IOException

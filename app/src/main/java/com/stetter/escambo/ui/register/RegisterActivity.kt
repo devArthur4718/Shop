@@ -12,12 +12,11 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import com.google.type.LatLng
 import com.stetter.escambo.R
 import com.stetter.escambo.databinding.ActivityRegisterNewBinding
 import com.stetter.escambo.extension.*
 import com.stetter.escambo.net.models.RegisterUser
-import com.stetter.escambo.net.retrofit.postalResponse
+import com.stetter.escambo.net.retrofit.responses.postalResponse
 import com.stetter.escambo.ui.dialog.LoadingDialog
 import com.stetter.escambo.ui.dialogs.CustomDialog
 import java.io.IOException

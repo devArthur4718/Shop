@@ -34,8 +34,8 @@ class FilterActivity : BaseActivity() {
 
     }
     private fun setObservables() {
-        //Todo : fetch categories and pass it to the dialog adapter
         viewmodel.fetchCategories()
+        viewmodel.fetchUFsIds()
         mainViewModel.retrieveUserLocation()
         viewmodel.listCategoryList.observe( this,  Observer { onConfigureCategoryAdapter(it) })
         viewmodel.querryByName.observe(this, Observer { onSearchProductResponse(it) })
@@ -46,6 +46,7 @@ class FilterActivity : BaseActivity() {
 
 
     private fun onConfigureCategoryAdapter(categoryList: List<String>) {
+        var newList = categoryList as MutableList<String>
         adapterSpinner = ArrayAdapter(this, android.R.layout.simple_list_item_1, categoryList)
     }
 

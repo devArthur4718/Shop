@@ -4,13 +4,12 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuthUserCollisionException
 import com.stetter.escambo.net.firebase.auth.LoginRepository
 import com.stetter.escambo.net.firebase.storage.DatabaseRepository
 import com.stetter.escambo.net.models.RegisterUser
 import com.stetter.escambo.net.retrofit.postalApi
-import com.stetter.escambo.net.retrofit.postalResponse
+import com.stetter.escambo.net.retrofit.responses.postalResponse
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response

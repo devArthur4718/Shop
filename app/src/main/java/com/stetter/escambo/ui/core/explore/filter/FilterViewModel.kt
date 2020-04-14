@@ -1,5 +1,6 @@
 package com.stetter.escambo.ui.core.explore.filter
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -8,6 +9,11 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.stetter.escambo.net.firebase.storage.DatabaseRepository
 import com.stetter.escambo.net.models.Product
+import com.stetter.escambo.net.retrofit.api.IBGEapi
+import com.stetter.escambo.net.retrofit.responses.UfsResponseItem
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class FilterViewModel : ViewModel(){
 
@@ -101,8 +107,31 @@ class FilterViewModel : ViewModel(){
     }
 
     fun searchByLocalization() {
-        _loadingProgress.value = true
+//        _loadingProgress.value = true
         //TODO : retrieve an filter by localization
+
+    }
+
+    fun fetchUFsIds() {
+        _loadingProgress.value = true
+        IBGEapi.IBGESservice.getUfsIds().enqueue(object  : Callback<ArrayList<UfsResponseItem>>{
+            override fun onFailure(call: Call<ArrayList<UfsResponseItem>>, t: Throwable) {
+                _loadingProgress.value = false
+            }
+
+            override fun onResponse(
+                call: Call<ArrayList<UfsResponseItem>>,
+                response: Response<ArrayList<UfsResponseItem>>
+            ) {
+                _loadingProgress.value = false
+                if(response.isSuccessful){
+                    Log.e("Ufs", "Success")
+                }
+            }
+        })
+        //TODO: send data to Ufs Spinners
+        //TODO: On uf response, fetch cities by this id
+        //TODO: SEND data todo Cities Spinners.
 
     }
 

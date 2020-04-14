@@ -1,4 +1,4 @@
-package com.stetter.escambo.net.retrofit
+package com.stetter.escambo.net.retrofit.responses
 
 import com.google.gson.annotations.SerializedName
 import java.io.Serializable

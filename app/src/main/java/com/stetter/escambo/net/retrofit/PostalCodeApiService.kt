@@ -1,5 +1,6 @@
 package com.stetter.escambo.net.retrofit
 
+import com.stetter.escambo.net.retrofit.responses.postalResponse
 import retrofit2.Call
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
