@@ -225,7 +225,6 @@ class AddProduct : BaseFragment() {
             if (it) {
                 viewModel.doneUploadProduct()
                 productCount += 1
-                //Todo: update user profile count
                 viewModel.updateProductCount(productCount)
                 Toast.makeText(context, "Produto postado", Toast.LENGTH_SHORT).show()
                 findNavController().navigate(R.id.navigation_explore)

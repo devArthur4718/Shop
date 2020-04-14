@@ -1,23 +1,20 @@
 package com.stetter.escambo.ui.core.explore
 
-import android.app.Activity
 import android.content.Intent
 import android.location.Location
 import android.os.Bundle
-import android.os.Looper
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import com.google.android.gms.location.*
 import com.stetter.escambo.R
 import com.stetter.escambo.databinding.ExploreFragmentBinding
 import com.stetter.escambo.extension.metersToKM
-import com.stetter.escambo.net.models.*
+import com.stetter.escambo.net.models.Product
+import com.stetter.escambo.net.models.ProductByLocation
+import com.stetter.escambo.net.models.RegisterUser
 import com.stetter.escambo.ui.adapter.ItemProductNextToMeAdapter
 import com.stetter.escambo.ui.adapter.RecentProductAdapter
 import com.stetter.escambo.ui.adapter.TopUserAdapter
@@ -30,6 +27,7 @@ class ExploreFragment : BaseFragment() {
         fun newInstance() = ExploreFragment()
     }
 
+    //TODO : change addChildListener to AddListenerForSingleValueEvent()  para evitar chamadas repetidas no inicio do app
     private lateinit var viewModel: ExploreViewModel
     private lateinit var binding: ExploreFragmentBinding
     private val productNextToMeAdapter by lazy { ItemProductNextToMeAdapter() }
@@ -111,51 +109,6 @@ class ExploreFragment : BaseFragment() {
             topuserAdapter.data = filteredList.reversed()
         }
     }
-
-    lateinit var fusedLocationClient: FusedLocationProviderClient
-//    fun locationService(){
-//        //Todo: Check again for user permission to use location
-//        fusedLocationClient = LocationServices.getFusedLocationProviderClient(context!!)
-//        fusedLocationClient.lastLocation
-//            .addOnSuccessListener { location: Location? ->
-//                // Got last known location. In some rare situations this can be null.\
-//                if(location == null){
-//                    mainViewModel.showActivityDialog(getString(R.string.location_error))
-//                }else{
-//                    currentLat = location?.latitude
-//                    currentLng = location?.longitude
-//                    if(currentLat!= null && currentLng != null)  viewModel.retrieveProductsCloseToMe()
-//
-//                }
-//            }.addOnFailureListener { error ->
-//                Log.e("Explore", "Error: $error")
-//            }
-//    }
-
-    private lateinit var locationCallback: LocationCallback
-//    private fun updateUserLocation() {
-//
-//        fusedLocationClient = LocationServices.getFusedLocationProviderClient(context!!)
-//        val locationRequest = LocationRequest()
-//        locationCallback = object  : LocationCallback(){
-//            override fun onLocationResult(locationResult: LocationResult?) {
-//                if(locationResult != null){
-//                    for(location in locationResult.locations){
-//                        //Save location
-//                        currentLat = location.latitude
-//                        currentLng = location.longitude
-//                    }
-//                }else{
-//                    mainViewModel.showActivityDialog("Alguns serviços não estarão disponíveis com a localização desligada. Por favor, ative seu serviço de localização")
-//                }
-//            }
-//        }
-//
-//        fusedLocationClient.requestLocationUpdates(locationRequest,
-//            locationCallback,
-//            Looper.getMainLooper())
-//
-//    }
 
     //Products next to me
     private fun onProductListRetrieved(recentProductList: List<ProductByLocation>) {

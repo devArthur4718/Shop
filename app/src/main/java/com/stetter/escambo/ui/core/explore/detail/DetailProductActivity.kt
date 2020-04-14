@@ -96,7 +96,7 @@ class DetailProductActivity : BaseActivity() {
                     .load(gsReferencePhoto)
                     .placeholder(CircularProgress())
                     .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
-                    .into(binding.ivUserDetail) //Todo: Open user detail profile on click
+                    .into(binding.ivUserDetail)
             }
 
             binding.ivUserDetail.setOnClickListener {

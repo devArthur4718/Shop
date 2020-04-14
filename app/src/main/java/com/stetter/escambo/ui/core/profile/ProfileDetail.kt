@@ -37,8 +37,6 @@ class ProfileDetail : BaseActivity() {
     var latitude  = 0.0
     var longitute = 0.0
 
-    //Todo: persit product count
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_profile_detail)

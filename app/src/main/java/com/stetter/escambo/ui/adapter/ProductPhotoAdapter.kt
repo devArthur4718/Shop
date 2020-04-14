@@ -54,8 +54,6 @@ class ProductPhotoAdapter(val clickListener : PhotoListener?) : RecyclerView.Ada
                 }
             }
 
-            //Todo : Create on click callback
-
         }
 
         companion object {
@@ -67,6 +65,7 @@ class ProductPhotoAdapter(val clickListener : PhotoListener?) : RecyclerView.Ada
         }
     }
 
+    //Todo : Expand image when clicked
     class PhotoListener(val clickListener: (photoView: View) -> Unit) {
         fun onClick(photo: View) = clickListener(photo)
     }

@@ -174,14 +174,11 @@ class RegisterActivity : AppCompatActivity() {
         )
         binding.inputPostalCode.editText?.setOnFocusChangeListener { view, b -> fetchAddress(binding?.inputPostalCode?.editText!!) }
         binding.inputPostalCode.editText?.setOnEditorActionListener { v, actionId, event ->
-
             if(actionId == EditorInfo.IME_ACTION_DONE){
                 fetchAddress(binding?.inputPostalCode?.editText!!)
                 true
             }else
                 false
-
-
 
         }
     }

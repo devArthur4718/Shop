@@ -52,6 +52,10 @@ fun Context.isGPsEnabled() : Boolean{
     var lm = this.getSystemService(Context.LOCATION_SERVICE) as LocationManager
     return lm.isProviderEnabled(LocationManager.GPS_PROVIDER)
 }
+
+
+
+
 //
 //fun Context.hasGpsPermission() : Boolean{
 //    if(ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && )

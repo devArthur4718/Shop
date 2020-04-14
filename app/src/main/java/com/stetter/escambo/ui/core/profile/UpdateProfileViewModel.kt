@@ -96,9 +96,8 @@ class UpdateProfileViewModel  : ViewModel(){
                 _loadingProgress.value = false
                 _uploadSuccess.value = true
                 //TODO: Open a new activity to update password and confirm it
+                //Todo : Confirm email with firebase auth
 //                updatePassword(password)
-
-
             }.addOnFailureListener {
                 _loadingProgress.value = false
                 _uploadSuccess.value = false
