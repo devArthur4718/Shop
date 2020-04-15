@@ -194,10 +194,12 @@ fun Context.showFilterLocalization(
 
     spUfs.adapter = adapterUfs
     var selectedUfId = 0
+    var selectedUfSTring = ""
 
     var adapterSpinner = ArrayAdapter(context, android.R.layout.simple_list_item_1, listOf(""))
     spCities.adapter = adapterSpinner
 
+    val maxDistance = dialog.findViewById<SeekBar>(R.id.sbRangeLocation)
 
     spUfs.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
         override fun onNothingSelected(parent: AdapterView<*>?) { }
@@ -207,6 +209,7 @@ fun Context.showFilterLocalization(
             ufsList?.forEach {ufItem ->
               if(ufItem.nome.equals(selectedItem)){
                   selectedUfId = ufItem.id
+                  selectedUfSTring = ufItem.sigla
                   viewmodel.fetchCities(selectedUfId)
 
               }
@@ -220,7 +223,15 @@ fun Context.showFilterLocalization(
     viewmodel.listCities.observe(filter , Observer {onListCitiesReceived(it, adapterSpinner,context,spCities)  })
     //Fetch cities.
     val btnFilter = dialog.findViewById<Button>(R.id.btnFilterDialog).setOnClickListener {
-        viewmodel.searchByLocalization()
+        if(rbLocation.isChecked){
+            viewmodel.searchByUfCity(selectedUfSTring)
+
+        }
+        if(rbRangeLocation.isChecked){
+            viewmodel.maxDistance = maxDistance.progress
+            viewmodel.searchByLocalization()
+        }
+
         dialog.dismiss()
     }
 }

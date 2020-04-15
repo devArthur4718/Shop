@@ -85,6 +85,10 @@ class DatabaseRepository {
         return  FirebaseDatabase.getInstance().getReference(PATH_PRODUCTS)
     }
 
+    fun receiveProductsByUf(uf : String): Query {
+        return FirebaseDatabase.getInstance().getReference(PATH_PRODUCTS).orderByChild("uf").equalTo(uf)
+    }
+
     fun receiveTopUsers() : Query{
         //Firebase always order um asc order, in order to return desc order we need to reverse the list in the UI
         return FirebaseDatabase.getInstance().getReference(PATH_USERS).orderByChild("matches")

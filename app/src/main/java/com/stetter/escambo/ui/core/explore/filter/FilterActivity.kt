@@ -60,6 +60,7 @@ class FilterActivity : BaseActivity() {
         viewmodel.queryByValues.observe(this, Observer { onSearchValuesResponse(it) })
         viewmodel.querryCategories.observe(this, Observer { onSearchByCategories(it) })
         viewmodel.querryByLocation.observe(this, Observer { onSearchByLocation(it) })
+        viewmodel.querryByUf.observe(this, Observer { onSearchByUf(it) })
         viewmodel.listUfs.observe(this, Observer { onUfsListReceived(it) })
         viewmodel.loadingProgress.observe(this, Observer { onLoading(it) })
     }
@@ -216,27 +217,59 @@ class FilterActivity : BaseActivity() {
             }
 
             filteredProducts.sortedBy { it.distance }.forEach {
-                        productsList.add(Product(it.uid,
-                            it.productUrl,
-                            it.product,
-                            it.description,
-                            it.category,
-                            it.value,
-                            it.datePosted,
-                            it.username,
-                            it.userPhoto,
-                            it.lat,
-                            it.lng,
-                            it.uf,
-                            it.city))
+
+                    productsList.add(Product(it.uid,
+                        it.productUrl,
+                        it.product,
+                        it.description,
+                        it.category,
+                        it.value,
+                        it.datePosted,
+                        it.username,
+                        it.userPhoto,
+                        it.lat,
+                        it.lng,
+                        it.uf,
+                        it.city))
+
             }
 
             searchProductAdapter.data = productsList
-            //Todo : set it to another recycler view
         }
     }
 
+    private fun onSearchByUf(productList: ArrayList<ProductByLocation>) {
+        viewmodel.hideProgress()
+        if(productList.isEmpty()){
+            //no ITEM found
+            // prompt user
+            toggleViews(true)
+        }else {
 
+            viewmodel.hideProgress()
+            toggleViews(false)
+            var ufProductList = ArrayList<Product>()
+            productList.forEach {
+                ufProductList.add(Product(it.uid,
+                    it.productUrl,
+                    it.product,
+                    it.description,
+                    it.category,
+                    it.value,
+                    it.datePosted,
+                    it.username,
+                    it.userPhoto,
+                    it.lat,
+                    it.lng,
+                    it.uf,
+                    it.city))
+
+            }
+            searchProductAdapter.data = ufProductList
+
+        }
+
+    }
 
     private fun toggleViews(isEmpty : Boolean){
         binding.rvQuerrySearchResult.visibility = if(isEmpty) View.GONE else View.VISIBLE

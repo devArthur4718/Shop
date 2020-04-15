@@ -118,6 +118,7 @@ class FilterViewModel : ViewModel(){
         })
     }
 
+    var maxDistance = 0
     fun searchByLocalization() {
         _loadingProgress.value = true
         querryList.clear()
@@ -185,6 +186,28 @@ class FilterViewModel : ViewModel(){
     }
 
     fun retrieveUserUID(): String = database.getCurrentUserUID()
+
+    private val _queryByUf = MutableLiveData<ArrayList<ProductByLocation>>()
+    val querryByUf: LiveData<ArrayList<ProductByLocation>>   get() = _queryByUf
+
+    var city : String = ""
+    fun searchByUfCity(uf : String) {
+        _loadingProgress.value = true
+        querryList.clear()
+        database.receiveProductsByUf(uf).addChildEventListener(object  : ChildEventListener{
+            var querryList = ArrayList<ProductByLocation>()
+            override fun onCancelled(p0: DatabaseError) { }
+            override fun onChildMoved(p0: DataSnapshot, p1: String?) { }
+            override fun onChildChanged(p0: DataSnapshot, p1: String?) { }
+            override fun onChildAdded(dataSnapshot: DataSnapshot, p1: String?) {
+                val productsClose = dataSnapshot.getValue(ProductByLocation::class.java)
+                productsClose?.let { data -> querryList.add(data) }
+                _queryByUf.value = querryList
+            }
+            override fun onChildRemoved(p0: DataSnapshot) { }
+        })
+
+    }
 
 
 }

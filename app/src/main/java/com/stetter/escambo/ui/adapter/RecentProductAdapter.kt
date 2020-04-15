@@ -88,7 +88,7 @@ class RecentProductAdapter () : RecyclerView.Adapter<RecentProductAdapter.ViewHo
                         Log.e("Recent Post", "Error $e")
                     }
                 }
-            }catch (e : IndexOutOfBoundsException){
+            }catch (e : Exception){
                 Log.e("MyProduct", "Failed fetching product image: $e")
             }
             binding.ivProductRecent.setOnClickListener {
