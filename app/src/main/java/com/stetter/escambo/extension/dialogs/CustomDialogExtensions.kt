@@ -163,11 +163,14 @@ fun Context.showFilterLocalization(
             ufsList?.forEach {ufItem ->
               if(ufItem.nome.equals(selectedItem)){
                   selectedUfId = ufItem.id
+                  viewmodel.fetchCities(selectedUfId)
+
               }
             }
         }
     }
 
+    //Fetch cities.
 
 
     val btnFilter = dialog.findViewById<Button>(R.id.btnFilterDialog).setOnClickListener {

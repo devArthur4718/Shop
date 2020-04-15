@@ -10,6 +10,8 @@ import com.google.firebase.database.DatabaseError
 import com.stetter.escambo.net.firebase.storage.DatabaseRepository
 import com.stetter.escambo.net.models.Product
 import com.stetter.escambo.net.retrofit.api.IBGEapi
+import com.stetter.escambo.net.retrofit.responses.CityResponse
+import com.stetter.escambo.net.retrofit.responses.CityResponseItem
 import com.stetter.escambo.net.retrofit.responses.UfsResponseItem
 import retrofit2.Call
 import retrofit2.Callback
@@ -115,15 +117,12 @@ class FilterViewModel : ViewModel(){
 
     }
 
-
-
     fun fetchUFsIds() {
         _loadingProgress.value = true
         IBGEapi.IBGESservice.getUfsIds().enqueue(object  : Callback<ArrayList<UfsResponseItem>>{
             override fun onFailure(call: Call<ArrayList<UfsResponseItem>>, t: Throwable) {
                 _loadingProgress.value = false
                 Log.e("Filter", "Error : $t")
-
             }
             override fun onResponse(
                 call: Call<ArrayList<UfsResponseItem>>,
@@ -135,10 +134,28 @@ class FilterViewModel : ViewModel(){
                 }
             }
         })
-        //TODO: send data to Ufs Spinners
-        //TODO: On uf response, fetch cities by this id
-        //TODO: SEND data todo Cities Spinners.
 
+
+        }
+
+    fun fetchCities(id : Int) {
+        IBGEapi.IBGESservice.getCities(id).enqueue(object  : Callback<ArrayList<CityResponseItem>> {
+            override fun onFailure(call: Call<ArrayList<CityResponseItem>>, t: Throwable) {
+//                    _loadingProgress.value = false
+                Log.e("Filter", "Error : $t")
+            }
+
+            override fun onResponse(
+                call: Call<ArrayList<CityResponseItem>>,
+                response: Response<ArrayList<CityResponseItem>>
+            ) {
+                if(response.isSuccessful){
+                    Log.e("Filter", "Success")
+                }
+            }
+        })
     }
 
+
 }
+
