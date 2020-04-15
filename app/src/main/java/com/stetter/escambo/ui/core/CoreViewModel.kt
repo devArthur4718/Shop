@@ -78,8 +78,6 @@ class CoreViewModel : ViewModel() {
     fun retrieveUserLocation(){
         _retrieveUserLocation.value = true
     }
-    fun doneRetrieveUserLocation () {
-        _retrieveUserLocation.value = false
-    }
+
 
 }

@@ -9,6 +9,7 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.stetter.escambo.net.firebase.storage.DatabaseRepository
 import com.stetter.escambo.net.models.Product
+import com.stetter.escambo.net.models.ProductByLocation
 import com.stetter.escambo.net.retrofit.api.IBGEapi
 import com.stetter.escambo.net.retrofit.responses.CityResponseItem
 import com.stetter.escambo.net.retrofit.responses.UfsResponseItem
@@ -25,6 +26,9 @@ class FilterViewModel : ViewModel(){
 
     private val _querryByCategories = MutableLiveData<ArrayList<Product>>()
     val querryCategories: LiveData<ArrayList<Product>>   get() = _querryByCategories
+
+    private val _querryByLocation = MutableLiveData<ArrayList<ProductByLocation>>()
+    val querryByLocation: LiveData<ArrayList<ProductByLocation>>   get() = _querryByLocation
 
     private val _loadingProgress = MutableLiveData<Boolean>()
     val loadingProgress: LiveData<Boolean>   get() = _loadingProgress
@@ -115,9 +119,20 @@ class FilterViewModel : ViewModel(){
     }
 
     fun searchByLocalization() {
-//        _loadingProgress.value = true
-        //TODO : retrieve an filter by localization
-
+        _loadingProgress.value = true
+        querryList.clear()
+        database.receiveProductsCloseToMe().addChildEventListener(object  : ChildEventListener{
+            var querryList = ArrayList<ProductByLocation>()
+            override fun onCancelled(p0: DatabaseError) { }
+            override fun onChildMoved(p0: DataSnapshot, p1: String?) { }
+            override fun onChildChanged(p0: DataSnapshot, p1: String?) { }
+            override fun onChildAdded(dataSnapshot: DataSnapshot, p1: String?) {
+                val productsClose = dataSnapshot.getValue(ProductByLocation::class.java)
+                productsClose?.let { data -> querryList.add(data) }
+                _querryByLocation.value = querryList
+            }
+            override fun onChildRemoved(p0: DataSnapshot) { }
+        })
     }
 
     fun fetchUFsIds() {
@@ -168,6 +183,8 @@ class FilterViewModel : ViewModel(){
         })
 
     }
+
+    fun retrieveUserUID(): String = database.getCurrentUserUID()
 
 
 }

@@ -153,9 +153,11 @@ fun Context.showFilterCategory(
 
 fun Context.showFilterLocalization(
     viewmodel: FilterViewModel,
-    filter : FilterActivity,
+    filter: FilterActivity,
     adapterUfs: ArrayAdapter<String>,
-    ufsList: List<UfsResponseItem>?
+    ufsList: List<UfsResponseItem>?,
+    currentLat: Double?,
+    currentLng: Double?
 ){
 
     val dialog = ShowLocalizationDialog(this)
@@ -212,14 +214,14 @@ fun Context.showFilterLocalization(
         }
     }
 
-    //If rb location true, search by citi
-
-    //if not search by range.
+    //Todo: If rb location true, search by citi
+    //Todo: if not search by range.
 
     viewmodel.listCities.observe(filter , Observer {onListCitiesReceived(it, adapterSpinner,context,spCities)  })
     //Fetch cities.
     val btnFilter = dialog.findViewById<Button>(R.id.btnFilterDialog).setOnClickListener {
         viewmodel.searchByLocalization()
+        dialog.dismiss()
     }
 }
 fun onListCitiesReceived(

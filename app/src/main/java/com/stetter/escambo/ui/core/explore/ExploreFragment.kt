@@ -63,9 +63,6 @@ class ExploreFragment : BaseFragment() {
         binding.rvRecentPosts.adapter = recentProduct
     }
 
-
-
-
     private fun setObservables() {
         viewModel.listNextProducts.observe(viewLifecycleOwner,  Observer { onProductListRetrieved(it) })
         viewModel.topUsersList.observe(viewLifecycleOwner, Observer { onTopUserListRetrieved(it) })

@@ -1,12 +1,10 @@
 package com.stetter.escambo.ui.core
 
-import android.app.Activity
 import android.app.AlertDialog
 import android.content.DialogInterface
 import android.content.Intent
 import android.location.Location
 import android.os.Bundle
-import android.os.Handler
 import android.util.Log
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
@@ -15,14 +13,11 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
-import com.google.android.gms.tasks.Task
-
 import com.stetter.escambo.R
 import com.stetter.escambo.databinding.ActivityCoreBinding
 import com.stetter.escambo.extension.isGPsEnabled
 import com.stetter.escambo.ui.base.BaseActivity
 import com.stetter.escambo.ui.dialog.LoadingDialog
-import com.stetter.escambo.ui.login.LoginActivity
 import com.stetter.escambo.ui.login.LoginViewModel
 
 class CoreActivity : BaseActivity() {
