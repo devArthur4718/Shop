@@ -116,7 +116,9 @@ class FilterActivity : BaseActivity() {
             toggleViews(false)
             //TODO: Filter min and max
 //            var filteredList = productList.filter { it.value > viewmodel.minValue && it.value < viewmodel.maxValue }
-            searchProductAdapter.data = productList.filter { it.value > viewmodel.minValue }
+
+
+            searchProductAdapter.data = productList.filter { it.value > viewmodel.minValue && it.value < viewmodel.maxValue }
         }
 
     }
