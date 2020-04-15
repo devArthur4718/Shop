@@ -10,7 +10,6 @@ import com.google.firebase.database.DatabaseError
 import com.stetter.escambo.net.firebase.storage.DatabaseRepository
 import com.stetter.escambo.net.models.Product
 import com.stetter.escambo.net.retrofit.api.IBGEapi
-import com.stetter.escambo.net.retrofit.responses.CityResponse
 import com.stetter.escambo.net.retrofit.responses.CityResponseItem
 import com.stetter.escambo.net.retrofit.responses.UfsResponseItem
 import retrofit2.Call
@@ -58,6 +57,8 @@ class FilterViewModel : ViewModel(){
     private val _querryByValues = MutableLiveData<ArrayList<Product>>()
     val queryByValues: LiveData<ArrayList<Product>>   get() = _querryByValues
 
+    var minValue = 0.0
+    var maxValue = 0.0
     fun searchByValue() {
         _loadingProgress.value = true
         database.retrieveProcuctsByValue().addChildEventListener(object  : ChildEventListener{
@@ -70,6 +71,7 @@ class FilterViewModel : ViewModel(){
                 var product = p0.getValue(Product::class.java)
                 product?.let { querryList.add(it) }
                 _querryByValues.value = querryList
+
             }
             override fun onChildRemoved(p0: DataSnapshot)  {}
         })
@@ -145,7 +147,6 @@ class FilterViewModel : ViewModel(){
     fun fetchCities(id : Int) {
         IBGEapi.IBGESservice.getCities(id).enqueue(object  : Callback<ArrayList<CityResponseItem>> {
             override fun onFailure(call: Call<ArrayList<CityResponseItem>>, t: Throwable) {
-//                    _loadingProgress.value = false
                 Log.e("Filter", "Error : $t")
             }
 

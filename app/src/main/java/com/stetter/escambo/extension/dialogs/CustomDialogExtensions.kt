@@ -102,12 +102,17 @@ fun Context.showFilterValue(viewmodel : FilterViewModel){
     close.setOnClickListener {
         dialog.dismiss()
     }
+    val edtFromDate = dialog.findViewById<EditText>(R.id.edtFromDate)
+    val edtUntilDate = dialog.findViewById<EditText>(R.id.edtUntilDate)
 
     val confirmButton = dialog.findViewById<Button>(R.id.btnFilterDialog).setOnClickListener {
-        //Todo: Filter min and max in the returned collectino
+        viewmodel.maxValue = edtFromDate.text.toString().toDouble()
+//        viewmodel.minValue = edtUntilDate.text.toString().toDouble()
         viewmodel.searchByValue()
         dialog.dismiss()
     }
+
+
 
 }
 

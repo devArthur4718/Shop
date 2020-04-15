@@ -1,7 +1,6 @@
 package com.stetter.escambo.ui.core.explore.detail
 
 import android.annotation.SuppressLint
-import android.app.ActivityOptions
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -21,7 +20,7 @@ import com.stetter.escambo.net.models.RegisterUser
 import com.stetter.escambo.ui.adapter.ProductPhotoAdapter
 import com.stetter.escambo.ui.base.BaseActivity
 import com.stetter.escambo.ui.core.profile.OtherUser
-import com.stetter.escambo.ui.zoom.ZoomPichActivity
+import kotlinx.android.synthetic.main.activity_product.*
 import java.lang.Exception
 import java.text.DecimalFormat
 import java.text.DecimalFormatSymbols
@@ -99,10 +98,17 @@ class DetailProductActivity : BaseActivity() {
                     .into(binding.ivUserDetail)
             }
 
+
+
             binding.ivUserDetail.setOnClickListener {
                 //Fetch user and then open an intent
                 viewmodel.retrieveUserInformation(data.uid)
             }
+            binding.button10.setOnClickListener {
+                ivUserDetail.performClick()
+            }
+
+
             var adapter = ProductPhotoAdapter(ProductPhotoAdapter.PhotoListener {
                 Toast.makeText(this, "Photo clicked", Toast.LENGTH_SHORT).show()
             })
@@ -144,6 +150,10 @@ class DetailProductActivity : BaseActivity() {
                 //Fetch user and then open an intent
                 viewmodel.retrieveUserInformation(data.uid)
             }
+            binding.button10.setOnClickListener {
+                ivUserDetail.performClick()
+            }
+
             var adapter = ProductPhotoAdapter(ProductPhotoAdapter.PhotoListener {
 
                 Toast.makeText(this, "Photo clicked", Toast.LENGTH_SHORT).show()
