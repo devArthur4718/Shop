@@ -26,8 +26,6 @@ class OtherUser : BaseActivity() {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_other_user)
         viewmodel = ViewModelProvider(this)[OtherUserViewModel::class.java]
         intentBundle()
-        //TODO : fetch user products by his UID
-
     }
 
     private fun intentBundle() {

@@ -256,4 +256,15 @@
         <item name="android:textColor">#3E4A59</item>
     </style>
 
+    <style name="dialog_search_sub">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:fontFamily">@font/ciruclar_std_book</item>
+        <item name="android:textColor">#FF04194D</item>
+        <item name="android:textSize">12sp</item>
+    </style>
+
+    <style name="SpinnerTheme" parent="android:Widget.Spinner">
+        <item name="android:background">@drawable/bg_spinner</item>
+    </style>
 </resources>

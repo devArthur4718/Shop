@@ -14,6 +14,12 @@ class DatabaseRepository {
 
     var auth = FirebaseAuth.getInstance()
 
+    companion object{
+        const val PATH_PRODUCTS = "/products"
+        const val PATH_USERS = "/users"
+        const val PATH_CATEGORIES = "/categories"
+    }
+
     fun uploadImageToDatabase( filename : String): StorageReference {
         return FirebaseStorage.getInstance().getReference(if(BuildConfig.DEBUG) "/images/$filename" else "debugimages/$filename")
     }
@@ -34,7 +40,7 @@ class DatabaseRepository {
 
     fun updateUserToDabase(): DatabaseReference {
         var uid = getCurrentUserUID()
-        return FirebaseDatabase.getInstance().getReference("/users").child(uid)
+        return FirebaseDatabase.getInstance().getReference(PATH_USERS).child(uid)
     }
 
     fun updatePassword(password : String): Task<Void>? {
@@ -55,24 +61,42 @@ class DatabaseRepository {
     fun getCurrentUserUID() : String = auth.uid ?: ""
 
     fun retriveUserProducts(): Query {
-        return FirebaseDatabase.getInstance().getReference("/products").orderByChild("uid").equalTo(getCurrentUserUID())
+        return FirebaseDatabase.getInstance().getReference(PATH_PRODUCTS).orderByChild("uid").equalTo(getCurrentUserUID())
     }
 
     fun retriveUserProductsByName(username : String): Query {
-        return FirebaseDatabase.getInstance().getReference("/products").orderByChild("username").equalTo(username)
+        return FirebaseDatabase.getInstance().getReference(PATH_PRODUCTS).orderByChild("username").equalTo(username)
+    }
+
+    fun retrieveAllProducts(): Query {
+        return FirebaseDatabase.getInstance().getReference(PATH_PRODUCTS).orderByChild("product")
+    }
+
+    fun retrieveProcuctsByValue(): Query {
+        return FirebaseDatabase.getInstance().getReference(PATH_PRODUCTS).orderByChild("value")
     }
 
     fun retrieveRecentPosts() : Query {
         //Firebase always order um asc order, in order to return desc order we need to reverse the list in the UI
-        return  FirebaseDatabase.getInstance().getReference("/products").orderByChild("datePosted")
+        return  FirebaseDatabase.getInstance().getReference(PATH_PRODUCTS).orderByChild("datePosted")
+    }
+
+    fun receiveProductsCloseToMe(): Query {
+        return  FirebaseDatabase.getInstance().getReference(PATH_PRODUCTS)
     }
 
     fun receiveTopUsers() : Query{
         //Firebase always order um asc order, in order to return desc order we need to reverse the list in the UI
-        return FirebaseDatabase.getInstance().getReference("/users").orderByChild("matches")
+        return FirebaseDatabase.getInstance().getReference(PATH_USERS).orderByChild("matches")
     }
 
-    fun receiveProductsCloseToMe(): Query {
-        return  FirebaseDatabase.getInstance().getReference("/products")
+    fun receiveCategories(): DatabaseReference {
+        return FirebaseDatabase.getInstance().getReference(PATH_CATEGORIES)
     }
+
+    fun retrievebyCategories(): Query {
+        return FirebaseDatabase.getInstance().getReference(PATH_PRODUCTS).orderByChild("category")
+    }
+
+
 }

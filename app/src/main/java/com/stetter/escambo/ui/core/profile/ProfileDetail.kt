@@ -20,9 +20,10 @@ import com.google.firebase.storage.FirebaseStorage
 import com.stetter.escambo.R
 import com.stetter.escambo.databinding.ActivityProfileDetailBinding
 import com.stetter.escambo.extension.*
+import com.stetter.escambo.extension.dialogs.showPickImageProfile
 import com.stetter.escambo.glide.GlideApp
 import com.stetter.escambo.net.models.RegisterUser
-import com.stetter.escambo.net.retrofit.postalResponse
+import com.stetter.escambo.net.retrofit.responses.postalResponse
 import com.stetter.escambo.ui.base.BaseActivity
 import com.stetter.escambo.ui.core.add.AddProduct
 import java.io.IOException
@@ -36,8 +37,6 @@ class ProfileDetail : BaseActivity() {
     private lateinit var viewmodel: UpdateProfileViewModel
     var latitude  = 0.0
     var longitute = 0.0
-
-    //Todo: persit product count
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

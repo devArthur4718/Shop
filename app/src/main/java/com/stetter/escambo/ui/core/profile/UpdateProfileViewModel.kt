@@ -1,6 +1,5 @@
 package com.stetter.escambo.ui.core.profile
 
-import android.graphics.Bitmap
 import android.net.Uri
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -9,7 +8,7 @@ import com.stetter.escambo.net.firebase.auth.LoginRepository
 import com.stetter.escambo.net.firebase.storage.DatabaseRepository
 import com.stetter.escambo.net.models.RegisterUser
 import com.stetter.escambo.net.retrofit.postalApi
-import com.stetter.escambo.net.retrofit.postalResponse
+import com.stetter.escambo.net.retrofit.responses.postalResponse
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -96,9 +95,8 @@ class UpdateProfileViewModel  : ViewModel(){
                 _loadingProgress.value = false
                 _uploadSuccess.value = true
                 //TODO: Open a new activity to update password and confirm it
+                //Todo : Confirm email with firebase auth
 //                updatePassword(password)
-
-
             }.addOnFailureListener {
                 _loadingProgress.value = false
                 _uploadSuccess.value = false

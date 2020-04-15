@@ -2,21 +2,24 @@ package com.stetter.escambo.ui.core.add
 
 import android.graphics.Bitmap
 import android.net.Uri
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.google.firebase.database.ChildEventListener
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
 import com.stetter.escambo.net.firebase.storage.DatabaseRepository
 import com.stetter.escambo.net.models.Product
 import com.stetter.escambo.ui.adapter.ProductCard
 import kotlin.collections.ArrayList
-
 
 class AddProductViewModel : ViewModel() {
 
     val databaserepository = DatabaseRepository()
 
     private val _listCategoryProduct = MutableLiveData<List<String>>()
-    val listCategorList: LiveData<List<String>> get() = _listCategoryProduct
+    val listCategoryList: LiveData<List<String>> get() = _listCategoryProduct
 
     private val _pickFromGalleryObservable = MutableLiveData<Boolean>()
     val pickPhotoFromGallery: LiveData<Boolean> get() = _pickFromGalleryObservable
@@ -46,11 +49,13 @@ class AddProductViewModel : ViewModel() {
     private val _pathLists = MutableLiveData<ArrayList<String>>()
     var pathLists = ArrayList<String>()
 
+    private val _querryCategories = MutableLiveData<ArrayList<String>>()
+    val querryCategories: LiveData<ArrayList<String>> get() = _querryCategories
+    var categoriesList = ArrayList<String>()
+
     init {
 
         var dummyList = listOf("Categoria", "Produto 1", "Produto 2", "Produto 3", "Produto 4")
-
-
         adapterDummyList.add(ProductCard(null))
 
         _listProduct.value = adapterDummyList
@@ -112,6 +117,21 @@ class AddProductViewModel : ViewModel() {
                 _loadingProgress.value = false
             }
 
+    }
+
+    fun fetchProductCategories(){
+        var categoriesList = ArrayList<String>()
+        databaserepository.receiveCategories().addChildEventListener(object : ChildEventListener{
+            override fun onCancelled(p0: DatabaseError) { }
+            override fun onChildMoved(p0: DataSnapshot, p1: String?) { }
+            override fun onChildChanged(p0: DataSnapshot, p1: String?) { }
+            override fun onChildAdded(data: DataSnapshot, p1: String?) {
+                var text = data.getValue(String::class.java)
+                text?.let { categoriesList.add(it) }
+                _listCategoryProduct.value  = categoriesList
+            }
+            override fun onChildRemoved(p0: DataSnapshot) { }
+        })
     }
 
     fun getUid(): String {

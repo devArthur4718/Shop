@@ -21,6 +21,8 @@ import androidx.navigation.fragment.findNavController
 import com.stetter.escambo.R
 import com.stetter.escambo.databinding.AddProductFragmenetBinding
 import com.stetter.escambo.extension.*
+import com.stetter.escambo.extension.dialogs.checkCameraPermissions
+import com.stetter.escambo.extension.dialogs.showPickImageDialog
 import com.stetter.escambo.extension.watcher.MoneyTextWatcher
 import com.stetter.escambo.net.models.Product
 import com.stetter.escambo.net.models.RegisterUser
@@ -76,7 +78,8 @@ class AddProduct : BaseFragment() {
     }
 
     private fun setObserbales() {
-        viewModel.listCategorList.observe( viewLifecycleOwner,  Observer { onConfigureCategoryAdapter(it) })
+        viewModel.fetchProductCategories()
+        viewModel.listCategoryList.observe( viewLifecycleOwner,  Observer { onConfigureCategoryAdapter(it) })
         viewModel.pickPhotoFromGallery.observe( viewLifecycleOwner,  Observer { onPickDataFromGallery(it) })
         viewModel.imagePickIntent.observe(viewLifecycleOwner, Observer { onPickImageIntent(it) })
         viewModel.cameraPickintent.observe(viewLifecycleOwner, Observer { onCameraIntent(it) })
@@ -86,8 +89,8 @@ class AddProduct : BaseFragment() {
         viewModel.loadingProgress.observe(viewLifecycleOwner, Observer { onLoading(it) })
         viewModel.listProduct.observe(viewLifecycleOwner, Observer { onProductListReceveived(it) })
         viewModel.loadingPhotoProgress.observe(viewLifecycleOwner, Observer { onLoadingPhotoProgress(it) })
+        viewModel.querryCategories.observe(viewLifecycleOwner, Observer { onCategoryListReceived(it) })
         mainViewModel.userProfileData.observe(viewLifecycleOwner, Observer { onUserDataReceveid(it) })
-
 
         binding.btnPublishItem.setOnClickListener {
             val uid = viewModel.getUid()
@@ -117,6 +120,10 @@ class AddProduct : BaseFragment() {
         }
 
         binding.edtItemValue.addTextChangedListener(MoneyTextWatcher(binding.edtItemValue, Locale("pt", "BR")))
+    }
+
+    private fun onCategoryListReceived(categoryList: List<String>) {
+
     }
 
     private fun onLoadingPhotoProgress(it: Boolean?) {
@@ -225,7 +232,6 @@ class AddProduct : BaseFragment() {
             if (it) {
                 viewModel.doneUploadProduct()
                 productCount += 1
-                //Todo: update user profile count
                 viewModel.updateProductCount(productCount)
                 Toast.makeText(context, "Produto postado", Toast.LENGTH_SHORT).show()
                 findNavController().navigate(R.id.navigation_explore)
