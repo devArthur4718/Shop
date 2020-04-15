@@ -138,6 +138,10 @@ class FilterViewModel : ViewModel(){
 
         }
 
+    private val _listCities = MutableLiveData<ArrayList<String>>()
+    val listCities: LiveData<ArrayList<String>> get() = _listCities
+
+    var citiList = ArrayList<String>()
     fun fetchCities(id : Int) {
         IBGEapi.IBGESservice.getCities(id).enqueue(object  : Callback<ArrayList<CityResponseItem>> {
             override fun onFailure(call: Call<ArrayList<CityResponseItem>>, t: Throwable) {
@@ -150,10 +154,17 @@ class FilterViewModel : ViewModel(){
                 response: Response<ArrayList<CityResponseItem>>
             ) {
                 if(response.isSuccessful){
-                    Log.e("Filter", "Success")
+                    var result = response.body()
+                    citiList.clear()
+                    result?.forEach {
+                        citiList.add(it.nome)
+                    }
+                    _listCities.value = citiList
+
                 }
             }
         })
+
     }
 
 

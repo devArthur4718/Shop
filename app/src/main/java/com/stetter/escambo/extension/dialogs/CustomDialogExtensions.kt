@@ -7,9 +7,11 @@ import android.graphics.drawable.ColorDrawable
 import android.view.View
 import android.widget.*
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.Observer
 import com.stetter.escambo.R
 import com.stetter.escambo.net.retrofit.responses.UfsResponseItem
 import com.stetter.escambo.ui.core.add.AddProductViewModel
+import com.stetter.escambo.ui.core.explore.filter.FilterActivity
 import com.stetter.escambo.ui.core.explore.filter.FilterViewModel
 import com.stetter.escambo.ui.core.profile.UpdateProfileViewModel
 
@@ -132,6 +134,7 @@ fun Context.showFilterCategory(
 
 fun Context.showFilterLocalization(
     viewmodel: FilterViewModel,
+    filter : FilterActivity,
     adapterUfs: ArrayAdapter<String>,
     ufsList: List<UfsResponseItem>?
 ){
@@ -139,6 +142,7 @@ fun Context.showFilterLocalization(
     val dialog = ShowLocalizationDialog(this)
     dialog.show()
 
+    var context = this
     val close = dialog.findViewById<ImageView>(R.id.tvCloseDialogLocalization)
     close.setOnClickListener {
         dialog.dismiss()
@@ -153,8 +157,15 @@ fun Context.showFilterLocalization(
         override fun onStopTrackingTouch(seekBar: SeekBar?) { }
     })
     val spUfs = dialog.findViewById<Spinner>(R.id.spUfs)
+    val spCities = dialog.findViewById<Spinner>(R.id.spCity)
+
     spUfs.adapter = adapterUfs
     var selectedUfId = 0
+
+    var adapterSpinner = ArrayAdapter(context, android.R.layout.simple_list_item_1, listOf(""))
+    spCities.adapter = adapterSpinner
+
+
     spUfs.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
         override fun onNothingSelected(parent: AdapterView<*>?) { }
         override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
@@ -165,18 +176,32 @@ fun Context.showFilterLocalization(
                   selectedUfId = ufItem.id
                   viewmodel.fetchCities(selectedUfId)
 
+//                  var adapterCities = ArrayAdapter(context , android.R.layout.simple_list_item_1, citiesList)
+//                  spCities.adapter = adapterCities
               }
             }
         }
     }
 
+    viewmodel.listCities.observe(filter , Observer {onListCitiesReceived(it, adapterSpinner,context,spCities)  })
     //Fetch cities.
-
-
     val btnFilter = dialog.findViewById<Button>(R.id.btnFilterDialog).setOnClickListener {
         viewmodel.searchByLocalization()
     }
 }
+fun onListCitiesReceived(
+    citiList: ArrayList<String>?,
+    adapterSpinner: ArrayAdapter<String>,
+    context: Context,
+    spCities: Spinner
+) {
+
+    var adapterUpdater = ArrayAdapter(context, android.R.layout.simple_list_item_1, citiList as MutableList<String>)
+    spCities.adapter = adapterUpdater
+
+}
+
+
 
 
 fun Context.checkCameraPermissions() : Boolean{

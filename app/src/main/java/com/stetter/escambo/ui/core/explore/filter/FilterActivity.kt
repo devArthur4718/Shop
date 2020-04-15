@@ -53,7 +53,8 @@ class FilterActivity : BaseActivity() {
             ufString.add(it.nome)
         }
         adapterUfs = ArrayAdapter(this, android.R.layout.simple_list_item_1, ufString)
-        binding.btnLocalization.setOnClickListener { showFilterLocalization(viewmodel,adapterUfs,ufsList) }
+        var blank = listOf<String>("")
+        binding.btnLocalization.setOnClickListener { showFilterLocalization(viewmodel, this,adapterUfs,ufsList) }
     }
 
 
