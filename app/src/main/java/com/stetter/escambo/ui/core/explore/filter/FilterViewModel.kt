@@ -97,9 +97,9 @@ class FilterViewModel : ViewModel(){
 
     }
 
-    fun searchByCategory() {
+    fun searchByCategory(category : String) {
         _loadingProgress.value = true
-        database.retrievebyCategories().addChildEventListener(object : ChildEventListener{
+        database.retrievebyCategories(category).addChildEventListener(object : ChildEventListener{
             override fun onCancelled(p0: DatabaseError) { }
             override fun onChildMoved(p0: DataSnapshot, p1: String?) { }
             override fun onChildChanged(p0: DataSnapshot, p1: String?) { }

@@ -133,8 +133,19 @@ fun Context.showFilterCategory(
     val spCategory = dialog.findViewById<Spinner>(R.id.spFilterCategory)
     spCategory.adapter = adapterSpinner
     //Todo: Fetch data using selected item as parameter
+
+    var selectedItem = ""
+    spCategory.onItemSelectedListener = object  : AdapterView.OnItemSelectedListener{
+        override fun onNothingSelected(parent: AdapterView<*>?) { }
+        override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+             selectedItem  = parent?.getItemAtPosition(position).toString()
+        }
+
+    }
+
     val btnFilter = dialog.findViewById<Button>(R.id.btnFilterDialog).setOnClickListener {
-        viewmodel.searchByCategory()
+        if(selectedItem.isNullOrEmpty()) return@setOnClickListener
+        viewmodel.searchByCategory(selectedItem)
         dialog.dismiss()
     }
 
@@ -184,8 +195,6 @@ fun Context.showFilterLocalization(
                   selectedUfId = ufItem.id
                   viewmodel.fetchCities(selectedUfId)
 
-//                  var adapterCities = ArrayAdapter(context , android.R.layout.simple_list_item_1, citiesList)
-//                  spCities.adapter = adapterCities
               }
             }
         }
@@ -208,9 +217,6 @@ fun onListCitiesReceived(
     spCities.adapter = adapterUpdater
 
 }
-
-
-
 
 fun Context.checkCameraPermissions() : Boolean{
     if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.CAMERA)
