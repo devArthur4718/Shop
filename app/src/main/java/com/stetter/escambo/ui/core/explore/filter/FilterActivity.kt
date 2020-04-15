@@ -265,7 +265,7 @@ class FilterActivity : BaseActivity() {
                     it.city))
 
             }
-            searchProductAdapter.data = ufProductList
+            searchProductAdapter.data = ufProductList.filter { it.city.toLowerCase().contains(viewmodel.city.toLowerCase()) }
 
         }
 

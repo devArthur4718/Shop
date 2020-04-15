@@ -217,6 +217,18 @@ fun Context.showFilterLocalization(
         }
     }
 
+    spCities.onItemSelectedListener = object  : AdapterView.OnItemSelectedListener{
+        override fun onNothingSelected(parent: AdapterView<*>?) {
+
+        }
+
+        override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+            val selectedItem = parent?.getItemAtPosition(position).toString()
+            viewmodel.city = selectedItem
+        }
+
+    }
+
     //Todo: If rb location true, search by citi
     //Todo: if not search by range.
 
