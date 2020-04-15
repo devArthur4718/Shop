@@ -4,7 +4,7 @@
     <dimen name="circular_height">38dp</dimen>
     <dimen name="smallphoto_with">24dp</dimen>
     <dimen name="smallPhotoHeight">24dp</dimen>
-    <dimen name="dialog_w">270dp</dimen>
+    <dimen name="dialog_w">290dp</dimen>
     <dimen name="dialog_h">190dp</dimen>
     <dimen name="edt_h">51dp</dimen>
     <dimen name="pic_profile_w">128dp</dimen>

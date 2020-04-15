@@ -33,7 +33,7 @@
 
     <Spinner
         android:id="@+id/spCity"
-        android:layout_width="222dp"
+        android:layout_width="0dp"
         android:layout_height="38dp"
         android:layout_marginTop="16dp"
         android:background="@drawable/bg_spinner"
@@ -44,7 +44,7 @@
     <TextView
         android:id="@+id/textView5"
         style="@style/dialog_search_sub"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="24dp"
         android:text="@string/dialog_search_sub"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -69,24 +69,24 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
         android:max="30"
-        android:tooltipText="10"
         android:progress="12"
-        android:thumbTint="@color/textGreenTitle"
         android:progressTint="@android:color/darker_gray"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        android:thumbTint="@color/textGreenTitle"
+        android:tooltipText="10"
+        app:layout_constraintEnd_toEndOf="@+id/spCity"
+        app:layout_constraintStart_toStartOf="@+id/spCity"
         app:layout_constraintTop_toBottomOf="@+id/textView5" />
 
     <Spinner
         android:id="@+id/spUfs"
         android:layout_width="0dp"
         android:layout_height="38dp"
-        android:layout_marginStart="24dp"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="24dp"
         android:background="@drawable/bg_spinner"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/rbLocation"
         app:layout_constraintTop_toBottomOf="@+id/tvDialogTittle" />
 
     <TextView
@@ -96,8 +96,47 @@
         android:layout_marginTop="8dp"
         android:text="@string/range_locale"
         app:layout_constraintEnd_toEndOf="@+id/sbRangeLocation"
-        app:layout_constraintStart_toStartOf="@+id/sbRangeLocation"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/sbRangeLocation" />
+
+    <RadioButton
+        android:id="@+id/rbLocation"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:checked="true"
+        android:buttonTint="@color/textGreenTitle"
+        app:layout_constraintBottom_toBottomOf="@+id/spCity"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/spUfs" />
+
+    <RadioButton
+        android:id="@+id/rbRangeLocation"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:buttonTint="@color/textGreenTitle"
+        app:layout_constraintBottom_toBottomOf="@+id/tvRangeLocalization"
+        app:layout_constraintStart_toStartOf="@+id/rbLocation"
+        app:layout_constraintTop_toTopOf="@+id/textView5" />
+
+<!--    <View-->
+<!--        android:id="@+id/view"-->
+<!--        android:layout_width="120dp"-->
+<!--        android:layout_height="1dp"-->
+<!--        android:layout_marginTop="4dp"-->
+<!--        android:background="@android:color/darker_gray"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/spCity" />-->
+
+<!--    <View-->
+<!--        android:id="@+id/view3"-->
+<!--        android:layout_width="120dp"-->
+<!--        android:layout_height="1dp"-->
+<!--        android:layout_marginTop="8dp"-->
+<!--        app:layout_constraintBottom_toBottomOf="@+id/view"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        android:background="@android:color/darker_gray"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/spCity" />-->
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

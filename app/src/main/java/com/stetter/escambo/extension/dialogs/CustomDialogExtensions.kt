@@ -175,6 +175,18 @@ fun Context.showFilterLocalization(
         override fun onStartTrackingTouch(seekBar: SeekBar?) { }
         override fun onStopTrackingTouch(seekBar: SeekBar?) { }
     })
+
+
+    val rbLocation = dialog.findViewById<RadioButton>(R.id.rbLocation)
+    val rbRangeLocation = dialog.findViewById<RadioButton>(R.id.rbRangeLocation)
+
+    rbLocation.setOnClickListener {
+        rbRangeLocation.isChecked = false
+    }
+    rbRangeLocation.setOnClickListener {
+        rbLocation.isChecked = false
+    }
+
     val spUfs = dialog.findViewById<Spinner>(R.id.spUfs)
     val spCities = dialog.findViewById<Spinner>(R.id.spCity)
 
@@ -199,6 +211,10 @@ fun Context.showFilterLocalization(
             }
         }
     }
+
+    //If rb location true, search by citi
+
+    //if not search by range.
 
     viewmodel.listCities.observe(filter , Observer {onListCitiesReceived(it, adapterSpinner,context,spCities)  })
     //Fetch cities.
