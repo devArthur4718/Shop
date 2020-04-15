@@ -37,9 +37,9 @@
         android:layout_height="38dp"
         android:layout_marginTop="16dp"
         android:background="@drawable/bg_spinner"
-        app:layout_constraintEnd_toEndOf="@+id/spinner"
-        app:layout_constraintStart_toStartOf="@+id/spinner"
-        app:layout_constraintTop_toBottomOf="@+id/spinner" />
+        app:layout_constraintEnd_toEndOf="@+id/spUfs"
+        app:layout_constraintStart_toStartOf="@+id/spUfs"
+        app:layout_constraintTop_toBottomOf="@+id/spUfs" />
 
     <TextView
         android:id="@+id/textView5"
@@ -78,7 +78,7 @@
         app:layout_constraintTop_toBottomOf="@+id/textView5" />
 
     <Spinner
-        android:id="@+id/spinner"
+        android:id="@+id/spUfs"
         android:layout_width="0dp"
         android:layout_height="38dp"
         android:layout_marginStart="24dp"

@@ -8,6 +8,7 @@ import android.view.View
 import android.widget.*
 import androidx.core.content.ContextCompat
 import com.stetter.escambo.R
+import com.stetter.escambo.net.retrofit.responses.UfsResponseItem
 import com.stetter.escambo.ui.core.add.AddProductViewModel
 import com.stetter.escambo.ui.core.explore.filter.FilterViewModel
 import com.stetter.escambo.ui.core.profile.UpdateProfileViewModel
@@ -129,7 +130,11 @@ fun Context.showFilterCategory(
 
 }
 
-fun Context.showFilterLocalization(viewmodel: FilterViewModel){
+fun Context.showFilterLocalization(
+    viewmodel: FilterViewModel,
+    adapterUfs: ArrayAdapter<String>,
+    ufsList: List<UfsResponseItem>?
+){
 
     val dialog = ShowLocalizationDialog(this)
     dialog.show()
@@ -147,6 +152,23 @@ fun Context.showFilterLocalization(viewmodel: FilterViewModel){
         override fun onStartTrackingTouch(seekBar: SeekBar?) { }
         override fun onStopTrackingTouch(seekBar: SeekBar?) { }
     })
+    val spUfs = dialog.findViewById<Spinner>(R.id.spUfs)
+    spUfs.adapter = adapterUfs
+    var selectedUfId = 0
+    spUfs.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
+        override fun onNothingSelected(parent: AdapterView<*>?) { }
+        override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+            val selectedItem = parent?.getItemAtPosition(position).toString()
+            //fetch id
+            ufsList?.forEach {ufItem ->
+              if(ufItem.nome.equals(selectedItem)){
+                  selectedUfId = ufItem.id
+              }
+            }
+        }
+    }
+
+
 
     val btnFilter = dialog.findViewById<Button>(R.id.btnFilterDialog).setOnClickListener {
         viewmodel.searchByLocalization()

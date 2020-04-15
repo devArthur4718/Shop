@@ -31,6 +31,10 @@ class FilterViewModel : ViewModel(){
     private val _listCategoryProduct = MutableLiveData<List<String>>()
     val listCategoryList: LiveData<List<String>> get() = _listCategoryProduct
 
+    private val _listUfs = MutableLiveData<List<UfsResponseItem>>()
+    val listUfs: LiveData<List<UfsResponseItem>> get() = _listUfs
+    var querryList = ArrayList<Product>()
+
     fun searchProduct(){
         _loadingProgress.value = true
         database.retrieveAllProducts().addChildEventListener(object  : ChildEventListener{
@@ -92,7 +96,6 @@ class FilterViewModel : ViewModel(){
     fun searchByCategory() {
         _loadingProgress.value = true
         database.retrievebyCategories().addChildEventListener(object : ChildEventListener{
-            var querryList = ArrayList<Product>()
             override fun onCancelled(p0: DatabaseError) { }
             override fun onChildMoved(p0: DataSnapshot, p1: String?) { }
             override fun onChildChanged(p0: DataSnapshot, p1: String?) { }
@@ -112,20 +115,23 @@ class FilterViewModel : ViewModel(){
 
     }
 
+
+
     fun fetchUFsIds() {
         _loadingProgress.value = true
         IBGEapi.IBGESservice.getUfsIds().enqueue(object  : Callback<ArrayList<UfsResponseItem>>{
             override fun onFailure(call: Call<ArrayList<UfsResponseItem>>, t: Throwable) {
                 _loadingProgress.value = false
-            }
+                Log.e("Filter", "Error : $t")
 
+            }
             override fun onResponse(
                 call: Call<ArrayList<UfsResponseItem>>,
                 response: Response<ArrayList<UfsResponseItem>>
             ) {
                 _loadingProgress.value = false
                 if(response.isSuccessful){
-                    Log.e("Ufs", "Success")
+                  _listUfs.value = response.body()
                 }
             }
         })

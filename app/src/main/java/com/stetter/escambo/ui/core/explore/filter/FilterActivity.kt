@@ -14,6 +14,7 @@ import com.stetter.escambo.extension.dialogs.showFilterLocalization
 import com.stetter.escambo.extension.hideKeyBoard
 import com.stetter.escambo.extension.dialogs.showFilterValue
 import com.stetter.escambo.net.models.Product
+import com.stetter.escambo.net.retrofit.responses.UfsResponseItem
 import com.stetter.escambo.ui.adapter.RecentProductAdapter
 import com.stetter.escambo.ui.base.BaseActivity
 
@@ -23,6 +24,7 @@ class FilterActivity : BaseActivity() {
     private lateinit var viewmodel: FilterViewModel
     private val searchProductAdapter by lazy { RecentProductAdapter() }
     private lateinit var adapterSpinner: ArrayAdapter<String>
+    private lateinit var adapterUfs: ArrayAdapter<String>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,12 +43,21 @@ class FilterActivity : BaseActivity() {
         viewmodel.querryByName.observe(this, Observer { onSearchProductResponse(it) })
         viewmodel.queryByValues.observe(this, Observer { onSearchValuesResponse(it) })
         viewmodel.querryCategories.observe(this, Observer { onSearchByCategories(it) })
+        viewmodel.listUfs.observe(this, Observer { onUfsListReceived(it) })
         viewmodel.loadingProgress.observe(this, Observer { onLoading(it) })
+    }
+
+    private fun onUfsListReceived(ufsList: List<UfsResponseItem>?) {
+        var ufString  = ArrayList<String>()
+        ufsList?.forEach {
+            ufString.add(it.nome)
+        }
+        adapterUfs = ArrayAdapter(this, android.R.layout.simple_list_item_1, ufString)
+        binding.btnLocalization.setOnClickListener { showFilterLocalization(viewmodel,adapterUfs,ufsList) }
     }
 
 
     private fun onConfigureCategoryAdapter(categoryList: List<String>) {
-        var newList = categoryList as MutableList<String>
         adapterSpinner = ArrayAdapter(this, android.R.layout.simple_list_item_1, categoryList)
     }
 
@@ -68,7 +79,6 @@ class FilterActivity : BaseActivity() {
         }
 
         binding.btnValue.setOnClickListener {   showFilterValue(viewmodel)  }
-        binding.btnLocalization.setOnClickListener { showFilterLocalization(viewmodel) }
         binding.btnCategory.setOnClickListener { showFilterCategory(viewmodel,adapterSpinner) }
 
     }
