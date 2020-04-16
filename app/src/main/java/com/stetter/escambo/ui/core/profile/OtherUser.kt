@@ -17,6 +17,7 @@ import com.stetter.escambo.ui.base.BaseActivity
 import java.lang.IllegalArgumentException
 
 class OtherUser : BaseActivity() {
+    private lateinit var user: RegisterUser
     private lateinit var binding: ActivityOtherUserBinding
     private lateinit var viewmodel : OtherUserViewModel
     private val myProductAdapter by lazy { MyProductAdapter() }
@@ -30,7 +31,7 @@ class OtherUser : BaseActivity() {
 
     private fun intentBundle() {
         if (intent.hasExtra("user")) {
-            var user = intent.getSerializableExtra("user") as? RegisterUser
+            user = intent.getSerializableExtra("user") as RegisterUser
             setDataToViews(user)
             setObservables()
             setAdapters()
@@ -38,7 +39,6 @@ class OtherUser : BaseActivity() {
     }
 
     private fun setObservables() {
-
         viewmodel.querryFirebase.observe(this, Observer { onUserProductsReceived(it) })
 
     }
@@ -80,7 +80,7 @@ class OtherUser : BaseActivity() {
                 binding.ivProfileImage.setImageDrawable(resources.getDrawable(R.drawable.ic_young))
             }
 
-            viewmodel.retriveUserPostedProducts(user.fullName)
+            viewmodel.retriveUserPostedProducts(user.clientID)
         }
 
         binding.ivCloseOtherDetail.setOnClickListener {   finish() }

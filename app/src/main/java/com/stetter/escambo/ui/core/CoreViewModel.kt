@@ -49,6 +49,19 @@ class CoreViewModel : ViewModel() {
     fun setLocation(location : Location){
         _onLocationReceived.value = location
     }
+
+    //Save current uid
+    fun saveCurrentUID(){
+        showLoading()
+        database.saveCurrentUIDIntoDatabase()
+            .addOnCompleteListener {
+
+            }.addOnFailureListener {
+
+            }
+    }
+
+
     //Fetch user data post login
     fun getUserDataFromDatabase() {
         showLoading()

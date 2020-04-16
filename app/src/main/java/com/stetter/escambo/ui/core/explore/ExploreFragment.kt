@@ -27,7 +27,6 @@ class ExploreFragment : BaseFragment() {
         fun newInstance() = ExploreFragment()
     }
 
-    //TODO : change addChildListener to AddListenerForSingleValueEvent()  para evitar chamadas repetidas no inicio do app
     private lateinit var viewModel: ExploreViewModel
     private lateinit var binding: ExploreFragmentBinding
     private val productNextToMeAdapter by lazy { ItemProductNextToMeAdapter() }
@@ -69,12 +68,10 @@ class ExploreFragment : BaseFragment() {
         viewModel.listRecentPost.observe( viewLifecycleOwner,  Observer { onRecentPostListRetrieved(it) })
         mainViewModel.onLocationReceived.observe(viewLifecycleOwner, Observer { onLocationReceived(it) })
 
-
         //Retrieve data from firebase
         mainViewModel.retrieveUserLocation()
         viewModel.retrieveRecentProducts()
         viewModel.retrieveTopUsers()
-
 
         binding.btnFilter.setOnClickListener {
             val intent = Intent(context, FilterActivity::class.java)
@@ -89,7 +86,6 @@ class ExploreFragment : BaseFragment() {
             viewModel.retrieveProductsCloseToMe()
         }
     }
-
 
     private fun onRecentPostListRetrieved(recentPostList: List<Product>) {
         if (recentPostList.isEmpty()) {

@@ -47,6 +47,7 @@ class CoreActivity : BaseActivity() {
     }
 
     private fun setobservables() {
+        corevm.saveCurrentUID()
         corevm.loadingProgress.observe(this, Observer {
             if(it){
                 loadingDialog.show()

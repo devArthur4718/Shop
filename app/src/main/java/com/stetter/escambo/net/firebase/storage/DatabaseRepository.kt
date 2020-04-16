@@ -66,6 +66,9 @@ class DatabaseRepository {
     fun retriveUserProductsByName(username : String): Query {
         return FirebaseDatabase.getInstance().getReference(PATH_PRODUCTS).orderByChild("username").equalTo(username)
     }
+    fun retrieveUserProductsById(uid : String): Query {
+        return FirebaseDatabase.getInstance().getReference("$PATH_PRODUCTS").orderByChild("uid").equalTo(uid)
+    }
 
     fun retrieveAllProducts(): Query {
         return FirebaseDatabase.getInstance().getReference(PATH_PRODUCTS).orderByChild("product")
@@ -99,6 +102,10 @@ class DatabaseRepository {
 
     fun retrievebyCategories(category : String): Query {
         return FirebaseDatabase.getInstance().getReference(PATH_PRODUCTS).orderByChild("category").equalTo(category)
+    }
+
+    fun saveCurrentUIDIntoDatabase(): Task<Void> {
+        return FirebaseDatabase.getInstance().getReference("$PATH_USERS/${currentUserUID()}/clientID").setValue(currentUserUID())
     }
 
 

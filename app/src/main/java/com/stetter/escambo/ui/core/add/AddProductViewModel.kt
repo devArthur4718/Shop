@@ -56,11 +56,10 @@ class AddProductViewModel : ViewModel() {
 
     init {
 
-        var dummyList = listOf("Categoria", "Produto 1", "Produto 2", "Produto 3", "Produto 4")
         adapterDummyList.add(ProductCard(null))
 
         _listProduct.value = adapterDummyList
-        _listCategoryProduct.value = dummyList
+
     }
 
 
