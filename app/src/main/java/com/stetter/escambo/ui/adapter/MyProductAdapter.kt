@@ -1,5 +1,6 @@
 package com.stetter.escambo.ui.adapter
 
+import android.content.Context
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -17,13 +18,14 @@ import java.text.DecimalFormat
 import java.text.DecimalFormatSymbols
 
 
-class MyProductAdapter () : RecyclerView.Adapter<MyProductAdapter.ViewHolder>(){
+class MyProductAdapter(val clicklistener : ProductListener) : RecyclerView.Adapter<MyProductAdapter.ViewHolder>(){
 
     var data = listOf<Product>()
         set(value){
             field = value
             notifyDataSetChanged()
         }
+
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder.from(parent)
@@ -33,12 +35,15 @@ class MyProductAdapter () : RecyclerView.Adapter<MyProductAdapter.ViewHolder>(){
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item : Product = data[position]
-        holder.bind(item)
+        holder.bind(item,clicklistener)
     }
 
     class ViewHolder private constructor(val binding : ItemMyItemBinding)
         : RecyclerView.ViewHolder(binding.root){
-        fun bind(item : Product){
+        fun bind(item : Product, clicklistener : ProductListener){
+            binding.product = item
+            binding.clickListener = clicklistener
+            binding.executePendingBindings()
             binding.tvMyitemTitle.text = item.product
             var moneytext = item.value.toString().replaceRange(item.value.toString().length  -2, item.value.toString().length, "")
 
@@ -46,7 +51,7 @@ class MyProductAdapter () : RecyclerView.Adapter<MyProductAdapter.ViewHolder>(){
                 var symbols = DecimalFormatSymbols()
                 symbols.decimalSeparator = ','
                 var moneyFormat = DecimalFormat("R$ ###,###,###,###", symbols)
-                binding.tvMyItemValue.text = moneyFormat.format(moneytext.toDouble()).toString().replace(".", ",")
+                binding.tvMyItemValue.text = moneyFormat.format(Math.round(moneytext.toDouble())).toString().replace(".", ",")
             }catch (e : Exception){
                 Log.d("ProductAdapter", "Error: $e")
             }
@@ -71,6 +76,16 @@ class MyProductAdapter () : RecyclerView.Adapter<MyProductAdapter.ViewHolder>(){
             }catch (e : IndexOutOfBoundsException){
                 Log.e("MyProduct", "Failed fetching product image: $e")
             }
+
+//            binding.ivEditProduct.setOnClickListener {
+//                //Todo: Start intent and pass the product via bundle
+//
+//            }
+//
+//            binding.ivRemoveProduct.setOnClickListener {
+//                //Todo: use firebase to remove this product
+//
+//            }
         }
 
         companion object {
@@ -80,6 +95,10 @@ class MyProductAdapter () : RecyclerView.Adapter<MyProductAdapter.ViewHolder>(){
                 return ViewHolder(binding)
             }
         }
+    }
+
+    class ProductListener(val clickListener: (product: Product) -> Unit) {
+        fun onClick(product: Product) = clickListener(product)
     }
 
 }

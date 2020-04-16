@@ -20,7 +20,7 @@ class OtherUser : BaseActivity() {
     private lateinit var user: RegisterUser
     private lateinit var binding: ActivityOtherUserBinding
     private lateinit var viewmodel : OtherUserViewModel
-    private val myProductAdapter by lazy { MyProductAdapter() }
+    private lateinit var adapter : MyProductAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,7 +44,10 @@ class OtherUser : BaseActivity() {
     }
 
     private fun setAdapters() {
-        binding.rvRecentPosts.adapter = myProductAdapter
+        adapter = MyProductAdapter(MyProductAdapter.ProductListener {
+            //Todo start activity intent to edit ou delete product
+        })
+        binding.rvRecentPosts.adapter = adapter
     }
 
 
@@ -52,7 +55,7 @@ class OtherUser : BaseActivity() {
         if(datalist.isEmpty()){
             //No Products
         }else{
-            myProductAdapter.data = datalist
+            adapter.data = datalist
             binding.tvProdutos.text ="${datalist.size} Produtos"
         }
 

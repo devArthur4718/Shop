@@ -32,7 +32,9 @@ class Profile : BaseFragment() {
 
     private lateinit var viewModel: ProfileViewModel
     private lateinit var binding : ProfileFragmentBinding
-    private val myProductAdapter by lazy { MyProductAdapter() }
+//    private val myProductAdapter by lazy { MyProductAdapter( object : MyProductAdapter.ProductListener) }
+
+    private lateinit var adapter : MyProductAdapter
 
 
     override fun onCreateView(
@@ -52,7 +54,10 @@ class Profile : BaseFragment() {
     }
 
     private fun setAdapters() {
-        binding.rvRecentPosts.adapter = myProductAdapter
+        adapter = MyProductAdapter(MyProductAdapter.ProductListener {
+            //Todo start activity intent to edit ou delete product
+        })
+        binding.rvRecentPosts.adapter = adapter
     }
 
     private fun setObservables() {
@@ -77,7 +82,7 @@ class Profile : BaseFragment() {
             if(it.isEmpty()){
                 binding.tvNoUserProducts.visibility = View.VISIBLE
             }else{
-                myProductAdapter.data = datalist
+                adapter.data = datalist
                 //Update product count label
                 productCount = datalist.size
                 binding.tvProdutos.text = "${datalist.size} Produtos"
