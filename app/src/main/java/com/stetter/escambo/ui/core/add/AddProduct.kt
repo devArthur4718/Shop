@@ -78,6 +78,7 @@ class AddProduct : BaseFragment() {
     }
 
     private fun setObserbales() {
+        mainViewModel.saveCurrentUID()
         viewModel.fetchProductCategories()
         viewModel.listCategoryList.observe( viewLifecycleOwner,  Observer { onConfigureCategoryAdapter(it) })
         viewModel.pickPhotoFromGallery.observe( viewLifecycleOwner,  Observer { onPickDataFromGallery(it) })

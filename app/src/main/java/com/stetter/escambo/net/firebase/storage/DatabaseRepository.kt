@@ -47,7 +47,6 @@ class DatabaseRepository {
         return user?.updatePassword(password)
     }
 
-
     fun retriveUserData() : DatabaseReference{
         var uid = currentUserUID()
         return FirebaseDatabase.getInstance().getReference("/users/$uid")
@@ -63,9 +62,11 @@ class DatabaseRepository {
         return FirebaseDatabase.getInstance().getReference(PATH_PRODUCTS).orderByChild("uid").equalTo(currentUserUID())
     }
 
-    fun retriveUserProductsByName(username : String): Query {
-        return FirebaseDatabase.getInstance().getReference(PATH_PRODUCTS).orderByChild("username").equalTo(username)
-    }
+
+//    fun updateUserProduct(){
+//        return FirebaseDatabase.getInstance().getReference("$PATH_PRODUCTS")
+//    }
+
     fun retrieveUserProductsById(uid : String): Query {
         return FirebaseDatabase.getInstance().getReference("$PATH_PRODUCTS").orderByChild("uid").equalTo(uid)
     }
