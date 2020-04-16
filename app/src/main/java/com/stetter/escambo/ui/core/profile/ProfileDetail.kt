@@ -28,7 +28,7 @@ import com.stetter.escambo.ui.base.BaseActivity
 import com.stetter.escambo.ui.core.add.AddProduct
 import java.io.IOException
 import java.util.*
-
+import kotlin.collections.ArrayList
 
 
 class ProfileDetail : BaseActivity() {
@@ -164,10 +164,10 @@ class ProfileDetail : BaseActivity() {
                     this.lng = GeocoderLocation(binding.inputUF.editText?.text.toString()).first
                     this.lat = GeocoderLocation(binding.inputUF.editText?.text.toString()).second
                     this.products = productCount
+                    this.productsList = productList
                 }
                 updateUser(sendUser)
             }
-
         }
     }
 
@@ -245,6 +245,7 @@ class ProfileDetail : BaseActivity() {
     }
 
     var userProfilePhoto = ""
+    var productList = ArrayList<String>()
     private fun onUserDataReceveid(userdata: RegisterUser?) {
         //UpdateUI
         userdata?.let {
@@ -256,6 +257,7 @@ class ProfileDetail : BaseActivity() {
             binding.inputPostalCode.editText?.setText(it.cep)
             binding.inputCity.editText?.setText(it.city)
             binding.inputUF.editText?.setText(it.uf)
+            productList = it.productsList as ArrayList<String>
         }
 
         //Load user photo

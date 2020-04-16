@@ -5,10 +5,8 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.Query
-import com.google.firebase.storage.BuildConfig
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
-import java.util.*
 
 class DatabaseRepository {
 
@@ -21,11 +19,10 @@ class DatabaseRepository {
     }
 
     fun uploadImageToDatabase( filename : String): StorageReference {
-        return FirebaseStorage.getInstance().getReference(if(BuildConfig.DEBUG) "/images/$filename" else "debugimages/$filename")
+        return FirebaseStorage.getInstance().getReference(  "debugimages/$filename")
     }
 
-    fun updateProductToDabatase(): DatabaseReference {
-        var productUID = UUID.randomUUID().toString()
+    fun updateProductToDabatase(productUID : String): DatabaseReference {
         return FirebaseDatabase.getInstance().getReference("/products/$productUID")
     }
 
@@ -34,13 +31,15 @@ class DatabaseRepository {
     }
 
     fun updateProductCount(count : Int): Task<Void> {
-        var uid = getCurrentUserUID()
-        return FirebaseDatabase.getInstance().getReference("/users/$uid").child("products").setValue(count)
+        return FirebaseDatabase.getInstance().getReference("/users/${currentUserUID()}").child("products").setValue(count)
     }
 
     fun updateUserToDabase(): DatabaseReference {
-        var uid = getCurrentUserUID()
-        return FirebaseDatabase.getInstance().getReference(PATH_USERS).child(uid)
+        return FirebaseDatabase.getInstance().getReference(PATH_USERS).child(currentUserUID())
+    }
+
+    fun updateUserProductList(productUID : ArrayList<String>) : Task<Void> {
+        return FirebaseDatabase.getInstance().getReference("$PATH_USERS/${currentUserUID()}/productsList").setValue(productUID)
     }
 
     fun updatePassword(password : String): Task<Void>? {
@@ -50,7 +49,7 @@ class DatabaseRepository {
 
 
     fun retriveUserData() : DatabaseReference{
-        var uid = getCurrentUserUID()
+        var uid = currentUserUID()
         return FirebaseDatabase.getInstance().getReference("/users/$uid")
     }
 
@@ -58,10 +57,10 @@ class DatabaseRepository {
         return FirebaseDatabase.getInstance().getReference("/users/$uid")
     }
 
-    fun getCurrentUserUID() : String = auth.uid ?: ""
+    fun currentUserUID() : String = auth.uid ?: ""
 
     fun retriveUserProducts(): Query {
-        return FirebaseDatabase.getInstance().getReference(PATH_PRODUCTS).orderByChild("uid").equalTo(getCurrentUserUID())
+        return FirebaseDatabase.getInstance().getReference(PATH_PRODUCTS).orderByChild("uid").equalTo(currentUserUID())
     }
 
     fun retriveUserProductsByName(username : String): Query {

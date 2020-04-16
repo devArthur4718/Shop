@@ -146,6 +146,9 @@ class RegisterActivity : AppCompatActivity() {
             } else if (binding.inputCity.editText?.isNullOrEmpty()!!) {
                 binding.inputCity.editText?.setError(getString(R.string.blank_city))
             } else {
+
+                var list = listOf("")
+
                 var senUser = RegisterUser().apply {
                     this.fullName = binding.inputFullName.editText?.text.toString()
                     this.email = binding.inputEmail.editText?.text.toString()
@@ -155,6 +158,7 @@ class RegisterActivity : AppCompatActivity() {
                     this.city = binding.inputCity.editText?.text.toString()
                     this.lat = latitude
                     this.lng = longitute
+                    this.productsList = list
                 }
                 sendForm(senUser)
             }

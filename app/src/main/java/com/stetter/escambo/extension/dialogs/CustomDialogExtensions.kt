@@ -68,6 +68,8 @@ fun Context.showPickImageDialog(viewModel: AddProductViewModel) {
         viewModel.openCameraIntent()
         dialog.dismiss()
     }
+
+    val dialogClose = dialog.findViewById<ImageView>(R.id.ivClosePickCam).setOnClickListener { dialog.dismiss() }
 }
 
 fun Context.showPickImageProfile(viewModel : UpdateProfileViewModel){

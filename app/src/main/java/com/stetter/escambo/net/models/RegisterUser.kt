@@ -14,7 +14,8 @@ data class RegisterUser (
     var products : Int = 0,
     var receiveNotifications : Boolean = false,
     var lat : Double = 0.0,
-    var lng : Double = 0.0
+    var lng : Double = 0.0,
+    var productsList : List<String>
 
 ) : Serializable{
     constructor( ) : this(
@@ -29,7 +30,8 @@ data class RegisterUser (
         0,
         false,
         0.0,
-        0.0
+        0.0,
+        emptyList()
 
     )
 }

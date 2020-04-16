@@ -185,7 +185,7 @@ class FilterViewModel : ViewModel(){
 
     }
 
-    fun retrieveUserUID(): String = database.getCurrentUserUID()
+    fun retrieveUserUID(): String = database.currentUserUID()
 
     private val _queryByUf = MutableLiveData<ArrayList<ProductByLocation>>()
     val querryByUf: LiveData<ArrayList<ProductByLocation>>   get() = _queryByUf

@@ -1,6 +1,5 @@
 package com.stetter.escambo.ui.core.explore
 
-import android.location.Location
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -75,6 +74,6 @@ class ExploreViewModel : ViewModel() {
         })
     }
 
-    fun retrieveUserUID(): String = databaserepository.getCurrentUserUID()
+    fun retrieveUserUID(): String = databaserepository.currentUserUID()
 
 }

@@ -12,6 +12,7 @@ import com.google.firebase.database.DatabaseError
 import com.stetter.escambo.net.firebase.storage.DatabaseRepository
 import com.stetter.escambo.net.models.Product
 import com.stetter.escambo.ui.adapter.ProductCard
+import java.util.*
 import kotlin.collections.ArrayList
 
 class AddProductViewModel : ViewModel() {
@@ -106,10 +107,16 @@ class AddProductViewModel : ViewModel() {
             }
     }
 
-    fun uploadProductToFirebase(product: Product) {
+    fun uploadProductToFirebase(
+        product: Product,
+        productList: ArrayList<String>
+    ) {
         _loadingProgress.value = true
-        databaserepository.updateProductToDabatase().ref.setValue(product)
+        var productUID = UUID.randomUUID().toString()
+        databaserepository.updateProductToDabatase(productUID).ref.setValue(product)
             .addOnSuccessListener {
+                productList.add(productUID)
+                updateUserListedProducts(productList)
                 _uploadProduct.value = true
                 _loadingProgress.value = false
             }.addOnFailureListener {
@@ -117,6 +124,15 @@ class AddProductViewModel : ViewModel() {
                 _loadingProgress.value = false
             }
 
+    }
+
+    private fun updateUserListedProducts(productUID : ArrayList<String>) {
+        databaserepository.updateUserProductList(productUID)
+            .addOnCompleteListener {
+                Log.d("AddProduct", "Success")
+            }.addOnFailureListener {
+                Log.d("AddProduct", "Error $it")
+            }
     }
 
     fun fetchProductCategories(){
@@ -135,7 +151,7 @@ class AddProductViewModel : ViewModel() {
     }
 
     fun getUid(): String {
-        return databaserepository.getCurrentUserUID()
+        return databaserepository.currentUserUID()
     }
 
     fun pickPhoto() {
