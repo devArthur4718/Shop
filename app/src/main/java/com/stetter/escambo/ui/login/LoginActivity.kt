@@ -74,6 +74,8 @@ class LoginActivity : BaseActivity() {
     }
 
     private fun initViews() {
+
+        binding.tvAppVersion.text = BuildConfig.VERSION_NAME
         setFacebookCallback()
         setGoogleCallback()
         binding.tvCreateAccout.setOnClickListener {

@@ -12,6 +12,7 @@ import com.stetter.escambo.databinding.ItemMyItemBinding
 import com.stetter.escambo.extension.CircularProgress
 import com.stetter.escambo.glide.GlideApp
 import com.stetter.escambo.net.models.Product
+import com.stetter.escambo.ui.core.CoreActivity
 import java.lang.Exception
 import java.lang.IndexOutOfBoundsException
 import java.text.DecimalFormat
@@ -77,15 +78,7 @@ class MyProductAdapter(val clicklistener : ProductListener) : RecyclerView.Adapt
                 Log.e("MyProduct", "Failed fetching product image: $e")
             }
 
-//            binding.ivEditProduct.setOnClickListener {
-//                //Todo: Start intent and pass the product via bundle
-//
-//            }
-//
-//            binding.ivRemoveProduct.setOnClickListener {
-//                //Todo: use firebase to remove this product
-//
-//            }
+
         }
 
         companion object {

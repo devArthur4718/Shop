@@ -7,6 +7,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -32,8 +33,6 @@ class Profile : BaseFragment() {
 
     private lateinit var viewModel: ProfileViewModel
     private lateinit var binding : ProfileFragmentBinding
-//    private val myProductAdapter by lazy { MyProductAdapter( object : MyProductAdapter.ProductListener) }
-
     private lateinit var adapter : MyProductAdapter
 
 
@@ -54,10 +53,21 @@ class Profile : BaseFragment() {
     }
 
     private fun setAdapters() {
-        adapter = MyProductAdapter(MyProductAdapter.ProductListener {
-            //Todo start activity intent to edit ou delete product
+        adapter = MyProductAdapter(MyProductAdapter.ProductListener {product ->
+            val intent = Intent(context, EditProduct::class.java)
+            intent.putExtra("productItem", product)
+            startActivity(intent)
+
         })
         binding.rvRecentPosts.adapter = adapter
+    }
+
+    fun deleteProduct(){
+        Toast.makeText(context, "Delete product", Toast.LENGTH_SHORT).show()
+    }
+
+    fun editProduct(){
+        Toast.makeText(context, "Edit product", Toast.LENGTH_SHORT).show()
     }
 
     private fun setObservables() {

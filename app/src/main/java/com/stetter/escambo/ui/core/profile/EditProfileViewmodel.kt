@@ -1,0 +1,32 @@
+package com.stetter.escambo.ui.core.profile
+
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import com.google.firebase.database.ChildEventListener
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.stetter.escambo.net.firebase.storage.DatabaseRepository
+
+class EditProfileViewmodel : ViewModel() {
+    val databaserepository = DatabaseRepository()
+
+    private val _listCategoryProduct = MutableLiveData<List<String>>()
+    val listCategoryList: LiveData<List<String>> get() = _listCategoryProduct
+
+
+    fun fetchProductCategories(){
+        var categoriesList = ArrayList<String>()
+        databaserepository.receiveCategories().addChildEventListener(object : ChildEventListener {
+            override fun onCancelled(p0: DatabaseError) { }
+            override fun onChildMoved(p0: DataSnapshot, p1: String?) { }
+            override fun onChildChanged(p0: DataSnapshot, p1: String?) { }
+            override fun onChildAdded(data: DataSnapshot, p1: String?) {
+                var text = data.getValue(String::class.java)
+                text?.let { categoriesList.add(it) }
+                _listCategoryProduct.value  = categoriesList
+            }
+            override fun onChildRemoved(p0: DataSnapshot) { }
+        })
+    }
+}
