@@ -14,7 +14,13 @@ class FirestoreRepository {
     companion object{
         const val USER_ID_FIELD = "clientID"
         const val DOCUMENT_USERS = "users"
+        const val DOCUMENT_PRODUCTS = "user-products"
+
+        const val FIELD_PHOTO_URL = "photoURL"
+        const val FIELD_DATE_POSTED = "datePosted"
     }
+
+    fun currentUserUID() : String = auth.uid ?: ""
 
     //User collection
     fun insertUser(): CollectionReference {
@@ -30,20 +36,24 @@ class FirestoreRepository {
     }
 
     fun updateUserPhoto(photourl : String){
-        db.collection(DOCUMENT_USERS).document(currentUserUID()).update("photoURL", photourl)
+        db.collection(DOCUMENT_USERS).document(currentUserUID()).update(FIELD_PHOTO_URL, photourl)
     }
 
 
 
     //Products collection
     fun insertProduct(): CollectionReference {
-        return db.collection("user-products")
+        return db.collection(DOCUMENT_PRODUCTS)
     }
 
-    fun selectUserProducts(){
+    fun selectMyProcuts(): Query {
+        return db.collection(DOCUMENT_PRODUCTS).whereEqualTo("uid", currentUserUID())
+    }
 
+    fun selectRecentPostedProducts(): Query {
+       return  db.collection(DOCUMENT_PRODUCTS).orderBy(FIELD_DATE_POSTED, Query.Direction.ASCENDING)
     }
 
 
-    fun currentUserUID() : String = auth.uid ?: ""
+
 }

@@ -70,7 +70,7 @@ class ExploreFragment : BaseFragment() {
 
         //Retrieve data from firebase
         mainViewModel.retrieveUserLocation()
-        viewModel.retrieveRecentProducts()
+        viewModel.selectProducts()
         viewModel.retrieveTopUsers()
 
         binding.btnFilter.setOnClickListener {

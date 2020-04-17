@@ -5,6 +5,7 @@ import android.content.DialogInterface
 import android.location.Geocoder
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.widget.EditText
 import android.widget.Toast
@@ -17,7 +18,6 @@ import com.stetter.escambo.databinding.ActivityRegisterNewBinding
 import com.stetter.escambo.extension.*
 import com.stetter.escambo.net.models.RegisterUser
 import com.stetter.escambo.net.retrofit.responses.postalResponse
-import com.stetter.escambo.ui.dialog.LoadingDialog
 import com.stetter.escambo.ui.dialogs.CustomDialog
 import java.io.IOException
 
@@ -26,7 +26,7 @@ class RegisterActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityRegisterNewBinding
     private lateinit var viewmodel: RegisterViewModel
-    private lateinit var loadingDialog: LoadingDialog
+//    private lateinit var loadingDialog: LoadingDialog
     private lateinit var errorDialog: CustomDialog
     var latitude  = 0.0
     var longitute = 0.0
@@ -35,7 +35,6 @@ class RegisterActivity : AppCompatActivity() {
         setContentView(R.layout.activity_register)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_register_new)
         viewmodel = ViewModelProvider(this)[RegisterViewModel::class.java]
-
         binding.lifecycleOwner = this
         initViews()
         setObservables()
@@ -44,10 +43,7 @@ class RegisterActivity : AppCompatActivity() {
 
     private fun setObservables() {
         viewmodel.loadingProgress.observe(this, Observer {
-            if (it)
-                loadingDialog.show()
-            else
-                loadingDialog.hide()
+            binding.progressRegister.visibility = if(it) View.VISIBLE else View.GONE
         })
 
         viewmodel.addressValue.observe(this, Observer { response -> onAddressReceived(response) })
@@ -99,7 +95,6 @@ class RegisterActivity : AppCompatActivity() {
     }
 
     private fun initViews() {
-        loadingDialog = LoadingDialog(this)
         errorDialog = CustomDialog("", this)
         binding.ivUpRegister.setOnClickListener {
             finish()
@@ -160,7 +155,7 @@ class RegisterActivity : AppCompatActivity() {
                     this.lng = longitute
                     this.productsList = list
                 }
-
+                binding.progressRegister.visibility = View.VISIBLE
                 sendForm(senUser)
 
             }
