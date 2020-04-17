@@ -57,12 +57,8 @@ class CoreActivity : BaseActivity() {
         })
 
         corevm.getUserData()
-
         //Utils
         corevm.dialogMessage.observe(this, Observer { onShowDialogMessage(it) })
-
-
-//        corevm.saveCurrentUID()
 
     }
 

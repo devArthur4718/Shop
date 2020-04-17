@@ -247,6 +247,7 @@ class ProfileDetail : BaseActivity() {
         super.onActivityResult(requestCode, resultCode, data)
 
         when (requestCode) {
+            //TODO : Fetch data from camera
             RQ_PICK_PHOTO -> {
                 if (resultCode == Activity.RESULT_OK) {
                     data?.let {

@@ -60,32 +60,8 @@ class CoreViewModel : ViewModel() {
             }
     }
 
-
-    //Fetch user data post login
-//    fun getUserDataFromDatabase() {
-//        showLoading()
-//        database.retriveUserData().addValueEventListener(object  : ValueEventListener{
-//            override fun onCancelled(p0: DatabaseError) {
-//                Log.e("Fetch User", "Error: $p0 ")
-//
-//            }
-//
-//            override fun onDataChange(p0: DataSnapshot) {
-//                try{
-//                    _userProfileData.value = p0.getValue(RegisterUser::class.java)!!
-//                    hideLoading()
-//                }
-//                catch (e : KotlinNullPointerException){
-//                    hideLoading()
-//                }
-//            }
-//
-//
-//        })
-//    }
-
+    //Fetch user data to use during app session
     fun getUserData(){
-
         db.selectUser().addSnapshotListener{documentSnapshot, firebaseFirestoreException ->
             if (firebaseFirestoreException != null) {
                 Log.w("user", "Listen failed.", firebaseFirestoreException)
@@ -103,7 +79,6 @@ class CoreViewModel : ViewModel() {
                 Log.d("user", "Current data: null")
             }
         }
-
     }
 
     private val _retrieveUserLocation = MutableLiveData<Boolean>()

@@ -79,8 +79,7 @@ class UpdateProfileViewModel  : ViewModel(){
             .addOnSuccessListener {
                 _onPhotoFileReceived.value = it.metadata?.path
                 _loadingProgress.value = false
-//                _uploadSuccess.value = true
-
+                db.updateUserPhoto(it.metadata!!.path)
             }
             .addOnFailureListener{
                 _uploadSuccess.value = false
@@ -90,21 +89,7 @@ class UpdateProfileViewModel  : ViewModel(){
     }
 
 
-    fun updateUser(sendUser: RegisterUser) {
-        _loadingProgress.value = true
-        databaserepository.updateUserToDabase().setValue(sendUser)
-            .addOnSuccessListener {
-                _loadingProgress.value = false
-                _uploadSuccess.value = true
-                //TODO: Open a new activity to update password and confirm it
-                //Todo : Confirm email with firebase auth
-//                updatePassword(password)
-            }.addOnFailureListener {
-                _loadingProgress.value = false
-                _uploadSuccess.value = false
-            }
 
-    }
 
     fun updateCurrentUser(sendUser: RegisterUser){
         _loadingProgress.value = true

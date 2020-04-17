@@ -29,6 +29,10 @@ class FirestoreRepository {
         return db.collection(DOCUMENT_USERS).document(currentUserUID())
     }
 
+    fun updateUserPhoto(photourl : String){
+        db.collection(DOCUMENT_USERS).document(currentUserUID()).update("photoURL", photourl)
+    }
+
 
 
     //Products collection
