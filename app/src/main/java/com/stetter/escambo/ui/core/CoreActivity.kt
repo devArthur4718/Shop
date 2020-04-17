@@ -57,6 +57,9 @@ class CoreActivity : BaseActivity() {
         })
 
         corevm.getUserData()
+        //Persist id for east querry
+        corevm.saveCurrentUID()
+
         //Utils
         corevm.dialogMessage.observe(this, Observer { onShowDialogMessage(it) })
 

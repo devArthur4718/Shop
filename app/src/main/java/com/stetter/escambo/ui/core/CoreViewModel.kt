@@ -60,6 +60,10 @@ class CoreViewModel : ViewModel() {
             }
     }
 
+    fun updateCurrentID(){
+        db.updateClientID()
+    }
+
     //Fetch user data to use during app session
     fun getUserData(){
         db.selectUser().addSnapshotListener{documentSnapshot, firebaseFirestoreException ->

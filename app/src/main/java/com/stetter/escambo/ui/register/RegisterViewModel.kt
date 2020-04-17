@@ -99,18 +99,6 @@ class RegisterViewModel : ViewModel() {
         _loadingProgress.value = false
     }
 
-    //TODO : Salvar usuários e seus dados - Done
-    //Todo : Ler dados de um usuário - Done
-    //Todo : Alterar dados de um usuário
-
-    //Todo : Tabela produtos.
-    //Todo : Salvar um produto com a chave do usuario(chave estrangeira.
-    //Todo :  Ler e filtrar os mais próximos (calcule a distancia aqui no app).
-    //Todo : Ler e filtrar os mais recentes
-    //Todo : Ler e filtra os que tem mais matches e produtos. (média ponderada)
-    //Todo : Ler todos os produtos de um usuário e exibir na tela
-    //Todo : Editar ou excluir o produto de um usuário.
-
 
     fun saveUserData(user : RegisterUser, uid : String?){
         uid?.let { value -> user.clientID = value  }

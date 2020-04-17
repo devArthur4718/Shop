@@ -183,7 +183,7 @@ class FilterActivity : BaseActivity() {
             toggleViews(true)
         }else{
             toggleViews(false)
-            //TODO: Filter min and max
+            //TODO: Filter min and max using firestore querry
             searchProductAdapter.data = productList.filter { it.value > viewmodel.minValue && it.value < viewmodel.maxValue }
         }
 
