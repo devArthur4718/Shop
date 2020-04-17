@@ -46,42 +46,66 @@ class ExploreViewModel : ViewModel() {
                 _listRecentPost.value = querryList
 
             }
-
-
         }
     }
 
 
-    fun retrieveTopUsers(){
-        databaserepository.receiveTopUsers().addChildEventListener(object  : ChildEventListener{
-            var topUserList = ArrayList<RegisterUser>()
-            override fun onCancelled(p0: DatabaseError) { }
-            override fun onChildMoved(p0: DataSnapshot, p1: String?) {  }
-            override fun onChildChanged(p0: DataSnapshot, p1: String?) { }
-            override fun onChildAdded(dataSnapshot: DataSnapshot, p1: String?) {
-                val users = dataSnapshot.getValue(RegisterUser::class.java)
-                users?.let { data -> topUserList.add(data)  }
+    fun retrieveMostRatedUsers(){
+        db.selectTopUsers().addSnapshotListener { querySnapshot, firebaseFirestoreException ->
+            if (firebaseFirestoreException != null) {
+                Log.w("products", "Listen failed.", firebaseFirestoreException)
+                return@addSnapshotListener
+            }
+
+
+            if(querySnapshot != null){
+                var topUserList = ArrayList<RegisterUser>()
+                for(doc in querySnapshot){
+                    var item = doc.toObject(RegisterUser::class.java)
+                    topUserList.add(item)
+                }
                 _topUserLists.value = topUserList
-            }
-            override fun onChildRemoved(p0: DataSnapshot) { }
 
-        })
+            }
+
+        }
     }
 
-    fun retrieveProductsCloseToMe(){
-        databaserepository.receiveProductsCloseToMe().addChildEventListener(object  : ChildEventListener{
-            var querryList = ArrayList<ProductByLocation>()
-            override fun onCancelled(p0: DatabaseError) { }
-            override fun onChildMoved(p0: DataSnapshot, p1: String?) { }
-            override fun onChildChanged(p0: DataSnapshot, p1: String?) { }
-            override fun onChildAdded(dataSnapshot: DataSnapshot, p1: String?) {
-               val productsClose = dataSnapshot.getValue(ProductByLocation::class.java)
-                productsClose?.let { data -> querryList.add(data) }
+    fun retrieveProductsNextToMe(){
+        db.selectRecentPostedProducts().addSnapshotListener { querySnapshot, firebaseFirestoreException ->
+            if (firebaseFirestoreException != null) {
+                Log.w("products", "Listen failed.", firebaseFirestoreException)
+                return@addSnapshotListener
+            }
+
+            if(querySnapshot != null){
+                var querryList = ArrayList<ProductByLocation>()
+                for(doc in querySnapshot!!){
+                    var item = doc.toObject(ProductByLocation::class.java)
+                    querryList.add(item)
+                }
                 _listNextProducts.value = querryList
+
             }
-            override fun onChildRemoved(p0: DataSnapshot) { }
-        })
+        }
+
     }
+
+
+//    fun retrieveProductsCloseToMe(){
+//        databaserepository.receiveProductsCloseToMe().addChildEventListener(object  : ChildEventListener{
+//            var querryList = ArrayList<ProductByLocation>()
+//            override fun onCancelled(p0: DatabaseError) { }
+//            override fun onChildMoved(p0: DataSnapshot, p1: String?) { }
+//            override fun onChildChanged(p0: DataSnapshot, p1: String?) { }
+//            override fun onChildAdded(dataSnapshot: DataSnapshot, p1: String?) {
+//               val productsClose = dataSnapshot.getValue(ProductByLocation::class.java)
+//                productsClose?.let { data -> querryList.add(data) }
+//                _listNextProducts.value = querryList
+//            }
+//            override fun onChildRemoved(p0: DataSnapshot) { }
+//        })
+//    }
 
     fun retrieveUserUID(): String = databaserepository.currentUserUID()
 

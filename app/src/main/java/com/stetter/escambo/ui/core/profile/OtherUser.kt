@@ -83,7 +83,7 @@ class OtherUser : BaseActivity() {
                 binding.ivProfileImage.setImageDrawable(resources.getDrawable(R.drawable.ic_young))
             }
 
-            viewmodel.retriveUserPostedProducts(user.clientID)
+            viewmodel.retrieveUserProducts(user.clientID)
         }
 
         binding.ivCloseOtherDetail.setOnClickListener {   finish() }

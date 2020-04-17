@@ -72,7 +72,6 @@ class Profile : BaseFragment() {
 
     private fun setObservables() {
         //Retrieve user
-//        mainViewModel.getUserDataFromDatabase()
         mainViewModel.userProfileData.observe(viewLifecycleOwner, Observer { onUserDataReceveid(it) })
         viewModel.querryFirebase.observe(viewLifecycleOwner, Observer { onUserProductListReceived(it) })
 

@@ -36,15 +36,17 @@ class RegisterViewModel : ViewModel() {
     private val _registerObserver = MutableLiveData<Boolean>()
     val registerObserver : LiveData<Boolean> get() = _registerObserver
 
+    private val _loadingDialog = MutableLiveData<Boolean>()
+    val loadingDialog : LiveData<Boolean> get() = _loadingDialog
+
 
     fun getAddress(cep: String) {
-        _loadingProgress.value = true
+        _loadingDialog.value = true
         postalApi.retrofitService.getPostalCodes(cep).enqueue(object : Callback<postalResponse> {
             override fun onFailure(call: Call<postalResponse>, t: Throwable) {
                 _loadingProgress.value = false
                 _showErrorDialog.value = true
             }
-
             override fun onResponse(
                 call: Call<postalResponse>,
                 response: Response<postalResponse>
@@ -52,12 +54,12 @@ class RegisterViewModel : ViewModel() {
                 if (response.isSuccessful) {
                     response.body()?.erro?.let {
                         if (it) {
-                            _loadingProgress.value = false
+                            _loadingDialog.value = false
                             _showErrorDialog.value = true
 
                         } else {
                             _addressValue.value = response.body()
-                            _loadingProgress.value = false
+                            _loadingDialog.value = false
                         }
                     }
                 }

@@ -1,10 +1,7 @@
 package com.stetter.escambo.net.firebase.database
 
-import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.*
-import com.stetter.escambo.net.models.RegisterUser
-
 
 class FirestoreRepository {
 
@@ -18,6 +15,7 @@ class FirestoreRepository {
 
         const val FIELD_PHOTO_URL = "photoURL"
         const val FIELD_DATE_POSTED = "datePosted"
+        const val FIELD_PRODUCTS_FIELD = "products"
     }
 
     fun currentUserUID() : String = auth.uid ?: ""
@@ -27,10 +25,14 @@ class FirestoreRepository {
         // Add a new document with a generated ID
        return db.collection("users")
     }
-
     fun selectUser(): DocumentReference {
         return db.collection(DOCUMENT_USERS).document(currentUserUID())
     }
+
+    fun selectTopUsers(): Query {
+        return db.collection(DOCUMENT_USERS).orderBy(FIELD_PRODUCTS_FIELD, Query.Direction.DESCENDING)
+    }
+
     fun updateUser(): DocumentReference {
         return db.collection(DOCUMENT_USERS).document(currentUserUID())
     }
@@ -48,6 +50,10 @@ class FirestoreRepository {
 
     fun selectMyProcuts(): Query {
         return db.collection(DOCUMENT_PRODUCTS).whereEqualTo("uid", currentUserUID())
+    }
+
+    fun selectProductsByUID(uid : String): Query {
+        return db.collection(DOCUMENT_PRODUCTS).whereEqualTo("uid", uid)
     }
 
     fun selectRecentPostedProducts(): Query {

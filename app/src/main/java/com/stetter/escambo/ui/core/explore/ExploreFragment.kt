@@ -71,7 +71,7 @@ class ExploreFragment : BaseFragment() {
         //Retrieve data from firebase
         mainViewModel.retrieveUserLocation()
         viewModel.selectProducts()
-        viewModel.retrieveTopUsers()
+        viewModel.retrieveMostRatedUsers()
 
         binding.btnFilter.setOnClickListener {
             val intent = Intent(context, FilterActivity::class.java)
@@ -83,7 +83,7 @@ class ExploreFragment : BaseFragment() {
         location?.let {
             currentLat = location.latitude
             currentLng = location.longitude
-            viewModel.retrieveProductsCloseToMe()
+            viewModel.retrieveProductsNextToMe()
         }
     }
 
@@ -99,10 +99,8 @@ class ExploreFragment : BaseFragment() {
         if (topUserList.isEmpty()) {
             //no itens
         } else {
-            //Filter user with no matches
-            var filteredList = topUserList.sortedBy { it.products }
-            //Order by desc by reversing int
-            topuserAdapter.data = filteredList.reversed()
+
+            topuserAdapter.data = topUserList
         }
     }
 

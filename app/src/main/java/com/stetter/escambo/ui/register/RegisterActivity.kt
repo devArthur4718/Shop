@@ -18,6 +18,7 @@ import com.stetter.escambo.databinding.ActivityRegisterNewBinding
 import com.stetter.escambo.extension.*
 import com.stetter.escambo.net.models.RegisterUser
 import com.stetter.escambo.net.retrofit.responses.postalResponse
+import com.stetter.escambo.ui.dialog.LoadingDialog
 import com.stetter.escambo.ui.dialogs.CustomDialog
 import java.io.IOException
 
@@ -26,13 +27,14 @@ class RegisterActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityRegisterNewBinding
     private lateinit var viewmodel: RegisterViewModel
-//    private lateinit var loadingDialog: LoadingDialog
+    private lateinit var loadingDialog: LoadingDialog
     private lateinit var errorDialog: CustomDialog
     var latitude  = 0.0
     var longitute = 0.0
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register)
+        loadingDialog = LoadingDialog(this)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_register_new)
         viewmodel = ViewModelProvider(this)[RegisterViewModel::class.java]
         binding.lifecycleOwner = this
@@ -46,6 +48,10 @@ class RegisterActivity : AppCompatActivity() {
             binding.progressRegister.visibility = if(it) View.VISIBLE else View.GONE
         })
 
+        viewmodel.loadingDialog.observe(this, Observer {
+            if(it) loadingDialog.show() else loadingDialog.hide()
+        })
+
         viewmodel.addressValue.observe(this, Observer { response -> onAddressReceived(response) })
 
         viewmodel.showErrorDialog.observe(this, Observer {
@@ -53,7 +59,6 @@ class RegisterActivity : AppCompatActivity() {
                 var alert = showErrorDialog()
                 alert.show()
             }
-
         })
 
         viewmodel.showRegisterError.observe(this, Observer { onRegisterError(it) })
