@@ -83,7 +83,7 @@ class Profile : BaseFragment() {
             startActivityForResult(intent, RC_FINISH_SESSION)
         }
         //Retrieve user posted products
-        viewModel.retriveUserPostedProducts()
+        viewModel.retrieveMyproducts()
 
     }
 

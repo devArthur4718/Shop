@@ -1,6 +1,6 @@
 package com.stetter.escambo.ui.core.profile
 
-import android.content.Context
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -40,12 +40,26 @@ class ProfileViewModel : ViewModel() {
 
             }
         })
-
     }
 
-    fun selectUserProducts(){
+    fun retrieveMyproducts(){
+        db.selectMyProcuts().addSnapshotListener { querySnapshot, firebaseFirestoreException ->
+            if (firebaseFirestoreException != null) {
+                Log.w("products", "Listen failed.", firebaseFirestoreException)
+                return@addSnapshotListener
+            }
 
+            if(querySnapshot != null){
+                var querryList = ArrayList<Product>()
+                for(doc in querySnapshot!!){
+                    var item = doc.toObject(Product::class.java)
+                    querryList.add(item)
+                }
+                _querryFirebase.value = querryList
+            }
+        }
     }
+
 
 
 }

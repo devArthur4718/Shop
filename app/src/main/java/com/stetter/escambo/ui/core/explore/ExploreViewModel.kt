@@ -45,35 +45,12 @@ class ExploreViewModel : ViewModel() {
                 }
                 _listRecentPost.value = querryList
 
-                try{
-                    _listRecentPost.value
-
-                }catch (e : KotlinNullPointerException){
-
-                }
-
             }
-
 
 
         }
     }
 
-//    fun retrieveRecentProducts(){
-//        databaserepository.retrieveRecentPosts().addChildEventListener(object : ChildEventListener{
-//            var querryList = ArrayList<Product>()
-//            override fun onCancelled(p0: DatabaseError) { }
-//            override fun onChildMoved(p0: DataSnapshot, p1: String?) { }
-//            override fun onChildChanged(p0: DataSnapshot, p1: String?) { }
-//            override fun onChildAdded(datasnapshopt: DataSnapshot, p1: String?) {
-//                var products = datasnapshopt.getValue(Product::class.java)
-//                products?.let { data ->  querryList.add(data) }
-//                _listRecentPost.value = querryList
-//
-//            }
-//            override fun onChildRemoved(p0: DataSnapshot) { }
-//        } )
-//    }
 
     fun retrieveTopUsers(){
         databaserepository.receiveTopUsers().addChildEventListener(object  : ChildEventListener{

@@ -51,7 +51,7 @@ class FirestoreRepository {
     }
 
     fun selectRecentPostedProducts(): Query {
-       return  db.collection(DOCUMENT_PRODUCTS).orderBy(FIELD_DATE_POSTED, Query.Direction.ASCENDING)
+       return  db.collection(DOCUMENT_PRODUCTS).orderBy(FIELD_DATE_POSTED, Query.Direction.DESCENDING)
     }
 
 

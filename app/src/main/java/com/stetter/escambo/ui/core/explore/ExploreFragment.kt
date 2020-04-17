@@ -91,7 +91,7 @@ class ExploreFragment : BaseFragment() {
         if (recentPostList.isEmpty()) {
             //no itens
         } else {
-            recentProduct.data = recentPostList.reversed()
+            recentProduct.data = recentPostList
         }
     }
 
