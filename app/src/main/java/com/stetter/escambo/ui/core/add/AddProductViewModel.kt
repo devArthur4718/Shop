@@ -9,6 +9,7 @@ import androidx.lifecycle.ViewModel
 import com.google.firebase.database.ChildEventListener
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
+import com.stetter.escambo.net.firebase.database.FirestoreRepository
 import com.stetter.escambo.net.firebase.storage.DatabaseRepository
 import com.stetter.escambo.net.models.Product
 import com.stetter.escambo.ui.adapter.ProductCard
@@ -18,6 +19,7 @@ import kotlin.collections.ArrayList
 class AddProductViewModel : ViewModel() {
 
     val databaserepository = DatabaseRepository()
+    val db = FirestoreRepository()
 
     private val _listCategoryProduct = MutableLiveData<List<String>>()
     val listCategoryList: LiveData<List<String>> get() = _listCategoryProduct
@@ -122,6 +124,24 @@ class AddProductViewModel : ViewModel() {
                 _uploadProduct.value = false
                 _loadingProgress.value = false
             }
+
+    }
+
+    fun uploadProduct(product : Product){
+        _loadingProgress.value = true
+         db.insertProduct()
+             .add(product)
+             .addOnCompleteListener {request ->
+                 if(request.isSuccessful){
+                     _uploadProduct.value = true
+                     _loadingProgress.value = false
+                 }
+
+             }.addOnFailureListener {
+                 _uploadProduct.value = false
+                 _loadingProgress.value = false
+                 Log.e("AddProduct", "Error $it")
+             }
 
     }
 

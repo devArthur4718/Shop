@@ -48,13 +48,42 @@ class ProfileDetail : BaseActivity() {
     }
 
     var productCount = 0
+    lateinit var currentUser : RegisterUser
     private fun getFromBundle() {
         if(intent.hasExtra("productCount")){
             productCount = intent.getIntExtra("productCount", 0)
         }
+        if(intent.hasExtra("currentUser")){
+            currentUser = intent.getSerializableExtra("currentUser") as RegisterUser
+
+        }
     }
 
     private fun initViews() {
+        currentUser?.let {
+            binding.inputFullName.editText?.setText(it.fullName)
+            binding.inputEmail.editText?.setText(it.email)
+            binding.inputPassword.editText?.setText("******")
+            userProfilePhoto = it.photoUrl
+            binding.inputBirthDate.editText?.setText(it.birthDate)
+            binding.inputPostalCode.editText?.setText(it.cep)
+            binding.inputCity.editText?.setText(it.city)
+            binding.inputUF.editText?.setText(it.uf)
+            productList = it.productsList as ArrayList<String>
+
+            val storage = FirebaseStorage.getInstance()
+            if(it.photoUrl.length > 1){
+                val gsReference =
+                    storage.getReferenceFromUrl("gs://escambo-1b51d.appspot.com/${it.photoUrl}")
+                GlideApp.with(this)
+                    .load(gsReference)
+                    .placeholder(this?.CircularProgress())
+                    .into(binding.ivDetailProfileImage)
+            }else{
+                binding.ivDetailProfileImage.setImageDrawable(resources.getDrawable(R.drawable.ic_young))
+            }
+
+        }
         binding.inputBirthDate.editText?.addTextChangedListener(
             Mask.mask(
                 "##/##/####",
@@ -87,8 +116,8 @@ class ProfileDetail : BaseActivity() {
 
     private fun setObservables() {
 
-        mainViewModel.getUserDataFromDatabase()
-        mainViewModel.userProfileData.observe(this, Observer { onUserDataReceveid(it) })
+//        mainViewModel.getUserDataFromDatabase()
+//        mainViewModel.userProfileData.observe(this, Observer { onUserDataReceveid(it) })
         viewmodel.imagePickIntent.observe(this, Observer { onPickImageIntent(it) })
         viewmodel.onPhotoFileReceived.observe(this, Observer { onProfileImageReceived(it) })
         viewmodel.uploadSucess.observe(this, Observer { onUserProfildeUpdated(it) })

@@ -160,7 +160,9 @@ class RegisterActivity : AppCompatActivity() {
                     this.lng = longitute
                     this.productsList = list
                 }
+
                 sendForm(senUser)
+
             }
         }
         binding.inputBirthDate.editText?.addTextChangedListener(

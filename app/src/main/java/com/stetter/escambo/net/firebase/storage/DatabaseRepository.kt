@@ -47,10 +47,10 @@ class DatabaseRepository {
         return user?.updatePassword(password)
     }
 
-    fun retriveUserData() : DatabaseReference{
-        var uid = currentUserUID()
-        return FirebaseDatabase.getInstance().getReference("/users/$uid")
-    }
+//    fun retriveUserData() : DatabaseReference{
+//        var uid = currentUserUID()
+//        return FirebaseDatabase.getInstance().getReference("/users/$uid")
+//    }
 
     fun retrieveAnotherUser(uid : String) : DatabaseReference{
         return FirebaseDatabase.getInstance().getReference("/users/$uid")

@@ -78,7 +78,7 @@ class AddProduct : BaseFragment() {
     }
 
     private fun setObserbales() {
-        mainViewModel.saveCurrentUID()
+//        mainViewModel.saveCurrentUID()
         viewModel.fetchProductCategories()
         viewModel.listCategoryList.observe( viewLifecycleOwner,  Observer { onConfigureCategoryAdapter(it) })
         viewModel.pickPhotoFromGallery.observe( viewLifecycleOwner,  Observer { onPickDataFromGallery(it) })
@@ -112,7 +112,7 @@ class AddProduct : BaseFragment() {
                 uf,
                 city
             )
-            viewModel.uploadProductToFirebase( product, productList )
+            viewModel.uploadProduct( product )
             //upload user product count
         }
 

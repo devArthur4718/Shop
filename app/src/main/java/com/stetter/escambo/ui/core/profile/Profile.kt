@@ -72,13 +72,14 @@ class Profile : BaseFragment() {
 
     private fun setObservables() {
         //Retrieve user
-        mainViewModel.getUserDataFromDatabase()
+//        mainViewModel.getUserDataFromDatabase()
         mainViewModel.userProfileData.observe(viewLifecycleOwner, Observer { onUserDataReceveid(it) })
         viewModel.querryFirebase.observe(viewLifecycleOwner, Observer { onUserProductListReceived(it) })
 
         binding.ivOpenProfileDetail.setOnClickListener {
             val intent = Intent(activity, ProfileDetail::class.java)
             intent.putExtra("productCount", productCount)
+            intent.putExtra("currentUser", currentUserData)
             startActivityForResult(intent, RC_FINISH_SESSION)
         }
         //Retrieve user posted products
@@ -100,6 +101,7 @@ class Profile : BaseFragment() {
         }
     }
 
+    lateinit var currentUserData : RegisterUser
     private fun onUserDataReceveid(userData: RegisterUser?) {
         userData?.let {
             //Update UI
@@ -123,6 +125,8 @@ class Profile : BaseFragment() {
             }else{
                 binding.ivProfileImage.setImageDrawable(resources.getDrawable(R.drawable.ic_young))
             }
+
+             currentUserData = userData
 
         }
     }

@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.google.firebase.auth.FirebaseAuthUserCollisionException
 import com.stetter.escambo.net.firebase.auth.LoginRepository
+import com.stetter.escambo.net.firebase.database.FirestoreRepository
 import com.stetter.escambo.net.firebase.storage.DatabaseRepository
 import com.stetter.escambo.net.models.RegisterUser
 import com.stetter.escambo.net.retrofit.postalApi
@@ -18,6 +19,7 @@ class RegisterViewModel : ViewModel() {
 
     var authRepository = LoginRepository()
     var database = DatabaseRepository()
+    val db = FirestoreRepository()
 
     private val _addressValue = MutableLiveData<postalResponse>()
     val addressValue: LiveData<postalResponse> get() = _addressValue
@@ -69,9 +71,8 @@ class RegisterViewModel : ViewModel() {
         authRepository.createUser(sendUser.email, password)
             .addOnCompleteListener {task ->
                 _loadingProgress.value = false
-
                 if(task.isSuccessful){
-                    saveUserToDabase(sendUser,task.result?.user?.uid)
+                    saveUserData(sendUser, task.result?.user?.uid)
                 }else{
                     try {
                         throw task.exception!!
@@ -80,7 +81,6 @@ class RegisterViewModel : ViewModel() {
                         _showRegisterError.value = "Este e-mail já está em uso!"
                     }
                 }
-
             }.addOnFailureListener {
                 Log.e( "Auth", it.toString())
                 _registerObserver.value = false
@@ -88,21 +88,6 @@ class RegisterViewModel : ViewModel() {
             }
     }
 
-    fun saveUserToDabase(sendUser: RegisterUser ,uid : String?){
-        database.saveUserToDabase(uid!!).setValue(sendUser)
-            .addOnCompleteListener {
-                hideLoading()
-                _loadingProgress.value = false
-                _registerObserver.value = true
-                Log.d("Register", "Created user $uid")
-             }
-            .addOnFailureListener {
-                hideLoading()
-                _loadingProgress.value = false
-                _registerObserver.value = false
-                Log.e("Register", "error when creanting user $uid : $it")
-            }
-    }
 
     fun showLoading(){
         _loadingProgress.value = true
@@ -112,5 +97,37 @@ class RegisterViewModel : ViewModel() {
         _loadingProgress.value = false
     }
 
+    //TODO : Salvar usuários e seus dados - Done
+    //Todo : Ler dados de um usuário - Done
+    //Todo : Alterar dados de um usuário
+
+    //Todo : Tabela produtos.
+    //Todo : Salvar um produto com a chave do usuario(chave estrangeira.
+    //Todo :  Ler e filtrar os mais próximos (calcule a distancia aqui no app).
+    //Todo : Ler e filtrar os mais recentes
+    //Todo : Ler e filtra os que tem mais matches e produtos. (média ponderada)
+    //Todo : Ler todos os produtos de um usuário e exibir na tela
+    //Todo : Editar ou excluir o produto de um usuário.
+
+
+    fun saveUserData(user : RegisterUser, uid : String?){
+        uid?.let { value -> user.clientID = value  }
+        _loadingProgress.value = true
+        db.insertUser()
+            .add(user)
+            .addOnCompleteListener {
+                hideLoading()
+                _loadingProgress.value = false
+                _registerObserver.value = true
+                    Log.d("Save User", "Sucesss")
+            }
+            .addOnFailureListener {
+                hideLoading()
+                _loadingProgress.value = false
+                _registerObserver.value = false
+                Log.e("Register", "error when creanting user $uid : $it")
+            }
+
+    }
 
 }

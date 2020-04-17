@@ -7,12 +7,14 @@ import androidx.lifecycle.ViewModel
 import com.google.firebase.database.ChildEventListener
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
+import com.stetter.escambo.net.firebase.database.FirestoreRepository
 import com.stetter.escambo.net.firebase.storage.DatabaseRepository
 import com.stetter.escambo.net.models.Product
 
 class ProfileViewModel : ViewModel() {
 
     val databaserepository = DatabaseRepository()
+    val db = FirestoreRepository()
 
     private val _querryFirebase = MutableLiveData<ArrayList<Product>>()
     val querryFirebase: LiveData<ArrayList<Product>>get() = _querryFirebase
@@ -38,6 +40,10 @@ class ProfileViewModel : ViewModel() {
 
             }
         })
+
+    }
+
+    fun selectUserProducts(){
 
     }
 
