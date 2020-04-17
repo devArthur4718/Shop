@@ -206,7 +206,7 @@ class ProfileDetail : BaseActivity() {
 
     private fun updateUser(sendUser: RegisterUser) {
         //register user
-        viewmodel.updateUser(sendUser, binding.inputPassword.editText?.text.toString())
+        viewmodel.updateCurrentUser(sendUser)
     }
 
     var profileImage = ""

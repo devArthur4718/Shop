@@ -113,9 +113,11 @@ class RegisterViewModel : ViewModel() {
     fun saveUserData(user : RegisterUser, uid : String?){
         uid?.let { value -> user.clientID = value  }
         _loadingProgress.value = true
+
         db.insertUser()
-            .add(user)
-            .addOnCompleteListener {
+            .document(uid!!)
+            .set(user)
+            .addOnSuccessListener {
                 hideLoading()
                 _loadingProgress.value = false
                 _registerObserver.value = true

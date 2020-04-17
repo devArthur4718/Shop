@@ -85,18 +85,25 @@ class CoreViewModel : ViewModel() {
 //    }
 
     fun getUserData(){
-        db.selectUser()
-            .addOnCompleteListener { documentSnapshot ->
+
+        db.selectUser().addSnapshotListener{documentSnapshot, firebaseFirestoreException ->
+            if (firebaseFirestoreException != null) {
+                Log.w("user", "Listen failed.", firebaseFirestoreException)
+                return@addSnapshotListener
+            }
+            if (documentSnapshot != null && documentSnapshot.exists()) {
                 try{
-                    _userProfileData.value = documentSnapshot.result?.toObjects(RegisterUser::class.java)?.first()
+                    _userProfileData.value = documentSnapshot.toObject(RegisterUser::class.java)
                     hideLoading()
                 }catch (e : KotlinNullPointerException){
                     hideLoading()
                 }
-            }.addOnFailureListener {
-
-                Log.e("user", "Error $it")
+                Log.d("user", "Current data: ${documentSnapshot.data}")
+            } else {
+                Log.d("user", "Current data: null")
             }
+        }
+
     }
 
     private val _retrieveUserLocation = MutableLiveData<Boolean>()
