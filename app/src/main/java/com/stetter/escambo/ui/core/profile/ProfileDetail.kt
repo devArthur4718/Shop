@@ -118,8 +118,6 @@ class ProfileDetail : BaseActivity() {
 
     private fun setObservables() {
 
-//        mainViewModel.getUserDataFromDatabase()
-//        mainViewModel.userProfileData.observe(this, Observer { onUserDataReceveid(it) })
         viewmodel.imagePickIntent.observe(this, Observer { onPickImageIntent(it) })
         viewmodel.onPhotoFileReceived.observe(this, Observer { onProfileImageReceived(it) })
         viewmodel.uploadSucess.observe(this, Observer { onUserProfildeUpdated(it) })

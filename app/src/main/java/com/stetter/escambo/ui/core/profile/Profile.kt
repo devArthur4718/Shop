@@ -7,7 +7,6 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -49,7 +48,6 @@ class Profile : BaseFragment() {
         viewModel = ViewModelProvider(this).get(ProfileViewModel::class.java)
         setObservables()
         setAdapters()
-
     }
 
     private fun setAdapters() {
@@ -60,14 +58,6 @@ class Profile : BaseFragment() {
 
         })
         binding.rvRecentPosts.adapter = adapter
-    }
-
-    fun deleteProduct(){
-        Toast.makeText(context, "Delete product", Toast.LENGTH_SHORT).show()
-    }
-
-    fun editProduct(){
-        Toast.makeText(context, "Edit product", Toast.LENGTH_SHORT).show()
     }
 
     private fun setObservables() {
