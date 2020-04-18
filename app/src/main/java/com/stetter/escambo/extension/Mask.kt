@@ -18,7 +18,7 @@ class Mask{
         fun removeMoneyMask(moneytext : String) : String{
 
             val replaceable = java.lang.String.format(
-                "[%s,.\\s]",
+                "[%s\\s]",
                 NumberFormat.getCurrencyInstance(Locale("pt", "BR")).getCurrency().getSymbol()
             )
 

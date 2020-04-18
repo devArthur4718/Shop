@@ -57,6 +57,8 @@ class UpdateProfileViewModel  : ViewModel(){
         _pickFromGalleryObservable.value = false
     }
 
+   fun getClientID() : String = authRepository.getCurrentUserUID()
+
     fun uploadImageToFirebase(filename : String, byteArray : ByteArray) {
         _loadingProgress.value = true
         databaserepository.uploadImageToDatabase(filename).putBytes(byteArray)
@@ -87,9 +89,6 @@ class UpdateProfileViewModel  : ViewModel(){
             }
 
     }
-
-
-
 
     fun updateCurrentUser(sendUser: RegisterUser){
         _loadingProgress.value = true

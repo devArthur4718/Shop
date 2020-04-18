@@ -104,7 +104,7 @@ class DetailProductActivity : BaseActivity() {
                 //Fetch user and then open an intent
                 viewmodel.retrieveUserInformation(data.uid)
             }
-            binding.button10.setOnClickListener {
+            binding.btnOpenUserDetail.setOnClickListener {
                 ivUserDetail.performClick()
             }
 
@@ -150,7 +150,7 @@ class DetailProductActivity : BaseActivity() {
                 //Fetch user and then open an intent
                 viewmodel.retrieveUserInformation(data.uid)
             }
-            binding.button10.setOnClickListener {
+            binding.btnOpenUserDetail.setOnClickListener {
                 ivUserDetail.performClick()
             }
 

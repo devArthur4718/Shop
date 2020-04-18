@@ -19,6 +19,8 @@ import java.lang.IllegalArgumentException
 import java.lang.IndexOutOfBoundsException
 import java.text.DecimalFormat
 import java.text.DecimalFormatSymbols
+import java.text.NumberFormat
+import java.util.*
 
 class ItemProductNextToMeAdapter : RecyclerView.Adapter<ItemProductNextToMeAdapter.ViewHolder>() {
 
@@ -46,13 +48,14 @@ class ItemProductNextToMeAdapter : RecyclerView.Adapter<ItemProductNextToMeAdapt
 
             binding.tvNextProductAuthor.text = item.username
             binding.tvNextProduct.text = item.product
-            var moneytext = item.value.toString().replaceRange(item.value.toString().length  -2, item.value.toString().length, "")
+
 
             try{
-                var symbols = DecimalFormatSymbols()
-                symbols.decimalSeparator = ','
-                var moneyFormat = DecimalFormat("R$ ###,###,###,###", symbols)
-                binding.tvNextProductValue.text = moneyFormat.format(moneytext.toDouble()).toString().replace(".", ",")
+                var format = NumberFormat.getCurrencyInstance()
+                format.maximumFractionDigits = 2
+                format.currency = Currency.getInstance("BRL")
+                binding.tvNextProductValue.text = format.format(item.value)
+
             }catch (e : Exception){
                 Log.d("ProductAdapter", "Error: $e")
             }

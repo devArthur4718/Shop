@@ -1,14 +1,11 @@
 package com.stetter.escambo.net.firebase.database
 
-import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.*
 
 class FirestoreRepository {
     //Todo : Tabela produtos.
-    //Todo : Ler todos os produtos de um usuário e exibir na tela
     //Todo : Editar ou excluir o produto de um usuário.
-    //Todo : Querries do filtro
 
     val db = FirebaseFirestore.getInstance()
     val auth = FirebaseAuth.getInstance()

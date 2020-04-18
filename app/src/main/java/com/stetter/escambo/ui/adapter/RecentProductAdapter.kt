@@ -19,6 +19,8 @@ import java.lang.IllegalArgumentException
 import java.lang.IndexOutOfBoundsException
 import java.text.DecimalFormat
 import java.text.DecimalFormatSymbols
+import java.text.NumberFormat
+import java.util.*
 
 class RecentProductAdapter () : RecyclerView.Adapter<RecentProductAdapter.ViewHolder>()  {
 
@@ -44,16 +46,18 @@ class RecentProductAdapter () : RecyclerView.Adapter<RecentProductAdapter.ViewHo
         fun bind(item : Product){
             binding.tvRecentItemTitle.text = item.product
             binding.tvRecentUserName.text = item.username
-            var moneytext = item.value.toString().replaceRange(item.value.toString().length  -2, item.value.toString().length, "")
+
 
             try{
-                var symbols = DecimalFormatSymbols()
-                symbols.decimalSeparator = ','
-                var moneyFormat = DecimalFormat("R$ ###,###,###,###", symbols)
-                binding.tvValueRecent.text = moneyFormat.format(moneytext.toDouble()).toString().replace(".", ",")
+                var format = NumberFormat.getCurrencyInstance()
+                format.maximumFractionDigits = 2
+                format.currency = Currency.getInstance("BRL")
+                binding.tvValueRecent.text = format.format(item.value)
+
             }catch (e : Exception){
                 Log.d("ProductAdapter", "Error: $e")
             }
+
 
             //Load image with glide - only the first one
             val storage = FirebaseStorage.getInstance()

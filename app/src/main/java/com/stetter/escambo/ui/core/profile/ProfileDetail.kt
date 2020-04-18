@@ -59,6 +59,7 @@ class ProfileDetail : BaseActivity() {
         }
     }
 
+    var userKey = ""
     private fun initViews() {
         currentUser?.let {
             binding.inputFullName.editText?.setText(it.fullName)
@@ -70,6 +71,7 @@ class ProfileDetail : BaseActivity() {
             binding.inputCity.editText?.setText(it.city)
             binding.inputUF.editText?.setText(it.uf)
             productList = it.productsList as ArrayList<String>
+            userKey = it.clientID
 
             val storage = FirebaseStorage.getInstance()
             if(it.photoUrl.length > 1){
@@ -194,6 +196,7 @@ class ProfileDetail : BaseActivity() {
                     this.lat = GeocoderLocation(binding.inputUF.editText?.text.toString()).second
                     this.products = productCount
                     this.productsList = productList
+                    this.clientID = viewmodel.getClientID()
                 }
                 updateUser(sendUser)
             }
@@ -276,34 +279,7 @@ class ProfileDetail : BaseActivity() {
 
     var userProfilePhoto = ""
     var productList = ArrayList<String>()
-    private fun onUserDataReceveid(userdata: RegisterUser?) {
-        //UpdateUI
-        userdata?.let {
-            binding.inputFullName.editText?.setText(it.fullName)
-            binding.inputEmail.editText?.setText(it.email)
-            binding.inputPassword.editText?.setText("******")
-            userProfilePhoto = userdata.photoUrl
-            binding.inputBirthDate.editText?.setText(it.birthDate)
-            binding.inputPostalCode.editText?.setText(it.cep)
-            binding.inputCity.editText?.setText(it.city)
-            binding.inputUF.editText?.setText(it.uf)
-            productList = it.productsList as ArrayList<String>
-        }
 
-        //Load user photo
-        val storage = FirebaseStorage.getInstance()
-        if (userdata!!.photoUrl.length > 1) {
-            val gsReference =
-                storage.getReferenceFromUrl("gs://escambo-1b51d.appspot.com/${userdata.photoUrl}")
-            GlideApp.with(this)
-                .load(gsReference)
-                .placeholder(this?.CircularProgress())
-                .into(binding.ivDetailProfileImage)
-
-        } else {
-            binding.ivDetailProfileImage.setImageDrawable(resources.getDrawable(R.drawable.ic_young))
-        }
-    }
 
     fun onEditClick(view: View) {
         when (view.id) {
