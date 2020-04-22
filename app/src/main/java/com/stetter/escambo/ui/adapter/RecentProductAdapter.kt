@@ -47,7 +47,7 @@ class RecentProductAdapter () : RecyclerView.Adapter<RecentProductAdapter.ViewHo
         fun bind(item : Product){
             binding.tvRecentItemTitle.text = item.product
             binding.tvRecentUserName.text = item.username
-            binding.tvValueRecent.text = item.value.toMoneyText()
+            binding.tvValueRecent.text = item.value.toDouble().toMoneyText()
 
             //Load image with glide - only the first one
             val storage = FirebaseStorage.getInstance()

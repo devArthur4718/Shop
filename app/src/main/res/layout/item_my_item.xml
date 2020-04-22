@@ -77,9 +77,9 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
                     android:layout_marginBottom="16dp"
-                    tools:text="R$ 3500,90"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent" />
+                    app:layout_constraintStart_toStartOf="parent"
+                    tools:text="R$ 3500,90" />
 
                 <androidx.constraintlayout.widget.Group
                     android:layout_width="wrap_content"
@@ -153,12 +153,13 @@
                     android:id="@+id/ivEditProduct"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="24dp"
-                    android:layout_marginEnd="24dp"
+                    android:layout_marginBottom="8dp"
+                    android:visibility="invisible"
                     android:onClick="@{() -> clickListener.onClick(product)}"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:srcCompat="@drawable/ic_edit_black_24dp" />
+                    app:layout_constraintBottom_toTopOf="@+id/tvMyitemTitle"
+                    app:layout_constraintStart_toStartOf="@+id/tvMyitemTitle"
+                    app:srcCompat="@drawable/ic_edit_black_24dp"
+                    android:contentDescription="@string/app_name" />
 
 
             </androidx.constraintlayout.widget.ConstraintLayout>

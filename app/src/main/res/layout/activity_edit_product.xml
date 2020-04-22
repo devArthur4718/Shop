@@ -149,7 +149,7 @@
                 style="@style/greenGradientButton"
                 android:layout_width="0dp"
                 android:layout_height="58dp"
-                android:layout_marginTop="24dp"
+                android:layout_marginTop="16dp"
                 android:text="@string/publicar"
                 android:textAllCaps="false"
                 app:layout_constraintEnd_toEndOf="@+id/cardItemValue"
@@ -169,6 +169,18 @@
                 app:layout_constraintTop_toBottomOf="@+id/label_publishItem"
                 tools:itemCount="1"
                 tools:listitem="@layout/item_upload_product" />
+
+            <Button
+                android:id="@+id/btnRemoveProduct"
+                style="@style/greenGradientButton"
+                android:layout_width="0dp"
+                android:layout_height="58dp"
+                android:layout_marginTop="16dp"
+                android:text="@string/remove_product"
+                android:textAllCaps="false"
+                app:layout_constraintEnd_toEndOf="@+id/btnPublishItem"
+                app:layout_constraintStart_toStartOf="@+id/btnPublishItem"
+                app:layout_constraintTop_toBottomOf="@+id/btnPublishItem" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>

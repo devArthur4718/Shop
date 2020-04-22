@@ -6,14 +6,19 @@ import androidx.lifecycle.ViewModel
 import com.google.firebase.database.ChildEventListener
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
+import com.stetter.escambo.net.firebase.database.FirestoreRepository
 import com.stetter.escambo.net.firebase.storage.DatabaseRepository
+import com.stetter.escambo.net.models.Product
 
-class EditProfileViewmodel : ViewModel() {
+class EditProductViewModel : ViewModel() {
     val databaserepository = DatabaseRepository()
+    val db = FirestoreRepository()
 
     private val _listCategoryProduct = MutableLiveData<List<String>>()
     val listCategoryList: LiveData<List<String>> get() = _listCategoryProduct
 
+    private val _onDeletedProduct = MutableLiveData<Boolean>()
+    val onDeletedProduct: LiveData<Boolean> get() = onDeletedProduct
 
     fun fetchProductCategories(){
         var categoriesList = ArrayList<String>()
@@ -28,5 +33,26 @@ class EditProfileViewmodel : ViewModel() {
             }
             override fun onChildRemoved(p0: DataSnapshot) { }
         })
+    }
+
+
+    fun updateProduct(product : Product){
+        db.updateUserProduct(product.productKey).set(product)
+            .addOnSuccessListener {
+
+            }
+            .addOnFailureListener {
+
+            }
+    }
+
+    fun deleteProduct(productKey : String){
+        db.deleteUserProduct(productKey)
+            .addOnSuccessListener {
+                _onDeletedProduct.value = true
+            }
+            .addOnFailureListener {
+                _onDeletedProduct.value = false
+            }
     }
 }

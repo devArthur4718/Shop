@@ -11,7 +11,6 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.stetter.escambo.R
 import com.stetter.escambo.databinding.ExploreFragmentBinding
-import com.stetter.escambo.extension.metersToKM
 import com.stetter.escambo.net.models.Product
 import com.stetter.escambo.net.models.ProductByLocation
 import com.stetter.escambo.net.models.RegisterUser

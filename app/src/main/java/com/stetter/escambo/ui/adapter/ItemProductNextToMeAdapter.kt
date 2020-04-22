@@ -11,6 +11,7 @@ import com.google.firebase.storage.FirebaseStorage
 import com.stetter.escambo.R
 import com.stetter.escambo.databinding.ItemProductBinding
 import com.stetter.escambo.extension.CircularProgress
+import com.stetter.escambo.extension.toMoneyText
 import com.stetter.escambo.glide.GlideApp
 import com.stetter.escambo.net.models.ProductByLocation
 import com.stetter.escambo.ui.core.explore.detail.DetailProductActivity
@@ -48,17 +49,8 @@ class ItemProductNextToMeAdapter : RecyclerView.Adapter<ItemProductNextToMeAdapt
 
             binding.tvNextProductAuthor.text = item.username
             binding.tvNextProduct.text = item.product
+            binding.tvNextProductValue.text = item.value.toDouble().toMoneyText()
 
-
-            try{
-                var format = NumberFormat.getCurrencyInstance()
-                format.maximumFractionDigits = 2
-                format.currency = Currency.getInstance("BRL")
-                binding.tvNextProductValue.text = format.format(item.value)
-
-            }catch (e : Exception){
-                Log.d("ProductAdapter", "Error: $e")
-            }
 
             //Load image with glide - only the first one
             val storage = FirebaseStorage.getInstance()

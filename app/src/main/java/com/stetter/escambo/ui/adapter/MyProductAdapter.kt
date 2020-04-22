@@ -1,7 +1,9 @@
 package com.stetter.escambo.ui.adapter
 
+import android.opengl.Visibility
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.load.engine.DiskCacheStrategy
@@ -9,13 +11,10 @@ import com.google.firebase.storage.FirebaseStorage
 import com.stetter.escambo.R
 import com.stetter.escambo.databinding.ItemMyItemBinding
 import com.stetter.escambo.extension.CircularProgress
+import com.stetter.escambo.extension.toMoneyText
 import com.stetter.escambo.glide.GlideApp
 import com.stetter.escambo.net.models.Product
-import com.stetter.escambo.ui.core.CoreActivity
-import java.lang.Exception
 import java.lang.IndexOutOfBoundsException
-import java.text.DecimalFormat
-import java.text.DecimalFormatSymbols
 
 
 class MyProductAdapter(val clicklistener : ProductListener) : RecyclerView.Adapter<MyProductAdapter.ViewHolder>(){
@@ -45,16 +44,8 @@ class MyProductAdapter(val clicklistener : ProductListener) : RecyclerView.Adapt
             binding.clickListener = clicklistener
             binding.executePendingBindings()
             binding.tvMyitemTitle.text = item.product
-            var moneytext = item.value.toString().replaceRange(item.value.toString().length  -2, item.value.toString().length, "")
-
-            try{
-                var symbols = DecimalFormatSymbols()
-                symbols.decimalSeparator = ','
-                var moneyFormat = DecimalFormat("R$ ###,###,###,###", symbols)
-                binding.tvMyItemValue.text = moneyFormat.format(Math.round(moneytext.toDouble())).toString().replace(".", ",")
-            }catch (e : Exception){
-                Log.d("ProductAdapter", "Error: $e")
-            }
+            binding.tvMyItemValue.text = item.value.toDouble().toMoneyText()
+            binding.ivEditProduct.visibility = View.VISIBLE
 
             //Load image with glide - only the first one
             val storage = FirebaseStorage.getInstance()

@@ -131,7 +131,8 @@ class AddProductViewModel : ViewModel() {
         _loadingProgress.value = true
         product.productKey = UUID.randomUUID().toString()
          db.insertProduct()
-             .add(product)
+             .document(product.productKey)
+             .set(product)
              .addOnCompleteListener {request ->
                  if(request.isSuccessful){
                      _uploadProduct.value = true

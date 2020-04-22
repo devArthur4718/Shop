@@ -1,5 +1,6 @@
 package com.stetter.escambo.net.firebase.database
 
+import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.*
 
@@ -72,8 +73,15 @@ class FirestoreRepository {
        return  db.collection(DOCUMENT_PRODUCTS).orderBy(FIELD_DATE_POSTED, Query.Direction.DESCENDING)
     }
 
-    //endregion
+    fun updateUserProduct(productKey : String): DocumentReference {
+        return db.collection(DOCUMENT_PRODUCTS).document(productKey)
+    }
 
+    fun deleteUserProduct(productKey : String): Task<Void> {
+        return db.collection(DOCUMENT_PRODUCTS).document(productKey).delete()
+    }
+
+    //endregion
 
 
 }

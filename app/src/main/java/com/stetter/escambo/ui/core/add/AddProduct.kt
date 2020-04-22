@@ -103,7 +103,7 @@ class AddProduct : BaseFragment() {
                 binding.edtItemName.text.toString(),
                 binding.edtItemDescription.text.toString(),
                 category,
-                Mask.removeMoneyMask( binding.edtItemValue.text.toString()).toDouble(),
+                Mask.removeMoneyMask( binding.edtItemValue.text.toString()),
                 Calendar.getInstance().getTimeStamp(),
                 fullName,
                 userPhotoUrl,
