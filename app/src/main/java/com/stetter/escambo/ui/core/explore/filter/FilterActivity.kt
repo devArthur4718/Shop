@@ -22,6 +22,7 @@ import com.stetter.escambo.extension.dialogs.showFilterLocalization
 import com.stetter.escambo.extension.hideKeyBoard
 import com.stetter.escambo.extension.dialogs.showFilterValue
 import com.stetter.escambo.extension.isGPsEnabled
+import com.stetter.escambo.extension.toMoneyText
 import com.stetter.escambo.net.models.Product
 import com.stetter.escambo.net.models.ProductByLocation
 import com.stetter.escambo.net.retrofit.responses.UfsResponseItem
@@ -183,8 +184,8 @@ class FilterActivity : BaseActivity() {
             toggleViews(true)
         }else{
             toggleViews(false)
-            //TODO: Filter min and max
-            searchProductAdapter.data = productList.filter { it.value > viewmodel.minValue && it.value < viewmodel.maxValue }
+            //TODO: Filter min and max using firestore querry
+            searchProductAdapter.data = productList
         }
 
     }

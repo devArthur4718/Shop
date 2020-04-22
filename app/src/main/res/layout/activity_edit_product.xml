@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:animateLayoutChanges="true"
+        android:fillViewport="true">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:context=".ui.core.profile.EditProduct">
+
+            <ImageView
+                android:id="@+id/imageView10"
+                android:layout_width="0dp"
+                android:layout_height="356dp"
+                android:adjustViewBounds="true"
+                android:contentDescription="@string/app_name"
+                android:scaleType="fitXY"
+                android:src="@drawable/bg_shape"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/label_publishItem"
+                style="@style/titleStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="24dp"
+                android:text="@string/edit"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/cv3"
+                android:layout_width="39dp"
+                android:layout_height="38dp"
+                android:layout_marginTop="32dp"
+                android:layout_marginEnd="24dp"
+                android:src="@android:color/white"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+
+            <ImageView
+                android:id="@+id/btnCloseEdit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toBottomOf="@+id/cv3"
+                app:layout_constraintEnd_toEndOf="@+id/cv3"
+                app:layout_constraintStart_toStartOf="@+id/cv3"
+                app:layout_constraintTop_toTopOf="@+id/cv3"
+                app:srcCompat="@drawable/ic_close_black_24dp" />
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cardItemName"
+                android:layout_width="0dp"
+                android:layout_height="58dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                app:cardCornerRadius="8dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/rvChangePhoto">
+
+                <EditText
+                    android:id="@+id/edtItemName"
+                    style="@style/cardEdtStyle"
+                    android:hint="@string/item_name"
+                    android:inputType="text" />
+
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cardDescription"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:minHeight="115dp"
+                app:cardCornerRadius="8dp"
+                app:layout_constraintEnd_toEndOf="@+id/cardItemName"
+                app:layout_constraintStart_toStartOf="@+id/cardItemName"
+                app:layout_constraintTop_toBottomOf="@+id/cardItemName">
+
+                <EditText
+                    android:id="@+id/edtItemDescription"
+                    style="@style/cardEdtStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="115dp"
+                    android:gravity="top"
+                    android:hint="@string/description"
+                    android:inputType="textMultiLine"
+                    android:maxLines="5"
+                    android:paddingVertical="8dp" />
+
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cardCategory"
+                android:layout_width="0dp"
+                android:layout_height="58dp"
+                android:layout_marginTop="16dp"
+                app:cardCornerRadius="8dp"
+                app:layout_constraintEnd_toEndOf="@+id/cardDescription"
+                app:layout_constraintStart_toStartOf="@+id/cardDescription"
+                app:layout_constraintTop_toBottomOf="@+id/cardDescription">
+
+                <Spinner
+                    android:id="@+id/spCategory"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:padding="4dp" />
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cardItemValue"
+                android:layout_width="0dp"
+                android:layout_height="58dp"
+                android:layout_marginTop="16dp"
+                app:cardCornerRadius="8dp"
+                app:layout_constraintEnd_toEndOf="@+id/cardDescription"
+                app:layout_constraintHorizontal_bias="0.49"
+                app:layout_constraintStart_toStartOf="@+id/cardDescription"
+                app:layout_constraintTop_toBottomOf="@+id/cardCategory">
+
+                <EditText
+                    android:id="@+id/edtItemValue"
+                    style="@style/cardEdtStyle"
+                    android:hint="@string/value"
+                    android:inputType="numberDecimal" />
+
+            </androidx.cardview.widget.CardView>
+
+            <Button
+                android:id="@+id/btnPublishItem"
+                style="@style/greenGradientButton"
+                android:layout_width="0dp"
+                android:layout_height="58dp"
+                android:layout_marginTop="16dp"
+                android:text="@string/publicar"
+                android:textAllCaps="false"
+                app:layout_constraintEnd_toEndOf="@+id/cardItemValue"
+                app:layout_constraintStart_toStartOf="@+id/cardItemValue"
+                app:layout_constraintTop_toBottomOf="@+id/cardItemValue" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvChangePhoto"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="16dp"
+                android:orientation="horizontal"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/label_publishItem"
+                app:layout_constraintTop_toBottomOf="@+id/label_publishItem"
+                tools:itemCount="1"
+                tools:listitem="@layout/item_upload_product" />
+
+            <Button
+                android:id="@+id/btnRemoveProduct"
+                style="@style/greenGradientButton"
+                android:layout_width="0dp"
+                android:layout_height="58dp"
+                android:layout_marginTop="16dp"
+                android:text="@string/remove_product"
+                android:textAllCaps="false"
+                app:layout_constraintEnd_toEndOf="@+id/btnPublishItem"
+                app:layout_constraintStart_toStartOf="@+id/btnPublishItem"
+                app:layout_constraintTop_toBottomOf="@+id/btnPublishItem" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.core.widget.NestedScrollView>
+</layout>

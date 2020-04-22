@@ -25,12 +25,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
-                <ImageView
-                    android:id="@+id/lvLoadedProduct"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:contentDescription="@string/app_name"
-                    android:scaleType="fitXY" />
+
 
                 <TextView
                     android:id="@+id/labelTakePhoto"
@@ -60,6 +55,13 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     app:constraint_referenced_ids="ivPickPhoto,labelTakePhoto" />
+
+                <ImageView
+                    android:id="@+id/lvLoadedProduct"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:contentDescription="@string/app_name"
+                    android:scaleType="centerCrop" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.cardview.widget.CardView>

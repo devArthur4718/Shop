@@ -5,6 +5,7 @@ import android.content.DialogInterface
 import android.location.Geocoder
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.widget.EditText
 import android.widget.Toast
@@ -33,9 +34,9 @@ class RegisterActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register)
+        loadingDialog = LoadingDialog(this)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_register_new)
         viewmodel = ViewModelProvider(this)[RegisterViewModel::class.java]
-
         binding.lifecycleOwner = this
         initViews()
         setObservables()
@@ -44,10 +45,11 @@ class RegisterActivity : AppCompatActivity() {
 
     private fun setObservables() {
         viewmodel.loadingProgress.observe(this, Observer {
-            if (it)
-                loadingDialog.show()
-            else
-                loadingDialog.hide()
+            binding.progressRegister.visibility = if(it) View.VISIBLE else View.GONE
+        })
+
+        viewmodel.loadingDialog.observe(this, Observer {
+            if(it) loadingDialog.show() else loadingDialog.hide()
         })
 
         viewmodel.addressValue.observe(this, Observer { response -> onAddressReceived(response) })
@@ -57,7 +59,6 @@ class RegisterActivity : AppCompatActivity() {
                 var alert = showErrorDialog()
                 alert.show()
             }
-
         })
 
         viewmodel.showRegisterError.observe(this, Observer { onRegisterError(it) })
@@ -99,7 +100,6 @@ class RegisterActivity : AppCompatActivity() {
     }
 
     private fun initViews() {
-        loadingDialog = LoadingDialog(this)
         errorDialog = CustomDialog("", this)
         binding.ivUpRegister.setOnClickListener {
             finish()
@@ -146,6 +146,9 @@ class RegisterActivity : AppCompatActivity() {
             } else if (binding.inputCity.editText?.isNullOrEmpty()!!) {
                 binding.inputCity.editText?.setError(getString(R.string.blank_city))
             } else {
+
+                var list = listOf("")
+
                 var senUser = RegisterUser().apply {
                     this.fullName = binding.inputFullName.editText?.text.toString()
                     this.email = binding.inputEmail.editText?.text.toString()
@@ -155,8 +158,11 @@ class RegisterActivity : AppCompatActivity() {
                     this.city = binding.inputCity.editText?.text.toString()
                     this.lat = latitude
                     this.lng = longitute
+                    this.productsList = list
                 }
+                binding.progressRegister.visibility = View.VISIBLE
                 sendForm(senUser)
+
             }
         }
         binding.inputBirthDate.editText?.addTextChangedListener(

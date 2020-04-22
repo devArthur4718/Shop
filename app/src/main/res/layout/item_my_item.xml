@@ -5,6 +5,14 @@
 
     <data>
 
+        <variable
+            name="product"
+            type="com.stetter.escambo.net.models.Product" />
+
+        <variable
+            name="clickListener"
+            type="com.stetter.escambo.ui.adapter.MyProductAdapter.ProductListener" />
+
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -43,6 +51,7 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <ImageView
+                    android:id="@+id/imageView11"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:contentDescription="@string/app_name"
@@ -68,17 +77,16 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
                     android:layout_marginBottom="16dp"
-                    tools:text="R$ 3500,90"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent" />
+                    app:layout_constraintStart_toStartOf="parent"
+                    tools:text="R$ 3500,90" />
 
                 <androidx.constraintlayout.widget.Group
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:visibility="gone"
-                    tools:visibility="visible"
                     app:constraint_referenced_ids="ivUserTop,ivUserTop2,ivUserTop3,ivUserTop4,tvCircleBadge"
-                    />
+                    tools:visibility="visible" />
 
                 <de.hdodenhof.circleimageview.CircleImageView
                     android:id="@+id/ivUserTop"
@@ -140,6 +148,18 @@
                     app:layout_constraintEnd_toEndOf="@+id/ivUserTop4"
                     app:layout_constraintStart_toStartOf="@+id/ivUserTop4"
                     app:layout_constraintTop_toTopOf="@+id/ivUserTop4" />
+
+                <ImageView
+                    android:id="@+id/ivEditProduct"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
+                    android:visibility="invisible"
+                    android:onClick="@{() -> clickListener.onClick(product)}"
+                    app:layout_constraintBottom_toTopOf="@+id/tvMyitemTitle"
+                    app:layout_constraintStart_toStartOf="@+id/tvMyitemTitle"
+                    app:srcCompat="@drawable/ic_edit_black_24dp"
+                    android:contentDescription="@string/app_name" />
 
 
             </androidx.constraintlayout.widget.ConstraintLayout>

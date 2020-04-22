@@ -47,6 +47,7 @@ class CoreActivity : BaseActivity() {
     }
 
     private fun setobservables() {
+
         corevm.loadingProgress.observe(this, Observer {
             if(it){
                 loadingDialog.show()
@@ -55,7 +56,9 @@ class CoreActivity : BaseActivity() {
             }
         })
 
-        corevm.getUserDataFromDatabase()
+        corevm.getUserData()
+        //Persist id for east querry
+        corevm.updateCurrentID()
 
         //Utils
         corevm.dialogMessage.observe(this, Observer { onShowDialogMessage(it) })

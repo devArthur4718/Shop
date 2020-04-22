@@ -5,15 +5,14 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.ValueEventListener
+import com.stetter.escambo.net.firebase.database.FirestoreRepository
 import com.stetter.escambo.net.firebase.storage.DatabaseRepository
 import com.stetter.escambo.net.models.RegisterUser
 
 class CoreViewModel : ViewModel() {
 
     val database = DatabaseRepository()
+    val db = FirestoreRepository()
 
     private val _loadingProgress = MutableLiveData<Boolean>()
     val loadingProgress : LiveData<Boolean> get() = _loadingProgress
@@ -49,27 +48,41 @@ class CoreViewModel : ViewModel() {
     fun setLocation(location : Location){
         _onLocationReceived.value = location
     }
-    //Fetch user data post login
-    fun getUserDataFromDatabase() {
+
+    //Save current uid
+    fun saveCurrentUID(){
         showLoading()
-        database.retriveUserData().addValueEventListener(object  : ValueEventListener{
-            override fun onCancelled(p0: DatabaseError) {
-                Log.e("Fetch User", "Error: $p0 ")
+        database.saveCurrentUIDIntoDatabase()
+            .addOnCompleteListener {
+
+            }.addOnFailureListener {
 
             }
+    }
 
-            override fun onDataChange(p0: DataSnapshot) {
+    fun updateCurrentID(){
+        db.updateClientID()
+    }
+
+    //Fetch user data to use during app session
+    fun getUserData(){
+        db.selectUser().addSnapshotListener{documentSnapshot, firebaseFirestoreException ->
+            if (firebaseFirestoreException != null) {
+                Log.w("user", "Listen failed.", firebaseFirestoreException)
+                return@addSnapshotListener
+            }
+            if (documentSnapshot != null && documentSnapshot.exists()) {
                 try{
-                    _userProfileData.value = p0.getValue(RegisterUser::class.java)!!
+                    _userProfileData.value = documentSnapshot.toObject(RegisterUser::class.java)
+                    hideLoading()
+                }catch (e : KotlinNullPointerException){
                     hideLoading()
                 }
-                catch (e : KotlinNullPointerException){
-                    hideLoading()
-                }
+                Log.d("user", "Current data: ${documentSnapshot.data}")
+            } else {
+                Log.d("user", "Current data: null")
             }
-
-
-        })
+        }
     }
 
     private val _retrieveUserLocation = MutableLiveData<Boolean>()

@@ -11,6 +11,7 @@ import com.google.firebase.storage.FirebaseStorage
 import com.stetter.escambo.R
 import com.stetter.escambo.databinding.ItemRecentBinding
 import com.stetter.escambo.extension.CircularProgress
+import com.stetter.escambo.extension.toMoneyText
 import com.stetter.escambo.glide.GlideApp
 import com.stetter.escambo.net.models.Product
 import com.stetter.escambo.ui.core.explore.detail.DetailProductActivity
@@ -19,6 +20,8 @@ import java.lang.IllegalArgumentException
 import java.lang.IndexOutOfBoundsException
 import java.text.DecimalFormat
 import java.text.DecimalFormatSymbols
+import java.text.NumberFormat
+import java.util.*
 
 class RecentProductAdapter () : RecyclerView.Adapter<RecentProductAdapter.ViewHolder>()  {
 
@@ -44,16 +47,7 @@ class RecentProductAdapter () : RecyclerView.Adapter<RecentProductAdapter.ViewHo
         fun bind(item : Product){
             binding.tvRecentItemTitle.text = item.product
             binding.tvRecentUserName.text = item.username
-            var moneytext = item.value.toString().replaceRange(item.value.toString().length  -2, item.value.toString().length, "")
-
-            try{
-                var symbols = DecimalFormatSymbols()
-                symbols.decimalSeparator = ','
-                var moneyFormat = DecimalFormat("R$ ###,###,###,###", symbols)
-                binding.tvValueRecent.text = moneyFormat.format(moneytext.toDouble()).toString().replace(".", ",")
-            }catch (e : Exception){
-                Log.d("ProductAdapter", "Error: $e")
-            }
+            binding.tvValueRecent.text = item.value
 
             //Load image with glide - only the first one
             val storage = FirebaseStorage.getInstance()

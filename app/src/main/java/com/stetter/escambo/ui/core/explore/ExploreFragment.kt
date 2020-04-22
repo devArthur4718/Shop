@@ -11,7 +11,6 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.stetter.escambo.R
 import com.stetter.escambo.databinding.ExploreFragmentBinding
-import com.stetter.escambo.extension.metersToKM
 import com.stetter.escambo.net.models.Product
 import com.stetter.escambo.net.models.ProductByLocation
 import com.stetter.escambo.net.models.RegisterUser
@@ -27,7 +26,6 @@ class ExploreFragment : BaseFragment() {
         fun newInstance() = ExploreFragment()
     }
 
-    //TODO : change addChildListener to AddListenerForSingleValueEvent()  para evitar chamadas repetidas no inicio do app
     private lateinit var viewModel: ExploreViewModel
     private lateinit var binding: ExploreFragmentBinding
     private val productNextToMeAdapter by lazy { ItemProductNextToMeAdapter() }
@@ -69,12 +67,10 @@ class ExploreFragment : BaseFragment() {
         viewModel.listRecentPost.observe( viewLifecycleOwner,  Observer { onRecentPostListRetrieved(it) })
         mainViewModel.onLocationReceived.observe(viewLifecycleOwner, Observer { onLocationReceived(it) })
 
-
         //Retrieve data from firebase
         mainViewModel.retrieveUserLocation()
-        viewModel.retrieveRecentProducts()
-        viewModel.retrieveTopUsers()
-
+        viewModel.selectProducts()
+        viewModel.retrieveMostRatedUsers()
 
         binding.btnFilter.setOnClickListener {
             val intent = Intent(context, FilterActivity::class.java)
@@ -86,16 +82,15 @@ class ExploreFragment : BaseFragment() {
         location?.let {
             currentLat = location.latitude
             currentLng = location.longitude
-            viewModel.retrieveProductsCloseToMe()
+            viewModel.retrieveProductsNextToMe()
         }
     }
-
 
     private fun onRecentPostListRetrieved(recentPostList: List<Product>) {
         if (recentPostList.isEmpty()) {
             //no itens
         } else {
-            recentProduct.data = recentPostList.reversed()
+            recentProduct.data = recentPostList
         }
     }
 
@@ -103,10 +98,8 @@ class ExploreFragment : BaseFragment() {
         if (topUserList.isEmpty()) {
             //no itens
         } else {
-            //Filter user with no matches
-            var filteredList = topUserList.sortedBy { it.products }
-            //Order by desc by reversing int
-            topuserAdapter.data = filteredList.reversed()
+
+            topuserAdapter.data = topUserList
         }
     }
 

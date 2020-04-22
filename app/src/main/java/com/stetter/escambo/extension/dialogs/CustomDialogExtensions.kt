@@ -68,6 +68,8 @@ fun Context.showPickImageDialog(viewModel: AddProductViewModel) {
         viewModel.openCameraIntent()
         dialog.dismiss()
     }
+
+    val dialogClose = dialog.findViewById<ImageView>(R.id.ivClosePickCam).setOnClickListener { dialog.dismiss() }
 }
 
 fun Context.showPickImageProfile(viewModel : UpdateProfileViewModel){
@@ -132,7 +134,7 @@ fun Context.showFilterCategory(
 
     val spCategory = dialog.findViewById<Spinner>(R.id.spFilterCategory)
     spCategory.adapter = adapterSpinner
-    //Todo: Fetch data using selected item as parameter
+
 
     var selectedItem = ""
     spCategory.onItemSelectedListener = object  : AdapterView.OnItemSelectedListener{
@@ -229,8 +231,6 @@ fun Context.showFilterLocalization(
 
     }
 
-    //Todo: If rb location true, search by citi
-    //Todo: if not search by range.
 
     viewmodel.listCities.observe(filter , Observer {onListCitiesReceived(it, adapterSpinner,context,spCities)  })
     //Fetch cities.

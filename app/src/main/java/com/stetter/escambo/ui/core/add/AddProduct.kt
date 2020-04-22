@@ -32,9 +32,9 @@ import com.stetter.escambo.ui.base.BaseFragment
 import java.io.ByteArrayOutputStream
 import java.io.File
 import java.io.IOException
-import java.lang.Exception
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.collections.ArrayList
 
 
 class AddProduct : BaseFragment() {
@@ -78,6 +78,7 @@ class AddProduct : BaseFragment() {
     }
 
     private fun setObserbales() {
+//        mainViewModel.saveCurrentUID()
         viewModel.fetchProductCategories()
         viewModel.listCategoryList.observe( viewLifecycleOwner,  Observer { onConfigureCategoryAdapter(it) })
         viewModel.pickPhotoFromGallery.observe( viewLifecycleOwner,  Observer { onPickDataFromGallery(it) })
@@ -102,7 +103,7 @@ class AddProduct : BaseFragment() {
                 binding.edtItemName.text.toString(),
                 binding.edtItemDescription.text.toString(),
                 category,
-                Mask.removeMoneyMask( binding.edtItemValue.text.toString()).toDouble(),
+                binding.edtItemValue.text.toString(),
                 Calendar.getInstance().getTimeStamp(),
                 fullName,
                 userPhotoUrl,
@@ -111,7 +112,7 @@ class AddProduct : BaseFragment() {
                 uf,
                 city
             )
-            viewModel.uploadProductToFirebase( product )
+            viewModel.uploadProduct( product )
             //upload user product count
         }
 
@@ -144,6 +145,7 @@ class AddProduct : BaseFragment() {
     var uf = ""
     var city = ""
     var productCount = 0
+    var productList  = ArrayList<String>()
 
     private fun onUserDataReceveid(it: RegisterUser?) {
         it?.let {
@@ -154,6 +156,7 @@ class AddProduct : BaseFragment() {
             uf = it.uf
             city = it.city
             productCount = it.products
+            productList = it.productsList as ArrayList<String>
         }
     }
 
@@ -252,12 +255,6 @@ class AddProduct : BaseFragment() {
             if (it) {
                 Toast.makeText(context, "Foto carregada com sucesso!", Toast.LENGTH_SHORT).show()
                 cardbitmap?.let { bitmap -> viewModel.updateItemCard(bitmap) }
-                try{
-                    binding.rvUploadItem.smoothScrollToPosition(uploadItemAdapter.itemCount - 1)
-                }catch (e : Exception){
-                    Log.e("AddProduct", "Error: $e")
-                }
-
             }
         }
     }

@@ -17,9 +17,10 @@ import com.stetter.escambo.ui.base.BaseActivity
 import java.lang.IllegalArgumentException
 
 class OtherUser : BaseActivity() {
+    private lateinit var user: RegisterUser
     private lateinit var binding: ActivityOtherUserBinding
     private lateinit var viewmodel : OtherUserViewModel
-    private val myProductAdapter by lazy { MyProductAdapter() }
+    private lateinit var adapter : MyProductAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,7 +31,7 @@ class OtherUser : BaseActivity() {
 
     private fun intentBundle() {
         if (intent.hasExtra("user")) {
-            var user = intent.getSerializableExtra("user") as? RegisterUser
+            user = intent.getSerializableExtra("user") as RegisterUser
             setDataToViews(user)
             setObservables()
             setAdapters()
@@ -38,13 +39,15 @@ class OtherUser : BaseActivity() {
     }
 
     private fun setObservables() {
-
         viewmodel.querryFirebase.observe(this, Observer { onUserProductsReceived(it) })
 
     }
 
     private fun setAdapters() {
-        binding.rvRecentPosts.adapter = myProductAdapter
+        adapter = MyProductAdapter(MyProductAdapter.ProductListener {
+            //Todo start activity intent to edit ou delete product
+        })
+        binding.rvRecentPosts.adapter = adapter
     }
 
 
@@ -52,7 +55,7 @@ class OtherUser : BaseActivity() {
         if(datalist.isEmpty()){
             //No Products
         }else{
-            myProductAdapter.data = datalist
+            adapter.data = datalist
             binding.tvProdutos.text ="${datalist.size} Produtos"
         }
 
@@ -80,7 +83,7 @@ class OtherUser : BaseActivity() {
                 binding.ivProfileImage.setImageDrawable(resources.getDrawable(R.drawable.ic_young))
             }
 
-            viewmodel.retriveUserPostedProducts(user.fullName)
+            viewmodel.retrieveUserProducts(user.clientID)
         }
 
         binding.ivCloseOtherDetail.setOnClickListener {   finish() }

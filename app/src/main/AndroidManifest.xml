@@ -21,7 +21,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ui.zoom.ZoomPichActivity"></activity>
+        <activity
+            android:name=".ui.core.profile.EditProduct"
+            android:parentActivityName=".ui.core.CoreActivity"
+            />
+        <activity android:name=".ui.zoom.ZoomPichActivity" />
         <activity android:name=".ui.core.profile.OtherUser" />
         <activity android:name=".ui.core.explore.detail.DetailProductActivity" />
         <activity

@@ -75,8 +75,8 @@
                 <com.google.android.material.textfield.TextInputEditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="textPersonName"
-                    android:hint="@string/full_name" />
+                    android:hint="@string/full_name"
+                    android:inputType="textPersonName|textCapWords" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -91,8 +91,8 @@
                 <com.google.android.material.textfield.TextInputEditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="textEmailAddress"
-                    android:hint="@string/e_mail" />
+                    android:hint="@string/e_mail"
+                    android:inputType="textEmailAddress" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -107,8 +107,8 @@
                 <com.google.android.material.textfield.TextInputEditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="textPassword"
-                    android:hint="@string/senha" />
+                    android:hint="@string/senha"
+                    android:inputType="textPassword" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -123,8 +123,8 @@
                 <com.google.android.material.textfield.TextInputEditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="number"
-                    android:hint="@string/birthdate" />
+                    android:hint="@string/birthdate"
+                    android:inputType="number" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -139,9 +139,9 @@
                 <com.google.android.material.textfield.TextInputEditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="number"
+                    android:hint="@string/cep"
                     android:imeOptions="actionDone"
-                    android:hint="@string/cep" />
+                    android:inputType="number" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -157,8 +157,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:enabled="false"
-                    android:maxLength="2"
-                    android:hint="@string/uf" />
+                    android:hint="@string/uf"
+                    android:maxLength="2" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -213,6 +213,21 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toEndOf="@+id/tvLabelHasAccount" />
+
+            <ProgressBar
+                android:id="@+id/progressRegister"
+                style="?android:attr/progressBarStyle"
+                android:layout_width="27dp"
+                android:layout_height="29dp"
+                android:layout_marginEnd="16dp"
+                android:elevation="16dp"
+                android:visibility="gone"
+                android:progressTint="@android:color/white"
+                android:progressBackgroundTint="@android:color/white"
+                app:layout_constraintBottom_toBottomOf="@+id/btnRegister"
+                app:layout_constraintEnd_toEndOf="@+id/btnRegister"
+                app:layout_constraintTop_toTopOf="@+id/btnRegister"
+                app:layout_constraintVertical_bias="0.7" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

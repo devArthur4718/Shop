@@ -32,7 +32,7 @@ class Profile : BaseFragment() {
 
     private lateinit var viewModel: ProfileViewModel
     private lateinit var binding : ProfileFragmentBinding
-    private val myProductAdapter by lazy { MyProductAdapter() }
+    private lateinit var adapter : MyProductAdapter
 
 
     override fun onCreateView(
@@ -48,27 +48,39 @@ class Profile : BaseFragment() {
         viewModel = ViewModelProvider(this).get(ProfileViewModel::class.java)
         setObservables()
         setAdapters()
-
     }
 
     private fun setAdapters() {
-        binding.rvRecentPosts.adapter = myProductAdapter
+        adapter = MyProductAdapter(MyProductAdapter.ProductListener {product ->
+            val intent = Intent(context, EditProduct::class.java)
+            intent.putExtra("productItem", product)
+            intent.putExtra("user", currentUserData)
+            startActivity(intent)
+
+        })
+        binding.rvRecentPosts.adapter = adapter
     }
 
     private fun setObservables() {
         //Retrieve user
-        mainViewModel.getUserDataFromDatabase()
         mainViewModel.userProfileData.observe(viewLifecycleOwner, Observer { onUserDataReceveid(it) })
         viewModel.querryFirebase.observe(viewLifecycleOwner, Observer { onUserProductListReceived(it) })
 
         binding.ivOpenProfileDetail.setOnClickListener {
             val intent = Intent(activity, ProfileDetail::class.java)
             intent.putExtra("productCount", productCount)
+            intent.putExtra("currentUser", currentUserData)
             startActivityForResult(intent, RC_FINISH_SESSION)
         }
         //Retrieve user posted products
-        viewModel.retriveUserPostedProducts()
+        viewModel.retrieveMyproducts()
 
+    }
+
+    override fun onResume() {
+        super.onResume()
+        //Update status for user posted products
+        viewModel.retrieveMyproducts()
     }
 
     var productCount = 0
@@ -77,7 +89,7 @@ class Profile : BaseFragment() {
             if(it.isEmpty()){
                 binding.tvNoUserProducts.visibility = View.VISIBLE
             }else{
-                myProductAdapter.data = datalist
+                adapter.data = datalist
                 //Update product count label
                 productCount = datalist.size
                 binding.tvProdutos.text = "${datalist.size} Produtos"
@@ -85,6 +97,7 @@ class Profile : BaseFragment() {
         }
     }
 
+    lateinit var currentUserData : RegisterUser
     private fun onUserDataReceveid(userData: RegisterUser?) {
         userData?.let {
             //Update UI
@@ -108,6 +121,8 @@ class Profile : BaseFragment() {
             }else{
                 binding.ivProfileImage.setImageDrawable(resources.getDrawable(R.drawable.ic_young))
             }
+
+             currentUserData = userData
 
         }
     }

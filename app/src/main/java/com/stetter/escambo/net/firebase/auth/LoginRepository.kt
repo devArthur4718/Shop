@@ -56,6 +56,7 @@ class LoginRepository {
             .addOnCompleteListener {
                 Log.d("createUser", "Successs")
 
+
              }.addOnFailureListener {
                 Log.d("createUser", "Fail: $it")
             }

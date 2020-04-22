@@ -28,7 +28,7 @@ import com.stetter.escambo.ui.base.BaseActivity
 import com.stetter.escambo.ui.core.add.AddProduct
 import java.io.IOException
 import java.util.*
-
+import kotlin.collections.ArrayList
 
 
 class ProfileDetail : BaseActivity() {
@@ -48,13 +48,44 @@ class ProfileDetail : BaseActivity() {
     }
 
     var productCount = 0
+    lateinit var currentUser : RegisterUser
     private fun getFromBundle() {
         if(intent.hasExtra("productCount")){
             productCount = intent.getIntExtra("productCount", 0)
         }
+        if(intent.hasExtra("currentUser")){
+            currentUser = intent.getSerializableExtra("currentUser") as RegisterUser
+
+        }
     }
 
+    var userKey = ""
     private fun initViews() {
+        currentUser?.let {
+            binding.inputFullName.editText?.setText(it.fullName)
+            binding.inputEmail.editText?.setText(it.email)
+            binding.inputPassword.editText?.setText("******")
+            userProfilePhoto = it.photoUrl
+            binding.inputBirthDate.editText?.setText(it.birthDate)
+            binding.inputPostalCode.editText?.setText(it.cep)
+            binding.inputCity.editText?.setText(it.city)
+            binding.inputUF.editText?.setText(it.uf)
+            productList = it.productsList as ArrayList<String>
+            userKey = it.clientID
+
+            val storage = FirebaseStorage.getInstance()
+            if(it.photoUrl.length > 1){
+                val gsReference =
+                    storage.getReferenceFromUrl("gs://escambo-1b51d.appspot.com/${it.photoUrl}")
+                GlideApp.with(this)
+                    .load(gsReference)
+                    .placeholder(this?.CircularProgress())
+                    .into(binding.ivDetailProfileImage)
+            }else{
+                binding.ivDetailProfileImage.setImageDrawable(resources.getDrawable(R.drawable.ic_young))
+            }
+
+        }
         binding.inputBirthDate.editText?.addTextChangedListener(
             Mask.mask(
                 "##/##/####",
@@ -87,8 +118,6 @@ class ProfileDetail : BaseActivity() {
 
     private fun setObservables() {
 
-        mainViewModel.getUserDataFromDatabase()
-        mainViewModel.userProfileData.observe(this, Observer { onUserDataReceveid(it) })
         viewmodel.imagePickIntent.observe(this, Observer { onPickImageIntent(it) })
         viewmodel.onPhotoFileReceived.observe(this, Observer { onProfileImageReceived(it) })
         viewmodel.uploadSucess.observe(this, Observer { onUserProfildeUpdated(it) })
@@ -164,10 +193,11 @@ class ProfileDetail : BaseActivity() {
                     this.lng = GeocoderLocation(binding.inputUF.editText?.text.toString()).first
                     this.lat = GeocoderLocation(binding.inputUF.editText?.text.toString()).second
                     this.products = productCount
+                    this.productsList = productList
+                    this.clientID = viewmodel.getClientID()
                 }
                 updateUser(sendUser)
             }
-
         }
     }
 
@@ -177,7 +207,7 @@ class ProfileDetail : BaseActivity() {
 
     private fun updateUser(sendUser: RegisterUser) {
         //register user
-        viewmodel.updateUser(sendUser, binding.inputPassword.editText?.text.toString())
+        viewmodel.updateCurrentUser(sendUser)
     }
 
     var profileImage = ""
@@ -218,6 +248,7 @@ class ProfileDetail : BaseActivity() {
         super.onActivityResult(requestCode, resultCode, data)
 
         when (requestCode) {
+            //TODO : Fetch data from camera
             RQ_PICK_PHOTO -> {
                 if (resultCode == Activity.RESULT_OK) {
                     data?.let {
@@ -245,33 +276,8 @@ class ProfileDetail : BaseActivity() {
     }
 
     var userProfilePhoto = ""
-    private fun onUserDataReceveid(userdata: RegisterUser?) {
-        //UpdateUI
-        userdata?.let {
-            binding.inputFullName.editText?.setText(it.fullName)
-            binding.inputEmail.editText?.setText(it.email)
-            binding.inputPassword.editText?.setText("******")
-            userProfilePhoto = userdata.photoUrl
-            binding.inputBirthDate.editText?.setText(it.birthDate)
-            binding.inputPostalCode.editText?.setText(it.cep)
-            binding.inputCity.editText?.setText(it.city)
-            binding.inputUF.editText?.setText(it.uf)
-        }
+    var productList = ArrayList<String>()
 
-        //Load user photo
-        val storage = FirebaseStorage.getInstance()
-        if (userdata!!.photoUrl.length > 1) {
-            val gsReference =
-                storage.getReferenceFromUrl("gs://escambo-1b51d.appspot.com/${userdata.photoUrl}")
-            GlideApp.with(this)
-                .load(gsReference)
-                .placeholder(this?.CircularProgress())
-                .into(binding.ivDetailProfileImage)
-
-        } else {
-            binding.ivDetailProfileImage.setImageDrawable(resources.getDrawable(R.drawable.ic_young))
-        }
-    }
 
     fun onEditClick(view: View) {
         when (view.id) {

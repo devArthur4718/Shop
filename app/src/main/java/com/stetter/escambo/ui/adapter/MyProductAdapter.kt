@@ -2,6 +2,7 @@ package com.stetter.escambo.ui.adapter
 
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.load.engine.DiskCacheStrategy
@@ -9,21 +10,20 @@ import com.google.firebase.storage.FirebaseStorage
 import com.stetter.escambo.R
 import com.stetter.escambo.databinding.ItemMyItemBinding
 import com.stetter.escambo.extension.CircularProgress
+import com.stetter.escambo.extension.toMoneyText
 import com.stetter.escambo.glide.GlideApp
 import com.stetter.escambo.net.models.Product
-import java.lang.Exception
 import java.lang.IndexOutOfBoundsException
-import java.text.DecimalFormat
-import java.text.DecimalFormatSymbols
 
 
-class MyProductAdapter () : RecyclerView.Adapter<MyProductAdapter.ViewHolder>(){
+class MyProductAdapter(val clicklistener : ProductListener) : RecyclerView.Adapter<MyProductAdapter.ViewHolder>(){
 
     var data = listOf<Product>()
         set(value){
             field = value
             notifyDataSetChanged()
         }
+
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder.from(parent)
@@ -33,23 +33,18 @@ class MyProductAdapter () : RecyclerView.Adapter<MyProductAdapter.ViewHolder>(){
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item : Product = data[position]
-        holder.bind(item)
+        holder.bind(item,clicklistener)
     }
 
     class ViewHolder private constructor(val binding : ItemMyItemBinding)
         : RecyclerView.ViewHolder(binding.root){
-        fun bind(item : Product){
+        fun bind(item : Product, clicklistener : ProductListener){
+            binding.product = item
+            binding.clickListener = clicklistener
+            binding.executePendingBindings()
             binding.tvMyitemTitle.text = item.product
-            var moneytext = item.value.toString().replaceRange(item.value.toString().length  -2, item.value.toString().length, "")
-
-            try{
-                var symbols = DecimalFormatSymbols()
-                symbols.decimalSeparator = ','
-                var moneyFormat = DecimalFormat("R$ ###,###,###,###", symbols)
-                binding.tvMyItemValue.text = moneyFormat.format(moneytext.toDouble()).toString().replace(".", ",")
-            }catch (e : Exception){
-                Log.d("ProductAdapter", "Error: $e")
-            }
+            binding.tvMyItemValue.text = item.value
+            binding.ivEditProduct.visibility = View.VISIBLE
 
             //Load image with glide - only the first one
             val storage = FirebaseStorage.getInstance()
@@ -71,6 +66,8 @@ class MyProductAdapter () : RecyclerView.Adapter<MyProductAdapter.ViewHolder>(){
             }catch (e : IndexOutOfBoundsException){
                 Log.e("MyProduct", "Failed fetching product image: $e")
             }
+
+
         }
 
         companion object {
@@ -80,6 +77,10 @@ class MyProductAdapter () : RecyclerView.Adapter<MyProductAdapter.ViewHolder>(){
                 return ViewHolder(binding)
             }
         }
+    }
+
+    class ProductListener(val clickListener: (product: Product) -> Unit) {
+        fun onClick(product: Product) = clickListener(product)
     }
 
 }

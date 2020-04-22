@@ -1,10 +1,12 @@
 package com.stetter.escambo.ui.core.profile
 
 import android.net.Uri
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.stetter.escambo.net.firebase.auth.LoginRepository
+import com.stetter.escambo.net.firebase.database.FirestoreRepository
 import com.stetter.escambo.net.firebase.storage.DatabaseRepository
 import com.stetter.escambo.net.models.RegisterUser
 import com.stetter.escambo.net.retrofit.postalApi
@@ -18,7 +20,7 @@ class UpdateProfileViewModel  : ViewModel(){
 
     var authRepository = LoginRepository()
     val databaserepository = DatabaseRepository()
-
+    val db = FirestoreRepository()
 
     private val _imagePickIntent = MutableLiveData<Boolean>()
     val imagePickIntent : LiveData<Boolean> get() = _imagePickIntent
@@ -55,6 +57,8 @@ class UpdateProfileViewModel  : ViewModel(){
         _pickFromGalleryObservable.value = false
     }
 
+   fun getClientID() : String = authRepository.getCurrentUserUID()
+
     fun uploadImageToFirebase(filename : String, byteArray : ByteArray) {
         _loadingProgress.value = true
         databaserepository.uploadImageToDatabase(filename).putBytes(byteArray)
@@ -77,8 +81,7 @@ class UpdateProfileViewModel  : ViewModel(){
             .addOnSuccessListener {
                 _onPhotoFileReceived.value = it.metadata?.path
                 _loadingProgress.value = false
-//                _uploadSuccess.value = true
-
+                db.updateUserPhoto(it.metadata!!.path)
             }
             .addOnFailureListener{
                 _uploadSuccess.value = false
@@ -87,19 +90,19 @@ class UpdateProfileViewModel  : ViewModel(){
 
     }
 
-
-    fun updateUser(sendUser: RegisterUser, password: String) {
+    fun updateCurrentUser(sendUser: RegisterUser){
         _loadingProgress.value = true
-        databaserepository.updateUserToDabase().setValue(sendUser)
-            .addOnCompleteListener {
+        db.updateUser()
+            .set(sendUser)
+            .addOnSuccessListener {
                 _loadingProgress.value = false
                 _uploadSuccess.value = true
-                //TODO: Open a new activity to update password and confirm it
-                //Todo : Confirm email with firebase auth
-//                updatePassword(password)
-            }.addOnFailureListener {
+            }
+            .addOnFailureListener {
                 _loadingProgress.value = false
                 _uploadSuccess.value = false
+                Log.e("UpdateProfile", "Failure : $it")
+
             }
 
     }
