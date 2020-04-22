@@ -21,7 +21,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ui.core.explore.detail.FullSizedImage"></activity>
+        <activity android:name=".ui.core.add.CameraXActivity"></activity>
         <activity
             android:name=".ui.core.profile.EditProduct"
             android:parentActivityName=".ui.core.CoreActivity" />
