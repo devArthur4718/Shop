@@ -182,9 +182,15 @@ class AddProduct : BaseFragment() {
     private fun onCameraIntent(it: Boolean?) {
         it?.let {
             if (it) {
-                openCameraIntent()
+//                openCameraIntent()
+                openCameraActivity()
             }
         }
+    }
+
+    private fun openCameraActivity() {
+        val intent = Intent(context, CameraXActivity::class.java)
+        startActivity(intent)
     }
 
     var photoFile : File? = null

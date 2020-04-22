@@ -1,9 +1,12 @@
 package com.stetter.escambo.ui.core.explore.detail
 
 import android.annotation.SuppressLint
+import android.app.ActivityOptions
 import android.content.Intent
 import android.os.Bundle
+import android.widget.ImageView
 import android.widget.Toast
+import androidx.core.graphics.drawable.toBitmap
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -132,8 +135,13 @@ class DetailProductActivity : BaseActivity() {
             }
 
             var adapter = ProductPhotoAdapter(ProductPhotoAdapter.PhotoListener {
-
-                Toast.makeText(this, "Photo clicked", Toast.LENGTH_SHORT).show()
+//                val intent = Intent(this, FullSizedImage::class.java)
+//                var imageview = it as ImageView
+//                var bitmap = imageview.drawable.toBitmap()
+//                val options = ActivityOptions.makeSceneTransitionAnimation(this,it, "imageTransition")
+//                intent.putExtra("bitmap", bitmap)
+//                startActivity(intent, options.toBundle())
+////                Toast.makeText(this, "Photo clicked", Toast.LENGTH_SHORT).show()
             })
             adapter.data = data.productUrl
             binding.rvProductImages.adapter = adapter

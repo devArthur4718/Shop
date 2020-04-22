@@ -1,14 +1,19 @@
 package com.stetter.escambo.ui.adapter
 
+import android.app.ActivityOptions
+import android.content.Intent
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.graphics.drawable.toBitmap
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.storage.FirebaseStorage
 import com.stetter.escambo.databinding.ItemProductImageBinding
 import com.stetter.escambo.extension.CircularProgress
 import com.stetter.escambo.glide.GlideApp
+import com.stetter.escambo.ui.core.explore.detail.DetailProductActivity
+import com.stetter.escambo.ui.core.explore.detail.FullSizedImage
 import java.lang.IllegalArgumentException
 
 class ProductPhotoAdapter(val clickListener : PhotoListener?) : RecyclerView.Adapter<ProductPhotoAdapter.ViewHolder>() {
@@ -54,6 +59,13 @@ class ProductPhotoAdapter(val clickListener : PhotoListener?) : RecyclerView.Ada
                 }
             }
 
+            binding.ivDetailProduct.setOnClickListener {
+                val intent = Intent(itemView.context, FullSizedImage::class.java)
+                val options = ActivityOptions.makeSceneTransitionAnimation(itemView.context as DetailProductActivity,it, "imageTransition")
+                intent.putExtra("itemUrl", item)
+                itemView.context.startActivity(intent, options.toBundle())
+            }
+
         }
 
         companion object {
@@ -65,12 +77,9 @@ class ProductPhotoAdapter(val clickListener : PhotoListener?) : RecyclerView.Ada
         }
     }
 
-    //Todo : Expand image when clicked
     class PhotoListener(val clickListener: (photoView: View) -> Unit) {
         fun onClick(photo: View) = clickListener(photo)
     }
-
-
 
 
 }
