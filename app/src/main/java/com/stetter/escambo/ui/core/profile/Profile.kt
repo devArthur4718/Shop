@@ -76,6 +76,12 @@ class Profile : BaseFragment() {
 
     }
 
+    override fun onResume() {
+        super.onResume()
+        //Update status for user posted products
+        viewModel.retrieveMyproducts()
+    }
+
     var productCount = 0
     private fun onUserProductListReceived(datalist: ArrayList<Product>?) {
         datalist?.let {

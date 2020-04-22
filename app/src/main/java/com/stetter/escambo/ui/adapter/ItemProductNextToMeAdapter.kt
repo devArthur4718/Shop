@@ -49,7 +49,7 @@ class ItemProductNextToMeAdapter : RecyclerView.Adapter<ItemProductNextToMeAdapt
 
             binding.tvNextProductAuthor.text = item.username
             binding.tvNextProduct.text = item.product
-            binding.tvNextProductValue.text = item.value.toDouble().toMoneyText()
+            binding.tvNextProductValue.text = item.value
 
 
             //Load image with glide - only the first one

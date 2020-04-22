@@ -3,7 +3,6 @@ package com.stetter.escambo.ui.core.explore.detail
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
@@ -21,13 +20,10 @@ import com.stetter.escambo.ui.adapter.ProductPhotoAdapter
 import com.stetter.escambo.ui.base.BaseActivity
 import com.stetter.escambo.ui.core.profile.OtherUser
 import kotlinx.android.synthetic.main.activity_product.*
-import java.lang.Exception
-import java.text.DecimalFormat
-import java.text.DecimalFormatSymbols
+
 class DetailProductActivity : BaseActivity() {
 
     private lateinit var binding: ActivityProductBinding
-//    private val adapter by lazy { ProductPhotoAdapter( null) }
     private lateinit var adapter : ProductPhotoAdapter
     private lateinit var viewmodel : DetailProductViewModel
 
@@ -76,17 +72,8 @@ class DetailProductActivity : BaseActivity() {
             binding.tvItemDetailDescription.text = data.description
             binding.tvLocale.text = "${data.city}/${data.uf}"
             binding.tvDetailAuthor.text = data.username
+            binding.tvProductDetailValue.text = data.value
 
-            var moneytext = data.value.toString().replaceRange(data.value.toString().length  -2, data.value.toString().length, "")
-
-            try{
-                var symbols = DecimalFormatSymbols()
-                symbols.decimalSeparator = ','
-                var moneyFormat = DecimalFormat("R$ ###,###,###,###", symbols)
-                binding.tvProductDetailValue.text = moneyFormat.format(moneytext.toDouble()).toString().replace(".", ",")
-            }catch (e : Exception){
-                Log.d("ProductAdapter", "Error: $e")
-            }
 
             if(data.userPhoto.length > 0) {
                 val gsReferencePhoto = storage.getReferenceFromUrl("gs://escambo-1b51d.appspot.com/${data.userPhoto}")
@@ -125,17 +112,7 @@ class DetailProductActivity : BaseActivity() {
             binding.tvItemDetailDescription.text = data.description
             binding.tvLocale.text = "${data.city}/${data.uf}"
             binding.tvDetailAuthor.text = data.username
-
-            var moneytext = data.value.toString().replaceRange(data.value.toString().length  -2, data.value.toString().length, "")
-
-            try{
-                var symbols = DecimalFormatSymbols()
-                symbols.decimalSeparator = ','
-                var moneyFormat = DecimalFormat("R$ ###,###,###,###", symbols)
-                binding.tvProductDetailValue.text = moneyFormat.format(moneytext.toDouble()).toString().replace(".", ",")
-            }catch (e : Exception){
-                Log.d("ProductAdapter", "Error: $e")
-            }
+            binding.tvProductDetailValue.text = data.value
 
             if(data.userPhoto.length > 0) {
                 val gsReferencePhoto = storage.getReferenceFromUrl("gs://escambo-1b51d.appspot.com/${data.userPhoto}")

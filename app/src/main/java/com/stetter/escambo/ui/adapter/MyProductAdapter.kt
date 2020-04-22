@@ -1,6 +1,5 @@
 package com.stetter.escambo.ui.adapter
 
-import android.opengl.Visibility
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -44,7 +43,7 @@ class MyProductAdapter(val clicklistener : ProductListener) : RecyclerView.Adapt
             binding.clickListener = clicklistener
             binding.executePendingBindings()
             binding.tvMyitemTitle.text = item.product
-            binding.tvMyItemValue.text = item.value.toDouble().toMoneyText()
+            binding.tvMyItemValue.text = item.value
             binding.ivEditProduct.visibility = View.VISIBLE
 
             //Load image with glide - only the first one

@@ -18,7 +18,7 @@ class EditProductViewModel : ViewModel() {
     val listCategoryList: LiveData<List<String>> get() = _listCategoryProduct
 
     private val _onDeletedProduct = MutableLiveData<Boolean>()
-    val onDeletedProduct: LiveData<Boolean> get() = onDeletedProduct
+    val onDeletedProduct: LiveData<Boolean> get() = _onDeletedProduct
 
     fun fetchProductCategories(){
         var categoriesList = ArrayList<String>()
@@ -35,14 +35,17 @@ class EditProductViewModel : ViewModel() {
         })
     }
 
+    private val _onProductUpdate = MutableLiveData<Boolean>()
+    val onProductUpdate: LiveData<Boolean> get() = onProductUpdate
+
 
     fun updateProduct(product : Product){
         db.updateUserProduct(product.productKey).set(product)
             .addOnSuccessListener {
-
+                _onProductUpdate.value = true
             }
             .addOnFailureListener {
-
+                _onProductUpdate.value = false
             }
     }
 
@@ -54,5 +57,9 @@ class EditProductViewModel : ViewModel() {
             .addOnFailureListener {
                 _onDeletedProduct.value = false
             }
+    }
+
+    fun getUid(): String {
+        return databaserepository.currentUserUID()
     }
 }

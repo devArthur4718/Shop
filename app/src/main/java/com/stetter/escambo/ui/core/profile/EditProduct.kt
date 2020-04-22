@@ -10,6 +10,8 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.stetter.escambo.R
 import com.stetter.escambo.databinding.ActivityEditProductBinding
+import com.stetter.escambo.extension.Mask
+import com.stetter.escambo.extension.getTimeStamp
 import com.stetter.escambo.extension.watcher.MoneyTextWatcher
 import com.stetter.escambo.net.models.Product
 import com.stetter.escambo.ui.adapter.EditProductAdapter
@@ -49,6 +51,25 @@ class EditProduct : AppCompatActivity() {
 
         binding.btnPublishItem.setOnClickListener {
 
+            val uid = viewmodel.getUid()
+            var category = binding.spCategory.selectedItem.toString()
+
+//            val product = Product(
+//                uid,
+//                item.productUrl,
+//                binding.edtItemName.text.toString(),
+//                binding.edtItemDescription.text.toString(),
+//                category,
+//                Mask.removeMoneyMask( binding.edtItemValue.text.toString()),
+//                Calendar.getInstance().getTimeStamp(),
+//                fullName,
+//                userPhotoUrl,
+//                lat,
+//                lng,
+//                uf,
+//                city
+//            )
+
         }
 
         binding.btnRemoveProduct.setOnClickListener {
@@ -81,8 +102,6 @@ class EditProduct : AppCompatActivity() {
             Log.d("sucesss", "item")
         }
     }
-
-
 
     private fun setDataToview(item: Product) {
         binding.edtItemName.setText(item.product)
