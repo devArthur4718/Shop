@@ -54,6 +54,7 @@ class Profile : BaseFragment() {
         adapter = MyProductAdapter(MyProductAdapter.ProductListener {product ->
             val intent = Intent(context, EditProduct::class.java)
             intent.putExtra("productItem", product)
+            intent.putExtra("user", currentUserData)
             startActivity(intent)
 
         })

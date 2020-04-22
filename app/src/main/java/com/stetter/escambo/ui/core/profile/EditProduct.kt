@@ -14,11 +14,13 @@ import com.stetter.escambo.extension.Mask
 import com.stetter.escambo.extension.getTimeStamp
 import com.stetter.escambo.extension.watcher.MoneyTextWatcher
 import com.stetter.escambo.net.models.Product
+import com.stetter.escambo.net.models.RegisterUser
 import com.stetter.escambo.ui.adapter.EditProductAdapter
 import java.util.*
 
 class EditProduct : AppCompatActivity() {
 
+    lateinit var currentUser: RegisterUser
     lateinit var item: Product
     private lateinit var binding : ActivityEditProductBinding
     private lateinit var viewmodel : EditProductViewModel
@@ -42,6 +44,7 @@ class EditProduct : AppCompatActivity() {
         viewmodel.fetchProductCategories()
         viewmodel.listCategoryList.observe(this, Observer { onCategeroListReceived(it) })
         viewmodel.onDeletedProduct.observe(this, Observer { onDeletedProduct(it) })
+        viewmodel.onProductUpdate.observe(this, Observer { onProductUpdate(it) })
 
         binding.btnCloseEdit.setOnClickListener {
             finish()
@@ -54,21 +57,24 @@ class EditProduct : AppCompatActivity() {
             val uid = viewmodel.getUid()
             var category = binding.spCategory.selectedItem.toString()
 
-//            val product = Product(
-//                uid,
-//                item.productUrl,
-//                binding.edtItemName.text.toString(),
-//                binding.edtItemDescription.text.toString(),
-//                category,
-//                Mask.removeMoneyMask( binding.edtItemValue.text.toString()),
-//                Calendar.getInstance().getTimeStamp(),
-//                fullName,
-//                userPhotoUrl,
-//                lat,
-//                lng,
-//                uf,
-//                city
-//            )
+            val product = Product(
+                uid,
+                item.productUrl,
+                binding.edtItemName.text.toString(),
+                binding.edtItemDescription.text.toString(),
+                category,
+                binding.edtItemValue.text.toString(),
+                Calendar.getInstance().getTimeStamp(),
+                currentUser.fullName,
+                currentUser.photoUrl,
+                currentUser.lat,
+                currentUser.lng,
+                currentUser.uf,
+                currentUser.city,
+                item.productKey
+            )
+
+            viewmodel.updateProduct(product)
 
         }
 
@@ -83,8 +89,22 @@ class EditProduct : AppCompatActivity() {
             if(status){
                 //Product  deleted
                 Toast.makeText(this, "Produto deletado",Toast.LENGTH_SHORT).show()
+                finish()
             }else{
                 Toast.makeText(this, "Erro ao remover produto",Toast.LENGTH_SHORT).show()
+                finish()
+            }
+        }
+    }
+
+    private fun onProductUpdate(status: Boolean?) {
+        status?.let {
+            if(status){
+                Toast.makeText(this, "Produto Atualizado",Toast.LENGTH_SHORT).show()
+                finish()
+            }else{
+                Toast.makeText(this, "Erro ao atualizar produto",Toast.LENGTH_SHORT).show()
+                finish()
             }
         }
     }
@@ -99,7 +119,9 @@ class EditProduct : AppCompatActivity() {
         if(intent.hasExtra("productItem")){
             item = intent.getSerializableExtra("productItem") as Product
             setDataToview(item)
-            Log.d("sucesss", "item")
+        }
+        if(intent.hasExtra("user")){
+             currentUser = intent.getSerializableExtra("user") as RegisterUser
         }
     }
 

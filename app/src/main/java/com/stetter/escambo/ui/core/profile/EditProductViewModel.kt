@@ -36,7 +36,7 @@ class EditProductViewModel : ViewModel() {
     }
 
     private val _onProductUpdate = MutableLiveData<Boolean>()
-    val onProductUpdate: LiveData<Boolean> get() = onProductUpdate
+    val onProductUpdate: LiveData<Boolean> get() = _onProductUpdate
 
 
     fun updateProduct(product : Product){
