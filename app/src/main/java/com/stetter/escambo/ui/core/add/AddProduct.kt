@@ -182,15 +182,20 @@ class AddProduct : BaseFragment() {
     private fun onCameraIntent(it: Boolean?) {
         it?.let {
             if (it) {
-//                openCameraIntent()
-                openCameraActivity()
+                openCameraIntent()
             }
         }
     }
 
     private fun openCameraActivity() {
-        val intent = Intent(context, CameraXActivity::class.java)
-        startActivity(intent)
+        if (activity?.checkCameraPermissions() == true) {
+            Intent(MediaStore.ACTION_IMAGE_CAPTURE).also { takePictureIntent ->
+                activity?.packageManager?.let {
+                    val intent = Intent(context, CameraXActivity::class.java)
+                    startActivity(intent)
+                }
+            }
+        }
     }
 
     var photoFile : File? = null

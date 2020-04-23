@@ -1,6 +1,7 @@
 package com.stetter.escambo.ui.core.explore
 
 import android.util.Log
+import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -9,6 +10,7 @@ import com.stetter.escambo.net.firebase.storage.DatabaseRepository
 import com.stetter.escambo.net.models.Product
 import com.stetter.escambo.net.models.ProductByLocation
 import com.stetter.escambo.net.models.RegisterUser
+import java.lang.RuntimeException
 
 
 class ExploreViewModel : ViewModel() {
@@ -37,8 +39,13 @@ class ExploreViewModel : ViewModel() {
             if(querySnapshot != null){
                 var querryList = ArrayList<Product>()
                 for(doc in querySnapshot!!){
-                    var item = doc.toObject(Product::class.java)
-                    querryList.add(item)
+                    try {
+                        var item = doc.toObject(Product::class.java)
+                        querryList.add(item)
+
+                    }catch (e : RuntimeException){
+                       Log.e("Explore", "Error ${e}")
+                    }
                 }
                 _listRecentPost.value = querryList
 
@@ -78,8 +85,14 @@ class ExploreViewModel : ViewModel() {
             if(querySnapshot != null){
                 var querryList = ArrayList<ProductByLocation>()
                 for(doc in querySnapshot!!){
-                    var item = doc.toObject(ProductByLocation::class.java)
-                    querryList.add(item)
+                    try{
+                        var item = doc.toObject(ProductByLocation::class.java)
+                        querryList.add(item)
+
+                    }catch (e : RuntimeException){
+
+                    }
+
                 }
                 _listNextProducts.value = querryList
 
