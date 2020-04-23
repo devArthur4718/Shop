@@ -35,4 +35,8 @@ class OtherUserViewModel : ViewModel() {
             }
         }
     }
+
+    fun currentUserUID() : String{
+        return db.currentUserUID()
+    }
 }

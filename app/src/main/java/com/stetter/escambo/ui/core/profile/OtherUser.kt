@@ -14,6 +14,7 @@ import com.stetter.escambo.net.models.Product
 import com.stetter.escambo.net.models.RegisterUser
 import com.stetter.escambo.ui.adapter.MyProductAdapter
 import com.stetter.escambo.ui.base.BaseActivity
+import com.stetter.escambo.utils.AppConstants
 import java.lang.IllegalArgumentException
 
 class OtherUser : BaseActivity() {
@@ -47,6 +48,7 @@ class OtherUser : BaseActivity() {
         adapter = MyProductAdapter(MyProductAdapter.ProductListener {
             //Todo start activity intent to edit ou delete product
         })
+        adapter.type = AppConstants.TYPE_EDIT_BLOCKED
         binding.rvRecentPosts.adapter = adapter
     }
 

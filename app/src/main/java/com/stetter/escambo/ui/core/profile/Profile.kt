@@ -20,6 +20,7 @@ import com.stetter.escambo.net.models.Product
 import com.stetter.escambo.ui.adapter.MyProductAdapter
 import com.stetter.escambo.ui.base.BaseFragment
 import com.stetter.escambo.ui.login.LoginActivity
+import com.stetter.escambo.utils.AppConstants
 import java.lang.IllegalArgumentException
 import kotlin.collections.ArrayList
 
@@ -58,6 +59,8 @@ class Profile : BaseFragment() {
             startActivity(intent)
 
         })
+
+        adapter.type = AppConstants.TYPE_EDIT
         binding.rvRecentPosts.adapter = adapter
     }
 

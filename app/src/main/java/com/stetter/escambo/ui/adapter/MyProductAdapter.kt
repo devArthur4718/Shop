@@ -10,14 +10,15 @@ import com.google.firebase.storage.FirebaseStorage
 import com.stetter.escambo.R
 import com.stetter.escambo.databinding.ItemMyItemBinding
 import com.stetter.escambo.extension.CircularProgress
-import com.stetter.escambo.extension.toMoneyText
 import com.stetter.escambo.glide.GlideApp
 import com.stetter.escambo.net.models.Product
+import com.stetter.escambo.utils.AppConstants
 import java.lang.IndexOutOfBoundsException
 
 
 class MyProductAdapter(val clicklistener : ProductListener) : RecyclerView.Adapter<MyProductAdapter.ViewHolder>(){
 
+    var type: Int = 0
     var data = listOf<Product>()
         set(value){
             field = value
@@ -33,18 +34,27 @@ class MyProductAdapter(val clicklistener : ProductListener) : RecyclerView.Adapt
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item : Product = data[position]
-        holder.bind(item,clicklistener)
+        holder.bind(item,clicklistener, type)
     }
 
     class ViewHolder private constructor(val binding : ItemMyItemBinding)
         : RecyclerView.ViewHolder(binding.root){
-        fun bind(item : Product, clicklistener : ProductListener){
+        fun bind(
+            item: Product,
+            clicklistener: ProductListener,
+            type: Int
+        ){
             binding.product = item
             binding.clickListener = clicklistener
             binding.executePendingBindings()
             binding.tvMyitemTitle.text = item.product
             binding.tvMyItemValue.text = item.value
-            binding.ivEditProduct.visibility = View.VISIBLE
+
+            if(type == AppConstants.TYPE_EDIT){
+                binding.ivEditProduct.visibility = View.VISIBLE
+            }else{
+                binding.ivEditProduct.visibility = View.GONE
+            }
 
             //Load image with glide - only the first one
             val storage = FirebaseStorage.getInstance()
