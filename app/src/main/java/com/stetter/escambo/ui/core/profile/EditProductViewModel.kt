@@ -1,5 +1,6 @@
 package com.stetter.escambo.ui.core.profile
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -56,6 +57,16 @@ class EditProductViewModel : ViewModel() {
             }
             .addOnFailureListener {
                 _onDeletedProduct.value = false
+            }
+    }
+
+    fun updateProductCount(count : Int){
+        db.updateProductCount(count)
+            .addOnSuccessListener {
+                Log.d("EditProduct", "Success")
+            }
+            .addOnFailureListener {
+                Log.e("EditProduct", "Error $it")
             }
     }
 
