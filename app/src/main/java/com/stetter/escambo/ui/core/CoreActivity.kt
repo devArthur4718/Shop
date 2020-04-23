@@ -125,6 +125,8 @@ class CoreActivity : BaseActivity() {
             }
             builder.create()
         }
+
+
         return alertDialog!!
     }
     companion object{

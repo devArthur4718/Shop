@@ -1,6 +1,8 @@
 package com.stetter.escambo.ui.core.add
 
 import android.app.Activity
+import android.app.AlertDialog
+import android.content.DialogInterface
 import android.content.Intent
 import android.content.pm.ActivityInfo
 import android.graphics.Bitmap
@@ -30,6 +32,7 @@ import com.stetter.escambo.net.models.RegisterUser
 import com.stetter.escambo.ui.adapter.ProductCard
 import com.stetter.escambo.ui.adapter.UploadItemAdapter
 import com.stetter.escambo.ui.base.BaseFragment
+import com.stetter.escambo.ui.core.CoreActivity
 import java.io.ByteArrayOutputStream
 import java.io.File
 import java.io.IOException
@@ -127,7 +130,7 @@ class AddProduct : BaseFragment() {
                 return
             }
             viewModel.getPaths().isEmpty() -> {
-                Toast.makeText(context, "Carregue pelo menos uma foto", Toast.LENGTH_SHORT).show()
+                showDialog(getString(R.string.load_product_photo_error)).show()
                 return
             }
         }
@@ -153,6 +156,23 @@ class AddProduct : BaseFragment() {
 
     private fun onCategoryListReceived(categoryList: List<String>) {
 
+    }
+
+    private fun showDialog(text: String): AlertDialog {
+        val alertDialog: AlertDialog? = this?.let {
+            val builder = AlertDialog.Builder(context)
+            builder.apply {
+                setPositiveButton(
+                    getString(R.string.confirm_ok),
+                    DialogInterface.OnClickListener { dialog, id ->
+                        dialog.dismiss()
+                    })
+
+                setMessage(text)
+            }
+            builder.create()
+        }
+        return alertDialog!!
     }
 
     private fun onLoadingPhotoProgress(it: Boolean?) {

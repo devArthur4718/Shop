@@ -96,4 +96,6 @@
     <string name="blank_text">Texto em branco</string>
     <string name="invalid_value">Valor inválido</string>
     <string name="emmpty_field">Campo vazio</string>
+    <string name="load_product_photo_error">Carregue pelo menos uma foto</string>
+    <string name="confirm_ok">OK</string>
 </resources>
