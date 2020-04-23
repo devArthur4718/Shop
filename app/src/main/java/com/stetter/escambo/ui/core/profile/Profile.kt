@@ -88,11 +88,14 @@ class Profile : BaseFragment() {
         datalist?.let {
             if(it.isEmpty()){
                 binding.tvNoUserProducts.visibility = View.VISIBLE
+                binding.rvRecentPosts.visibility = View.INVISIBLE
             }else{
+                binding.rvRecentPosts.visibility = View.VISIBLE
+                binding.tvNoUserProducts.visibility = View.GONE
                 adapter.data = datalist
                 //Update product count label
                 productCount = datalist.size
-                binding.tvProdutos.text = "${datalist.size} Produtos"
+                binding.tvProdutos.text = "${currentUserData.products} Produtos"
             }
         }
     }

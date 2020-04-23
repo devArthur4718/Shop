@@ -80,6 +80,9 @@ class EditProduct : AppCompatActivity() {
 
         binding.btnRemoveProduct.setOnClickListener {
             viewmodel.deleteProduct(item.productKey)
+            var count = currentUser.products - 1
+            viewmodel.updateProductCount(count)
+
         }
 
     }

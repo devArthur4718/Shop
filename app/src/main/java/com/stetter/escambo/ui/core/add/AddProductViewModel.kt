@@ -81,17 +81,17 @@ class AddProductViewModel : ViewModel() {
                 _loadingPhotoProgress.value = false
             }
     }
-    fun updateProductCount(count : Int){
-        _loadingProgress.value = true
-        databaserepository.updateProductCount(count)
-            .addOnCompleteListener {
-                _loadingProgress.value = false
-
-            }.addOnFailureListener {
-
-                _loadingProgress.value = false
-            }
-    }
+//    fun updateProductCount(count : Int){
+//        _loadingProgress.value = true
+//        databaserepository.updateProductCount(count)
+//            .addOnCompleteListener {
+//                _loadingProgress.value = false
+//
+//            }.addOnFailureListener {
+//
+//                _loadingProgress.value = false
+//            }
+//    }
 
     fun uploadImageToFirebase(filename: String, uri: Uri) {
         _loadingProgress.value = true
@@ -108,24 +108,6 @@ class AddProductViewModel : ViewModel() {
             }
     }
 
-    fun uploadProductToFirebase(
-        product: Product,
-        productList: ArrayList<String>
-    ) {
-        _loadingProgress.value = true
-        var productUID = UUID.randomUUID().toString()
-        databaserepository.updateProductToDabatase(productUID).ref.setValue(product)
-            .addOnSuccessListener {
-                productList.add(productUID)
-                updateUserListedProducts(productList)
-                _uploadProduct.value = true
-                _loadingProgress.value = false
-            }.addOnFailureListener {
-                _uploadProduct.value = false
-                _loadingProgress.value = false
-            }
-
-    }
 
     fun uploadProduct(product : Product){
         _loadingProgress.value = true
@@ -134,8 +116,8 @@ class AddProductViewModel : ViewModel() {
              .document(product.productKey)
              .set(product)
              .addOnCompleteListener {request ->
-                 //TODO : upload product count for the user
                  if(request.isSuccessful){
+
                      _uploadProduct.value = true
                      _loadingProgress.value = false
                  }
@@ -147,6 +129,20 @@ class AddProductViewModel : ViewModel() {
              }
 
     }
+
+    fun updateProductCount(count : Int){
+
+        db.updateProductCount(count)
+            .addOnSuccessListener {
+                Log.d("AddProduct", "Success")
+            }
+            .addOnFailureListener {
+                Log.d("AddProduct", "Error : $it")
+            }
+
+    }
+
+
 
     private fun updateUserListedProducts(productUID : ArrayList<String>) {
         databaserepository.updateUserProductList(productUID)
@@ -210,9 +206,12 @@ class AddProductViewModel : ViewModel() {
     }
 
     fun updateItemCard(bitmap: Bitmap) {
-        if (adapterDummyList.size == 5) return
-        adapterDummyList.add(ProductCard(bitmap))
-        _listProduct.value = adapterDummyList
+        if(adapterDummyList.size < 5){
+            adapterDummyList.add(ProductCard(bitmap))
+            _listProduct.value = adapterDummyList
+        }else{
+            adapterDummyList.removeAt(0)
+        }
     }
 
     fun addPaths(path: String) {

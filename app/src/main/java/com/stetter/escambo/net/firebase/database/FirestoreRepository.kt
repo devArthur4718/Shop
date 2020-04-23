@@ -53,6 +53,10 @@ class FirestoreRepository {
         db.collection(DOCUMENT_USERS).document(currentUserUID()).update(FIELD_PHOTO_URL, photourl)
     }
 
+    fun updateProductCount(count : Int): Task<Void> {
+      return  db.collection(DOCUMENT_USERS).document(currentUserUID()).update(FIELD_PRODUCTS_FIELD, count)
+    }
+
     //endregion
 
 
