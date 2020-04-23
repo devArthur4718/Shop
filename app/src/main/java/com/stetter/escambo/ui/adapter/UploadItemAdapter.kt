@@ -33,14 +33,21 @@ class UploadItemAdapter() : RecyclerView.Adapter<UploadItemAdapter.ViewHolder>()
         : RecyclerView.ViewHolder(binding.root){
         fun bind(item : ProductCard, vm : AddProductViewModel, position : Int){
 
-            binding.ivPickPhoto.setOnClickListener {
-                vm.pickPhoto()
+            if(position == 5){
+                binding.cardTakePhoto.visibility = View.GONE
+
+            }else {
+
+                binding.ivPickPhoto.setOnClickListener {
+                    vm.pickPhoto()
+                }
+
+                item.bitmap?.let {
+                    binding.lvLoadedProduct.setImageBitmap(it)
+                    binding.groupPickPhoto.visibility = View.INVISIBLE
+                }
             }
 
-            item.bitmap?.let {
-                binding.lvLoadedProduct.setImageBitmap(it)
-                binding.groupPickPhoto.visibility = View.INVISIBLE
-            }
 
         }
 

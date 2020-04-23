@@ -206,9 +206,12 @@ class AddProductViewModel : ViewModel() {
     }
 
     fun updateItemCard(bitmap: Bitmap) {
-        if (adapterDummyList.size == 5) return
-        adapterDummyList.add(ProductCard(bitmap))
-        _listProduct.value = adapterDummyList
+        if(adapterDummyList.size < 5){
+            adapterDummyList.add(ProductCard(bitmap))
+            _listProduct.value = adapterDummyList
+        }else{
+            adapterDummyList.removeAt(0)
+        }
     }
 
     fun addPaths(path: String) {

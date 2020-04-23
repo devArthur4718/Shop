@@ -82,7 +82,7 @@ class EditProduct : AppCompatActivity() {
             viewmodel.deleteProduct(item.productKey)
             var count = currentUser.products - 1
             viewmodel.updateProductCount(count)
-            //TODO: Update Product Count
+
         }
 
     }
