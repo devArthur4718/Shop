@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel
 import com.google.firebase.database.ChildEventListener
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
+import com.stetter.escambo.net.firebase.database.FirestoreRepository
 import com.stetter.escambo.net.firebase.storage.DatabaseRepository
 import com.stetter.escambo.net.models.Product
 import com.stetter.escambo.net.models.ProductByLocation
@@ -16,10 +17,12 @@ import com.stetter.escambo.net.retrofit.responses.UfsResponseItem
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.lang.RuntimeException
 
 class FilterViewModel : ViewModel(){
 
     val database = DatabaseRepository()
+    val db = FirestoreRepository()
 
     private val _querryByName = MutableLiveData<ArrayList<Product>>()
     val querryByName: LiveData<ArrayList<Product>>   get() = _querryByName
@@ -40,24 +43,51 @@ class FilterViewModel : ViewModel(){
     val listUfs: LiveData<List<UfsResponseItem>> get() = _listUfs
     var querryList = ArrayList<Product>()
 
-    fun searchProduct(){
+//    fun searchProduct(){
+//        _loadingProgress.value = true
+//        database.retrieveAllProducts().addChildEventListener(object  : ChildEventListener{
+//            var querryList = ArrayList<Product>()
+//            override fun onCancelled(p0: DatabaseError) { }
+//            override fun onChildMoved(p0: DataSnapshot, p1: String?) { }
+//            override fun onChildChanged(p0: DataSnapshot, p1: String?) { }
+//            override fun onChildAdded(p0: DataSnapshot, p1: String?) {
+//                var product = p0.getValue(Product::class.java)
+//                product?.let { querryList.add(it) }
+//                _querryByName.value = querryList
+//            }
+//
+//            override fun onChildRemoved(p0: DataSnapshot) { }
+//        })
+//    }
+
+    fun searchByProductName(productName : String){
         _loadingProgress.value = true
-        database.retrieveAllProducts().addChildEventListener(object  : ChildEventListener{
-            var querryList = ArrayList<Product>()
-            override fun onCancelled(p0: DatabaseError) { }
-            override fun onChildMoved(p0: DataSnapshot, p1: String?) { }
-            override fun onChildChanged(p0: DataSnapshot, p1: String?) { }
-            override fun onChildAdded(p0: DataSnapshot, p1: String?) {
-                var product = p0.getValue(Product::class.java)
-                product?.let { querryList.add(it) }
-                _querryByName.value = querryList
+        db.searchByName(productName).addSnapshotListener { querySnapshot, firebaseFirestoreException ->
+            if (firebaseFirestoreException != null) {
+                Log.w("products", "Listen failed.", firebaseFirestoreException)
+                return@addSnapshotListener
             }
 
-            override fun onChildRemoved(p0: DataSnapshot) { }
-        })
+            if(querySnapshot != null) {
+                var querrylist = ArrayList<Product>()
+                for(doc in querySnapshot!!){
+                    try{
+                        var item = doc.toObject(Product::class.java)
+                        querrylist.add(item)
+
+                    }catch (e : RuntimeException){
+
+                    }
+                }
+                _querryByName.value = querrylist
+
+            }
+
+        }
 
 
     }
+
     private val _querryByValues = MutableLiveData<ArrayList<Product>>()
     val queryByValues: LiveData<ArrayList<Product>>   get() = _querryByValues
 

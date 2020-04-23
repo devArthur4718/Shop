@@ -27,8 +27,6 @@ class ExploreViewModel : ViewModel() {
     private val _topUserLists = MutableLiveData<ArrayList<RegisterUser>>()
     val topUsersList : LiveData<ArrayList<RegisterUser>> get() = _topUserLists
 
-
-
     fun selectProducts(){
         db.selectRecentPostedProducts().addSnapshotListener { querySnapshot, firebaseFirestoreException ->
             if (firebaseFirestoreException != null) {
