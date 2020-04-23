@@ -14,7 +14,6 @@ class FirestoreRepository {
 
         const val DOCUMENT_USERS = "users"
         const val DOCUMENT_PRODUCTS = "user-products"
-
         const val FIELD_PHOTO_URL = "photoURL"
         const val FIELD_DATE_POSTED = "datePosted"
         const val FIELD_PRODUCTS_FIELD = "products"
@@ -105,8 +104,5 @@ class FirestoreRepository {
     fun searchByLocalization(){
 
     }
-
-
-
     //endregion
 }
