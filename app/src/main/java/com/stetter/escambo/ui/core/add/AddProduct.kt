@@ -2,6 +2,7 @@ package com.stetter.escambo.ui.core.add
 
 import android.app.Activity
 import android.content.Intent
+import android.content.pm.ActivityInfo
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.net.Uri
@@ -44,6 +45,8 @@ class AddProduct : BaseFragment() {
         fun newInstance() = AddProduct()
         const val RQ_PICK_FROM_GALLERY = 0
         const val RQ_TAKE_PHOTO = 1
+        const val QUALITY_COMPRESS = 50
+        const val MAX_IMAGE_SIZE = 600f
     }
 
     private lateinit var viewModel: AddProductViewModel
@@ -188,16 +191,6 @@ class AddProduct : BaseFragment() {
         }
     }
 
-    private fun openCameraActivity() {
-        if (activity?.checkCameraPermissions() == true) {
-            Intent(MediaStore.ACTION_IMAGE_CAPTURE).also { takePictureIntent ->
-                activity?.packageManager?.let {
-                    val intent = Intent(context, CameraXActivity::class.java)
-                    startActivity(intent)
-                }
-            }
-        }
-    }
 
     var photoFile : File? = null
     private fun openCameraIntent() {
@@ -220,6 +213,7 @@ class AddProduct : BaseFragment() {
                                 file
                             )
                             takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI)
+                            takePictureIntent.putExtra(MediaStore.EXTRA_SCREEN_ORIENTATION, ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE)
 
                             startActivityForResult(takePictureIntent, RQ_TAKE_PHOTO)
                         }
@@ -336,11 +330,11 @@ class AddProduct : BaseFragment() {
             RQ_TAKE_PHOTO -> {
 
                 val baos = ByteArrayOutputStream()
-                bitmap.compress(Bitmap.CompressFormat.JPEG, 10, baos)
+                bitmap.compress(Bitmap.CompressFormat.JPEG, QUALITY_COMPRESS, baos)
                 val data = baos.toByteArray()
 
                 val filename = UUID.randomUUID().toString()
-                cardbitmap = scaleDown(bitmap,600f, true)
+                cardbitmap = scaleDown(bitmap,MAX_IMAGE_SIZE, true)
                 viewModel.uploadImageToFirebase(filename, data)
 
             }

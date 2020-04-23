@@ -134,6 +134,7 @@ class AddProductViewModel : ViewModel() {
              .document(product.productKey)
              .set(product)
              .addOnCompleteListener {request ->
+                 //TODO : upload product count for the user
                  if(request.isSuccessful){
                      _uploadProduct.value = true
                      _loadingProgress.value = false

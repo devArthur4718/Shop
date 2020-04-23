@@ -98,8 +98,7 @@ class ExploreFragment : BaseFragment() {
         if (topUserList.isEmpty()) {
             //no itens
         } else {
-
-            topuserAdapter.data = topUserList
+            topuserAdapter.data = topUserList.filter { it.products > 0 }
         }
     }
 
