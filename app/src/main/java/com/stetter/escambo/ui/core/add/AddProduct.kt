@@ -97,26 +97,7 @@ class AddProduct : BaseFragment() {
         mainViewModel.userProfileData.observe(viewLifecycleOwner, Observer { onUserDataReceveid(it) })
 
         binding.btnPublishItem.setOnClickListener {
-            val uid = viewModel.getUid()
-            var category = binding.spCategory.selectedItem.toString()
-
-            val product = Product(
-                uid,
-                viewModel.getPaths(),
-                binding.edtItemName.text.toString(),
-                binding.edtItemDescription.text.toString(),
-                category,
-                binding.edtItemValue.text.toString(),
-                Calendar.getInstance().getTimeStamp(),
-                fullName,
-                userPhotoUrl,
-                lat,
-                lng,
-                uf,
-                city
-            )
-            viewModel.uploadProduct( product )
-            //upload user product count
+            sendProduct()
         }
 
         binding.labelPublishItem.setOnClickListener {
@@ -124,6 +105,50 @@ class AddProduct : BaseFragment() {
         }
 
         binding.edtItemValue.addTextChangedListener(MoneyTextWatcher(binding.edtItemValue, Locale("pt", "BR")))
+    }
+
+    private fun sendProduct() {
+
+        binding.edtItemName.clearError()
+        binding.edtItemValue.clearError()
+        binding.edtItemDescription.clearError()
+
+        when{
+            binding.edtItemName.text.isNullOrEmpty() -> {
+                binding.edtItemName.setError(getString(R.string.blank_name))
+                return
+            }
+            binding.edtItemDescription.text.isNullOrEmpty() -> {
+                binding.edtItemDescription.setError(getString(R.string.blank_text))
+                return
+            }
+            binding.edtItemValue.text.isNullOrEmpty() -> {
+                binding.edtItemValue.setError(getString(R.string.emmpty_field))
+                return
+            }
+            viewModel.getPaths().isEmpty() -> {
+                Toast.makeText(context, "Carregue pelo menos uma foto", Toast.LENGTH_SHORT).show()
+                return
+            }
+        }
+
+        val product = Product(
+            viewModel.getUid(),
+            viewModel.getPaths(),
+            binding.edtItemName.text.toString(),
+            binding.edtItemDescription.text.toString(),
+            binding.spCategory.selectedItem.toString(),
+            binding.edtItemValue.text.toString(),
+            Calendar.getInstance().getTimeStamp(),
+            fullName,
+            userPhotoUrl,
+            lat,
+            lng,
+            uf,
+            city
+        )
+        viewModel.uploadProduct(product)
+        //upload user product count
     }
 
     private fun onCategoryListReceived(categoryList: List<String>) {

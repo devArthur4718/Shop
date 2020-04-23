@@ -93,4 +93,7 @@
     <string name="range_locale">Raio : 12 km</string>
     <string name="msg_error_wifi_retry">Não há conexão com a Internet. Confira sua conexão e tente novamente.</string>
     <string name="remove_product">Excluir Produto</string>
+    <string name="blank_text">Texto em branco</string>
+    <string name="invalid_value">Valor inválido</string>
+    <string name="emmpty_field">Campo vazio</string>
 </resources>
