@@ -1,6 +1,8 @@
 package com.stetter.escambo.ui.core.add
 
 import android.app.Activity
+import android.app.AlertDialog
+import android.content.DialogInterface
 import android.content.Intent
 import android.content.pm.ActivityInfo
 import android.graphics.Bitmap
@@ -30,6 +32,7 @@ import com.stetter.escambo.net.models.RegisterUser
 import com.stetter.escambo.ui.adapter.ProductCard
 import com.stetter.escambo.ui.adapter.UploadItemAdapter
 import com.stetter.escambo.ui.base.BaseFragment
+import com.stetter.escambo.ui.core.CoreActivity
 import java.io.ByteArrayOutputStream
 import java.io.File
 import java.io.IOException
@@ -97,26 +100,7 @@ class AddProduct : BaseFragment() {
         mainViewModel.userProfileData.observe(viewLifecycleOwner, Observer { onUserDataReceveid(it) })
 
         binding.btnPublishItem.setOnClickListener {
-            val uid = viewModel.getUid()
-            var category = binding.spCategory.selectedItem.toString()
-
-            val product = Product(
-                uid,
-                viewModel.getPaths(),
-                binding.edtItemName.text.toString(),
-                binding.edtItemDescription.text.toString(),
-                category,
-                binding.edtItemValue.text.toString(),
-                Calendar.getInstance().getTimeStamp(),
-                fullName,
-                userPhotoUrl,
-                lat,
-                lng,
-                uf,
-                city
-            )
-            viewModel.uploadProduct( product )
-            //upload user product count
+            sendProduct()
         }
 
         binding.labelPublishItem.setOnClickListener {
@@ -126,8 +110,69 @@ class AddProduct : BaseFragment() {
         binding.edtItemValue.addTextChangedListener(MoneyTextWatcher(binding.edtItemValue, Locale("pt", "BR")))
     }
 
+    private fun sendProduct() {
+
+        binding.edtItemName.clearError()
+        binding.edtItemValue.clearError()
+        binding.edtItemDescription.clearError()
+
+        when{
+            binding.edtItemName.text.isNullOrEmpty() -> {
+                binding.edtItemName.setError(getString(R.string.blank_name))
+                return
+            }
+            binding.edtItemDescription.text.isNullOrEmpty() -> {
+                binding.edtItemDescription.setError(getString(R.string.blank_text))
+                return
+            }
+            binding.edtItemValue.text.isNullOrEmpty() -> {
+                binding.edtItemValue.setError(getString(R.string.emmpty_field))
+                return
+            }
+            viewModel.getPaths().isEmpty() -> {
+                showDialog(getString(R.string.load_product_photo_error)).show()
+                return
+            }
+        }
+
+        val product = Product(
+            viewModel.getUid(),
+            viewModel.getPaths(),
+            binding.edtItemName.text.toString(),
+            binding.edtItemDescription.text.toString(),
+            binding.spCategory.selectedItem.toString(),
+            binding.edtItemValue.text.toString(),
+            Calendar.getInstance().getTimeStamp(),
+            fullName,
+            userPhotoUrl,
+            lat,
+            lng,
+            uf,
+            city
+        )
+        viewModel.uploadProduct(product)
+        //upload user product count
+    }
+
     private fun onCategoryListReceived(categoryList: List<String>) {
 
+    }
+
+    private fun showDialog(text: String): AlertDialog {
+        val alertDialog: AlertDialog? = this?.let {
+            val builder = AlertDialog.Builder(context)
+            builder.apply {
+                setPositiveButton(
+                    getString(R.string.confirm_ok),
+                    DialogInterface.OnClickListener { dialog, id ->
+                        dialog.dismiss()
+                    })
+
+                setMessage(text)
+            }
+            builder.create()
+        }
+        return alertDialog!!
     }
 
     private fun onLoadingPhotoProgress(it: Boolean?) {
