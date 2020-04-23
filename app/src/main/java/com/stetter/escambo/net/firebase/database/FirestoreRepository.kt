@@ -5,8 +5,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.*
 
 class FirestoreRepository {
-    //Todo : Tabela produtos.
-    //Todo : Editar ou excluir o produto de um usuário.
+
 
     val db = FirebaseFirestore.getInstance()
     val auth = FirebaseAuth.getInstance()
@@ -87,5 +86,27 @@ class FirestoreRepository {
 
     //endregion
 
+    //region Filter Products
 
+    fun searchByName( name : String): Query {
+       return db.collection(DOCUMENT_PRODUCTS).whereGreaterThanOrEqualTo(FIELD_PRODUCTS_FIELD, name)
+
+    }
+
+    fun searchByValue(){
+        //Convert value to String
+
+    }
+
+    fun searchByCategory(){
+
+    }
+
+    fun searchByLocalization(){
+
+    }
+
+
+
+    //endregion
 }

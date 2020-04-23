@@ -19,14 +19,12 @@ import com.stetter.escambo.R
 import com.stetter.escambo.databinding.ActivityFilterBinding
 import com.stetter.escambo.extension.dialogs.showFilterCategory
 import com.stetter.escambo.extension.dialogs.showFilterLocalization
-import com.stetter.escambo.extension.hideKeyBoard
 import com.stetter.escambo.extension.dialogs.showFilterValue
+import com.stetter.escambo.extension.hideKeyBoard
 import com.stetter.escambo.extension.isGPsEnabled
-import com.stetter.escambo.extension.toMoneyText
 import com.stetter.escambo.net.models.Product
 import com.stetter.escambo.net.models.ProductByLocation
 import com.stetter.escambo.net.retrofit.responses.UfsResponseItem
-import com.stetter.escambo.ui.adapter.ItemProductNextToMeAdapter
 import com.stetter.escambo.ui.adapter.RecentProductAdapter
 import com.stetter.escambo.ui.base.BaseActivity
 import com.stetter.escambo.ui.core.CoreActivity
@@ -142,7 +140,7 @@ class FilterActivity : BaseActivity() {
             if (actionId == EditorInfo.IME_ACTION_SEARCH) {
                 hideKeyBoard(v)
                 productNameSearch = binding.edSearchItem.text.toString()
-                viewmodel.searchProduct()
+                viewmodel.searchByProductName(productNameSearch)
                 true
             } else
                 false
