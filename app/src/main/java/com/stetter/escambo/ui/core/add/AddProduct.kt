@@ -3,6 +3,7 @@ package com.stetter.escambo.ui.core.add
 import android.app.Activity
 import android.content.Intent
 import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
@@ -219,6 +220,7 @@ class AddProduct : BaseFragment() {
                                 file
                             )
                             takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI)
+
                             startActivityForResult(takePictureIntent, RQ_TAKE_PHOTO)
                         }
                     }
@@ -311,6 +313,8 @@ class AddProduct : BaseFragment() {
                         activity?.contentResolver,
                         selectedPhotoUri
                     )
+
+
                     selectedPhotoUri?.let { uri -> compressImage(bitmap, uri, RQ_TAKE_PHOTO) }
                 }
             }
@@ -330,16 +334,25 @@ class AddProduct : BaseFragment() {
 
             }
             RQ_TAKE_PHOTO -> {
+
                 val baos = ByteArrayOutputStream()
-                bitmap.compress(Bitmap.CompressFormat.PNG, 25, baos)
-                val filename = UUID.randomUUID().toString()
+                bitmap.compress(Bitmap.CompressFormat.JPEG, 10, baos)
                 val data = baos.toByteArray()
-                cardbitmap = bitmap
+
+                val filename = UUID.randomUUID().toString()
+                cardbitmap = scaleDown(bitmap,600f, true)
                 viewModel.uploadImageToFirebase(filename, data)
 
             }
         }
 
+    }
+
+    private fun scaleDown(inputImage : Bitmap, maxImageSize : Float, filter : Boolean) : Bitmap{
+        val ratio = Math.min(maxImageSize/ inputImage.width, maxImageSize / inputImage.height)
+        val width = Math.round(ratio * inputImage.width)
+        val height = Math.round(ratio * inputImage.height)
+        return Bitmap.createScaledBitmap(inputImage, width, height, filter)
     }
 
 
