@@ -64,6 +64,10 @@ class CoreViewModel : ViewModel() {
         db.updateClientID()
     }
 
+    fun retrieveCurrentUserIUID() : String{
+        return db.currentUserUID()
+    }
+
     //Fetch user data to use during app session
     fun getUserData(){
         db.selectUser().addSnapshotListener{documentSnapshot, firebaseFirestoreException ->

@@ -3,14 +3,14 @@ package com.stetter.escambo.net.models
 import java.io.Serializable
 
 data class Product(
-    val uid: String = "",
-    val productUrl: List<String>,
-    val product: String = "",
-    val description: String = "",
-    val category: String = "",
-    val value: String = "",
-    val datePosted : Long = 0L,
-    val username : String = "",
+    var uid: String = "",
+    var productUrl: List<String>,
+    var product: String = "",
+    var description: String = "",
+    var category: String = "",
+    var value: String = "",
+    var datePosted : Long = 0L,
+    var username : String = "",
     var userPhoto : String = "",
     var lat : Double = 0.0,
     var lng : Double = 0.0,

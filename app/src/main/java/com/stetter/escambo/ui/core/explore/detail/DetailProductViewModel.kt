@@ -10,7 +10,7 @@ import com.stetter.escambo.net.models.RegisterUser
 
 class DetailProductViewModel : ViewModel(){
 
-    var database = DatabaseRepository()
+
     val db = FirestoreRepository()
 
     private val _querryProgress = MutableLiveData<RegisterUser>()
@@ -35,4 +35,6 @@ class DetailProductViewModel : ViewModel(){
             }
         }
     }
+
+
 }

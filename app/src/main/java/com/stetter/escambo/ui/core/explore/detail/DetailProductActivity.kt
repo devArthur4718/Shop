@@ -3,7 +3,9 @@ package com.stetter.escambo.ui.core.explore.detail
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import android.widget.Toast
+import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -56,52 +58,26 @@ class DetailProductActivity : BaseActivity() {
     private fun getDataFromBundle() {
         if (intent.hasExtra("product")) {
             val product = intent.getSerializableExtra("product") as? ProductByLocation
-            setDataToViews(product)
+            var fetchedProduct = Product().apply {
+                this.uid = product!!.uid
+                this.productUrl = product.productUrl
+                this.product = product.product
+                this.description = product.description
+                this.category = product.category
+                this.value = product.value
+                this.datePosted = product.datePosted
+                this.username = product.username
+                this.userPhoto = product.userPhoto
+                this.lat = product.lat
+                this.lng = product.lng
+                this.uf = product.uf
+                this.city = product.city
+                this.productKey = product.productKey
+            }
+            setDataToViews(fetchedProduct)
         }else if(intent.hasExtra("productList")){
             val product = intent.getSerializableExtra("productList") as? Product
             setDataToViews(product)
-        }
-    }
-
-
-    @SuppressLint("SetTextI18n")
-    private fun setDataToViews(product: ProductByLocation?) {
-        val storage = FirebaseStorage.getInstance()
-        product?.let { data ->
-            binding.tvProductTitle.text = data.product
-            binding.tvItemDetailDescription.text = data.description
-            binding.tvLocale.text = "${data.city}/${data.uf}"
-            binding.tvDetailAuthor.text = data.username
-            binding.tvProductDetailValue.text = data.value
-
-
-            if(data.userPhoto.length > 0) {
-                val gsReferencePhoto = storage.getReferenceFromUrl("gs://escambo-1b51d.appspot.com/${data.userPhoto}")
-                GlideApp.with(this)
-                    .asDrawable()
-                    .load(gsReferencePhoto)
-                    .placeholder(CircularProgress())
-                    .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
-                    .into(binding.ivUserDetail)
-            }
-
-
-
-            binding.ivUserDetail.setOnClickListener {
-                //Fetch user and then open an intent
-                viewmodel.retrieveUserInformation(data.uid)
-            }
-            binding.btnOpenUserDetail.setOnClickListener {
-                ivUserDetail.performClick()
-            }
-
-
-            var adapter = ProductPhotoAdapter(ProductPhotoAdapter.PhotoListener {
-                Toast.makeText(this, "Photo clicked", Toast.LENGTH_SHORT).show()
-            })
-            adapter.data = data.productUrl
-            binding.rvProductImages.adapter = adapter
-//            adapter.data = data.productUrl
         }
     }
 
@@ -131,14 +107,22 @@ class DetailProductActivity : BaseActivity() {
                 ivUserDetail.performClick()
             }
 
+
+            //Todo: only show button it its not my product
+            binding.btnInterestInExhange.visibility = if(mainViewModel.retrieveCurrentUserIUID() != data.uid) View.VISIBLE else View.GONE
+            when {
+                binding.btnInterestInExhange.visibility == View.VISIBLE -> {
+                    binding.btnInterestInExhange.setOnClickListener {
+                        Toast.makeText(this, "click", Toast.LENGTH_SHORT).show()
+                    }
+
+                }
+            }
+
+
+
             var adapter = ProductPhotoAdapter(ProductPhotoAdapter.PhotoListener {
-//                val intent = Intent(this, FullSizedImage::class.java)
-//                var imageview = it as ImageView
-//                var bitmap = imageview.drawable.toBitmap()
-//                val options = ActivityOptions.makeSceneTransitionAnimation(this,it, "imageTransition")
-//                intent.putExtra("bitmap", bitmap)
-//                startActivity(intent, options.toBundle())
-////                Toast.makeText(this, "Photo clicked", Toast.LENGTH_SHORT).show()
+
             })
             adapter.data = data.productUrl
             binding.rvProductImages.adapter = adapter

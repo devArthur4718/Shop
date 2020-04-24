@@ -18,7 +18,8 @@ data class ProductByLocation(
     var lng: Double = 0.0,
     var distance: Float = 0f,
     var uf : String = "",
-    var city : String = ""
+    var city : String = "",
+    var productKey : String = ""
 ) : Serializable {
     constructor() : this(
         "",
@@ -33,6 +34,7 @@ data class ProductByLocation(
         0.0,
         0.0,
         0f,
+        "",
         "",
         ""
     )
