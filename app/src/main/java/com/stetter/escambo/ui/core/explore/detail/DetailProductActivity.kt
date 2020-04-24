@@ -108,7 +108,7 @@ class DetailProductActivity : BaseActivity() {
             }
 
 
-            //Todo: only show button it its not my product
+
             binding.btnInterestInExhange.visibility = if(mainViewModel.retrieveCurrentUserIUID() != data.uid) View.VISIBLE else View.GONE
             when {
                 binding.btnInterestInExhange.visibility == View.VISIBLE -> {
