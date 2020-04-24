@@ -1,11 +1,8 @@
 package com.stetter.escambo.ui.core.explore.detail
 
-import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import android.widget.Toast
-import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -15,9 +12,7 @@ import com.stetter.escambo.R
 import com.stetter.escambo.databinding.ActivityProductBinding
 import com.stetter.escambo.extension.CircularProgress
 import com.stetter.escambo.glide.GlideApp
-import com.stetter.escambo.net.models.Product
-import com.stetter.escambo.net.models.ProductByLocation
-import com.stetter.escambo.net.models.RegisterUser
+import com.stetter.escambo.net.models.*
 import com.stetter.escambo.ui.adapter.ProductPhotoAdapter
 import com.stetter.escambo.ui.base.BaseActivity
 import com.stetter.escambo.ui.core.profile.OtherUser
@@ -25,6 +20,7 @@ import kotlinx.android.synthetic.main.activity_product.*
 
 class DetailProductActivity : BaseActivity() {
 
+    private lateinit var userData: RegisterUser
     private lateinit var binding: ActivityProductBinding
     private lateinit var adapter : ProductPhotoAdapter
     private lateinit var viewmodel : DetailProductViewModel
@@ -33,7 +29,7 @@ class DetailProductActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_product)
         viewmodel = ViewModelProvider(this)[DetailProductViewModel::class.java]
-        setAdapters()
+
         setObservables()
         getDataFromBundle()
         setViews()
@@ -41,19 +37,27 @@ class DetailProductActivity : BaseActivity() {
 
     private fun setObservables() {
         viewmodel.querryProgress.observe(this, Observer { onUserDataReceived(it) })
+        viewmodel.interestRequest.observe(this, Observer { onSendInterestResult(it) })
     }
+
+    private fun onSendInterestResult(productKey: String?) {
+        productKey?.let {
+
+                mainViewModel.updateUserInterestList(it)
+        }
+
+    }
+
 
     private fun onUserDataReceived(user: RegisterUser?) {
         user?.let {item ->
+            userData = item
             var intent = Intent(this, OtherUser::class.java)
             intent.putExtra("user", item)
             startActivity(intent)
         }
     }
 
-    private fun setAdapters() {
-
-    }
 
     private fun getDataFromBundle() {
         if (intent.hasExtra("product")) {
@@ -109,11 +113,11 @@ class DetailProductActivity : BaseActivity() {
 
 
 
-            binding.btnInterestInExhange.visibility = if(mainViewModel.retrieveCurrentUserIUID() != data.uid) View.VISIBLE else View.GONE
+            binding.btnInterestInExhange.visibility = if(mainViewModel.currentUserUID() != data.uid) View.VISIBLE else View.GONE
             when {
                 binding.btnInterestInExhange.visibility == View.VISIBLE -> {
                     binding.btnInterestInExhange.setOnClickListener {
-                        Toast.makeText(this, "click", Toast.LENGTH_SHORT).show()
+                        sendProductInterest(product)
                     }
 
                 }
@@ -127,6 +131,20 @@ class DetailProductActivity : BaseActivity() {
             adapter.data = data.productUrl
             binding.rvProductImages.adapter = adapter
         }
+    }
+
+    private fun sendProductInterest(product: Product) {
+        mainViewModel.updateCurrentID()
+
+        val interest = ProductInterest(
+            product.product,
+            product.productUrl[0],
+            product.productKey,
+            product.uid
+        )
+
+        viewmodel.sendProductInterest(interest)
+
     }
 
 

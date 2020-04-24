@@ -49,24 +49,11 @@ class CoreViewModel : ViewModel() {
         _onLocationReceived.value = location
     }
 
-    //Save current uid
-    fun saveCurrentUID(){
-        showLoading()
-        database.saveCurrentUIDIntoDatabase()
-            .addOnCompleteListener {
-
-            }.addOnFailureListener {
-
-            }
-    }
-
     fun updateCurrentID(){
         db.updateClientID()
     }
 
-    fun retrieveCurrentUserIUID() : String{
-        return db.currentUserUID()
-    }
+    fun currentUserUID() : String = db.currentUserUID()
 
     //Fetch user data to use during app session
     fun getUserData(){
@@ -94,6 +81,16 @@ class CoreViewModel : ViewModel() {
 
     fun retrieveUserLocation(){
         _retrieveUserLocation.value = true
+    }
+
+    private val _userInterest = MutableLiveData<Boolean>()
+    val userInterest : LiveData<Boolean> get() = _userInterest
+
+
+    fun updateUserInterestList(productDocument: String) {
+
+        db.updateInterest(productDocument)
+
     }
 
 

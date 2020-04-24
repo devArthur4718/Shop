@@ -124,7 +124,7 @@
                 android:layout_width="@dimen/smallphoto_with"
                 android:layout_height="@dimen/smallPhotoHeight"
                 android:layout_marginEnd="8dp"
-                android:src="@drawable/img_avatar"
+                android:src="@drawable/ic_young"
                 app:civ_border_color="#FFFFFF"
                 app:civ_border_width="1dp"
                 app:layout_constraintBottom_toBottomOf="@+id/tvDetailAuthor"
@@ -146,6 +146,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="24dp"
+                android:contentDescription="@string/app_name"
                 android:src="@drawable/ic_location_on_24px"
                 app:layout_constraintStart_toStartOf="@+id/tvProductDetailValue"
                 app:layout_constraintTop_toBottomOf="@+id/tvProductDetailValue" />

@@ -11,17 +11,10 @@ import com.google.firebase.storage.FirebaseStorage
 import com.stetter.escambo.R
 import com.stetter.escambo.databinding.ItemProductBinding
 import com.stetter.escambo.extension.CircularProgress
-import com.stetter.escambo.extension.toMoneyText
 import com.stetter.escambo.glide.GlideApp
 import com.stetter.escambo.net.models.ProductByLocation
 import com.stetter.escambo.ui.core.explore.detail.DetailProductActivity
-import java.lang.Exception
-import java.lang.IllegalArgumentException
-import java.lang.IndexOutOfBoundsException
-import java.text.DecimalFormat
-import java.text.DecimalFormatSymbols
-import java.text.NumberFormat
-import java.util.*
+import com.stetter.escambo.utils.AppConstants
 
 class ItemProductNextToMeAdapter : RecyclerView.Adapter<ItemProductNextToMeAdapter.ViewHolder>() {
 
@@ -96,7 +89,7 @@ class ItemProductNextToMeAdapter : RecyclerView.Adapter<ItemProductNextToMeAdapt
 
             binding.ivNextProductImage.setOnClickListener {
                 val intent = Intent(itemView.context, DetailProductActivity::class.java)
-                intent.putExtra("product", item)
+                intent.putExtra(AppConstants.PRODUCT, item)
                 itemView.context.startActivity(intent)
             }
         }

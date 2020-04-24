@@ -75,7 +75,7 @@ class CoreActivity : BaseActivity() {
                     //Check enabled, if not ,call again
                     if(!isGPsEnabled()){
                         //Prompt user.
-                        showDialog("GPS desativado. Alguns serviços não funcionaram corretamente! Deseja ativar?").show()
+                        showDialog(getString(R.string.gps_error)).show()
                     }else{
                         retrieveLocation()
                     }

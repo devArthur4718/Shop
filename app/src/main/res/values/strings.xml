@@ -98,4 +98,5 @@
     <string name="emmpty_field">Campo vazio</string>
     <string name="load_product_photo_error">Carregue pelo menos uma foto</string>
     <string name="confirm_ok">OK</string>
+    <string name="gps_error">GPS desativado. Alguns serviços não funcionaram corretamente! Deseja ativar?</string>
 </resources>
