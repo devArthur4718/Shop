@@ -45,7 +45,7 @@ class DetailProductViewModel : ViewModel(){
     fun sendProductInterest(interest : ProductInterest){
         db.sendInterest().document(interest.productKey).set(interest)
             .addOnSuccessListener {
-                _interestRequest.value = interest.productKey
+//                _interestRequest.value = interest.productKey
                 //Add current user UID to the array
                 Log.d("Interest", "Success")
             }

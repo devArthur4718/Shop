@@ -2,12 +2,9 @@ package com.stetter.escambo.ui.base
 
 import android.app.AlertDialog
 import android.content.DialogInterface
-import android.content.Intent
 import android.os.Bundle
-import android.provider.Settings
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProviders
-import com.stetter.escambo.ui.core.CoreActivity
 import com.stetter.escambo.ui.core.CoreViewModel
 import com.stetter.escambo.ui.dialog.LoadingDialog
 

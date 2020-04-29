@@ -99,4 +99,7 @@
     <string name="load_product_photo_error">Carregue pelo menos uma foto</string>
     <string name="confirm_ok">OK</string>
     <string name="gps_error">GPS desativado. Alguns serviços não funcionaram corretamente! Deseja ativar?</string>
+    <string name="key_username">username</string>
+    <string name="key_photourl">photourl</string>
+    <string name="key_client_id">clientID</string>
 </resources>

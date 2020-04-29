@@ -1,5 +1,6 @@
 package com.stetter.escambo.ui.core.explore.detail
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
@@ -20,15 +21,24 @@ import kotlinx.android.synthetic.main.activity_product.*
 
 class DetailProductActivity : BaseActivity() {
 
+    private var username: String = ""
+    private var photo: String = ""
+    private var clientID: String = ""
     private lateinit var userData: RegisterUser
     private lateinit var binding: ActivityProductBinding
-    private lateinit var adapter : ProductPhotoAdapter
-    private lateinit var viewmodel : DetailProductViewModel
+    private lateinit var adapter: ProductPhotoAdapter
+    private lateinit var viewmodel: DetailProductViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_product)
         viewmodel = ViewModelProvider(this)[DetailProductViewModel::class.java]
+
+        val sharedPref = getSharedPreferences(
+            getString(R.string.app_name), Context.MODE_PRIVATE)
+        username = sharedPref.getString("username", "").toString()
+        photo = sharedPref.getString("photourl", "").toString()
+        clientID = sharedPref.getString("clientID", "").toString()
 
         setObservables()
         getDataFromBundle()
@@ -43,14 +53,14 @@ class DetailProductActivity : BaseActivity() {
     private fun onSendInterestResult(productKey: String?) {
         productKey?.let {
 
-                mainViewModel.updateUserInterestList(it)
+            mainViewModel.updateUserInterestList(it)
         }
 
     }
 
 
     private fun onUserDataReceived(user: RegisterUser?) {
-        user?.let {item ->
+        user?.let { item ->
             userData = item
             var intent = Intent(this, OtherUser::class.java)
             intent.putExtra("user", item)
@@ -79,7 +89,7 @@ class DetailProductActivity : BaseActivity() {
                 this.productKey = product.productKey
             }
             setDataToViews(fetchedProduct)
-        }else if(intent.hasExtra("productList")){
+        } else if (intent.hasExtra("productList")) {
             val product = intent.getSerializableExtra("productList") as? Product
             setDataToViews(product)
         }
@@ -94,8 +104,9 @@ class DetailProductActivity : BaseActivity() {
             binding.tvDetailAuthor.text = data.username
             binding.tvProductDetailValue.text = data.value
 
-            if(data.userPhoto.length > 0) {
-                val gsReferencePhoto = storage.getReferenceFromUrl("gs://escambo-1b51d.appspot.com/${data.userPhoto}")
+            if (data.userPhoto.length > 0) {
+                val gsReferencePhoto =
+                    storage.getReferenceFromUrl("gs://escambo-1b51d.appspot.com/${data.userPhoto}")
                 GlideApp.with(this)
                     .asDrawable()
                     .load(gsReferencePhoto)
@@ -113,7 +124,8 @@ class DetailProductActivity : BaseActivity() {
 
 
 
-            binding.btnInterestInExhange.visibility = if(mainViewModel.currentUserUID() != data.uid) View.VISIBLE else View.GONE
+            binding.btnInterestInExhange.visibility =
+                if (mainViewModel.currentUserUID() != data.uid) View.VISIBLE else View.GONE
             when {
                 binding.btnInterestInExhange.visibility == View.VISIBLE -> {
                     binding.btnInterestInExhange.setOnClickListener {
@@ -122,7 +134,6 @@ class DetailProductActivity : BaseActivity() {
 
                 }
             }
-
 
 
             var adapter = ProductPhotoAdapter(ProductPhotoAdapter.PhotoListener {
@@ -140,7 +151,11 @@ class DetailProductActivity : BaseActivity() {
             product.product,
             product.productUrl[0],
             product.productKey,
-            product.uid
+            product.uid,
+            username,
+            photo,
+            clientID
+
         )
 
         viewmodel.sendProductInterest(interest)

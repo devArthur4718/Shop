@@ -64,7 +64,10 @@ class CoreViewModel : ViewModel() {
             }
             if (documentSnapshot != null && documentSnapshot.exists()) {
                 try{
-                    _userProfileData.value = documentSnapshot.toObject(RegisterUser::class.java)
+                    val user = documentSnapshot.toObject(RegisterUser::class.java)
+                    _userProfileData.value = user
+                    user?.let { saveDataToSharedPrefs(it) }
+
                     hideLoading()
                 }catch (e : KotlinNullPointerException){
                     hideLoading()
@@ -90,6 +93,25 @@ class CoreViewModel : ViewModel() {
     fun updateUserInterestList(productDocument: String) {
 
         db.updateInterest(productDocument)
+
+    }
+
+
+    private val _saveData = MutableLiveData<RegisterUser>()
+    val saveData : LiveData<RegisterUser> get() = _saveData
+
+    fun saveDataToSharedPrefs(user : RegisterUser){
+        _saveData.value = user
+    }
+
+    private val _clearData = MutableLiveData<Boolean>()
+    val clearData : LiveData<Boolean> get() = _clearData
+
+    fun clearUserData(){
+        _clearData.value = true
+    }
+
+    fun readUserData(){
 
     }
 

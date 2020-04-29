@@ -1,8 +1,10 @@
 package com.stetter.escambo.ui.core
 
 import android.app.AlertDialog
+import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
+import android.content.SharedPreferences
 import android.location.Location
 import android.os.Bundle
 import android.util.Log
@@ -16,6 +18,7 @@ import com.google.android.gms.location.LocationServices
 import com.stetter.escambo.R
 import com.stetter.escambo.databinding.ActivityCoreBinding
 import com.stetter.escambo.extension.isGPsEnabled
+import com.stetter.escambo.net.models.RegisterUser
 import com.stetter.escambo.ui.base.BaseActivity
 import com.stetter.escambo.ui.dialog.LoadingDialog
 import com.stetter.escambo.ui.login.LoginViewModel
@@ -26,6 +29,7 @@ class CoreActivity : BaseActivity() {
     private lateinit var loginvm: LoginViewModel
     private lateinit var corevm : CoreViewModel
     private lateinit var loadingDialog: LoadingDialog
+    private lateinit var sharedPref : SharedPreferences
     lateinit var fusedLocationClient: FusedLocationProviderClient
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -35,6 +39,8 @@ class CoreActivity : BaseActivity() {
         binding.navView.setupWithNavController(navController)
         loginvm = ViewModelProvider(this)[LoginViewModel::class.java]
         corevm = ViewModelProvider(this)[CoreViewModel::class.java]
+        sharedPref = getSharedPreferences(
+            getString(R.string.app_name), Context.MODE_PRIVATE)
         initViews()
         setobservables()
         retrieveLocation()
@@ -57,12 +63,26 @@ class CoreActivity : BaseActivity() {
         })
 
         corevm.getUserData()
-        //Persist id for east querry
+        //A safety check for firebase data
         corevm.updateCurrentID()
+        //Save session to shared prefs (eg Name, e-mail and user photo url)
+        corevm.saveData.observe(this, Observer { onSaveData(it) })
+
 
         //Utils
         corevm.dialogMessage.observe(this, Observer { onShowDialogMessage(it) })
 
+    }
+
+    private fun onSaveData(data: RegisterUser?) {
+        data?.let {
+            with (sharedPref.edit()) {
+                putString(getString(R.string.key_username), data.fullName)
+                putString(getString(R.string.key_photourl), data.photoUrl)
+                putString(getString(R.string.key_client_id), data.clientID)
+                apply()
+            }
+        }
     }
 
     //User location used to retrieve products next to him
