@@ -10,6 +10,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.stetter.escambo.R
 import com.stetter.escambo.databinding.ChatFragmentBinding
+import com.stetter.escambo.net.models.ProductInterest
 import com.stetter.escambo.net.models.ProductMock
 import com.stetter.escambo.ui.adapter.RecenteMessageAdapter
 
@@ -35,19 +36,20 @@ class Chat : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProvider(this).get(ChatViewModel::class.java)
+        viewModel.fetchMyInterest()
         setAdapters()
         setObservables()
     }
 
     private fun setObservables() {
-        viewModel.listProductMock.observe(viewLifecycleOwner, Observer { onProductListReceived(it) })
+        viewModel.querryByInterest.observe(viewLifecycleOwner, Observer {onProductListReceived(it)   })
     }
 
-    private fun onProductListReceived(productMockList: List<ProductMock>) {
-        if (productMockList.isEmpty()) {
+    private fun onProductListReceived(dataList: List<ProductInterest>) {
+        if (dataList.isEmpty()) {
             // no itens
         } else {
-            recentMessageAdapter.data = productMockList
+            recentMessageAdapter.data = dataList
         }
     }
 

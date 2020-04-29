@@ -46,7 +46,7 @@ class OtherUser : BaseActivity() {
 
     private fun setAdapters() {
         adapter = MyProductAdapter(MyProductAdapter.ProductListener {
-            //Todo start activity intent to edit ou delete product
+
         })
         adapter.type = AppConstants.TYPE_EDIT_BLOCKED
         binding.rvRecentPosts.adapter = adapter

@@ -34,6 +34,7 @@
                 android:layout_height="match_parent">
 
                 <ImageView
+                    android:id="@+id/ivInterestImage"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:adjustViewBounds="true"
@@ -51,13 +52,13 @@
                     />
 
                 <TextView
-                    android:id="@+id/tvRecentMessageProduct"
+                    android:id="@+id/tvInterestProductName"
                     style="@style/titleStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
                     android:layout_marginBottom="16dp"
-                    android:text="Adidas Nikkita"
+                    tools:text="Adidas Nikkita"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent" />
 
@@ -106,9 +107,9 @@
                     android:src="@color/textGreenTitle"
                     app:civ_border_color="#FFFFFF"
                     app:civ_border_width="1dp"
-                    app:layout_constraintBottom_toBottomOf="@+id/tvRecentMessageProduct"
+                    app:layout_constraintBottom_toBottomOf="@+id/tvInterestProductName"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="@+id/tvRecentMessageProduct" />
+                    app:layout_constraintTop_toTopOf="@+id/tvInterestProductName" />
 
                 <TextView
                     android:id="@+id/tvCircleBadge"

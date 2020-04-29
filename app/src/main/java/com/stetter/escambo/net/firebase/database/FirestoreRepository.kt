@@ -111,7 +111,13 @@ class FirestoreRepository {
     fun searchByLocalization(){
 
     }
+    //endregion
 
+    //region Product-Interest
+    fun selectMyProductsInterest(): Query {
+        return db.collection(DOCUMENT_PRODUCT_INTEREST).whereEqualTo("ownerUID", currentUserUID())
+    }
 
     //endregion
+
 }

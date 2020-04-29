@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -48,6 +49,16 @@ class DetailProductActivity : BaseActivity() {
     private fun setObservables() {
         viewmodel.querryProgress.observe(this, Observer { onUserDataReceived(it) })
         viewmodel.interestRequest.observe(this, Observer { onSendInterestResult(it) })
+        viewmodel.interestSuccess.observe(this, Observer { onInterestSend(it) })
+    }
+
+    private fun onInterestSend(result: Boolean?) {
+        result?.let {
+            if (it){
+                Toast.makeText(this, getString(R.string.sent),Toast.LENGTH_SHORT).show()
+                finish()
+            }
+        }
     }
 
     private fun onSendInterestResult(productKey: String?) {
@@ -152,9 +163,9 @@ class DetailProductActivity : BaseActivity() {
             product.productUrl[0],
             product.productKey,
             product.uid,
-            username,
             photo,
-            clientID
+            clientID,
+            username
 
         )
 
