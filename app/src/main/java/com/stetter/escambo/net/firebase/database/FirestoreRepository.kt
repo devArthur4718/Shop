@@ -83,14 +83,6 @@ class FirestoreRepository {
         return db.collection(DOCUMENT_PRODUCTS).document(productKey).delete()
     }
 
-    fun sendInterest(): CollectionReference {
-        return  db.collection(DOCUMENT_PRODUCT_INTEREST)
-    }
-
-    fun updateInterest(productDocument: String): Task<Void> {
-        return db.collection(DOCUMENT_PRODUCT_INTEREST).document(productDocument).set("uid")
-    }
-
     //endregion
 
     //region Filter Products
@@ -117,6 +109,24 @@ class FirestoreRepository {
     fun selectMyProductsInterest(): Query {
         return db.collection(DOCUMENT_PRODUCT_INTEREST).whereEqualTo("ownerUID", currentUserUID())
     }
+    fun sendInterest(): CollectionReference {
+        return  db.collection(DOCUMENT_PRODUCT_INTEREST)
+    }
+
+    fun updateInterest(productDocument: String): Task<Void> {
+        return db.collection(DOCUMENT_PRODUCT_INTEREST).document(productDocument).set("uid")
+    }
+
+
+    fun setUserinterest(){
+        db.collection("user-match").add(currentUserUID())
+
+    }
+
+    fun setmyintertest(ownerUID : String) {
+        db.collection("user-match").document(ownerUID).set(currentUserUID())
+    }
+
 
     //endregion
 

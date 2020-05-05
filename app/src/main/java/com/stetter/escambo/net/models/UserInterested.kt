@@ -4,14 +4,14 @@ import java.io.Serializable
 
 
 data class UserInterested(
-    var name : String = "teste",
-    var photo : String = "testephoto",
-    var uid : String = "testeuid"
+    var name : String = "",
+    var photo : String = "",
+    var uid : String = ""
 ) : Serializable {
     constructor() : this (
-        "testeName",
-        "testePhoto",
-        "testeUID"
+        "",
+        "",
+        ""
     )
 
 }

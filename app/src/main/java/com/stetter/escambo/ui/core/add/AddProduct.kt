@@ -193,7 +193,7 @@ class AddProduct : BaseFragment() {
     var uf = ""
     var city = ""
     var productCount = 0
-    var productList  = ArrayList<String>()
+
 
     private fun onUserDataReceveid(it: RegisterUser?) {
         it?.let {
@@ -204,7 +204,6 @@ class AddProduct : BaseFragment() {
             uf = it.uf
             city = it.city
             productCount = it.products
-            productList = it.productsList as ArrayList<String>
         }
     }
 

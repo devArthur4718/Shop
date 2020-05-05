@@ -11,7 +11,6 @@ import androidx.lifecycle.ViewModelProvider
 import com.stetter.escambo.R
 import com.stetter.escambo.databinding.ChatFragmentBinding
 import com.stetter.escambo.net.models.ProductInterest
-import com.stetter.escambo.net.models.ProductMock
 import com.stetter.escambo.ui.adapter.RecenteMessageAdapter
 
 class Chat : Fragment() {

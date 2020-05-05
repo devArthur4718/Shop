@@ -158,7 +158,6 @@ class RegisterActivity : AppCompatActivity() {
                     this.city = binding.inputCity.editText?.text.toString()
                     this.lat = latitude
                     this.lng = longitute
-                    this.productsList = list
                 }
                 binding.progressRegister.visibility = View.VISIBLE
                 sendForm(senUser)

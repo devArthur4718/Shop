@@ -48,7 +48,7 @@ class DetailProductActivity : BaseActivity() {
 
     private fun setObservables() {
         viewmodel.querryProgress.observe(this, Observer { onUserDataReceived(it) })
-        viewmodel.interestRequest.observe(this, Observer { onSendInterestResult(it) })
+//        viewmodel.interestRequest.observe(this, Observer { onSendInterestResult(it) })
         viewmodel.interestSuccess.observe(this, Observer { onInterestSend(it) })
     }
 
@@ -61,13 +61,13 @@ class DetailProductActivity : BaseActivity() {
         }
     }
 
-    private fun onSendInterestResult(productKey: String?) {
-        productKey?.let {
-
-            mainViewModel.updateUserInterestList(it)
-        }
-
-    }
+//    private fun onSendInterestResult(productKey: String?) {
+//        productKey?.let {
+//
+//            mainViewModel.updateUserInterestList(it)
+//        }
+//
+//    }
 
 
     private fun onUserDataReceived(user: RegisterUser?) {
@@ -162,14 +162,15 @@ class DetailProductActivity : BaseActivity() {
             product.product,
             product.productUrl[0],
             product.productKey,
-            product.uid,
-            photo,
-            clientID,
-            username
+            product.uid
 
         )
+        val userInterested = UserInterested(
+            username,
+            photo,
+            clientID)
 
-        viewmodel.sendProductInterest(interest)
+        viewmodel.sendProductInterest(interest,userInterested)
 
     }
 

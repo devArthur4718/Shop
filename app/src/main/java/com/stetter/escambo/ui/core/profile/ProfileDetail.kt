@@ -70,7 +70,6 @@ class ProfileDetail : BaseActivity() {
             binding.inputPostalCode.editText?.setText(it.cep)
             binding.inputCity.editText?.setText(it.city)
             binding.inputUF.editText?.setText(it.uf)
-            productList = it.productsList as ArrayList<String>
             userKey = it.clientID
 
             val storage = FirebaseStorage.getInstance()
@@ -193,7 +192,6 @@ class ProfileDetail : BaseActivity() {
                     this.lng = GeocoderLocation(binding.inputUF.editText?.text.toString()).first
                     this.lat = GeocoderLocation(binding.inputUF.editText?.text.toString()).second
                     this.products = productCount
-                    this.productsList = productList
                     this.clientID = viewmodel.getClientID()
                 }
                 updateUser(sendUser)
@@ -276,8 +274,6 @@ class ProfileDetail : BaseActivity() {
     }
 
     var userProfilePhoto = ""
-    var productList = ArrayList<String>()
-
 
     fun onEditClick(view: View) {
         when (view.id) {

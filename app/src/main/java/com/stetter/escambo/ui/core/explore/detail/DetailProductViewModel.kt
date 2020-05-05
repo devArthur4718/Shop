@@ -7,10 +7,11 @@ import androidx.lifecycle.ViewModel
 import com.stetter.escambo.net.firebase.database.FirestoreRepository
 import com.stetter.escambo.net.models.ProductInterest
 import com.stetter.escambo.net.models.RegisterUser
+import com.stetter.escambo.net.models.UserInterested
 
 class DetailProductViewModel : ViewModel() {
 
-
+    //
     val db = FirestoreRepository()
 
     private val _querryProgress = MutableLiveData<RegisterUser>()
@@ -44,19 +45,46 @@ class DetailProductViewModel : ViewModel() {
     val interestSuccess: LiveData<Boolean> get() = _interestSuccess
 
 
-    fun sendProductInterest(interest: ProductInterest) {
-        db.sendInterest().document(interest.productKey).set(interest)
-            .addOnSuccessListener {
-                //TODO : inform user that data has been sent
-                //TODO : Finish activity
-                _interestSuccess.value = true
-                Log.d("Interest", "Success")
+    fun sendProductInterest(
+        interest: ProductInterest,
+        userInterested: UserInterested
+    ) {
+
+        db.sendInterest()
+            .document(interest.productKey)
+            .set(interest).addOnSuccessListener {
+
+                db.sendInterest()                    .document(interest.productKey)
+                    .collection("users")
+                    .document(userInterested.uid)
+                    .set(userInterested)
+                    .addOnSuccessListener {
+                        _interestSuccess.value = true
+                        Log.d("Interest", "Success")
+                        //TODO : set on owner uid the value of the interested user
+                        db.setmyintertest(interest.ownerUID )
+
+
+
+
+                    }
             }
             .addOnFailureListener {
-                _interestSuccess.value = false
-                Log.e("Interest", "Error : $it")
+
 
             }
+
+//        db.sendInterest().document(interest.productKey).collection("users").add(userInterested)
+////            .addOnSuccessListener {
+////                _interestSuccess.value = true
+////                Log.d("Interest", "Success")
+////
+////            }.addOnFailureListener {
+////                _interestSuccess.value = false
+////                Log.e("Interest", "Error : $it")
+////
+////            }
+
 
     }
 

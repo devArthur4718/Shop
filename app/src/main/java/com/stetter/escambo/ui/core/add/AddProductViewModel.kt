@@ -117,7 +117,8 @@ class AddProductViewModel : ViewModel() {
              .set(product)
              .addOnCompleteListener {request ->
                  if(request.isSuccessful){
-
+                    //TODO: Set an user document to receive a list of interests
+                     db.setUserinterest()
                      _uploadProduct.value = true
                      _loadingProgress.value = false
                  }
